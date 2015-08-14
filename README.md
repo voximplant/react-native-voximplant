@@ -4,7 +4,8 @@ VoxImplant Mobile SDK module for React Native. It lets developers embed realtime
 
 ## Example
 [![VoxImplant SDK demo](http://static.voximplant.com/react-native-voximplant.gif)](http://www.youtube.com/watch?v=k4FJS1Dg5Mw)
-You can download the demo app from http://github.com/voximplant/react-native-demo
+
+You can download the demo app from [http://github.com/voximplant/react-native-demo](http://github.com/voximplant/react-native-demo)
 
 ## Getting started
 
@@ -29,7 +30,7 @@ Add event listeners using `RTCDeviceEventEmitter`:
         }
     );
 
-All events are described at http://voximplant.com/docs/references/mobilesdk/ios/Protocols/VoxImplantDelegate.html 
+All events are described at [http://voximplant.com/docs/references/mobilesdk/ios/Protocols/VoxImplantDelegate.html](http://voximplant.com/docs/references/mobilesdk/ios/Protocols/VoxImplantDelegate.html) 
 
 Connect the SDK to the cloud:
 
@@ -42,7 +43,7 @@ Make and receive calls:
       VoxImplant.SDK.startCall(callId);      
     });
     
-All methods are described at http://voximplant.com/docs/references/mobilesdk/ios/Classes/VoxImplant.html
+All methods are described at [http://voximplant.com/docs/references/mobilesdk/ios/Classes/VoxImplant.html](http://voximplant.com/docs/references/mobilesdk/ios/Classes/VoxImplant.html)
     
 Video view components:
 
@@ -53,7 +54,7 @@ Video view components:
         <VoxImplant.Preview style={styles.selfview}>
         </VoxImplant.Preview>  
 
-You will need free VoxImplant developer account setup for making and receiving calls using the SDK. Learn more at http://voximplant.com/docs/quickstart/1/your-first-voximplant-application/
+You will need free VoxImplant developer account setup for making and receiving calls using the SDK. Learn more at [http://voximplant.com/docs/quickstart/1/your-first-voximplant-application/](http://voximplant.com/docs/quickstart/1/your-first-voximplant-application/)
 
 
 ## Known Issues
