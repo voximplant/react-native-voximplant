@@ -15,10 +15,10 @@
     "mobile",
     "sdk"
   ],
-  "repository": { 
+  "repository": {
     "type" : "git",
     "url" : "https://github.com/voximplant/react-native-voximplant.git"
-  }
+  },
   "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
   "license": "Commercial"
 }
