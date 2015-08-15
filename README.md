@@ -3,9 +3,9 @@
 VoxImplant Mobile SDK module for React Native. It lets developers embed realtime voice and video communication into React Native apps and works together with [VoxImplant cloud platform](http://voximplant.com). The SDK uses WebRTC for media processing.
 
 ## Example
-[![VoxImplant SDK demo](http://static.voximplant.com/react-native-voximplant.gif)](http://www.youtube.com/watch?v=k4FJS1Dg5Mw)
+[![VoxImplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
 
-You can download the demo app from [http://github.com/voximplant/react-native-demo](http://github.com/voximplant/react-native-demo)
+You can get the demo app from [http://github.com/voximplant/react-native-demo](http://github.com/voximplant/react-native-demo)
 
 ## Getting started
 

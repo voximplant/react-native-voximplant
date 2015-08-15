@@ -1,6 +1,6 @@
 {
   "name": "react-native-voximplant",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "VoxImplant Mobile SDK for embedding voice and video communication into React Native apps.",
   "main": "VoxImplant.ios.js",  
   "nativePackage": true,
