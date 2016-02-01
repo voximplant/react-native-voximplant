@@ -1,12 +1,8 @@
 {
   "name": "react-native-voximplant",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "VoxImplant Mobile SDK for embedding voice and video communication into React Native apps.",
-  "main": "VoxImplant.ios.js",  
   "nativePackage": true,
-  "peerDependencies": {
-    "react-native": "*"
-  },
   "keywords": [
     "react-native",
     "react",
@@ -20,5 +16,5 @@
     "url" : "https://github.com/voximplant/react-native-voximplant.git"
   },
   "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
-  "license": "Commercial"
+  "license": "MIT"
 }
