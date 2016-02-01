@@ -39,9 +39,6 @@ import com.facebook.react.views.view.ReactViewManager;
 
 public class VoxImplantReactPackage implements ReactPackage
 {
-  public VoxImplantReactPackage(/*Context context*/) {
-  }
-
   @Override public List<NativeModule> createNativeModules( ReactApplicationContext reactContext) {
     return Arrays.<NativeModule>asList(
       new VoxImplantModule(reactContext));

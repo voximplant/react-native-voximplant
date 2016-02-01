@@ -4,29 +4,29 @@ import android.util.Log;
 import javax.annotation.Nullable;
 import android.content.Context;
 import com.facebook.react.uimanager.*;
-import org.webrtc.SurfaceViewRenderer;
+import com.facebook.react.uimanager.annotations.ReactProp;
 
 public class VoxImplantViewManager extends SimpleViewManager<VoxImplantRendererView>
 {
-  VoxImplantViewManager() {
+
+  public static final String REACT_CLASS = "RCTVoxImplantRendererView";
+
+  @Override public String getName() {
+      return REACT_CLASS;
   }
 
-   @Override public String getName() {
-      return "RCTVoxImplantRendererView";
+  @Override public VoxImplantRendererView createViewInstance(ThemedReactContext context) {
+      return new VoxImplantRendererView(context);
   }
 
-   @Override public VoxImplantRendererView createViewInstance(ThemedReactContext context) {
-        return new VoxImplantRendererView(context);
-   }
+  @ReactProp(name = "preview")
+  public void setPreviewStatus(VoxImplantRendererView view, Boolean preview) {
+    view.setPreviewStatus(preview);
+    view.requestLayout();
+  }
 
-    @ReactProp(name = "preview")
-    public void setPreviewStatus(VoxImplantRendererView view, Boolean preview) {
-        view.setPreviewStatus(preview);
-        view.requestLayout();
-    }
-
-    @ReactProp(name = "callId")
-    public void setCallId(VoxImplantRendererView view, @Nullable String callId) {
-        view.setCallId(callId != null ? callId : "");
-    }
+  @ReactProp(name = "callId")
+  public void setCallId(VoxImplantRendererView view, @Nullable String callId) {
+    view.setCallId(callId != null ? callId : "");
+  }
 }
