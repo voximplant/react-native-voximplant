@@ -9,33 +9,38 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 
 ## Getting started
 ### iOS
-1. `npm install react-native-voximplant@latest --save`
-2. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-3. Go to `node_modules` ➜ `react-native-voximplant/ios` and add `VoxImplant.xcodeproj`
-4. In XCode, in the project navigato r, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib or libc++.tbd, GLKit.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-5. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
-5. Run your project (`Cmd+R`)
+1. Make sure you have "React Native" project created with `react-native init`
+2. `cd` into a project directory where `package.json` file is located.
+3. Run `npm install react-native-voximplant@latest --save`
+4. Start XCode and open project with it.
+5. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+6. Go to `node_modules` ➜ `react-native-voximplant/ios` and add `VoxImplant.xcodeproj`
+7. In XCode, in the project navigator, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib or libc++.tbd, GLKit.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+8. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
+9. Run your project (`Cmd+R`)
 
 ### Android
-1. `npm install react-native-voximplant@latest --save`
-2. Open up `android/app/main/java/[...]/MainActivity.java`
+1. Make sure you have "React Native" project created with `react-native init`
+2. `cd` into a project directory where `package.json` file is located.
+3. Run `npm install react-native-voximplant@latest --save`
+4. Open up `android/app/main/java/[...]/MainActivity.java`
     - Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
     - Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
 
-3. Append the following lines to `android/settings.gradle`:
+5. Append the following lines to `android/settings.gradle`:
 
     ```
     include ':react-native-voximplant'
     project(':react-native-voximplant').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-voximplant/android')
     ```
 
-4. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+6. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
 
     ```
     compile project(':react-native-voximplant')
     ```    
 
-5. And finally, in android/src/main/AndroidManifest.xml add user permissions
+7. And finally, in android/src/main/AndroidManifest.xml add user permissions
 
     ```
     <uses-permission android:name="android.permission.CAMERA" />
