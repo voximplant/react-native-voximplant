@@ -60,6 +60,14 @@ function VoxImplantSDK () {
     VoxImplantModule.login(user, password);
   };
 
+  this.loginWithOneTimeKey = function(username, hash) {
+    VoxImplantModule.loginWithOneTimeKey(username, hash);
+  };
+
+  this.requestOneTimeLoginKey = function(username) {
+    VoxImplantModule.requestOneTimeLoginKey(username);
+  };
+
   this.closeConnection = function() {
     VoxImplantModule.closeConnection();
   };

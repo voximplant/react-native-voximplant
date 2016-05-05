@@ -51,6 +51,16 @@ RCT_EXPORT_METHOD(login: (NSString *)user andPassword:(NSString*) password)
     [sdk loginWithUsername: user andPassword: password];
 }
 
+RCT_EXPORT_METHOD(loginWithOneTimeKey: (NSString *)user andOneTimeKey:(NSString*) hash)
+{
+    [sdk loginWithUsername: user andOneTimeKey: hash];
+}
+
+RCT_EXPORT_METHOD(requestOneTimeLoginKey: (NSString *)user)
+{
+    [sdk requestOneTimeKeyWithUsername: user];
+}
+
 RCT_EXPORT_METHOD(closeConnection)
 {
     [sdk closeConnection];
@@ -145,6 +155,12 @@ RCT_EXPORT_METHOD(switchToCamera: (NSString*) cameraName)
 {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"LoginFailed"
                                                  body: @{@"errorCode": errorCode}];
+}
+
+- (void) onOneTimeKeyGenerated: (NSString *) key
+{
+    [self.bridge.eventDispatcher sendDeviceEventWithName: @"OneTimeKeyGenerated"
+                                                 body: @{@"key": key}];
 }
 
 - (void) onConnectionSuccessful

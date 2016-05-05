@@ -84,6 +84,14 @@ function VoxImplantSDK () {
     VoxImplantModule.login(user, password);
   };
 
+  this.loginUsingOneTimeKey = function(user, hash) {
+    VoxImplantModule.loginUsingOneTimeKey(user, hash);
+  }
+
+  this.requestOneTimeKey = function(user) {
+    VoxImplantModule.requestOneTimeKey(user);
+  }
+
   this.closeConnection = function() {
     VoxImplantModule.closeConnection();
   };

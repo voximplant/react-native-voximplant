@@ -59,6 +59,16 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     @ReactMethod
+    public void loginUsingOneTimeKey(String username, String hash) {
+        this.client.loginUsingOneTimeKey(username, hash);
+    }
+
+    @ReactMethod
+    public void requestOneTimeKey(String username) {
+        this.client.requestOneTimeKey(username);
+    }
+
+    @ReactMethod
     public void closeConnection() {
         this.client.closeConnection();
     }
@@ -184,6 +194,13 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         WritableMap params = Arguments.createMap();
         params.putInt("errorCode", reason.ordinal());
         sendEvent(this.reactContext, "LoginFailed", params);
+    }
+
+    @Override
+    public void onOneTimeKeyGenerated(String key) {
+        WritableMap params = Arguments.createMap();
+        params.putString("key", key);
+        sendEvent(this.reactContext, "onOneTimeKeyGenerated", params);
     }
 
     @Override

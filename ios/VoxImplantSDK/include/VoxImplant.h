@@ -21,6 +21,20 @@ enum VoxImplantVideoResizeMode
     VI_VIDEO_RESIZE_MODE_FIT
 };
 
+/*!
+ @enum VoxImplantLogLevel
+ @constant ERROR_LOG_LEVEL Log verbosity level, to include only error messages.
+ @constant INFO_LOG_LEVEL Default log verbosity level, to include informational messages.
+ @constant DEBUG_LOG_LEVEL Log verbosity level to include debug messages
+ @constant TRACE_LOG_LEVEL Log verbosity level to include trace messages
+ */
+enum VoxImplantLogLevel
+{
+    ERROR_LOG_LEVEL,
+    INFO_LOG_LEVEL,
+    DEBUG_LOG_LEVEL,
+    TRACE_LOG_LEVEL
+};
 
 /*!
  @class VoxImplant
@@ -49,6 +63,11 @@ enum VoxImplantVideoResizeMode
 
 -(void)setVoxDelegate: (id<VoxImplantDelegate>) delegate;
 
+/*!
+ Sets a verbosity level for log messages. Note that this method must be called before creating SDK object instance.
+ */
++(void) setLogLevel: (enum VoxImplantLogLevel) logLevel;
+
 
 /*!
  Returns single SDK object instance
@@ -63,11 +82,17 @@ enum VoxImplantVideoResizeMode
 -(void) connect;
 
 /*!
+ Connect to VoxImplant cloud
+ @param connectivityCheck Checks whether UDP traffic will flow correctly between device and VoxImplant cloud. This check reduces connection speed.
+ */
+
+-(void) connect: (bool)connectivityCheck;
+
+/*!
  Disable TLS encryption for signalling connection. Media data will be encrypted anyway
  */
 
 -(void) disableTLS;
-
 
 /*!
  Create new call instance.
@@ -88,6 +113,26 @@ enum VoxImplantVideoResizeMode
 
 -(void)loginWithUsername: (NSString *)user andPassword:(NSString*) password;
 
+/*!
+ Perform login using one time key that was generated before
+ @param user Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
+ @param hash Hash that was generated using following formula:
+ MD5(oneTimeKey+"|"+MD5(user+":voximplant.com:"+password)).
+ <b>Please note that here user is just a user name, without app name,
+ account name or anything else after "@"</b>. So if you pass <i>myuser@myapp.myacc.voximplant.com</i> as a <b>username</b>,
+ you should only use <i>myuser</i> while computing this hash.
+ */
+
+-(void)loginWithUsername: (NSString *)user andOneTimeKey:(NSString*) hash;
+
+/*!
+ Generates one time login key to be used for automated login process.
+ @param user Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
+ @see <a href="http://voximplant.com/docs/quickstart/24/automated-login/">Information about automated login on VoxImplant website</a>
+ @see loginUsingOneTimeKey
+ */
+
+-(void)requestOneTimeKeyWithUsername: (NSString *)user;
 
 /*!
  Closes connection with media server
@@ -223,6 +268,7 @@ enum VoxImplantVideoResizeMode
 
 /*!
  Set container for local video preview
+ @param view UIView
  */
 
 -(void)setLocalPreview: (UIView *)view;
@@ -230,8 +276,16 @@ enum VoxImplantVideoResizeMode
 
 /*!
  Set container for remote video display
+ @param view UIView
  */
 -(void)setRemoteView: (UIView *) view;
+
+/*!
+ Set container for remote video display for call
+ @param view UIView
+ @param callId id of the call
+ */
+-(void)setRemoteView: (UIView *) view forCall: (NSString*) callId;
 
 
 /*!
