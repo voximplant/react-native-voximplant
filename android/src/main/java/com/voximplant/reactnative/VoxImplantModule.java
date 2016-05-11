@@ -200,7 +200,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     public void onOneTimeKeyGenerated(String key) {
         WritableMap params = Arguments.createMap();
         params.putString("key", key);
-        sendEvent(this.reactContext, "onOneTimeKeyGenerated", params);
+        sendEvent(this.reactContext, "OneTimeKeyGenerated", params);   
     }
 
     @Override
@@ -298,13 +298,6 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         params.putString("callId", callId);
         params.putInt("packetLoss", stats.packetLoss);
         sendEvent(this.reactContext, "NetStatsReceived", params);
-    }
-
-    @Override
-    public void onOneTimeKeyGenerated(String key) {
-        WritableMap params = Arguments.createMap();
-        params.putString("key", key);
-        sendEvent(this.reactContext, "OneTimeKeyGenerated", params);   
     }
 
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
