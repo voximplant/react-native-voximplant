@@ -3,12 +3,21 @@
  */
 'use strict';
 
-const React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
+
+const {
+  Component,
+  PropTypes
+} = React;
+
 const {
   NativeModules,
   requireNativeComponent
-} = React;
+} = ReactNative;
 const VoxImplantModule = NativeModules.VoxImplantModule;
+
+
 
 var VoxImplantPreview = React.createClass({
   render() {

@@ -3,13 +3,19 @@
  */
 'use strict';
 
-var React = require('react-native');
+import React from 'react';
+import ReactNative from 'react-native';
+
+const {
+  Component,
+  PropTypes
+} = React;
+
 var {
   NativeModules,
   requireNativeComponent,
-  PropTypes,
   View
-} = React;
+} = ReactNative;
 
 var VoxImplantView = React.createClass({
   propTypes: {
