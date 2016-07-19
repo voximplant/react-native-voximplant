@@ -23,7 +23,7 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 1. Make sure you have "React Native" project created with `react-native init`
 2. `cd` into a project directory where `package.json` file is located.
 3. Run `npm install react-native-voximplant@latest --save`
-4. Open up `android/app/main/java/[...]/MainActivity.java`
+4. Open up `android/app/main/java/[...]/MainApplication.java`
     - Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
     - Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
 
