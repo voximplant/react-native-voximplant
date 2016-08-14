@@ -100,7 +100,10 @@ function xcodeprojFix(filepath) {
       // name = VoxImplantTests;
       case 'name-reference':
         if (lastReferencedConfigListId) {
-          nameForConfigList[lastReferencedConfigListId] = result.name;
+          // Not some other 'name =' after we already remembered target's?
+          if (!nameForConfigList[lastReferencedConfigListId]) {
+            nameForConfigList[lastReferencedConfigListId] = result.name;
+          }
         }
         break
       // PRODUCT_NAME = VoxImplantTests;
