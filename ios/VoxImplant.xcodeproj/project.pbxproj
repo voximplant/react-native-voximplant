@@ -362,7 +362,7 @@
 				);
 				INFOPLIST_FILE = VoxImplantTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoxImplantTests;
 			};
 			name = Debug;
 		};
@@ -375,7 +375,7 @@
 				);
 				INFOPLIST_FILE = VoxImplantTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VoxImplantTests;
 			};
 			name = Release;
 		};
