@@ -11,7 +11,7 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 
 ### iOS
 
-#### Option: Manually
+#### Manual install
 
 1. Make sure you have "React Native" project created with `react-native init`
 2. `cd` into a project directory where `package.json` file is located.
@@ -23,7 +23,7 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 8. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
 9. Run your project (`Cmd+R`)
 
-#### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
+#### Alternative [`rnpm`](https://github.com/rnpm/rnpm) install
 
 `$ rnpm link`
 
@@ -31,7 +31,7 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 
 ### Android
 
-#### Option: Manually
+#### Manual install
 
 1. Make sure you have "React Native" project created with `react-native init`
 2. `cd` into a project directory where `package.json` file is located.
@@ -63,7 +63,7 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
     <uses-permission android:name="android.permission.INTERNET" />
     ```
 
-#### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
+#### Alternative [`rnpm`](https://github.com/rnpm/rnpm) install
 
 `$ rnpm link`
 
