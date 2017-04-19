@@ -270,6 +270,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         params.putString("from", from);
         params.putString("displayName", displayName);
         params.putString("videoCall", videoCall ? "true" : "false");
+        params.putMap("headers", this.createReactMap(headers));
         sendEvent(this.reactContext, "IncomingCall", params);
     }
 

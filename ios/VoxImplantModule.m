@@ -6,9 +6,24 @@
 //
 
 #import "VoxImplantModule.h"
-#import "RCTLog.h"
+
+#if __has_include(<React/RCTBridge.h>)
+#import <React/RCTBridge.h>
+#else // Compatibility for RN version < 0.40
 #import "RCTBridge.h"
+#endif
+
+#if __has_include(<React/RTCLog.h>)
+#import <React/RCTLog.h>
+#else // Compatibility for RN version < 0.40
+#import "RCTLog.h"
+#endif
+
+#if __has_include(<React/RCTEventDispatcher.h>)
+#import <React/RCTEventDispatcher.h>
+#else // Compatibility for RN version < 0.40
 #import "RCTEventDispatcher.h"
+#endif
 
 @interface VoxImplantModule ()
 {
