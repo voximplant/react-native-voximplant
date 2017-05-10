@@ -38,4 +38,5 @@ repositories {
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile 'com.facebook.react:react-native:0.20.+'
+    compile 'com.voximplant:voximplant-sdk:2.2.1-compat'
 }

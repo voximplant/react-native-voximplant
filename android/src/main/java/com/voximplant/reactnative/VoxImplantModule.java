@@ -32,7 +32,8 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
         this.reactContext = reactContext;
         this.client = VoxImplantClient.instance();
-        this.client.setAndroidContext(reactContext, true, true);
+        VoxImplantClient.VoxImplantClientConfig clientConfig = new VoxImplantClient.VoxImplantClientConfig();
+        this.client.setAndroidContext(reactContext, clientConfig);
         this.client.setCallback(this);
     }
 
@@ -119,14 +120,8 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     @ReactMethod
-    public void sendMessage(String callId, String text, ReadableMap headers) {
-        if (null == headers) {
-            Map<String, String> map = new HashMap<String, String>();
-            this.client.sendMessage(callId, text, map);
-        }
-        else {
-            this.client.sendMessage(callId, text, this.createHashMap(headers));
-        }
+    public void sendMessage(String callId, String text) {
+        this.client.sendMessage(callId, text);
     }
 
     @ReactMethod
@@ -180,12 +175,31 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         }
     }
 
+    @ReactMethod
+    public void registerForPushNotifications(String pushRegistrationToken) {
+        this.client.registerForPushNotifications(pushRegistrationToken);
+    }
+
+    @ReactMethod
+    public void unregisterFromPushNotifications(String pushRegistrationToken) {
+        this.client.unregisterFromPushNotifications(pushRegistrationToken);
+    }
+
+    @ReactMethod
+    public void handlePushNotification(ReadableMap notification) {
+        this.client.handlePushNotification(this.createHashMap(notification));
+    }
+
     // VoxImplantCallback implementation
 
     @Override
-    public void onLoginSuccessful(String displayName) {
+    public void onLoginSuccessful(String displayName, LoginTokens loginTokens) {
         WritableMap params = Arguments.createMap();
         params.putString("displayName", displayName);
+        params.putString("accessToken", loginTokens.getAccessToken());
+        params.putInt("accessExpire", loginTokens.getAccessTokenTimeExpired());
+        params.putString("refreshToken", loginTokens.getRefreshToken());
+        params.putInt("refreshExpire", loginTokens.getRefreshTokenTimeExpired());
         sendEvent(this.reactContext, "LoginSuccessful", params);
     }
 
@@ -231,10 +245,11 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     @Override
-    public void onCallDisconnected(String callId, Map<String, String> headers) {
+    public void onCallDisconnected(String callId, Map<String, String> headers, boolean answeredElsewhere) {
         WritableMap params = Arguments.createMap();
         params.putString("callId", callId);
         params.putMap("headers", this.createReactMap(headers));
+        params.putBoolean("answeredElsewhere", answeredElsewhere);
         sendEvent(this.reactContext, "CallDisconnected", params);
     }
 
@@ -284,11 +299,10 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     @Override
-    public void onMessageReceivedInCall(String callId, String text, Map<String, String> headers) {
+    public void onMessageReceivedInCall(String callId, String text) {
         WritableMap params = Arguments.createMap();
         params.putString("callId", callId);
         params.putString("text", text);
-        params.putMap("headers", this.createReactMap(headers));
         sendEvent(this.reactContext, "MessageReceivedInCall", params);
     }
 
@@ -298,6 +312,23 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         params.putString("callId", callId);
         params.putInt("packetLoss", stats.packetLoss);
         sendEvent(this.reactContext, "NetStatsReceived", params);
+    }
+
+    @Override
+    public void onRefreshTokenSuccess(LoginTokens loginTokens) {
+        WritableMap params = Arguments.createMap();
+        params.putString("accessToken", loginTokens.getAccessToken());
+        params.putInt("accessExpire", loginTokens.getAccessTokenTimeExpired());
+        params.putString("refreshToken", loginTokens.getRefreshToken());
+        params.putInt("refreshExpire", loginTokens.getRefreshTokenTimeExpired());
+        sendEvent(this.reactContext, "RefreshTokenSuccess", params);
+    }
+
+    @Override
+    public void onRefreshTokenFailed(Integer reason) {
+        WritableMap params = Arguments.createMap();
+        params.putInt("reason", reason);
+        sendEvent(this.reactContext, "RefreshTokenFailed", params);
     }
 
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {

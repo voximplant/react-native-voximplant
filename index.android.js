@@ -122,8 +122,8 @@ function VoxImplantSDK () {
     VoxImplantModule.answerCall(callId, headers == undefined ? {} :  headers);
   };
 
-  this.sendMessage = function(callId, text, headers) {
-    VoxImplantModule.sendMessage(callId, text, headers == undefined ? {} : headers);
+  this.sendMessage = function(callId, text) {
+    VoxImplantModule.sendMessage(callId, text);
   };
 
   this.sendInfo = function(callId, mimeType, content, headers) {
@@ -153,6 +153,18 @@ function VoxImplantSDK () {
   this.switchToCamera = function(cameraName) {
     VoxImplantModule.switchToCamera(cameraName);
   };
+
+  this.registerForPushNotifications = function(pushRegistrationToken) {
+    VoxImplantModule.registerForPushNotifications(pushRegistrationToken);
+  }
+
+  this.unregisterFromPushNotifications = function(pushRegistrationToken) {
+    VoxImplantModule.unregisterFromPushNotifications(pushRegistrationToken);
+  }
+
+  this.handlePushNotification = function(notification) {
+    VoxImplantModule.handlePushNotification(notification);
+  }
 }
 
 module.exports = {
