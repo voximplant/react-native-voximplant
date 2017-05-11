@@ -65,8 +65,18 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     @ReactMethod
+    public void loginUsingAccessToken(String username, String accessToken) {
+        this.client.loginUsingAccessToken(username, accessToken);
+    }
+
+    @ReactMethod
     public void requestOneTimeKey(String username) {
         this.client.requestOneTimeKey(username);
+    }
+
+    @ReactMethod
+    public void refreshToken(String username, String refreshToken) {
+        this.client.refreshToken(username, refreshToken);
     }
 
     @ReactMethod

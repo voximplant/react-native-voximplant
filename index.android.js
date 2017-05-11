@@ -94,6 +94,14 @@ function VoxImplantSDK () {
     VoxImplantModule.loginUsingOneTimeKey(user, hash);
   }
 
+  this.loginUsingAccessToken - function(user, accessToken) {
+    VoxImplantModule.loginUsingAccessToken(user, accessToken);
+  }
+
+  this.refreshToken = function(user, refreshToken) {
+    VoxImplantModule.refreshToken(user, refreshToken);
+  }
+
   this.requestOneTimeKey = function(user) {
     VoxImplantModule.requestOneTimeKey(user);
   }
