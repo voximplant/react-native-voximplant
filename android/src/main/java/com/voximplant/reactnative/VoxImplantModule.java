@@ -33,12 +33,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 {
     public VoxImplantModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
         this.reactContext = reactContext;
-        this.client = VoxImplantClient.instance();
-        VoxImplantClient.VoxImplantClientConfig clientConfig = new VoxImplantClient.VoxImplantClientConfig();
-        this.client.setAndroidContext(reactContext, clientConfig);
-        this.client.setCallback(this);
     }
 
     @Override public String getName() {
@@ -46,6 +41,21 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     // JS API
+
+    @ReactMethod
+    public void init(boolean enableVideo, 
+                     boolean enableHWAcceleration, 
+                     boolean provideLocalFramesInByteBuffers,
+                     boolean enableDebugLogging) {
+        this.client = VoxImplantClient.instance();
+        VoxImplantClient.VoxImplantClientConfig clientConfig = new VoxImplantClient.VoxImplantClientConfig();
+        clientConfig.enableVideo = enableVideo;
+        clientConfig.enableHWAcceleration = enableHWAcceleration;
+        clientConfig.provideLocalFramesInByteBuffers = provideLocalFramesInByteBuffers;
+        clientConfig.enableDebugLogging = enableDebugLogging;
+        this.client.setAndroidContext(reactContext, clientConfig);
+        this.client.setCallback(this);
+    }
 
     @ReactMethod
     public void connect(boolean connectivityCheck, ReadableArray servers) {

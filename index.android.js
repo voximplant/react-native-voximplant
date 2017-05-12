@@ -60,6 +60,20 @@ var VoxImplantModule = NativeModules.VoxImplantModule;
 
 function VoxImplantSDK () {
 
+  this.init = function(options) {
+    if (!options) options = {};
+    if (options.enableVideo === undefined) options.enableVideo = true;
+    if (options.enableHWAcceleration === undefined) options.enableHWAcceleration = true;
+    if (options.provideLocalFramesInByteBuffer === undefined) 
+      options.provideLocalFramesInByteBuffer = false;
+    if (options.enableDebugLogging === undefined) options.enableDebugLogging = false;
+
+    VoxImplantModule.init(options.enableVideo,
+                          options.enableHWAcceleration,
+                          options.provideLocalFramesInByteBuffer,
+                          options.enableDebugLogging);
+  }
+
   this.connect = function(options) {
     if (!options) options = {};
     if (options.connectivityCheck === undefined) options.connectivityCheck = true;
