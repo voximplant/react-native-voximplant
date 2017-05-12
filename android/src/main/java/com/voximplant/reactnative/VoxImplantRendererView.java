@@ -20,6 +20,9 @@ public class VoxImplantRendererView extends SurfaceViewRenderer
 	public void setPreviewStatus(Boolean preview) {
 		this.preview = preview;
 		applyProperties();
+		if (preview) {
+			setZOrderMediaOverlay(true);
+		}
 	}
 
 	public void setCallId(String callId) {
