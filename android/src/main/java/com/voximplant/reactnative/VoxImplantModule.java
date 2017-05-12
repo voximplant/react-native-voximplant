@@ -9,6 +9,8 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
@@ -19,6 +21,8 @@ import android.util.Log;
 import android.opengl.GLSurfaceView;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 
 import com.zingaya.voximplant.VoxImplantCallback;
@@ -44,8 +48,14 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     // JS API
 
     @ReactMethod
-    public void connect() {
-        this.client.connect();
+    public void connect(boolean connectivityCheck, ReadableArray servers) {
+        List<String> serversList;
+        try {
+            serversList = createArrayList(servers);
+        } catch (IllegalArgumentException e) {
+            serversList = null;
+        }
+        this.client.connect(connectivityCheck, createArrayList(servers));
     }
 
     @ReactMethod
@@ -364,6 +374,24 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
           map.put(key, v.getString(key));
         }
         return map;
+    }
+
+    private List<String> createArrayList(ReadableArray readableArray) {
+        if (readableArray == null) {
+            return null;
+        }
+        List<String> list = new ArrayList<>(readableArray.size());
+        for (int i = 0; i < readableArray.size(); i++) {
+            ReadableType indexType = readableArray.getType(i);
+            switch (indexType) {
+                case String:
+                    list.add(readableArray.getString(i));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Could not convert object with index: " + i);
+            }
+        }
+        return list;
     }
 
     private VoxImplantClient client;

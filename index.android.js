@@ -60,8 +60,12 @@ var VoxImplantModule = NativeModules.VoxImplantModule;
 
 function VoxImplantSDK () {
 
-  this.connect = function() {
-    VoxImplantModule.connect();
+  this.connect = function(options) {
+    if (!options) options = {};
+    if (options.connectivityCheck === undefined) options.connectivityCheck = true;
+    if (options.servers === undefined) options.servers = [];
+
+    VoxImplantModule.connect(options.connectivityCheck, options.servers);
   };
 
   this.createCall = function(to, video, customData, callback) {
