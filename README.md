@@ -16,12 +16,11 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 1. Make sure you have "React Native" project created with `react-native init`
 2. `cd` into a project directory where `package.json` file is located.
 3. Run `npm install react-native-voximplant@latest --save`
-4. Start XCode and open project with it.
-5. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-6. Go to `node_modules` ➜ `react-native-voximplant/ios` and add `VoxImplant.xcodeproj`
-7. In XCode, in the project navigator, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib or libc++.tbd, GLKit.framework and VideoToolbox.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-8. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
-9. Run your project (`Cmd+R`)
+4. Run `pod install`
+5. Start XCode and open project with it.
+6. In XCode, in the project navigator, select your project. Add `libreact-native-voximplant.a` 
+to your project's `Build Phases` ➜ `Link Binary With Libraries`
+7. Run your project (`Cmd+R`)
 
 #### Automatic install via [`rnpm`](https://github.com/rnpm/rnpm)
 
