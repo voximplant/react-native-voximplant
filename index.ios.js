@@ -38,6 +38,12 @@ const VoxImplantRendererView = requireNativeComponent('VoxImplantRendererView', 
 });
 
 function VoxImplantSDK () {
+
+  this.init = function(options) {
+    if (!options) options = {};
+    if (options.logLevel === undefined) options.logLevel = 'info';
+    VoxImplantModule.initialize(options.logLevel);
+  }
   
   this.connect = function() {
     VoxImplantModule.connect();

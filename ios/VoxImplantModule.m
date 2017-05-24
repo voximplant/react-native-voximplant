@@ -25,15 +25,28 @@ RCT_EXPORT_MODULE();
 - (id)init
 {
     self = [super init];
-    if (self)
-    {
-        sdk = [VoxImplant getInstance];
-        [sdk setVoxDelegate:self];
-    }
     return self;
 }
 
 // VoxImplant API
+
+RCT_EXPORT_METHOD(initialize: (NSString*)logLevel) {
+    enum VoxImplantLogLevel level;
+    if ([logLevel isEqualToString:@"error"]) {
+        level = ERROR_LOG_LEVEL;
+    } else if ([logLevel isEqualToString: @"info"]) {
+        level = INFO_LOG_LEVEL;
+    } else if ([logLevel isEqualToString:@"debug"]) {
+        level = DEBUG_LOG_LEVEL;
+    } else if ([logLevel isEqualToString:@"trace"]) {
+        level = TRACE_LOG_LEVEL;
+    }
+    
+    [VoxImplant setLogLevel: level];
+    sdk = [VoxImplant getInstance];
+    [sdk setVoxDelegate:self];
+}
+
 
 RCT_EXPORT_METHOD(connect)
 {
@@ -145,87 +158,89 @@ RCT_EXPORT_METHOD(switchToCamera: (NSString*) cameraName)
 
 // VoxImplant events
 
-- (void) onLoginSuccessfulWithDisplayName: (NSString *) displayName
-{
+- (void) onLoginSuccessfulWithDisplayName: (NSString *)displayName
+                            andAuthParams:(NSDictionary*)authParams {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"LoginSuccessful"
-                                                 body: @{@"displayName": displayName}];
+                                                    body: @{@"displayName": displayName, @"authParams": authParams}];
 }
 
-- (void) onLoginFailedWithErrorCode: (NSNumber *) errorCode
-{
+- (void) onLoginFailedWithErrorCode: (NSNumber *)errorCode {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"LoginFailed"
-                                                 body: @{@"errorCode": errorCode}];
+                                                    body: @{@"errorCode": errorCode}];
 }
 
-- (void) onOneTimeKeyGenerated: (NSString *) key
-{
+- (void) onOneTimeKeyGenerated: (NSString *)key {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"OneTimeKeyGenerated"
-                                                 body: @{@"key": key}];
+                                                    body: @{@"key": key}];
 }
 
-- (void) onConnectionSuccessful
-{
+- (void) onConnectionSuccessful {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"ConnectionSuccessful"
-                                                 body: @{}];
+                                                    body: @{}];
 }
 
-- (void) onConnectionClosed
-{
+- (void) onConnectionClosed {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"ConnectionClosed"
-                                                 body: @{}];
+                                                    body: @{}];
 }
 
-- (void) onConnectionFailedWithError: (NSString *) reason
-{
+- (void) onConnectionFailedWithError: (NSString *)reason {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"ConnectionFailed"
-                                                 body: @{@"reason": reason}];
+                                                    body: @{@"reason": reason}];
 }
 
-- (void) onCallConnected: (NSString *) callId withHeaders: (NSDictionary *) headers
-{
-   [self.bridge.eventDispatcher sendDeviceEventWithName: @"CallConnected"
-                                                 body: @{@"callId": callId, @"headers": headers}];
+- (void) onCallConnected: (NSString *)callId
+             withHeaders: (NSDictionary *)headers {
+    [self.bridge.eventDispatcher sendDeviceEventWithName: @"CallConnected"
+                                                    body: @{@"callId": callId, @"headers": headers}];
 }
 
-- (void) onCallDisconnected: (NSString *) callId withHeaders: (NSDictionary *) headers
-{
+- (void) onCallDisconnected:(NSString *)callId
+                withHeaders:(NSDictionary *)headers {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"CallDisconnected"
-                                                 body: @{@"callId": callId, @"headers": headers}];
+                                                    body: @{@"callId": callId, @"headers": headers}];
 }
 
-- (void) onCallRinging: (NSString *) callId withHeaders: (NSDictionary *) headers
-{
+- (void) onCallRinging: (NSString *)callId
+           withHeaders: (NSDictionary *)headers {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"CallRinging" body: @{}];
 }
 
-- (void) onCallFailed: (NSString *) callId withCode:(int)code andReason:(NSString *)reason withHeaders: (NSDictionary *) headers
-{
+- (void) onCallFailed: (NSString *)callId
+             withCode: (int)code
+            andReason: (NSString *)reason
+          withHeaders: (NSDictionary *) headers {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"CallFailed"
-                                                 body: @{@"callId": callId, @"code": [NSNumber numberWithInt:code], @"reason": reason, @"headers": headers}];
+                                                    body: @{@"callId": callId, @"code": [NSNumber numberWithInt:code], @"reason": reason, @"headers": headers}];
 }
 
-- (void) onCallAudioStarted: (NSString *) callId
-{
+- (void) onCallAudioStarted: (NSString *)callId {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"CallAudioStarted"
-                                                 body: @{@"callId": callId}];
+                                                    body: @{@"callId": callId}];
 }
 
-- (void) onIncomingCall: (NSString *) callId From: (NSString *) from Named: (NSString *) displayName withVideo: (bool) videoCall withHeaders: (NSDictionary *) headers
-{
+- (void) onIncomingCall: (NSString *)callId
+                   From: (NSString *)from
+                  Named: (NSString *)displayName
+              withVideo: (bool)videoCall
+            withHeaders: (NSDictionary *)headers {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"IncomingCall"
-                                                 body: @{@"callId": callId, @"from": from, @"displayName": displayName, @"videoCall": (videoCall ? @"true" : @"false"), @"headers": headers}];
+                                                    body: @{@"callId": callId, @"from": from, @"displayName": displayName, @"videoCall": (videoCall ? @"true" : @"false"), @"headers": headers}];
 }
 
-- (void) onSIPInfoReceivedInCall: (NSString *)callId withType: (NSString*)type andContent: (NSString *)content withHeaders: (NSDictionary *) headers
-{
+- (void) onSIPInfoReceivedInCall: (NSString *)callId
+                        withType: (NSString*)type
+                      andContent: (NSString *)content
+                     withHeaders: (NSDictionary *)headers {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"SIPInfoReceivedInCall"
-                                                 body: @{@"callId": callId, @"type": type, @"content": content, @"headers": headers}];
+                                                    body: @{@"callId": callId, @"type": type, @"content": content, @"headers": headers}];
 }
 
-- (void) onMessageReceivedInCall: (NSString *)callId withText: (NSString *)text withHeaders: (NSDictionary *) headers
-{
+- (void) onMessageReceivedInCall: (NSString *)callId
+                        withText: (NSString *)text
+                     withHeaders: (NSDictionary *)headers {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"MessageReceivedInCall"
-                                                 body: @{@"callId": callId, @"text": text, @"headers": headers}];
+                                                    body: @{@"callId": callId, @"text": text, @"headers": headers}];
 }
 
 @end
