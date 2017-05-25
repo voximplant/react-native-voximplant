@@ -112,7 +112,7 @@ function VoxImplantSDK () {
     VoxImplantModule.loginUsingOneTimeKey(user, hash);
   }
 
-  this.loginUsingAccessToken - function(user, accessToken) {
+  this.loginUsingAccessToken = function(user, accessToken) {
     VoxImplantModule.loginUsingAccessToken(user, accessToken);
   }
 

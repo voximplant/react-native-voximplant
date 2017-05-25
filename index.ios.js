@@ -71,13 +71,21 @@ function VoxImplantSDK () {
     }
   };
 
-  this.login = function(user, password) {
-    VoxImplantModule.login(user, password);
+  this.login = function(username, password) {
+    VoxImplantModule.login(username, password);
   };
 
   this.loginWithOneTimeKey = function(username, hash) {
     VoxImplantModule.loginWithOneTimeKey(username, hash);
   };
+
+  this.loginWithToken = function(username, token) {
+    VoxImplantModule.loginWithToken(username, token);
+  }
+
+  this.refreshToken = function(username, token) {
+    VoxImplantModule.refreshToken(username, token);
+  }
 
   this.requestOneTimeLoginKey = function(username) {
     VoxImplantModule.requestOneTimeLoginKey(username);
