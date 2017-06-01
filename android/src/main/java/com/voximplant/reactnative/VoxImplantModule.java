@@ -236,7 +236,26 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     @Override
     public void onLoginFailed(LoginFailureReason reason) {
         WritableMap params = Arguments.createMap();
-        params.putInt("errorCode", reason.ordinal());
+        int errorCode;
+        switch (reason) {
+            case INVALID_PASSWORD:
+                errorCode = 401;
+                break;
+            case ACCOUNT_FROZEN:
+                errorCode = 403;
+                break;
+            case INVALID_USERNAME:
+                errorCode = 404;
+                break;
+            case TOKEN_EXPIRED:
+                errorCode = 701;
+                break;
+            case INTERNAL_ERROR:
+            default:
+                errorCode = 500;
+                break;
+        }
+        params.putInt("errorCode", errorCode);
         sendEvent(this.reactContext, "LoginFailed", params);
     }
 
