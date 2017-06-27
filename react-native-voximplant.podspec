@@ -9,4 +9,5 @@ Pod::Spec.new do |s|
     s.summary      = 'RN voximplant'
     s.version      = '0.0.1'
     s.dependency     'VoxImplantSDK'
+    s.dependency 'React'
 end
