@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(declineCall:(NSString *)callId withHeaders:(NSDictionary *)hea
 }
 
 RCT_EXPORT_METHOD(answerCall:(NSString *)callId withHeaders:(NSDictionary *)headers) {
-    [sdk answerCall:callId withHeaders:headers];
+    [sdk answerCall:callId withCustomData:nil headers:headers];
 }
 
 RCT_EXPORT_METHOD(sendMessage:(NSString *)callId withText:(NSString *)text andHeaders:(NSDictionary *)headers) {
