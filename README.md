@@ -15,11 +15,24 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 
 1. Make sure you have "React Native" project created with `react-native init`
 2. `cd` into a project directory where `package.json` file is located.
-3. Run `npm install react-native-voximplant@latest --save`
-4. Run `pod install`
-5. Start XCode and open project with it.
-6. In XCode, in the project navigator, select your project. Add `libreact-native-voximplant.a` 
-to your project's `Build Phases` ➜ `Link Binary With Libraries`
+3. Run `npm install react-native-voximplant@latest --save`. For using "sdk_update" branch please replace the react-native-voximplant in node_modules folder with the latest "sdk_update" branch
+4. Open or create ios/Podfile and add the following dependencies:
+```
+pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
+'Core',
+'RCTImage',
+'RCTNetwork',
+'RCTText',
+'RCTWebSocket',
+'DevSupport',
+'BatchedBridge'
+# Add any other subspecs you want to use in your project
+]
+pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
+pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
+```
+5. Run `pod install` from <your_project>/ios/
+6. Start XCode and open generated <your_project>.xcworkspace
 7. Run your project (`Cmd+R`)
 
 #### Automatic install via [`rnpm`](https://github.com/rnpm/rnpm)
