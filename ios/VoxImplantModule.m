@@ -48,13 +48,9 @@ RCT_EXPORT_METHOD(initialize: (NSString*)logLevel) {
 }
 
 
-RCT_EXPORT_METHOD(connect) {
-    [sdk connect];
+RCT_EXPORT_METHOD(connect:(BOOL)connectivityCheck) {
+    [sdk connect:connectivityCheck];
 }
-
-// RCT_EXPORT_METHOD(connect:(BOOL)connectivityCheck) {
-//     [sdk connect:connectivityCheck];
-// }
 
 RCT_EXPORT_METHOD(createCall:(NSString *)to
                    withVideo:(BOOL)video
@@ -106,8 +102,8 @@ RCT_EXPORT_METHOD(declineCall:(NSString *)callId withHeaders:(NSDictionary *)hea
     [sdk declineCall:callId withHeaders:headers];
 }
 
-RCT_EXPORT_METHOD(answerCall:(NSString *)callId withHeaders:(NSDictionary *)headers) {
-    [sdk answerCall:callId withCustomData:nil headers:headers];
+RCT_EXPORT_METHOD(answerCall:(NSString *)callId withCustomData:(NSString *)customData headers:(NSDictionary *)headers) {
+    [sdk answerCall:callId withCustomData:customData headers:headers];
 }
 
 RCT_EXPORT_METHOD(sendMessage:(NSString *)callId withText:(NSString *)text andHeaders:(NSDictionary *)headers) {
@@ -153,15 +149,28 @@ RCT_EXPORT_METHOD(switchToCamera:(NSString *) cameraName) {
 }
 
 RCT_EXPORT_METHOD(registerPushNotificationsToken:(NSString *)token) {
-    [sdk registerPushNotificationsToken:[RCTConvert NSData:token]];
+    [sdk registerPushNotificationsToken:[self dataFromHexString:token]];
 }
 
 RCT_EXPORT_METHOD(unregisterPushNotificationsToken:(NSString *)token) {
-    [sdk unregisterPushNotificationsToken:[RCTConvert NSData:token]];
+    [sdk unregisterPushNotificationsToken:[self dataFromHexString:token]];
 }
 
 RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
     [sdk handlePushNotification:notification];
+}
+
+- (NSData *)dataFromHexString:(NSString *)string {
+    NSMutableData *data = [NSMutableData dataWithCapacity: string.length / 2];
+    unsigned char whole_byte;
+    char byte_chars[3] = {'\0','\0','\0'};
+    for (int i = 0; i < string.length / 2; i++) {
+        byte_chars[0] = [string characterAtIndex:i*2];
+        byte_chars[1] = [string characterAtIndex:i*2+1];
+        whole_byte = strtol(byte_chars, NULL, 16);
+        [data appendBytes:&whole_byte length:1];
+    }
+    return data;
 }
 
 // VoxImplant events
@@ -169,7 +178,11 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 - (void) onLoginSuccessfulWithDisplayName: (NSString *)displayName
                             andAuthParams:(NSDictionary*)authParams {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"LoginSuccessful"
-                                                    body: @{@"displayName": displayName, @"authParams": authParams}];
+                                                    body: @{@"displayName": displayName,
+                                                            @"accessToken": [authParams valueForKey:@"accessToken"],
+                                                            @"accessExpire": [authParams valueForKey:@"accessExpire"],
+                                                            @"refreshToken": [authParams valueForKey:@"refreshToken"],
+                                                            @"refreshExpire": [authParams valueForKey:@"refreshExpire"]}];
 }
 
 - (void) onLoginFailedWithErrorCode: (NSNumber *)errorCode {

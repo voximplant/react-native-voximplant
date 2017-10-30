@@ -65,7 +65,11 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         } catch (IllegalArgumentException e) {
             serversList = null;
         }
-        this.client.connect(connectivityCheck, createArrayList(servers));
+        try {
+            this.client.connect(connectivityCheck, createArrayList(servers));
+        } catch (IllegalStateException e) {
+            Log.e("VoxImplantModule", "Failed to connect: " + e.getMessage());
+        }  
     }
 
     @ReactMethod
@@ -140,13 +144,8 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     @ReactMethod
-    public void answerCall(String callId, ReadableMap headers) {
-        if (null == headers) {
-            this.client.answerCall(callId);
-        }
-        else {
-            this.client.answerCall(callId, this.createHashMap(headers));
-        }
+    public void answerCall(String callId, String customData, ReadableMap headers) {
+        this.client.answerCall(callId, customData, this.createHashMap(headers));
     }
 
     @ReactMethod
@@ -396,6 +395,9 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     }
 
     private Map<String, String> createHashMap(ReadableMap v) {
+        if (v == null) {
+            return null;
+        }
         Map<String, String> map = new HashMap<String, String>();
         ReadableMapKeySetIterator it = v.keySetIterator();
         while (it.hasNextKey()) {

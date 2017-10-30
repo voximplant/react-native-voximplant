@@ -144,8 +144,10 @@ function VoxImplantSDK () {
     VoxImplantModule.declineCall(callId, headers == undefined ? {} :  headers);
   };
 
-  this.answerCall = function(callId, headers) {
-    VoxImplantModule.answerCall(callId, headers == undefined ? {} :  headers);
+  this.answerCall = function(callId, customData, headers) {
+    VoxImplantModule.answerCall(callId, 
+                                customData == undefined ? null : customData,
+                                headers == undefined ? {} :  headers);
   };
 
   this.sendMessage = function(callId, text) {

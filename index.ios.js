@@ -45,8 +45,11 @@ function VoxImplantSDK () {
     VoxImplantModule.initialize(options.logLevel);
   }
   
-  this.connect = function() {
-    VoxImplantModule.connect();
+  this.connect = function(options) {
+    if (!options) options = {};
+    if (options.connectivityCheck === undefined) options.connectivityCheck = true;
+
+    VoxImplantModule.connect(options.connectivityCheck);
   };
 
   this.createCall = function(to, video, customData, callback) {
@@ -75,11 +78,11 @@ function VoxImplantSDK () {
     VoxImplantModule.login(username, password);
   };
 
-  this.loginWithOneTimeKey = function(username, hash) {
+  this.loginUsingOneTimeKey = function(username, hash) {
     VoxImplantModule.loginWithOneTimeKey(username, hash);
   };
 
-  this.loginWithToken = function(username, token) {
+  this.loginUsingAccessToken = function(username, token) {
     VoxImplantModule.loginWithToken(username, token);
   }
 
@@ -87,7 +90,7 @@ function VoxImplantSDK () {
     VoxImplantModule.refreshToken(username, token);
   }
 
-  this.requestOneTimeLoginKey = function(username) {
+  this.requestOneTimeKey = function(username) {
     VoxImplantModule.requestOneTimeLoginKey(username);
   };
 
@@ -111,8 +114,8 @@ function VoxImplantSDK () {
     VoxImplantModule.declineCall(callId, headers == undefined ? {} :  headers);
   };
 
-  this.answerCall = function(callId, headers) {
-    VoxImplantModule.answerCall(callId, headers == undefined ? {} :  headers);
+  this.answerCall = function(callId, customData, headers) {
+    VoxImplantModule.answerCall(callId, customData, headers == undefined ? {} :  headers);
   };
 
   this.sendMessage = function(callId, text, headers) {
@@ -146,6 +149,17 @@ function VoxImplantSDK () {
   this.switchToCamera = function(cameraName) {
     VoxImplantModule.switchToCamera(cameraName);
   };
+
+  this.registerForPushNotifications = function(pushRegistrationToken) {
+    VoxImplantModule.registerPushNotificationsToken(pushRegistrationToken);
+  }
+
+  this.unregisterFromPushNotifications = function(pushRegistrationToken) {
+    VoxImplantModule.unregisterPushNotificationsToken(pushRegistrationToken);
+  }
+  this.handlePushNotification = function(notification) {
+    VoxImplantModule.handlePushNotification(notification);
+  }
 }
 
 module.exports = {
