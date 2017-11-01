@@ -12,11 +12,13 @@ public class VoxImplantViewManager extends SimpleViewManager<VoxImplantRendererV
 
   public static final String REACT_CLASS = "RCTVoxImplantRendererView";
 
-  @Override public String getName() {
+  @Override 
+  public String getName() {
       return REACT_CLASS;
   }
 
-  @Override public VoxImplantRendererView createViewInstance(ThemedReactContext context) {
+  @Override 
+  public VoxImplantRendererView createViewInstance(ThemedReactContext context) {
       return new VoxImplantRendererView(context);
   }
 

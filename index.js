@@ -1,85 +1,52 @@
 /**
- * Sample React Native App
+ * 
+ * Copyright (c) 2011-present, Zingaya.
+ * All rights reserved.
+ * 
  */
+
+ 
 'use strict';
 
-import React from 'react';
-import ReactNative from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import {
+  Platform,
+  NativeModules
+} from 'react-native';
 
-const {
-  Component,
-  PropTypes
-} = React;
-
-var {
-  NativeModules,
-  requireNativeComponent,
-  View
-} = ReactNative;
-
-var VoxImplantView = React.createClass({
-  propTypes: {
-    preview: PropTypes.bool,
-    callId:PropTypes.string,
-    ...View.propTypes,
-  },
-
-  render: function() {
-    return;
-  }
-})
-
-function VoxImplantPreview(props) {
-  var { style, ...otherProps} = props;
-    return (
-      <View style={style}>
-        <RCTVoxImplantRendererView
-          style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
-          preview={true}
-          callId={''} />
-      </View>
-    );
-}
-
-function VoxImplantRemoteView(props) {
-  var { style, callId, ...otherProps} = props;
-  if(typeof callId === 'undefined')
-    callId = '';
-  return (
-      <View style={style}>
-        <RCTVoxImplantRendererView
-          style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
-          preview={false}
-          callId={callId} />
-      </View>
-  );
-}
-
-var RCTVoxImplantRendererView = requireNativeComponent('RCTVoxImplantRendererView', VoxImplantView);
-var VoxImplantModule = NativeModules.VoxImplantModule;
+import {Preview, RemoteView} from './src/VoxImplantView';
 
 function VoxImplantSDK () {
 
   this.init = function(options) {
     if (!options) options = {};
-    if (options.enableVideo === undefined) options.enableVideo = true;
-    if (options.enableHWAcceleration === undefined) options.enableHWAcceleration = true;
-    if (options.provideLocalFramesInByteBuffer === undefined) 
-      options.provideLocalFramesInByteBuffer = false;
-    if (options.enableDebugLogging === undefined) options.enableDebugLogging = false;
-
-    VoxImplantModule.init(options.enableVideo,
-                          options.enableHWAcceleration,
-                          options.provideLocalFramesInByteBuffer,
-                          options.enableDebugLogging);
+    if (Platform.OS === 'android') {
+      if (options.enableVideo === undefined) options.enableVideo = true;
+      if (options.enableHWAcceleration === undefined) options.enableHWAcceleration = true;
+      if (options.provideLocalFramesInByteBuffer === undefined) 
+        options.provideLocalFramesInByteBuffer = false;
+      if (options.enableDebugLogging === undefined) options.enableDebugLogging = false;
+      VoxImplantModule.init(options.enableVideo,
+        options.enableHWAcceleration,
+        options.provideLocalFramesInByteBuffer,
+        options.enableDebugLogging);
+    }
+    if (Platform.OS === 'ios') {
+      if (options.logLevel === undefined) options.logLevel = 'info';
+      VoxImplantModule.init(options.logLevel);
+    }
   }
 
   this.connect = function(options) {
     if (!options) options = {};
     if (options.connectivityCheck === undefined) options.connectivityCheck = true;
-    if (options.servers === undefined) options.servers = [];
-
-    VoxImplantModule.connect(options.connectivityCheck, options.servers);
+    if (Platform.OS === 'android') {
+      if (options.servers === undefined) options.servers = [];
+      VoxImplantModule.connect(options.connectivityCheck, options.servers);
+    }
+    if (Platform.OS === 'ios') {
+      VoxImplantModule.connect(options.connectivityCheck);
+    }
   };
 
   this.createCall = function(to, video, customData, callback) {
@@ -158,12 +125,12 @@ function VoxImplantSDK () {
     VoxImplantModule.sendInfo(callId, mimeType, content, headers == undefined ? {} : headers);
   };
 
-  this.setMute = function(b) {
-    VoxImplantModule.setMute(b);
+  this.setMute = function(doMute) {
+    VoxImplantModule.setMute(doMute);
   };
 
-  this.setUseLoudspeaker = function(b) {
-    VoxImplantModule.setUseLoudspeaker(b);
+  this.setUseLoudspeaker = function(enable) {
+    VoxImplantModule.setUseLoudspeaker(enable);
   };
 
   this.setVideoResizeMode = function(mode) {
@@ -195,8 +162,12 @@ function VoxImplantSDK () {
   }
 }
 
-module.exports = {
-    Preview : VoxImplantPreview,
-    RemoteView : VoxImplantRemoteView,
-    SDK : new VoxImplantSDK()
+var VoxImplantModule = NativeModules.VoxImplantModule;
+
+export default {
+    SDK : new VoxImplantSDK(),
+    Preview : Preview,
+    RemoteView : RemoteView
 };
+
+

@@ -30,7 +30,7 @@ RCT_EXPORT_MODULE();
 
 // VoxImplant API
 
-RCT_EXPORT_METHOD(initialize: (NSString*)logLevel) {
+RCT_EXPORT_METHOD(init: (NSString*)logLevel) {
     enum VoxImplantLogLevel level;
     if ([logLevel isEqualToString:@"error"]) {
         level = ERROR_LOG_LEVEL;
@@ -66,11 +66,11 @@ RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString
     [sdk loginWithUsername:user andPassword:password];
 }
 
-RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneTimeKey:(NSString *)hash) {
+RCT_REMAP_METHOD(loginUsingOneTimeKey, loginWithUsername:(NSString *)user andOneTimeKey:(NSString *)hash) {
     [sdk loginWithUsername:user andOneTimeKey:hash];
 }
 
-RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NSString *)token) {
+RCT_REMAP_METHOD(loginUsingAccessToken, loginWithUserName:(NSString *)user andToken:(NSString *)token) {
     [sdk loginWithUsername:user andToken:token];
 }
 
@@ -78,7 +78,7 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUsername:(NSString *)user andToke
     [sdk refreshTokenWithUsername:user andToken:token];
 }
 
-RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
+RCT_EXPORT_METHOD(requestOneTimeKey:(NSString *)user) {
     [sdk requestOneTimeKeyWithUsername:user];
 }
 
@@ -148,11 +148,11 @@ RCT_EXPORT_METHOD(switchToCamera:(NSString *) cameraName) {
         RCTLogError(@"Invalid camera name");
 }
 
-RCT_EXPORT_METHOD(registerPushNotificationsToken:(NSString *)token) {
+RCT_EXPORT_METHOD(registerForPushNotifications:(NSString *)token) {
     [sdk registerPushNotificationsToken:[self dataFromHexString:token]];
 }
 
-RCT_EXPORT_METHOD(unregisterPushNotificationsToken:(NSString *)token) {
+RCT_EXPORT_METHOD(unregisterFromPushNotifications:(NSString *)token) {
     [sdk unregisterPushNotificationsToken:[self dataFromHexString:token]];
 }
 
