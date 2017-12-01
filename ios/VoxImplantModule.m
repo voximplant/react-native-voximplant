@@ -106,8 +106,8 @@ RCT_EXPORT_METHOD(answerCall:(NSString *)callId withCustomData:(NSString *)custo
     [sdk answerCall:callId withCustomData:customData headers:headers];
 }
 
-RCT_EXPORT_METHOD(sendMessage:(NSString *)callId withText:(NSString *)text andHeaders:(NSDictionary *)headers) {
-    [sdk sendMessage:callId withText:text andHeaders:headers];
+RCT_EXPORT_METHOD(sendMessage:(NSString *)callId withText:(NSString *)text) {
+    [sdk sendMessage:callId withText:text andHeaders:nil];
 }
 
 RCT_EXPORT_METHOD(sendInfo:(NSString *)callId withType:(NSString *)mimeType content:(NSString *)content andHeaders:(NSDictionary *)headers) {
