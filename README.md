@@ -32,6 +32,7 @@ pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
 pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
 ```
 Please take a look at the demo project Podfile as an example.
+
 5. Run `pod install` from <your_project>/ios/
 6. Start XCode and open generated <your_project>.xcworkspace
 7. Run your project (`Cmd+R`)
