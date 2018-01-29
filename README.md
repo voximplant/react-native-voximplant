@@ -1,9 +1,9 @@
-# VoxImplant SDK for React Native
+# Voximplant SDK for React Native
 
-VoxImplant Mobile SDK module for React Native. It lets developers embed realtime voice and video communication into React Native apps and works together with [VoxImplant cloud platform](http://voximplant.com). The SDK uses WebRTC for media processing.
+Voximplant Mobile SDK module for React Native. It lets developers embed realtime voice and video communication into React Native apps and works together with [Voximplant cloud platform](http://voximplant.com). The SDK uses WebRTC for media processing.
 
 ## Example
-[![VoxImplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
+[![Voximplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
 
 You can get the demo app from [http://github.com/voximplant/react-native-demo](http://github.com/voximplant/react-native-demo)
 
@@ -15,7 +15,7 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 
 1. Make sure you have "React Native" project created with `react-native init`
 2. `cd` into a project directory where `package.json` file is located.
-3. Run `npm install react-native-voximplant@latest --save`. For using "sdk_update" branch please replace the react-native-voximplant in node_modules folder with the latest "sdk_update" branch
+3. Run `npm install react-native-voximplant@latest --save`.
 4. Open or create ios/Podfile and add the following dependencies:
 ```
 pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
@@ -31,15 +31,10 @@ pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
 pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
 pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
 ```
+Please take a look at the demo project Podfile as an example.
 5. Run `pod install` from <your_project>/ios/
 6. Start XCode and open generated <your_project>.xcworkspace
 7. Run your project (`Cmd+R`)
-
-#### Automatic install via [`rnpm`](https://github.com/rnpm/rnpm)
-
-`$ rnpm link`
-
-*Note: Some users are having trouble using this method, try one of the others if you are too.*
 
 ### Android
 
@@ -64,22 +59,6 @@ pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
     ```
     compile project(':react-native-voximplant')
     ```    
-
-7. And finally, in android/src/main/AndroidManifest.xml add user permissions
-
-    ```
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    ```
-
-#### Automatic install via [`rnpm`](https://github.com/rnpm/rnpm)
-
-`$ rnpm link`
-
-*Note: Some users are having trouble using this method, try one of the others if you are too.*
 
 ## Usage
 `import` the `react-native-voximplant` module:

@@ -28,7 +28,7 @@ RCT_EXPORT_MODULE();
 // VoxImplant API
 
 RCT_EXPORT_METHOD(init: (NSString*)logLevel) {
-    enum VoxImplantLogLevel level;
+    enum VoxImplantLogLevel level = ERROR_LOG_LEVEL;
     if ([logLevel isEqualToString:@"error"]) {
         level = ERROR_LOG_LEVEL;
     } else if ([logLevel isEqualToString: @"info"]) {

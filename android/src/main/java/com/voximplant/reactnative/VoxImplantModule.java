@@ -7,7 +7,6 @@ package com.voximplant.reactnative;
 import javax.annotation.Nullable;
 
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -20,9 +19,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
 import android.util.Log;
-import android.opengl.GLSurfaceView;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -160,7 +157,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
     @ReactMethod
     public void sendInfo(String callId, String mimeType, String content, ReadableMap headers) {
         if (null == headers) {
-            Map<String, String> map = new HashMap<String, String>();
+            Map<String, String> map = new HashMap<>();
             this.client.sendInfo(callId, mimeType, content, map);
         }
         else {
@@ -402,7 +399,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
         if (v == null) {
             return null;
         }
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         ReadableMapKeySetIterator it = v.keySetIterator();
         while (it.hasNextKey()) {
           String key = it.nextKey();

@@ -4,9 +4,7 @@
 
 package com.voximplant.reactnative;
 
-import android.util.Log;
 import android.content.Context;
-import com.facebook.react.uimanager.*;
 import org.webrtc.SurfaceViewRenderer;
 import com.zingaya.voximplant.VoxImplantClient;
 
@@ -43,7 +41,9 @@ public class VoxImplantRendererView extends SurfaceViewRenderer
     	}
 	}
 
-	@Override protected void onDetachedFromWindow () {
+	@Override 
+	protected void onDetachedFromWindow () {
+		super.onDetachedFromWindow();
 		if (this.preview)
 			VoxImplantClient.instance().setLocalPreview(null);
 		else

@@ -4,9 +4,7 @@
 
 package com.voximplant.reactnative;
 
-import android.util.Log;
 import javax.annotation.Nullable;
-import android.content.Context;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
