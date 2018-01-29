@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(answerCall:(NSString *)callId withCustomData:(NSString *)custo
 }
 
 RCT_EXPORT_METHOD(sendMessage:(NSString *)callId withText:(NSString *)text) {
-    [sdk sendMessage:callId withText:text andHeaders:nil];
+    [sdk sendMessage:callId withText:text];
 }
 
 RCT_EXPORT_METHOD(sendInfo:(NSString *)callId withType:(NSString *)mimeType content:(NSString *)content andHeaders:(NSDictionary *)headers) {
