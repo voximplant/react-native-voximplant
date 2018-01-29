@@ -224,12 +224,14 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
     @Override
     public void onLoginSuccessful(String displayName, LoginTokens loginTokens) {
+        WritableMap tokens = Arguments.createMap();
+        tokens.putString("accessToken", loginTokens.getAccessToken());
+        tokens.putInt("accessExpire", loginTokens.getAccessTokenTimeExpired());
+        tokens.putString("refreshToken", loginTokens.getRefreshToken());
+        tokens.putInt("refreshExpire", loginTokens.getRefreshTokenTimeExpired());
         WritableMap params = Arguments.createMap();
         params.putString("displayName", displayName);
-        params.putString("accessToken", loginTokens.getAccessToken());
-        params.putInt("accessExpire", loginTokens.getAccessTokenTimeExpired());
-        params.putString("refreshToken", loginTokens.getRefreshToken());
-        params.putInt("refreshExpire", loginTokens.getRefreshTokenTimeExpired());
+        params.putMap("loginTokens", tokens);
         sendEvent(this.reactContext, "LoginSuccessful", params);
     }
 
@@ -366,11 +368,13 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
     @Override
     public void onRefreshTokenSuccess(LoginTokens loginTokens) {
+        WritableMap tokens = Arguments.createMap();
+        tokens.putString("accessToken", loginTokens.getAccessToken());
+        tokens.putInt("accessExpire", loginTokens.getAccessTokenTimeExpired());
+        tokens.putString("refreshToken", loginTokens.getRefreshToken());
+        tokens.putInt("refreshExpire", loginTokens.getRefreshTokenTimeExpired());
         WritableMap params = Arguments.createMap();
-        params.putString("accessToken", loginTokens.getAccessToken());
-        params.putInt("accessExpire", loginTokens.getAccessTokenTimeExpired());
-        params.putString("refreshToken", loginTokens.getRefreshToken());
-        params.putInt("refreshExpire", loginTokens.getRefreshTokenTimeExpired());
+        params.putMap("loginTokens", tokens);
         sendEvent(this.reactContext, "RefreshTokenSuccess", params);
     }
 

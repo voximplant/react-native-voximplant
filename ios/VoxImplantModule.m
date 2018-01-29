@@ -176,10 +176,7 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
                             andAuthParams:(NSDictionary*)authParams {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"LoginSuccessful"
                                                     body: @{@"displayName": displayName,
-                                                            @"accessToken": [authParams valueForKey:@"accessToken"],
-                                                            @"accessExpire": [authParams valueForKey:@"accessExpire"],
-                                                            @"refreshToken": [authParams valueForKey:@"refreshToken"],
-                                                            @"refreshExpire": [authParams valueForKey:@"refreshExpire"]}];
+                                                            @"loginTokens": authParams}];
 }
 
 - (void) onLoginFailedWithErrorCode: (NSNumber *)errorCode {
@@ -209,7 +206,7 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 
 - (void) onRefreshTokenSuccess: (NSDictionary*) authParams {
     [self.bridge.eventDispatcher sendDeviceEventWithName: @"RefreshTokenSuccess"
-                                                    body: @{ @"authParams": authParams}];
+                                                    body: @{ @"loginTokens": authParams}];
 }
 
 - (void) onRefreshTokenFailed: (NSNumber*)errorCode {

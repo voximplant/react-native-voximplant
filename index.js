@@ -2,7 +2,6 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
- 
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
@@ -101,9 +100,9 @@ function VoxImplantSDK () {
   }
 
   /**
-   * Perform login using specified username and access token that was obtained in onLoginSuccessful callback before
+   * Perform login using specified username and access token that was obtained in LoginSuccessful callback before
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
-   * @param {string} accessToken - Access token that was obtained in onLoginSuccessful callback
+   * @param {string} accessToken - Access token that was obtained in LoginSuccessful callback
    */
   this.loginUsingAccessToken = function(user, accessToken) {
     VoxImplantModule.loginUsingAccessToken(user, accessToken);
@@ -112,7 +111,7 @@ function VoxImplantSDK () {
   /**
    * Perform refresh of login tokens required for login using access token
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
-   * @param {string} refreshToken - Refresh token that was obtained in onLoginSuccessful callback
+   * @param {string} refreshToken - Refresh token that was obtained in LoginSuccessful callback
    */
   this.refreshToken = function(user, refreshToken) {
     VoxImplantModule.refreshToken(user, refreshToken);
@@ -282,7 +281,7 @@ function VoxImplantSDK () {
     /**
      * Invoked when login process finished successfully.
      * @property {string} displayName - Display name of logged in user
-     * @property {object} loginTokens - Login tokens that can be used to login using access token
+     * @property {LoginTokens} loginTokens - Login tokens that can be used to login using access token
      */
     LoginSuccessful: "LoginSuccessful",
     /**
@@ -371,7 +370,7 @@ function VoxImplantSDK () {
     NetStatsReceived:"NetStatsReceived",
     /**
      * Invoked when refresh of login tokens finished successfully
-     * @property {object} loginTokens - Login tokens
+     * @property {LoginTokens} loginTokens - Login tokens that can be used to login using access token
      */
     RefreshTokenSuccess:"RefreshTokenSuccess",
     /**
@@ -433,6 +432,17 @@ function VoxImplantSDK () {
      */
     LogLevelTrace: "trace"
   };
+
+  /**
+   * @property {number} accessExpire - Seconds to access token expire
+   * @property {string} accessToken - Access token that can be used to login before accessExpire
+   * @property {number} refreshExpire - Seconds to refresh token expire
+   * @property {string} refreshToken - Refresh token that can be used one time before refresh token expired
+   */
+  this.LoginTokens = {
+
+  }
+
   /**
    * @property {boolean} enableVideo - Enable video functionality. Set to true by default. ANDROID ONLY
    * @property {boolean} enableHWAcceleration - Enable hardware video acceleration. Set to true by default. Should be set to false, if provideLocalFramesInByteBuffers is set to true. ANDROID ONLY
