@@ -1,8 +1,5 @@
-/**
- * 
- * Copyright (c) 2011-present, Zingaya.
- * All rights reserved.
- * 
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
  

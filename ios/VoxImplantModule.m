@@ -1,9 +1,6 @@
-//
-//  VoxImplantModule.m
-//  VoxImplantModule
-//
-//  Copyright (c) 2011-2015 Zingaya. All rights reserved.
-//
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ */
 
 #import "VoxImplantModule.h"
 #import "RCTLog.h"

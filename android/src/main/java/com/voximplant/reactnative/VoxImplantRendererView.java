@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ */
+
 package com.voximplant.reactnative;
 
 import android.util.Log;

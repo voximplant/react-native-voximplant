@@ -1,10 +1,6 @@
-//
-//  VoxRendererView.h
-//  VoxTest
-//
-//  Created by Andrey Kovalenko on 02.04.15.
-//  Copyright (c) 2015 Zingaya. All rights reserved.
-//
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ */
 
 #import <UIKit/UIKit.h>
 #import "RCTView.h"
