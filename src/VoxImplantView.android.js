@@ -21,6 +21,11 @@ var VoxImplantView = React.createClass({
   }
 });
 
+/**
+ * Create and setup local preview for video calls
+ * 
+ * @param {string} callId - The call id
+ */
 const VoxImplantPreview = React.createClass({
   propTypes: {
     callId: PropTypes.string,
@@ -40,6 +45,11 @@ const VoxImplantPreview = React.createClass({
   }
 });
 
+/**
+ * Create and setup remote video view
+ * 
+ * @param {string} callId - The call id
+ */
 const VoxImplantRemoteView = React.createClass({
   propTypes: {
     callId: PropTypes.string,

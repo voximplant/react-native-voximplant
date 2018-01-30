@@ -15,7 +15,7 @@ import {Preview, RemoteView} from './src/VoxImplantView';
 function VoxImplantSDK () {
 
   /**
-   * Initialization VoxImplant SDK
+   * Initialization Voximplant SDK
    * @param {VoxImplantClientConfig} Options
    */
   this.init = function(options) {
@@ -37,7 +37,7 @@ function VoxImplantSDK () {
     }
   }
   /**
-   * Connect to VoxImplant cloud
+   * Connect to the Voximplant cloud
    * @param {VoxImplantConnectOptions} Options
    */
   this.connect = function(options) {
@@ -82,7 +82,7 @@ function VoxImplantSDK () {
   };
 
   /**
-   * Login to specified VoxImplant application
+   * Login to specified Voximplant application
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
    * @param {string} password - User password
    */
@@ -249,7 +249,7 @@ function VoxImplantSDK () {
   };
 
   /**
-   * Register for push notifications. Application will receive push notifications from VoxImplant Server after first log in
+   * Register for push notifications. Application will receive push notifications from the Voximplant Server after first log in
    * @param {string} pushRegistrationToken - Push registration token
    */
   this.registerForPushNotifications = function(pushRegistrationToken) {
@@ -257,7 +257,7 @@ function VoxImplantSDK () {
   }
 
   /**
-   * Unregister from push notifications. Application will no longer receive push notifications from VoxImplant server
+   * Unregister from push notifications. Application will no longer receive push notifications from the Voximplant server
    * @param {string} pushRegistrationToken - Push registration token that was used to register for push notifications
    */
   this.unregisterFromPushNotifications = function(pushRegistrationToken) {
@@ -363,7 +363,7 @@ function VoxImplantSDK () {
      */
     MessageReceivedInCall: "MessageReceivedInCall",
     /**
-     * Event dispatched when packet loss data received from VoxImplant servers
+     * Event dispatched when packet loss data received from Voximplant servers
      * @property {string} callId - Id of call
      * @property {object} stats - NetworkInfo
      */
@@ -454,7 +454,7 @@ function VoxImplantSDK () {
 
   };
   /**
-   * @property {boolean} connectivityCheck - Checks whether UDP traffic will flow correctly between device and VoxImplant cloud. This check reduces connection speed
+   * @property {boolean} connectivityCheck - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
    * @property {array} servers - Server name of particular media gateway for connection
    */
   this.VoxImplantConnectOptions = {

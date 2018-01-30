@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'react-native-voximplant'
-    s.author       = { 'Yulia Grigorieva' => 'grigorieva@voximplant.com' }
+    s.author       = { 'Zingaya Inc.' => 'info@voximplant.com' }
     s.source_files = 'ios/*'
     s.platform     = :ios, '8.0'
     s.license      = 'MIT'
