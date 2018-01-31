@@ -35,7 +35,8 @@ Please take a look at the demo project Podfile as an example.
 
 5. Run `pod install` from <your_project>/ios/
 6. Start XCode and open generated <your_project>.xcworkspace
-7. Run your project (`Cmd+R`)
+7. Check in project navigation that there is no `*.xcodeproj` in  `Libraries` section. In case of any please remove them. Since React dependencies are added via Podfile, double integration of its modules may lead to unpredictable/incorrect behavior of an application.
+8. Run your project (`Cmd+R`)
 
 ### Android
 
