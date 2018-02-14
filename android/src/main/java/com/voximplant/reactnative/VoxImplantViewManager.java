@@ -1,8 +1,10 @@
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ */
+
 package com.voximplant.reactnative;
 
-import android.util.Log;
 import javax.annotation.Nullable;
-import android.content.Context;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -12,11 +14,13 @@ public class VoxImplantViewManager extends SimpleViewManager<VoxImplantRendererV
 
   public static final String REACT_CLASS = "RCTVoxImplantRendererView";
 
-  @Override public String getName() {
+  @Override 
+  public String getName() {
       return REACT_CLASS;
   }
 
-  @Override public VoxImplantRendererView createViewInstance(ThemedReactContext context) {
+  @Override 
+  public VoxImplantRendererView createViewInstance(ThemedReactContext context) {
       return new VoxImplantRendererView(context);
   }
 

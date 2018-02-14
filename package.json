@@ -1,6 +1,6 @@
 {
   "name": "react-native-voximplant",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "VoxImplant Mobile SDK for embedding voice and video communication into React Native apps.",
   "nativePackage": true,
   "keywords": [
@@ -14,18 +14,6 @@
   "repository": {
     "type" : "git",
     "url" : "https://github.com/voximplant/react-native-voximplant.git"
-  },
-  "dependencies": {
-    "rnpm": "1.9.0",
-    "xcode": "0.8.8"
-  },
-  "rnpm": {
-    "commands": {
-      "postlink": "node ./node_modules/react-native-voximplant/scripts/rnpm-postlink.js"
-    },
-    "ios": {
-      "project": "ios/VoxImplant.xcodeproj"
-    }
   },
   "engines": {
     "node": ">=4"
