@@ -19,5 +19,6 @@
     "node": ">=4"
   },
   "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://voximplant.com"
 }
