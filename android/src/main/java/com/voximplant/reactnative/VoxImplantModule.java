@@ -217,7 +217,10 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
     @ReactMethod
     public void handlePushNotification(ReadableMap notification) {
-        this.client.handlePushNotification(this.createHashMap(notification));
+        Map<String, String> map = new HashMap<>();
+        String key = "voximplant";
+        map.put(key, notification.getString(key));
+        this.client.handlePushNotification(map);
     }
 
     // VoxImplantCallback implementation
