@@ -2,14 +2,15 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
+import React from 'react'
 import {
   requireNativeComponent,
   View
 } from 'react-native'
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types';
 
-
-var VoxImplantView = React.createClass({
+var createReactClass = require('create-react-class');
+var VoxImplantView = createReactClass({
   propTypes: {
     preview: PropTypes.bool,
     callId: PropTypes.string,
@@ -26,7 +27,7 @@ var VoxImplantView = React.createClass({
  * 
  * @param {string} callId - The call id
  */
-const VoxImplantPreview = React.createClass({
+const VoxImplantPreview = createReactClass({
   propTypes: {
     callId: PropTypes.string,
     ...View.propTypes,
@@ -50,7 +51,7 @@ const VoxImplantPreview = React.createClass({
  * 
  * @param {string} callId - The call id
  */
-const VoxImplantRemoteView = React.createClass({
+const VoxImplantRemoteView = createReactClass({
   propTypes: {
     callId: PropTypes.string,
     ...View.propTypes,

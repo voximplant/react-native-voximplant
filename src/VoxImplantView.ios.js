@@ -6,14 +6,17 @@ import {
   requireNativeComponent,
   View
 } from 'react-native'
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
+
+var createReactClass = require('create-react-class');
 
 /**
  * Create and setup local preview for video calls
  * 
  * @param {string} callId - The call id
  */
-var VoxImplantPreview = React.createClass({
+var VoxImplantPreview = createReactClass({
   propTypes: {
     callId: PropTypes.string,
     ...View.propTypes,
@@ -33,7 +36,7 @@ var VoxImplantPreview = React.createClass({
  * 
  * @param {string} callId - The call id
  */
-var VoxImplantRemoteView = React.createClass({
+var VoxImplantRemoteView = createReactClass({
   propTypes: {
     callId: PropTypes.string,
     ...View.propTypes,
