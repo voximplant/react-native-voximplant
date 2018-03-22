@@ -28,3 +28,6 @@ node_modules/
 npm-debug.log
 
 .npmrc
+
+# android
+android/.gradle/
