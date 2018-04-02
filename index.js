@@ -6,3 +6,5 @@ exports.VoximplantLegacy = require('./src/Legacy').default;
 exports.Preview = require('./src/VoxImplantView').Preview;
 exports.RemoteView = require('./src/VoxImplantView').RemoteView;
 
+exports.Voximplant = require('./src/Voximplant').default;
+exports.Client = require('./src/client/Client');
