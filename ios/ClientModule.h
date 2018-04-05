@@ -6,6 +6,8 @@
 #import <UIKit/UIKit.h>
 
 #import "RCTBridgeModule.h"
+#import "RCTEventEmitter.h"
+#import "VIClient.h"
 
-@interface ClientModule : NSObject <RCTBridgeModule>
+@interface ClientModule : RCTEventEmitter <RCTBridgeModule, VIClientSessionDelegate, VIClientCallManagerDelegate>
 @end

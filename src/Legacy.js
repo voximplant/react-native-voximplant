@@ -75,9 +75,9 @@ class VoximplantLegacy {
     }
     else {
       return VoxImplantModule.createCall(to,
-             video == undefined ? false : video,
-             customData == undefined ? "" : customData,
-             callback == undefined ? function(id) {} : callback);
+             video === undefined ? false : video,
+             customData === undefined ? "" : customData,
+             callback === undefined ? function(id) {} : callback);
     }
   };
 

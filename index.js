@@ -8,3 +8,5 @@ exports.RemoteView = require('./src/VoxImplantView').RemoteView;
 
 exports.Voximplant = require('./src/Voximplant').default;
 exports.Client = require('./src/client/Client');
+exports.ClientEvents = require('./src/client/ClientEvents').default;
+exports.ClientState = require('./src/client/Structures').ClientState;

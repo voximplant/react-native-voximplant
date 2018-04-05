@@ -59,12 +59,12 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 	public void connect(boolean connectivityCheck, ReadableArray servers) {
 		List<String> serversList;
 		try {
-			serversList = createArrayList(servers);
+			serversList = Utils.createArrayList(servers);
 		} catch (IllegalArgumentException e) {
 			serversList = null;
 		}
 		try {
-			this.client.connect(connectivityCheck, createArrayList(servers));
+			this.client.connect(connectivityCheck, serversList);
 		} catch (IllegalStateException e) {
 			Log.e("VoxImplantModule", "Failed to connect: " + e.getMessage());
 		}
@@ -402,24 +402,6 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 			map.put(key, v.getString(key));
 		}
 		return map;
-	}
-
-	private List<String> createArrayList(ReadableArray readableArray) {
-		if (readableArray == null) {
-			return null;
-		}
-		List<String> list = new ArrayList<>(readableArray.size());
-		for (int i = 0; i < readableArray.size(); i++) {
-			ReadableType indexType = readableArray.getType(i);
-			switch (indexType) {
-			case String:
-				list.add(readableArray.getString(i));
-				break;
-			default:
-				throw new IllegalArgumentException("Could not convert object with index: " + i);
-			}
-		}
-		return list;
 	}
 
 	private VoxImplantClient client;

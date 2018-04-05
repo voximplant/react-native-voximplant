@@ -33,28 +33,36 @@ export const LogLevel = {
     /**
      * Log verbosity level, to include only error messages
      */
-    LogLevelError: "error",
+    ERROR: "error",
     /**
      * Log verbosity level to include warning messages
      */
-    LogLevelWarning: "warning",
+    WARNING: "warning",
     /**
      * Default log verbosity level, to include informational messages
      */
-    LogLevelInfo: "info",
+    INFO: "info",
     /**
      * Log verbosity level to include debug messages
      */
-    LogLevelDebug: "debug",
+    DEBUG: "debug",
     /**
      * Log verbosity level to include verbose messages
      */
-    LogLevelTrace: "verbose",
+    VERBOSE: "verbose",
     /**
      * Log verbosity level to include all types of messages
      */
-    LogLevelMax: "max"
+    MAX: "max"
 };
+
+export const ClientState = {
+    DISCONNECTED: "disconnected",
+    CONNECTING: "connecting",
+    CONNECTED: "connected",
+    LOGGING_IN: "logging_in",
+    LOGGED_IN: "logged_in"
+}
 
 /**
  * @property {number} accessExpire - Seconds to access token expire
