@@ -5,12 +5,12 @@
 'use strict';
 
 const ClientEvents = {
-    ConnectionEstablished : "ConnectionEstablished",
-    ConnectionFailed      : "ConnectionFailed",
-    ConnectionClosed      : "ConnectionClosed",
-    AuthResult            : "AuthResult",
-    RefreshTokenResult    : "RefreshTokenResult",
-    IncomingCall          : "IncomingCall"
+    ConnectionEstablished : 'ConnectionEstablished',
+    ConnectionFailed      : 'ConnectionFailed',
+    ConnectionClosed      : 'ConnectionClosed',
+    AuthResult            : 'AuthResult',
+    RefreshTokenResult    : 'RefreshTokenResult',
+    IncomingCall          : 'IncomingCall'
 }
 
 export default ClientEvents;

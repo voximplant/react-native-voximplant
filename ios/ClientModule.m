@@ -10,6 +10,8 @@
 #import "ClientModule.h"
 #import "Constants.h"
 #import "Utils.h"
+#import "VICall.h"
+#import "CallManager.h"
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -216,6 +218,29 @@ RCT_EXPORT_METHOD(unregisterPushNotificationsToken:(NSString *)token) {
 RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
     if (_client) {
         [_client handlePushNotification:notification];
+    }
+}
+
+RCT_REMAP_METHOD(createAndStartCall,
+                 callUser:(NSString *)user
+                 withVideoSettings:(NSDictionary *)videoFlags
+                 customData:(NSString *)customData
+                 headers:(NSDictionary *)headers
+                 responseCallback:(RCTResponseSenderBlock)callback) {
+    if (_client) {
+        VICall* call = [_client callToUser:user
+                             withSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
+                              receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                customData:customData];
+        if (call) {
+            [CallManager addCall:call];
+            [call startWithHeaders:headers];
+            callback(@[call.callId]);
+        } else {
+            callback(@[[NSNull null]]);
+        }
+    } else {
+        callback(@[[NSNull null]]);
     }
 }
 

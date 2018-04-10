@@ -7,15 +7,15 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {
-	Platform,
-	NativeModules
+    Platform,
+    NativeModules
 } from 'react-native';
 
 import Client from './client/Client'
 
 export default class Voximplant {
 
-	static getClientInstance(clientConfig) {
-		return Client.getInstnce(clientConfig);
-	}
+    static getClientInstance(clientConfig) {
+        return Client.getInstnce(clientConfig);
+    }
 }

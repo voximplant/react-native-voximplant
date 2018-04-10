@@ -62,7 +62,7 @@ export const ClientState = {
     CONNECTED: "connected",
     LOGGING_IN: "logging_in",
     LOGGED_IN: "logged_in"
-}
+};
 
 /**
  * @property {number} accessExpire - Seconds to access token expire
@@ -71,5 +71,23 @@ export const ClientState = {
  * @property {string} refreshToken - Refresh token that can be used one time before refresh token expired
  */
 var LoginTokens = {
+
+};
+
+/**
+ * @property {boolean} receiveVideo - Set true if video receive is enabled for a call
+ * @property {boolean} sendVideo - Set true if video send is enabled for a call
+ */
+var VideoFlags = {
+
+};
+
+/**
+ * @property {boolean} H264First - Use H264 video codec, if exist (IOS ONLY)
+ * @property {string} customData - Custom string associated with the call session. It can be later obtained from Call History using HTTP API. Maximum size is 200 bytes
+ * @property {object} extraHeaders - Optional custom parameter (SIP headers) that should be passes with call (INVITE) message. Parameter names must start with "X-" to be processed. Headers size limit is 200  bytes
+ * @property {VideoFlags} video - Tells if video should be supported for the call 
+ */
+var CallSettings = {
 
 };
