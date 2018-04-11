@@ -17,11 +17,39 @@ class Constants {
     static final String EVENT_AUTH_RESULT = "VIAuthResult";
     static final String EVENT_AUTH_TOKEN_RESULT = "VIAuthTokenResult";
 
+    static final String EVENT_CALL_CONNECTED = "VICallConnected";
+    static final String EVENT_CALL_DISCONNECTED = "VICallDisconnected";
+    static final String EVENT_CALL_ENDPOINT_ADDED = "VICallEndpointAdded";
+    static final String EVENT_CALL_FAILED = "VICallFailed";
+    static final String EVENT_CALL_ICECOMPLETED = "VICallICECompleted";
+    static final String EVENT_CALL_ICETIMEOUT = "VICallICETimeout";
+    static final String EVENT_CALL_INFO_RECEIVED = "VICallInfoReceived";
+    static final String EVENT_CALL_LOCAL_VIDEO_STREAM_ADDED = "VICallLocalVideoStreamAdded";
+    static final String EVENT_CALL_LOCAL_VIDEO_STREAM_REMOVED = "VICallLocalVideoStreamRemoved";
+    static final String EVENT_CALL_MESSAGE_RECEIVED = "VICallMessageReceived";
+    static final String EVENT_CALL_PROGRESS_TONE_START = "VICallProgressToneStart";
+    static final String EVENT_CALL_PROGRESS_TONE_STOP = "VICallProgressToneStop";
+
+
     static final String EVENT_NAME_CONNECTION_ESTABLISHED = "ConnectionEstablished";
     static final String EVENT_NAME_CONNECTION_FAILED = "ConnectionFailed";
     static final String EVENT_NAME_CONNECTION_CLOSED = "ConnectionClosed";
     static final String EVENT_NAME_AUTH_RESULT = "AuthResult";
     static final String EVENT_NAME_AUTH_TOKEN_RESULT = "AuthTokenResult";
+
+    static final String EVENT_NAME_CALL_CONNECTED = "Connected";
+    static final String EVENT_NAME_CALL_DISCONNECTED = "Disconnected";
+    static final String EVENT_NAME_CALL_ENDPOINT_ADDED = "EndpointAdded";
+    static final String EVENT_NAME_CALL_FAILED = "Failed";
+    static final String EVENT_NAME_CALL_ICECOMPLETED = "ICECompleted";
+    static final String EVENT_NAME_CALL_ICETIMEOUT = "ICETimeout";
+    static final String EVENT_NAME_CALL_INFO_RECEIVED = "InfoReceived";
+    static final String EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED = "LocalVideoStreamAdded";
+    static final String EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_REMOVED = "LocalVideoStreamRemoved";
+    static final String EVENT_NAME_CALL_MESSAGE_RECEIVED = "MessageReceived";
+    static final String EVENT_NAME_CALL_PROGRESS_TONE_START = "ProgressToneStart";
+    static final String EVENT_NAME_CALL_PROGRESS_TONE_STOP = "ProgressToneStop";
+
 
     static final String EVENT_PARAM_NAME = "name";
     static final String EVENT_PARAM_RESULT = "result";
@@ -34,4 +62,12 @@ class Constants {
     static final String EVENT_PARAM_KEY = "key";
     static final String EVENT_PARAM_CODE = "code";
     static final String EVENT_PARAM_MESSAGE = "message";
+
+    static final String EVENT_PARAM_CALLID = "callId";
+    static final String EVENT_PARAM_HEADERS = "headers";
+    static final String EVENT_PARAM_ANSWERED_ELSEWHERE = "answeredElsewhere";
+    static final String EVENT_PARAM_REASON = "reason";
+    static final String EVENT_PARAM_BODY = "body";
+    static final String EVENT_PARAM_MIMETYPE = "mimeType";
+    static final String EVENT_PARAM_TEXT = "text";
 }

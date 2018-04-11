@@ -1,13 +1,14 @@
 package com.voximplant.reactnative;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
 
-import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,14 @@ class Utils {
         while (it.hasNextKey()) {
             String key = it.nextKey();
             map.put(key, v.getString(key));
+        }
+        return map;
+    }
+
+    static WritableMap createWritableMap(Map<String, String> v) {
+        WritableMap map = Arguments.createMap();
+        for (Map.Entry<String, String> entry : v.entrySet()) {
+            map.putString(entry.getKey(), entry.getValue());
         }
         return map;
     }

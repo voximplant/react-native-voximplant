@@ -15,7 +15,9 @@ import java.util.Arrays;
 public class VoxImplantReactPackage implements ReactPackage {
 	@Override
 	public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-		return Arrays.<NativeModule>asList(new VoxImplantModule(reactContext), new ClientModule(reactContext));
+		return Arrays.<NativeModule>asList(new VoxImplantModule(reactContext),
+				new ClientModule(reactContext),
+				new CallModule(reactContext));
 	}
 
 	@Override

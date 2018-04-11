@@ -16,7 +16,9 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.Voximplant;
+import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.ICall;
+import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.AuthParams;
 import com.voximplant.sdk.client.ClientConfig;
 import com.voximplant.sdk.client.IClient;
@@ -152,6 +154,25 @@ public class ClientModule extends ReactContextBaseJavaModule
 			mClient.handlePushNotification(Utils.createHashMap(notification));
 		}
 	}
+
+	@ReactMethod
+	public void createAndStartCall(String user, ReadableMap videoSettings, String customData, ReadableMap headers, Callback callback) {
+		if (mClient != null) {
+			VideoFlags videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+			ICall call = mClient.callTo(user, videoFlags, customData);
+			if (call != null) {
+				try {
+					CallManager.getInstance().addCall(call);
+					call.start(Utils.createHashMap(headers));
+					callback.invoke(call.getCallId());
+				} catch (CallException e) {
+					callback.invoke((Object)null);
+				}
+			} else {
+				callback.invoke((Object)null);
+			}
+		}
+	}
 	//endregion
 
 	//region Listeners methods
@@ -172,7 +193,7 @@ public class ClientModule extends ReactContextBaseJavaModule
 		params.putBoolean(EVENT_PARAM_RESULT, true);
 		params.putString(EVENT_PARAM_DISPLAY_NAME, displayName);
 		params.putMap(EVENT_PARAM_TOKENS, tokens);
-		sendEvent(mReactContext, EVENT_AUTH_RESULT, params);
+		sendEvent(EVENT_AUTH_RESULT, params);
 	}
 
 	@Override
@@ -181,7 +202,7 @@ public class ClientModule extends ReactContextBaseJavaModule
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_AUTH_RESULT);
 		params.putBoolean(EVENT_PARAM_RESULT, false);
 		params.putInt(EVENT_PARAM_CODE, Utils.convertLoginErrorToInt(loginError));
-		sendEvent(mReactContext, EVENT_AUTH_RESULT, params);
+		sendEvent(EVENT_AUTH_RESULT, params);
 	}
 
 	@Override
@@ -190,7 +211,7 @@ public class ClientModule extends ReactContextBaseJavaModule
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_AUTH_TOKEN_RESULT);
 		params.putBoolean(EVENT_PARAM_RESULT, false);
 		params.putInt(EVENT_PARAM_CODE, Utils.convertLoginErrorToInt(loginError));
-		sendEvent(mReactContext, EVENT_AUTH_TOKEN_RESULT, params);
+		sendEvent(EVENT_AUTH_TOKEN_RESULT, params);
 	}
 
 	@Override
@@ -204,7 +225,7 @@ public class ClientModule extends ReactContextBaseJavaModule
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_AUTH_TOKEN_RESULT);
 		params.putBoolean(EVENT_PARAM_RESULT, true);
 		params.putMap(EVENT_PARAM_TOKENS, tokens);
-		sendEvent(mReactContext, EVENT_AUTH_TOKEN_RESULT, params);
+		sendEvent(EVENT_AUTH_TOKEN_RESULT, params);
 	}
 
 	@Override
@@ -214,14 +235,14 @@ public class ClientModule extends ReactContextBaseJavaModule
 		params.putBoolean(EVENT_PARAM_RESULT, false);
 		params.putInt(EVENT_PARAM_CODE, 302);
 		params.putString(EVENT_PARAM_KEY, key);
-		sendEvent(mReactContext, EVENT_AUTH_RESULT, params);
+		sendEvent(EVENT_AUTH_RESULT, params);
 	}
 
 	@Override
 	public void onConnectionEstablished() {
 		WritableMap params = Arguments.createMap();
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_CONNECTION_ESTABLISHED);
-		sendEvent(mReactContext, EVENT_CONNECTION_ESTABLISHED, params);
+		sendEvent(EVENT_CONNECTION_ESTABLISHED, params);
 	}
 
 	@Override
@@ -229,18 +250,18 @@ public class ClientModule extends ReactContextBaseJavaModule
 		WritableMap params = Arguments.createMap();
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_CONNECTION_FAILED);
 		params.putString(EVENT_PARAM_MESSAGE, error);
-		sendEvent(mReactContext, EVENT_CONNECTION_FAILED, params);
+		sendEvent(EVENT_CONNECTION_FAILED, params);
 	}
 
 	@Override
 	public void onConnectionClosed() {
 		WritableMap params = Arguments.createMap();
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_CONNECTION_CLOSED);
-		sendEvent(mReactContext, EVENT_CONNECTION_CLOSED, params);
+		sendEvent(EVENT_CONNECTION_CLOSED, params);
 	}
 	//endregion
 
-	private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
-		reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
+	private void sendEvent(String eventName, @Nullable WritableMap params) {
+		mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
 	}
 }

@@ -37,6 +37,20 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
     }
 }
 
+RCT_EXPORT_METHOD(sendAudio:(NSString *)callId enable:(BOOL)enable) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        call.sendAudio = enable;
+    }
+}
+
+RCT_EXPORT_METHOD(sendDTMF:(NSString *)callId tone:(NSString *)tone) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call sendDTMF:tone];
+    }
+}
+
 RCT_EXPORT_METHOD(hangup:(NSString *)callId headers:(NSDictionary *)headers) {
     VICall *call = [CallManager getCallById:callId];
     if (call) {

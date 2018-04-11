@@ -111,7 +111,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 		if (null == headers) {
 			this.client.startCall(callId);
 		} else {
-			this.client.startCall(callId, this.createHashMap(headers));
+			this.client.startCall(callId, Utils.createHashMap(headers));
 		}
 	}
 
@@ -125,7 +125,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 		if (null == headers) {
 			this.client.disconnectCall(callId);
 		} else {
-			this.client.disconnectCall(callId, this.createHashMap(headers));
+			this.client.disconnectCall(callId, Utils.createHashMap(headers));
 		}
 	}
 
@@ -134,13 +134,13 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 		if (null == headers) {
 			this.client.declineCall(callId);
 		} else {
-			this.client.declineCall(callId, this.createHashMap(headers));
+			this.client.declineCall(callId, Utils.createHashMap(headers));
 		}
 	}
 
 	@ReactMethod
 	public void answerCall(String callId, String customData, ReadableMap headers) {
-		this.client.answerCall(callId, customData, this.createHashMap(headers));
+		this.client.answerCall(callId, customData, Utils.createHashMap(headers));
 	}
 
 	@ReactMethod
@@ -154,7 +154,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 			Map<String, String> map = new HashMap<>();
 			this.client.sendInfo(callId, mimeType, content, map);
 		} else {
-			this.client.sendInfo(callId, mimeType, content, this.createHashMap(headers));
+			this.client.sendInfo(callId, mimeType, content, Utils.createHashMap(headers));
 		}
 	}
 
@@ -210,7 +210,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
 	@ReactMethod
 	public void handlePushNotification(ReadableMap notification) {
-		this.client.handlePushNotification(this.createHashMap(notification));
+		this.client.handlePushNotification(Utils.createHashMap(notification));
 	}
 
 	// VoxImplantCallback implementation
@@ -284,7 +284,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 	public void onCallConnected(String callId, Map<String, String> headers) {
 		WritableMap params = Arguments.createMap();
 		params.putString("callId", callId);
-		params.putMap("headers", this.createReactMap(headers));
+		params.putMap("headers", Utils.createWritableMap(headers));
 		sendEvent(this.reactContext, "CallConnected", params);
 	}
 
@@ -292,7 +292,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 	public void onCallDisconnected(String callId, Map<String, String> headers, boolean answeredElsewhere) {
 		WritableMap params = Arguments.createMap();
 		params.putString("callId", callId);
-		params.putMap("headers", this.createReactMap(headers));
+		params.putMap("headers", Utils.createWritableMap(headers));
 		params.putBoolean("answeredElsewhere", answeredElsewhere);
 		sendEvent(this.reactContext, "CallDisconnected", params);
 	}
@@ -301,7 +301,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 	public void onCallRinging(String callId, Map<String, String> headers) {
 		WritableMap params = Arguments.createMap();
 		params.putString("callId", callId);
-		params.putMap("headers", this.createReactMap(headers));
+		params.putMap("headers", Utils.createWritableMap(headers));
 		sendEvent(this.reactContext, "CallRinging", params);
 	}
 
@@ -311,7 +311,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 		params.putString("callId", callId);
 		params.putInt("code", code);
 		params.putString("reason", reason);
-		params.putMap("headers", this.createReactMap(headers));
+		params.putMap("headers", Utils.createWritableMap(headers));
 		sendEvent(this.reactContext, "CallFailed", params);
 	}
 
@@ -330,7 +330,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 		params.putString("from", from);
 		params.putString("displayName", displayName);
 		params.putBoolean("videoCall", videoCall);
-		params.putMap("headers", this.createReactMap(headers));
+		params.putMap("headers", Utils.createWritableMap(headers));
 		sendEvent(this.reactContext, "IncomingCall", params);
 	}
 
@@ -340,7 +340,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 		params.putString("callId", callId);
 		params.putString("type", type);
 		params.putString("content", content);
-		params.putMap("headers", this.createReactMap(headers));
+		params.putMap("headers", Utils.createWritableMap(headers));
 		sendEvent(this.reactContext, "SIPInfoReceivedInCall", params);
 	}
 
@@ -381,27 +381,6 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
 	private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
 		reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
-	}
-
-	private WritableMap createReactMap(Map<String, String> v) {
-		WritableMap map = Arguments.createMap();
-		for (Map.Entry<String, String> entry : v.entrySet()) {
-			map.putString(entry.getKey(), entry.getValue());
-		}
-		return map;
-	}
-
-	private Map<String, String> createHashMap(ReadableMap v) {
-		if (v == null) {
-			return null;
-		}
-		Map<String, String> map = new HashMap<>();
-		ReadableMapKeySetIterator it = v.keySetIterator();
-		while (it.hasNextKey()) {
-			String key = it.nextKey();
-			map.put(key, v.getString(key));
-		}
-		return map;
 	}
 
 	private VoxImplantClient client;

@@ -59,6 +59,14 @@ export default class Call {
         }
     }
 
+    sendAudio(enable) {
+        CallModule.sendAudio(this.callId, enable);
+    }
+
+    sendTone(key) {
+        CallModule.sendDTMF(this.callId, key);
+    }
+
     hangup(headers) {
         CallModule.hangup(this.callId, headers);
     }
