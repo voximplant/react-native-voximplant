@@ -16,8 +16,6 @@ import CallEvents from './CallEvents';
 
 const CallModule = NativeModules.CallModule;
 
-const listeners = {};
-
 const EventEmitter = Platform.select({
 	ios: new NativeEventEmitter(CallModule),
 	android: DeviceEventEmitter,
@@ -27,6 +25,7 @@ export default class Call {
 
     constructor(callId) {
         this.callId = callId;
+        this.listeners = {};
 
         CallModule.internalSetup(this.callId);
 
@@ -47,16 +46,47 @@ export default class Call {
     }
 
     on(event, handler) {
-        if (!listeners[event]) {
-            listeners[event] = new Set();
+        if (!this.listeners[event]) {
+            this.listeners[event] = new Set();
         }
-        listeners[event].add(handler);
+        this.listeners[event].add(handler);
     }
 
     off(event, handler) {
-        if (listeners[event]) {
-            listeners[event].delete(handler);
+        if (this.listeners[event]) {
+            this.listeners[event].delete(handler);
         }
+    }
+
+    answer(callSettings) {
+        //TODO(yulia): add H264First parameter for ios module call
+        if (!callSettings) {
+            callSettings = {};
+        }
+        if (callSettings.H264First === undefined) {
+            callSettings.H264First = false;
+        }
+        if (callSettings.video === undefined) {
+            callSettings.video = {};
+            callSettings.video.sendVideo = false;
+            callSettings.video.receiveVideo = true;
+        }
+        if (callSettings.customData === undefined) {
+            callSettings.customData = null;
+        }
+        if (callSettings.extraHeaders === undefined) {
+            callSettings.extraHeaders = null;
+        }
+
+        CallModule.answer(this.callId, callSettings.video, callSettings.customData, callSettings.extraHeaders);
+    }
+
+    decline(headers) {
+        CallModule.decline(this.callId, headers);
+    }
+
+    reject(headers) {
+        CallModule.reject(this.callId, headers);
     }
 
     sendAudio(enable) {
@@ -72,7 +102,7 @@ export default class Call {
     }
 
     _emit(event, ...args) {
-        const handlers = listeners[event];
+        const handlers = this.listeners[event];
         if (handlers) {
             for (const handler of handlers) {
                 handler(...args);
@@ -89,8 +119,8 @@ export default class Call {
     }
 
     _onDisconnected(event) {
-        this._removeEventListeners();
         if (event.callId === this.callId) {
+            this._removeEventListeners();
             delete event.callId;
             event.call = this;
             this._emit(CallEvents.Disconnected, event);
@@ -106,8 +136,8 @@ export default class Call {
     }
 
     _onFailed(event) {
-        this._removeEventListeners();
         if (event.callId === this.callId) {
+            this._removeEventListeners();
             delete event.callId;
             event.call = this;
             this._emit(CallEvents.Failed, event);

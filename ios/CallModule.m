@@ -37,6 +37,34 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
     }
 }
 
+RCT_REMAP_METHOD(answer,
+                 answerCall:(NSString *)callId
+                 withVideoSettings:(NSDictionary *)videoFlags
+                 customData:(NSString *)customData
+                 headers:(NSDictionary *)headers) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call answerWithSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
+                     receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                       customData:customData
+                          headers:headers];
+    }
+}
+
+RCT_EXPORT_METHOD(decline:(NSString *)callId headers:(NSDictionary *)headers) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call rejectWithMode:VIRejectModeDecline headers:headers];
+    }
+}
+
+RCT_EXPORT_METHOD(reject:(NSString *)callId headers:(NSDictionary *)headers) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call rejectWithMode:VIRejectModeBusy headers:headers];
+    }
+}
+
 RCT_EXPORT_METHOD(sendAudio:(NSString *)callId enable:(BOOL)enable) {
     VICall *call = [CallManager getCallById:callId];
     if (call) {

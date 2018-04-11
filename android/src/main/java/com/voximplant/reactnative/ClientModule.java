@@ -178,7 +178,13 @@ public class ClientModule extends ReactContextBaseJavaModule
 	//region Listeners methods
 	@Override
 	public void onIncomingCall(ICall call, boolean hasIncomingVideo, Map<String, String> headers) {
-
+		CallManager.getInstance().addCall(call);
+		WritableMap params = Arguments.createMap();
+		params.putString(EVENT_PARAM_NAME, EVENT_NAME_INCOMING_CALL);
+		params.putString(EVENT_PARAM_CALLID, call.getCallId());
+		params.putBoolean(EVENT_PARAM_INCOMING_VIDEO, hasIncomingVideo);
+		params.putMap(EVENT_PARAM_HEADERS, Utils.createWritableMap(headers));
+		sendEvent(EVENT_INCOMING_CALL, params);
 	}
 
 	@Override

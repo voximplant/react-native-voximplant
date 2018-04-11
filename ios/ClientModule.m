@@ -59,7 +59,8 @@ RCT_EXPORT_MODULE();
              kEventConnectionFailed,
              kEventConnectionClosed,
              kEventAuthResult,
-             kEventAuthTokenResult];
+             kEventAuthTokenResult,
+             kEventIncomingCall];
 }
 
 - (void)dealloc {
@@ -279,7 +280,13 @@ RCT_REMAP_METHOD(createAndStartCall,
 }
 
 - (void)client:(VIClient *)client didReceiveIncomingCall:(VICall *)call withIncomingVideo:(BOOL)video headers:(NSDictionary *)headers {
-    
+    [CallManager addCall:call];
+    [self sendEventWithName:kEventIncomingCall body:@{
+                                                      kEventParamName          : kEventNameIncomingCall,
+                                                      kEventParamCallId        : call.callId,
+                                                      kEventParamIncomingVideo : @(video),
+                                                      kEventParamHeaders       : headers
+                                                      }];
 }
 
 @end

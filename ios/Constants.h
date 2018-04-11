@@ -9,6 +9,7 @@ FOUNDATION_EXPORT NSString *const kEventConnectionClosed;
 FOUNDATION_EXPORT NSString *const kEventConnectionFailed;
 FOUNDATION_EXPORT NSString *const kEventAuthResult;
 FOUNDATION_EXPORT NSString *const kEventAuthTokenResult;
+FOUNDATION_EXPORT NSString *const kEventIncomingCall;
 
 FOUNDATION_EXPORT NSString *const kEventCallConnected;
 FOUNDATION_EXPORT NSString *const kEventCallDisconnected;
@@ -29,6 +30,7 @@ FOUNDATION_EXPORT NSString *const kEventNameConnectionFailed;
 FOUNDATION_EXPORT NSString *const kEventNameConnectionClosed;
 FOUNDATION_EXPORT NSString *const kEventNameAuthResult;
 FOUNDATION_EXPORT NSString *const kEventNameAuthTokenResult;
+FOUNDATION_EXPORT NSString *const kEventNameIncomingCall;
 
 FOUNDATION_EXPORT NSString *const kEventNameCallConnected;
 FOUNDATION_EXPORT NSString *const kEventNameCallDisconnected;
@@ -55,6 +57,7 @@ FOUNDATION_EXPORT NSString *const kEventParamRefreshExpire;
 FOUNDATION_EXPORT NSString *const kEventParamKey;
 FOUNDATION_EXPORT NSString *const kEventParamCode;
 FOUNDATION_EXPORT NSString *const kEventParamMessage;
+FOUNDATION_EXPORT NSString *const kEventParamIncomingVideo;
 
 FOUNDATION_EXPORT NSString *const kEventParamCallId;
 FOUNDATION_EXPORT NSString *const kEventParamHeaders;

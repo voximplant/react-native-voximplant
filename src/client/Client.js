@@ -47,6 +47,7 @@ export default class Client {
         EventEmitter.addListener('VIConnectionFailed', (event) => this._onConnectionFailed(event));
         EventEmitter.addListener('VIAuthResult', (event) => this._onAuthResult(event));
         EventEmitter.addListener('VIAuthTokenResult', (event) => this._onAuthTokenResult(event));
+        EventEmitter.addListener('VIIncomingCall', (event) => this._onIncomingCall(event));
     }
 
     static getInstnce(clientConfig) {
@@ -254,5 +255,12 @@ export default class Client {
     
     _onAuthTokenResult(event) {
         this._emit(ClientEvents.RefreshTokenResult, event);
+    }
+
+    _onIncomingCall(event) {
+        let call = new Call(event.callId);
+        event.call = call;
+        delete event.callId;
+        this._emit(ClientEvents.IncomingCall, event);
     }
 } 

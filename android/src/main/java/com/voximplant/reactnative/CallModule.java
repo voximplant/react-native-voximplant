@@ -12,42 +12,19 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.RejectMode;
+import com.voximplant.sdk.call.VideoFlags;
 
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import static com.voximplant.reactnative.Constants.EVENT_CALL_CONNECTED;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_DISCONNECTED;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_FAILED;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_ICECOMPLETED;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_ICETIMEOUT;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_INFO_RECEIVED;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_MESSAGE_RECEIVED;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_PROGRESS_TONE_START;
-import static com.voximplant.reactnative.Constants.EVENT_CALL_PROGRESS_TONE_STOP;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_CONNECTED;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_DISCONNECTED;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_FAILED;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_ICECOMPLETED;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_ICETIMEOUT;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_INFO_RECEIVED;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_MESSAGE_RECEIVED;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_PROGRESS_TONE_START;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_CALL_PROGRESS_TONE_STOP;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_ANSWERED_ELSEWHERE;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_BODY;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_CALLID;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_CODE;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_HEADERS;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_MIMETYPE;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_NAME;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_REASON;
-import static com.voximplant.reactnative.Constants.EVENT_PARAM_TEXT;
+import static com.voximplant.reactnative.Constants.*;
 
 public class CallModule extends ReactContextBaseJavaModule implements ICallListener {
     private ReactApplicationContext mReactContext;
@@ -67,6 +44,43 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
             call.addCallListener(this);
+        }
+    }
+
+    @ReactMethod
+    public void answer(String callId, ReadableMap videoSettings, String customData, ReadableMap headers) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            VideoFlags videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+            try {
+                call.answer(customData, videoFlags, Utils.createHashMap(headers));
+            } catch (CallException e) {
+
+            }
+        }
+    }
+
+    @ReactMethod
+    public void decline(String callId, ReadableMap headers) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            try {
+                call.reject(RejectMode.DECLINE, Utils.createHashMap(headers));
+            } catch (CallException e) {
+
+            }
+        }
+    }
+
+    @ReactMethod
+    public void reject(String callId, ReadableMap headers) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            try {
+                call.reject(RejectMode.BUSY, Utils.createHashMap(headers));
+            } catch (CallException e) {
+
+            }
         }
     }
 

@@ -16,6 +16,7 @@ class Constants {
     static final String EVENT_CONNECTION_FAILED = "VIConnectionFailed";
     static final String EVENT_AUTH_RESULT = "VIAuthResult";
     static final String EVENT_AUTH_TOKEN_RESULT = "VIAuthTokenResult";
+    static final String EVENT_INCOMING_CALL = "VIIncomingCall";
 
     static final String EVENT_CALL_CONNECTED = "VICallConnected";
     static final String EVENT_CALL_DISCONNECTED = "VICallDisconnected";
@@ -36,6 +37,7 @@ class Constants {
     static final String EVENT_NAME_CONNECTION_CLOSED = "ConnectionClosed";
     static final String EVENT_NAME_AUTH_RESULT = "AuthResult";
     static final String EVENT_NAME_AUTH_TOKEN_RESULT = "AuthTokenResult";
+    static final String EVENT_NAME_INCOMING_CALL = "IncomingCall";
 
     static final String EVENT_NAME_CALL_CONNECTED = "Connected";
     static final String EVENT_NAME_CALL_DISCONNECTED = "Disconnected";
@@ -62,6 +64,7 @@ class Constants {
     static final String EVENT_PARAM_KEY = "key";
     static final String EVENT_PARAM_CODE = "code";
     static final String EVENT_PARAM_MESSAGE = "message";
+    static final String EVENT_PARAM_INCOMING_VIDEO = "video";
 
     static final String EVENT_PARAM_CALLID = "callId";
     static final String EVENT_PARAM_HEADERS = "headers";
