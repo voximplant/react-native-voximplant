@@ -30,6 +30,10 @@ class Constants {
     static final String EVENT_CALL_MESSAGE_RECEIVED = "VICallMessageReceived";
     static final String EVENT_CALL_PROGRESS_TONE_START = "VICallProgressToneStart";
     static final String EVENT_CALL_PROGRESS_TONE_STOP = "VICallProgressToneStop";
+    static final String EVENT_ENDPOINT_INFO_UPDATED = "VIEnpointInfoUpdated";
+    static final String EVENT_ENDPOINT_REMOTE_STREAM_ADDED = "VIEnpointRemoteVideoStreamAdded";
+    static final String EVENT_ENDPOINT_REMOTE_STREAM_REMOVED = "VIEnpointRemoteVideoStreamRemoved";
+    static final String EVENT_ENDPOINT_REMOVED = "VIEndpointRemoved";
 
 
     static final String EVENT_NAME_CONNECTION_ESTABLISHED = "ConnectionEstablished";
@@ -51,7 +55,10 @@ class Constants {
     static final String EVENT_NAME_CALL_MESSAGE_RECEIVED = "MessageReceived";
     static final String EVENT_NAME_CALL_PROGRESS_TONE_START = "ProgressToneStart";
     static final String EVENT_NAME_CALL_PROGRESS_TONE_STOP = "ProgressToneStop";
-
+    static final String EVENT_NAME_ENDPOINT_INFO_UPDATED = "InfoUpdated";
+    static final String EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED = "RemoteVideoStreamAdded";
+    static final String EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED = "RemoteVideoStreamRemoved";
+    static final String EVENT_NAME_ENDPOINT_REMOVED = "Removed";
 
     static final String EVENT_PARAM_NAME = "name";
     static final String EVENT_PARAM_RESULT = "result";
@@ -73,4 +80,8 @@ class Constants {
     static final String EVENT_PARAM_BODY = "body";
     static final String EVENT_PARAM_MIMETYPE = "mimeType";
     static final String EVENT_PARAM_TEXT = "text";
+    static final String EVENT_PARAM_ENDPOINTID = "endpointId";
+    static final String EVENT_PARAM_ENDPOINT_NAME = "endpointName";
+    static final String EVENT_PARAM_ENDPOINT_SIP_URI = "sipUri";
+    static final String EVENT_PARAM_VIDEO_STREAM_ID = "videoStreamId";
 }

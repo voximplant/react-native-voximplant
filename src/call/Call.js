@@ -4,7 +4,6 @@
 
 'use strict';
 
-'use strict';
 import React, { Component } from 'react';
 import {
     Platform,
@@ -13,6 +12,8 @@ import {
 	DeviceEventEmitter,
 } from 'react-native';
 import CallEvents from './CallEvents';
+import CallManager from './CallManager';
+import Endpoint from './Endpoint';
 
 const CallModule = NativeModules.CallModule;
 
@@ -43,6 +44,7 @@ export default class Call {
         this._VICallLocalVideoStreamRemovedCallback = (event) => this._onLocalVideoStreamRemoved(event);
 
         this._addEventListeners();
+        CallManager.getInstance().addCall(this);
     }
 
     on(event, handler) {
@@ -101,6 +103,10 @@ export default class Call {
         CallModule.hangup(this.callId, headers);
     }
 
+    getEndpoints() {
+        return [...CallManager.getInstance().getCallEndpoints(this.callId)];
+    }
+
     _emit(event, ...args) {
         const handlers = this.listeners[event];
         if (handlers) {
@@ -110,10 +116,11 @@ export default class Call {
         }
     }
 
+    //Call events
+
     _onConnected(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.Connected, event);
         }
     }
@@ -121,16 +128,18 @@ export default class Call {
     _onDisconnected(event) {
         if (event.callId === this.callId) {
             this._removeEventListeners();
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
+            CallManager.getInstance().removeCall(this);
             this._emit(CallEvents.Disconnected, event);
         }
     }
 
     _onEndpointAdded(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.set('call', this);
+            this._replaceCallIdWithCallInEvent(event);
+            let endpoint = new Endpoint(event.endpointId, event.displayName, event.sipUri, event.endpointName);
+            CallManager.getInstance().addEndpoint(this.callId, endpoint);
+            event.endpoint = endpoint;
             this._emit(CallEvents.EndpointAdded, event);
         }
     }
@@ -138,56 +147,50 @@ export default class Call {
     _onFailed(event) {
         if (event.callId === this.callId) {
             this._removeEventListeners();
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
+            CallManager.getInstance().removeCall(this);
             this._emit(CallEvents.Failed, event);
         }
     }
 
     _onICETimeout(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ICETimeout, event);
         }
     }
 
     _onICECompleted(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ICECompleted, event);
         }
     }
 
     _onInfoReceived(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.InfoReceived, event);
         }
     }
 
     _onMessageReceived(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.MessageReceived, event);
         }
     }
 
     _onProgessToneStart(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ProgressToneStart, event);
         }
     }
 
     _onProgressToneStop(event) {
         if (event.callId === this.callId) {
-            delete event.callId;
-            event.call = this;
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ProgressToneStop, event);
         }
     }
@@ -198,6 +201,11 @@ export default class Call {
 
     _onLocalVideoStreamRemoved(event) {
 
+    }
+
+    _replaceCallIdWithCallInEvent(event) {
+        delete event.callId;
+        event.call = this;
     }
 
     _addEventListeners() {

@@ -16,6 +16,7 @@ import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
+import com.voximplant.sdk.call.IEndpointListener;
 import com.voximplant.sdk.call.IVideoStream;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
@@ -26,7 +27,7 @@ import javax.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 
-public class CallModule extends ReactContextBaseJavaModule implements ICallListener {
+public class CallModule extends ReactContextBaseJavaModule implements ICallListener, IEndpointListener {
     private ReactApplicationContext mReactContext;
 
     public CallModule(ReactApplicationContext reactContext) {
@@ -119,6 +120,7 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
 
     @Override
     public void onCallDisconnected(ICall call, Map<String, String> headers, boolean answeredElsewhere) {
+        call.removeCallListener(this);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_DISCONNECTED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -138,6 +140,7 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
 
     @Override
     public void onCallFailed(ICall call, int code, String description, Map<String, String> headers) {
+        call.removeCallListener(this);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_FAILED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -203,7 +206,59 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
 
     @Override
     public void onEndpointAdded(ICall call, IEndpoint endpoint) {
+        endpoint.setEndpointListener(this);
+        CallManager.getInstance().addEndpoint(endpoint, call.getCallId());
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_ENDPOINT_ADDED);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        params.putString(EVENT_PARAM_ENDPOINT_NAME, endpoint.getUserName());
+        params.putString(EVENT_PARAM_DISPLAY_NAME, endpoint.getUserDisplayName());
+        params.putString(EVENT_PARAM_ENDPOINT_SIP_URI, endpoint.getSipUri());
+        sendEvent(EVENT_CALL_ENDPOINT_ADDED, params);
+    }
 
+    @Override
+    public void onEndpointInfoUpdated(IEndpoint endpoint) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_INFO_UPDATED);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        params.putString(EVENT_PARAM_ENDPOINT_NAME, endpoint.getUserName());
+        params.putString(EVENT_PARAM_DISPLAY_NAME, endpoint.getUserDisplayName());
+        params.putString(EVENT_PARAM_ENDPOINT_SIP_URI, endpoint.getSipUri());
+        sendEvent(EVENT_ENDPOINT_INFO_UPDATED, params);
+    }
+
+    @Override
+    public void onEndpointRemoved(IEndpoint endpoint) {
+        endpoint.setEndpointListener(null);
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOVED);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        sendEvent(EVENT_ENDPOINT_REMOVED, params);
+        CallManager.getInstance().removeEndpoint(endpoint);
+    }
+
+    @Override
+    public void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        //TODO: add video stream
+        sendEvent(EVENT_ENDPOINT_REMOTE_STREAM_ADDED, params);
+    }
+
+    @Override
+    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        //TODO: add video stream
+        sendEvent(EVENT_ENDPOINT_REMOTE_STREAM_REMOVED, params);
     }
 
     private void sendEvent(String eventName, @Nullable WritableMap params) {
