@@ -5,6 +5,7 @@
 package com.voximplant.reactnative;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -12,8 +13,10 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.voximplant.sdk.call.CallError;
 import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.ICall;
+import com.voximplant.sdk.call.ICallCompletionHandler;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IEndpointListener;
@@ -98,6 +101,76 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
             call.sendDTMF(tone);
+        }
+    }
+
+    @ReactMethod
+    public void sendVideo(String callId, boolean enable, final Promise promise) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            call.sendVideo(enable, new ICallCompletionHandler() {
+                @Override
+                public void onComplete() {
+                    promise.resolve(null);
+                }
+
+                @Override
+                public void onFailure(CallException exception) {
+                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
+                }
+            });
+        }
+    }
+
+    @ReactMethod
+    public void hold(String callId, boolean enable, final Promise promise) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            call.hold(enable, new ICallCompletionHandler() {
+                @Override
+                public void onComplete() {
+                    promise.resolve(null);
+                }
+
+                @Override
+                public void onFailure(CallException exception) {
+                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
+                }
+            });
+        }
+    }
+
+    @ReactMethod
+    public void receiveVideo(String callId, final Promise promise) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            call.receiveVideo(new ICallCompletionHandler() {
+                @Override
+                public void onComplete() {
+                    promise.resolve(null);
+                }
+
+                @Override
+                public void onFailure(CallException exception) {
+                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
+                }
+            });
+        }
+    }
+
+    @ReactMethod
+    public void sendMessage(String callId, String message) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            call.sendMessage(message);
+        }
+    }
+
+    @ReactMethod
+    public void sendInfo(String callId, String mimeType, String body, ReadableMap headers) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            call.sendInfo(mimeType, body, Utils.createHashMap(headers));
         }
     }
 

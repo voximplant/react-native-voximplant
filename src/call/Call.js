@@ -100,8 +100,28 @@ export default class Call {
         CallModule.sendDTMF(this.callId, key);
     }
 
+    sendVideo(enable) {
+        return CallModule.sendVideo(this.callId, enable);
+    }
+
+    hold(enable) {
+        return CallModule.hold(this.callId, enable);
+    }
+
+    receiveVideo() {
+        return CallModule.receiveVideo(this.callId);
+    }
+
     hangup(headers) {
         CallModule.hangup(this.callId, headers);
+    }
+
+    sendMessage(message) {
+        CallModule.sendMessage(this.callId, message);
+    }
+
+    sendInfo(mimeType, body, extraHeaders) {
+        CallModule.sendInfo(this.callId, mimeType, body, extraHeaders);
     }
 
     getEndpoints() {

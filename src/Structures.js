@@ -69,6 +69,17 @@ export const RenderScaleType = {
     SCALE_FIT: 'fit'
 };
 
+export const CallEroor = {
+    ALREADY_IN_THIS_STATE     : 'ALREADY_IN_THIS_STATE',
+    FUNCTIONALITY_IS_DISABLED : 'FUNCTIONALITY_IS_DISABLED',
+    INCORRECT_OPERATION       : 'INCORRECT_OPERATION',
+    INTERNAL_ERROR            : 'INTERNAL_ERROR',
+    MEDIA_IS_ON_HOLD          : 'MEDIA_IS_ON_HOLD',
+    MISSING_PERMISSION        : 'MISSING_PERMISSION',
+    REJECTED                  : 'REJECTED',
+    TIMEOUT                   : 'TIMEOUT'
+};
+
 /**
  * @property {number} accessExpire - Seconds to access token expire
  * @property {string} accessToken - Access token that can be used to login before accessExpire
