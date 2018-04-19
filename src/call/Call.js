@@ -14,6 +14,7 @@ import {
 import CallEvents from './CallEvents';
 import CallManager from './CallManager';
 import Endpoint from './Endpoint';
+import VideoStream from './VideoStream';
 
 const CallModule = NativeModules.CallModule;
 
@@ -196,11 +197,24 @@ export default class Call {
     }
 
     _onLocalVideoStreamAdded(event) {
-
+        if (event.callId === this.callId) {
+            this._replaceCallIdWithCallInEvent(event);
+            let videoStream = new VideoStream(event.videoStreamId, true);
+            CallManager.getInstance().addVideoStream(videoStream);
+            delete event.videoStreamId;
+            event.videoStream = videoStream;
+            this._emit(CallEvents.LocalVideoStreamAdded, event);
+        }
     }
 
     _onLocalVideoStreamRemoved(event) {
-
+        if (event.callId === this.callId) {
+            this._replaceCallIdWithCallInEvent(event);
+            let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            delete event.videoStreamId;
+            event.videoStream = videoStream;
+            this._emit(CallEvents.LocalVideStreamRemoved, event);
+        }
     }
 
     _replaceCallIdWithCallInEvent(event) {

@@ -8,11 +8,24 @@ import {
 } from 'react-native'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
+import { RenderScaleType } from './../Structures';
+
+const RCTVoximplantVideoView = requireNativeComponent(
+    'RCTVoximplantVideoView', 
+    VideoView
+);
 
 export default class VideoView extends Component {
-
-
     render() {
-        return null;
+        return (
+            
+            <RCTVoximplantVideoView style={this.props.style} videoStreamId={this.props.videoStreamId} scaleType={this.props.scaleType} />
+        );
     }
 }
+
+VideoView.propTypes = {
+    videoStreamId: PropTypes.string,
+    scaleType: PropTypes.oneOf([RenderScaleType.SCALE_FIT, RenderScaleType.SCALE_FILL]),
+    ...View.propTypes
+};

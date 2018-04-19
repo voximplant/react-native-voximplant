@@ -64,6 +64,11 @@ export const ClientState = {
     LOGGED_IN: "logged_in"
 };
 
+export const RenderScaleType = {
+    SCALE_FILL: 'fill',
+    SCALE_FIT: 'fit'
+};
+
 /**
  * @property {number} accessExpire - Seconds to access token expire
  * @property {string} accessToken - Access token that can be used to login before accessExpire

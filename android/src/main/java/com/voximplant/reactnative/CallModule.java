@@ -180,12 +180,22 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
 
     @Override
     public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
-
+        CallManager.getInstance().addVideoStream(videoStream);
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        sendEvent(EVENT_CALL_LOCAL_VIDEO_STREAM_ADDED, params);
     }
 
     @Override
     public void onLocalVideoStreamRemoved(ICall call, IVideoStream videoStream) {
-
+        CallManager.getInstance().removeVideoStream(videoStream);
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_REMOVED);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        sendEvent(EVENT_CALL_LOCAL_VIDEO_STREAM_REMOVED, params);
     }
 
     @Override
@@ -243,21 +253,23 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
 
     @Override
     public void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
+        CallManager.getInstance().addVideoStream(videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
         params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
-        //TODO: add video stream
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
         sendEvent(EVENT_ENDPOINT_REMOTE_STREAM_ADDED, params);
     }
 
     @Override
     public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
+        CallManager.getInstance().removeVideoStream(videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED);
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
         params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
-        //TODO: add video stream
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
         sendEvent(EVENT_ENDPOINT_REMOTE_STREAM_REMOVED, params);
     }
 

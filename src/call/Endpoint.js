@@ -14,6 +14,7 @@ import {
 
 import EndpointEvents from './EndpointEvents';
 import CallManager from './CallManager';
+import { VideoStream } from '../..';
 
 const CallModule = NativeModules.CallModule;
 
@@ -92,6 +93,9 @@ export default class Endpoint {
     _onRemoteVideoStreamAdded(event) {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
+            let videoStream = new VideoStream(event.videoStreamId, false);
+            delete event.videoStreamId;
+            event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamAdded, event);
         }
     }
@@ -99,6 +103,9 @@ export default class Endpoint {
     _onRemoteVideoStreamRemoved(event) {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
+            let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            delete event.videoStreamId;
+            event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamRemoved, event);
         }
     }

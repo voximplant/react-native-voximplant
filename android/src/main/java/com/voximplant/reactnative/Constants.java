@@ -84,4 +84,8 @@ class Constants {
     static final String EVENT_PARAM_ENDPOINT_NAME = "endpointName";
     static final String EVENT_PARAM_ENDPOINT_SIP_URI = "sipUri";
     static final String EVENT_PARAM_VIDEO_STREAM_ID = "videoStreamId";
+    static final String EVENT_PARAM_IS_LOCAL = "isLocal";
+
+    static final String SCALE_TYPE_FIT = "fit";
+    static final String SCALE_TYPE_FILL = "fill";
 }

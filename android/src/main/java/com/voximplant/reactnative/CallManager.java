@@ -6,6 +6,7 @@ package com.voximplant.reactnative;
 
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.IEndpoint;
+import com.voximplant.sdk.call.IVideoStream;
 
 import java.util.HashMap;
 
@@ -15,6 +16,8 @@ class CallManager {
     private HashMap<String, IEndpoint> mEndpoints = new HashMap<>();
     // endpoint id and call id matching
     private HashMap<String, String> mCallEndpoints = new HashMap<>();
+
+    private HashMap<String, IVideoStream> mVideoStreams = new HashMap();
 
     private CallManager() {
 
@@ -68,6 +71,22 @@ class CallManager {
 
     IEndpoint getEndpointById(String endpointId) {
         return mEndpoints.get(endpointId);
+    }
+
+    void addVideoStream(IVideoStream videoStream) {
+        if (videoStream != null) {
+            mVideoStreams.put(videoStream.getVideoStreamId(), videoStream);
+        }
+    } 
+
+    void removeVideoStream(IVideoStream videoStream) {
+        if (videoStream != null) {
+            mVideoStreams.remove(videoStream.getVideoStreamId());
+        }
+    }
+
+    IVideoStream getVideoStreamById(String videoStreamId) {
+        return mVideoStreams.get(videoStreamId);
     }
     
 }

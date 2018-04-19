@@ -10,6 +10,7 @@ exports.Voximplant = require('./src/Voximplant').default;
 exports.Client = require('./src/client/Client');
 exports.ClientEvents = require('./src/client/ClientEvents').default;
 exports.ClientState = require('./src/Structures').ClientState;
+exports.RenderScaleType = require('./src/Structures').RenderScaleType;
 exports.Call = require('./src/call/Call').default;
 exports.CallEvents = require('./src/call/CallEvents').default;
 exports.Endpoint = require('./src/call/Endpoint').default;

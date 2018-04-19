@@ -22,6 +22,6 @@ public class VoxImplantReactPackage implements ReactPackage {
 
 	@Override
 	public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-		return Arrays.<ViewManager>asList(new VoxImplantViewManager());
+		return Arrays.<ViewManager>asList(new VoxImplantViewManager(), new VideoViewManager());
 	}
 }
