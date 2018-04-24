@@ -17,3 +17,7 @@ exports.Endpoint = require('./src/call/Endpoint').default;
 exports.EndpointEvents = require('./src/call/EndpointEvents').default;
 exports.VideoStream = require('./src/call/VideoStream').default;
 exports.VideoView = require('./src/call/VideoView').default;
+exports.AudioDeviceManager = require('./src/hardware/AudioDeviceManager').default;
+exports.AudioDevice = require('./src/Structures').AudioDevice;
+exports.AudioDeviceEvents = require('./src/hardware/AudioDeviceEvents').default;
+exports.CameraManager = require('./src/hardware/CameraManager').default;

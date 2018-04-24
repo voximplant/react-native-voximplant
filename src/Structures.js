@@ -80,6 +80,14 @@ export const CallEroor = {
     TIMEOUT                   : 'TIMEOUT'
 };
 
+export const AudioDevice = {
+    BLUETOOTH     : 'Bluetooth',
+    EARPIECE      : 'Earpiece',
+    NONE          : 'None',
+    SPEAKER       : 'Speaker',
+    WIRED_HEADSET : 'WiredHeadset'
+}
+
 /**
  * @property {number} accessExpire - Seconds to access token expire
  * @property {string} accessToken - Access token that can be used to login before accessExpire

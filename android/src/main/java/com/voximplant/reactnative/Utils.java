@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
+import com.voximplant.sdk.hardware.AudioDevice;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -91,6 +92,38 @@ class Utils {
 			case INTERNAL_ERROR:
 				default:
 				return 500;
+		}
+	}
+
+	static AudioDevice convertStringToAudioDevice(String device) {
+		switch (device) {
+			case Constants.BLUETOOTH:
+				return AudioDevice.BLUETOOTH;
+			case Constants.EARPIECE:
+				return AudioDevice.EARPIECE;
+			case Constants.SPEAKER:
+				return AudioDevice.SPEAKER;
+			case Constants.WIRED_HEADSET:
+				return AudioDevice.WIRED_HEADSET;
+			case Constants.NONE:
+			default:
+				return AudioDevice.NONE;
+		}
+	}
+
+	static String convertAudioDeviceToString(AudioDevice device) {
+		switch (device) {
+			case BLUETOOTH:
+				return Constants.BLUETOOTH;
+			case EARPIECE:
+				return Constants.EARPIECE;
+			case SPEAKER:
+				return Constants.SPEAKER;
+			case WIRED_HEADSET:
+				return Constants.WIRED_HEADSET;
+			case NONE:
+			default:
+				return Constants.NONE;
 		}
 	}
 }
