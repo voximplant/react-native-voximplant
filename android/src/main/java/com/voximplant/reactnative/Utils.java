@@ -126,4 +126,8 @@ class Utils {
 				return Constants.NONE;
 		}
 	}
+
+	static int convertCameraTypeToCameraIndex(String cameraType) {
+		return cameraType.equals(Constants.CAMERA_TYPE_BACK) ? 0 : 1;
+	}
 }

@@ -21,3 +21,5 @@ exports.AudioDeviceManager = require('./src/hardware/AudioDeviceManager').defaul
 exports.AudioDevice = require('./src/Structures').AudioDevice;
 exports.AudioDeviceEvents = require('./src/hardware/AudioDeviceEvents').default;
 exports.CameraManager = require('./src/hardware/CameraManager').default;
+exports.CameraType = require('./src/Structures').CameraType;
+exports.CameraEvents = require('./src/hardware/CameraEvents').default;

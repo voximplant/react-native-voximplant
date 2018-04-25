@@ -34,8 +34,14 @@ class Constants {
     static final String EVENT_ENDPOINT_REMOTE_STREAM_ADDED = "VIEnpointRemoteVideoStreamAdded";
     static final String EVENT_ENDPOINT_REMOTE_STREAM_REMOVED = "VIEnpointRemoteVideoStreamRemoved";
     static final String EVENT_ENDPOINT_REMOVED = "VIEndpointRemoved";
+
     static final String EVENT_AUDIO_DEVICE_CHANGED = "VIAudioDeviceChanged";
     static final String EVENT_AUDIO_DEVICE_LIST_CHANGED = "VIAudioDeviceListChanged";
+
+    static final String EVENT_CAMERA_DISCONNECTED = "VICameraDisconnected";
+    static final String EVENT_CAMERA_ERROR = "VICameraError";
+    static final String EVENT_CAMERA_SWITCH_DONE = "VICameraSwitchDone";
+    static final String EVENT_CAMERA_SWITCH_ERROR = "VICameraSwitchError";
 
 
     static final String EVENT_NAME_CONNECTION_ESTABLISHED = "ConnectionEstablished";
@@ -61,8 +67,15 @@ class Constants {
     static final String EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED = "RemoteVideoStreamAdded";
     static final String EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED = "RemoteVideoStreamRemoved";
     static final String EVENT_NAME_ENDPOINT_REMOVED = "Removed";
+
     static final String EVENT_NAME_AUDIO_DEVICE_CHANGED = "DeviceChanged";
     static final String EVENT_NAME_AUDIO_DEVICE_LIST_CHANGED = "DeviceListChanged";
+
+    static final String EVENT_NAME_CAMERA_DISCONNECTED = "CameraDisconnected";
+    static final String EVENT_NAME_CAMERA_ERROR = "CameraError";
+    static final String EVENT_NAME_CAMERA_SWITCH_DONE = "CameraSwitchDone";
+    static final String EVENT_NAME_CAMERA_SWITCH_ERROR = "CameraSwitchError";
+
 
     static final String EVENT_PARAM_NAME = "name";
     static final String EVENT_PARAM_RESULT = "result";
@@ -92,6 +105,15 @@ class Constants {
 
     static final String EVENT_PARAM_CURRENT_AUDIO_DEVICE = "currentDevice";
     static final String EVENT_PARAM_AUDIO_DEVICE_LIST = "newDeviceList";
+
+    static final String EVENT_PARAM_CAMERA_ERROR = "error";
+    static final String EVENT_PARAM_IS_FRONT_CAMERA = "isFrontCamera";
+
+    static final String CAMERA_TYPE_BACK = "back";
+    static final String CAMERA_TYPE_FRONT = "front";
+    static final int DEFAULT_CAMERA_RESOLUTION_WITDTH = 640;
+    static final int DEFAULT_CAMERA_RESOLUTION_HEIGHT = 480;
+    static final int DEFAULT_CAMERA_INDEX = 1;
 
     static final String SCALE_TYPE_FIT = "fit";
     static final String SCALE_TYPE_FILL = "fill";

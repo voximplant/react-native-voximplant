@@ -57,16 +57,16 @@ export const LogLevel = {
 };
 
 export const ClientState = {
-    DISCONNECTED: "disconnected",
-    CONNECTING: "connecting",
-    CONNECTED: "connected",
-    LOGGING_IN: "logging_in",
-    LOGGED_IN: "logged_in"
+    DISCONNECTED : "disconnected",
+    CONNECTING   : "connecting",
+    CONNECTED    : "connected",
+    LOGGING_IN   : "logging_in",
+    LOGGED_IN    : "logged_in"
 };
 
 export const RenderScaleType = {
-    SCALE_FILL: 'fill',
-    SCALE_FIT: 'fit'
+    SCALE_FILL : 'fill',
+    SCALE_FIT  : 'fit'
 };
 
 export const CallEroor = {
@@ -86,7 +86,18 @@ export const AudioDevice = {
     NONE          : 'None',
     SPEAKER       : 'Speaker',
     WIRED_HEADSET : 'WiredHeadset'
-}
+};
+
+export const CameraType = {
+    /**
+     * The facing of the camera is the same as that of the screen
+     */
+    FRONT : 'front',
+    /**
+     * The facing of the camera is opposite to that of the screen
+     */
+    BACK  : 'back'
+};
 
 /**
  * @property {number} accessExpire - Seconds to access token expire
