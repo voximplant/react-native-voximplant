@@ -23,6 +23,13 @@ NSString *const kEventCallLocalVideoStreamRemoved = @"VICallLocalVideoStreamRemo
 NSString *const kEventCallMessageReceived = @"VICallMessageReceived";
 NSString *const kEventCallProgressToneStart = @"VICallProgressToneStart";
 NSString *const kEventCallProgressToneStop = @"VICallProgressToneStop";
+NSString *const kEventEndpointInfoUpdate = @"VIEndpointInfoUpdated";
+NSString *const kEventEndpointRemoteStreamAdded = @"VIEndpointRemoteVideoStreamAdded";
+NSString *const kEventEndpointRemoteStreanRemoved = @"VIEndpointRemoteVideoStreamRemoved";
+NSString *const kEventEndpointRemoved = @"VIEndpointRemoved";
+
+NSString *const kEventAudioDeviceChanged = @"VIAudioDeviceChanged";
+NSString *const kEventAudioDeviceListChanged = @"VIAudioDeviceListChanged";
 
 
 NSString *const kEventNameConnectionEstablished = @"ConnectionEstablished";
@@ -45,6 +52,14 @@ NSString *const kEventNameCallMessageReceived = @"MessageReceived";
 NSString *const kEventNameCallProgressToneStart = @"ProgressToneStart";
 NSString *const kEventNameCallProgressToneStop = @"ProgressToneStop";
 
+NSString *const kEventNameEndpointInfoUpdate = @"InfoUpdated";
+NSString *const kEventNameEndpointRemoteStreamAdded = @"RemoteVideoStreamAdded";
+NSString *const kEventNameEndpointRemoteStreanRemoved = @"RemoteVideoStreamRemoved";
+NSString *const kEventNameEndpointRemoved = @"Removed";
+
+NSString *const kEventNameAudioDeviceChanged = @"DeviceChanged";
+NSString *const kEventNameAudioDeviceListChanged = @"DeviceListChanged";
+
 
 NSString *const kEventParamName = @"name";
 NSString *const kEventParamResult = @"result";
@@ -66,3 +81,17 @@ NSString *const kEventParamReason = @"reason";
 NSString *const kEventParamBody = @"body";
 NSString *const kEventParamMimeType = @"mimeType";
 NSString *const kEventParamText = @"text";
+NSString *const kEventParamEndpointId = @"endpointId";
+NSString *const kEventParamEndpointName = @"endpointName";
+NSString *const kEventParamEndpointSipUri = @"sipUri";
+NSString *const kEventParamVideoStreamId = @"videoStreamId";
+
+NSString *const kScaleTypeFit = @"fit";
+NSString *const kScaleTypeFill = @"fill";
+
+NSString *const kCallErrorRejected = @"REJECTED";
+NSString *const kCallErrorTimeout = @"TIMEOUT";
+NSString *const kCallErrorAlreadyInThisState = @"ALREADY_IN_THIS_STATE";
+NSString *const kCallErrorMediaIsOnHold = @"MEDIA_IS_ON_HOLD";
+NSString *const kCallErrorInternal = @"INTERNAL_ERROR";
+

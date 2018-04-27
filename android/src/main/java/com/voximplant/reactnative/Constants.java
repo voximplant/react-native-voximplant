@@ -30,9 +30,9 @@ class Constants {
     static final String EVENT_CALL_MESSAGE_RECEIVED = "VICallMessageReceived";
     static final String EVENT_CALL_PROGRESS_TONE_START = "VICallProgressToneStart";
     static final String EVENT_CALL_PROGRESS_TONE_STOP = "VICallProgressToneStop";
-    static final String EVENT_ENDPOINT_INFO_UPDATED = "VIEnpointInfoUpdated";
-    static final String EVENT_ENDPOINT_REMOTE_STREAM_ADDED = "VIEnpointRemoteVideoStreamAdded";
-    static final String EVENT_ENDPOINT_REMOTE_STREAM_REMOVED = "VIEnpointRemoteVideoStreamRemoved";
+    static final String EVENT_ENDPOINT_INFO_UPDATED = "VIEndpointInfoUpdated";
+    static final String EVENT_ENDPOINT_REMOTE_STREAM_ADDED = "VIEndpointRemoteVideoStreamAdded";
+    static final String EVENT_ENDPOINT_REMOTE_STREAM_REMOVED = "VIEndpointRemoteVideoStreamRemoved";
     static final String EVENT_ENDPOINT_REMOVED = "VIEndpointRemoved";
 
     static final String EVENT_AUDIO_DEVICE_CHANGED = "VIAudioDeviceChanged";

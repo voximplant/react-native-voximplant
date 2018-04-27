@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { RenderScaleType } from './../Structures';
 
 const RCTVoximplantVideoView = requireNativeComponent(
-    'RCTVoximplantVideoView', 
+    'VIVideoView', 
     VideoView
 );
 

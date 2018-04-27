@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Utils.h"
+#import "Constants.h"
 
 @implementation Utils
 
@@ -18,6 +19,29 @@
         [data appendBytes:&whole_byte length:1];
     }
     return data;
+}
+
++ (NSString *)convertIntToCallError:(NSInteger)code {
+    switch (code) {
+        case 10004:
+            return kCallErrorRejected;
+        case 10005:
+            return kCallErrorTimeout;
+        case 10007:
+            return kCallErrorMediaIsOnHold;
+        case 10008:
+            return kCallErrorAlreadyInThisState;
+        default:
+            return kCallErrorInternal;
+    }
+}
+
++ (VIVideoResizeMode)convertStringToVideoResizeMode:(NSString *)mode {
+    if ([mode isEqual:kScaleTypeFill]) {
+        return VIVideoResizeModeFill;
+    } else {
+        return VIVideoResizeModeFit;
+    }
 }
 
 @end

@@ -23,6 +23,13 @@ FOUNDATION_EXPORT NSString *const kEventCallLocalVideoStreamRemoved;
 FOUNDATION_EXPORT NSString *const kEventCallMessageReceived;
 FOUNDATION_EXPORT NSString *const kEventCallProgressToneStart;
 FOUNDATION_EXPORT NSString *const kEventCallProgressToneStop;
+FOUNDATION_EXPORT NSString *const kEventEndpointInfoUpdate;
+FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamAdded;
+FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreanRemoved;
+FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
+
+FOUNDATION_EXPORT NSString *const kEventAudioDeviceChanged;
+FOUNDATION_EXPORT NSString *const kEventAudioDeviceListChanged;
 
 
 FOUNDATION_EXPORT NSString *const kEventNameConnectionEstablished;
@@ -44,6 +51,13 @@ FOUNDATION_EXPORT NSString *const kEventNameCallLocalVideoStreamRemoved;
 FOUNDATION_EXPORT NSString *const kEventNameCallMessageReceived;
 FOUNDATION_EXPORT NSString *const kEventNameCallProgressToneStart;
 FOUNDATION_EXPORT NSString *const kEventNameCallProgressToneStop;
+FOUNDATION_EXPORT NSString *const kEventNameEndpointInfoUpdate;
+FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoteStreamAdded;
+FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoteStreanRemoved;
+FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoved;
+
+FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceChanged;
+FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceListChanged;
 
 
 FOUNDATION_EXPORT NSString *const kEventParamName;
@@ -66,3 +80,17 @@ FOUNDATION_EXPORT NSString *const kEventParamReason;
 FOUNDATION_EXPORT NSString *const kEventParamBody;
 FOUNDATION_EXPORT NSString *const kEventParamMimeType;
 FOUNDATION_EXPORT NSString *const kEventParamText;
+FOUNDATION_EXPORT NSString *const kEventParamEndpointId;
+FOUNDATION_EXPORT NSString *const kEventParamEndpointName;
+FOUNDATION_EXPORT NSString *const kEventParamEndpointSipUri;
+FOUNDATION_EXPORT NSString *const kEventParamVideoStreamId;
+
+FOUNDATION_EXPORT NSString *const kScaleTypeFit;
+FOUNDATION_EXPORT NSString *const kScaleTypeFill;
+
+FOUNDATION_EXPORT NSString *const kCallErrorRejected;
+FOUNDATION_EXPORT NSString *const kCallErrorTimeout;
+FOUNDATION_EXPORT NSString *const kCallErrorAlreadyInThisState;
+FOUNDATION_EXPORT NSString *const kCallErrorMediaIsOnHold;
+FOUNDATION_EXPORT NSString *const kCallErrorInternal;
+

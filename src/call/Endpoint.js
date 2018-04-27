@@ -112,15 +112,15 @@ export default class Endpoint {
 
     _addEventListeners() {
         EventEmitter.addListener('VIEndpointInfoUpdated', this._VIEndpointInfoUpdatedCallback);
-        EventEmitter.addListener('VIEnpointRemoved', this._VIEndpointRemovedCallback);
-        EventEmitter.addListener('VIEnpointRemoteVideoStreamAdded', this._VIRemoteVideoStreamAddedCallback);
-        EventEmitter.addListener('VIEnpointRemoteVideoStreamRemoved', this._VIRemoteVideoStreamRemovedCallback);
+        EventEmitter.addListener('VIEndpointRemoved', this._VIEndpointRemovedCallback);
+        EventEmitter.addListener('VIEndpointRemoteVideoStreamAdded', this._VIRemoteVideoStreamAddedCallback);
+        EventEmitter.addListener('VIEndpointRemoteVideoStreamRemoved', this._VIRemoteVideoStreamRemovedCallback);
     }
 
     _removeEventListeners() {
         EventEmitter.removeListener('VIEndpointInfoUpdated', this._VIEndpointInfoUpdatedCallback);
-        EventEmitter.removeListener('VIEnpointRemoved', this._VIEndpointRemovedCallback);
-        EventEmitter.removeListener('VIEnpointRemoteVideoStreamAdded', this._VIRemoteVideoStreamAddedCallback);
-        EventEmitter.removeListener('VIEnpointRemoteVideoStreamRemoved', this._VIRemoteVideoStreamRemovedCallback);
+        EventEmitter.removeListener('VIEndpointRemoved', this._VIEndpointRemovedCallback);
+        EventEmitter.removeListener('VIEndpointRemoteVideoStreamAdded', this._VIRemoteVideoStreamAddedCallback);
+        EventEmitter.removeListener('VIEndpointRemoteVideoStreamRemoved', this._VIRemoteVideoStreamRemovedCallback);
     }
 }

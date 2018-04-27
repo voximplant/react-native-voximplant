@@ -4,6 +4,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VIVideoRendererView.h"
+
 @interface Utils :NSObject
 + (NSData *)dataFromHexString:(NSString *)string;
++ (NSString *)convertIntToCallError:(NSInteger)code;
++ (VIVideoResizeMode)convertStringToVideoResizeMode:(NSString *)mode;
 @end

@@ -7,6 +7,7 @@
 #import "Constants.h"
 #import "CallManager.h"
 #import "VICall.h"
+#import "Utils.h"
 
 @interface CallModule()
 
@@ -27,7 +28,11 @@ RCT_EXPORT_MODULE();
              kEventCallInfoReceived,
              kEventCallMessageReceived,
              kEventCallProgressToneStart,
-             kEventCallProgressToneStop];
+             kEventCallProgressToneStop,
+             kEventEndpointInfoUpdate,
+             kEventEndpointRemoved,
+             kEventEndpointRemoteStreamAdded,
+             kEventEndpointRemoteStreanRemoved];
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
@@ -83,6 +88,59 @@ RCT_EXPORT_METHOD(hangup:(NSString *)callId headers:(NSDictionary *)headers) {
     VICall *call = [CallManager getCallById:callId];
     if (call) {
         [call hangupWithHeaders:headers];
+    }
+}
+
+RCT_EXPORT_METHOD(sendMessage:(NSString *)callId message:(NSString *)message) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call sendMessage:message];
+    }
+}
+
+RCT_EXPORT_METHOD(sendInfo:(NSString *)callId mimeType:(NSString *)mimeType body:(NSString *)body headers:(NSDictionary *)headers) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call sendInfo:body mimeType:mimeType headers:headers];
+    }
+}
+
+RCT_REMAP_METHOD(sendVideo, sendVideo:(NSString *)callId enable:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call setSendVideo:enable completion:^(NSError * _Nullable error) {
+            if (error) {
+                reject([Utils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
+    }
+}
+
+RCT_REMAP_METHOD(hold, hold:(NSString *)callId enable:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call setHold:enable completion:^(NSError * _Nullable error) {
+            if (error) {
+                reject([Utils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
+    }
+}
+
+RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    VICall *call = [CallManager getCallById:callId];
+    if (call) {
+        [call startReceiveVideoWithCompletion:^(NSError * _Nullable error) {
+            if (error) {
+                reject([Utils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
     }
 }
 
@@ -163,10 +221,76 @@ RCT_EXPORT_METHOD(hangup:(NSString *)callId headers:(NSDictionary *)headers) {
 }
 
 - (void)call:(VICall *)call didAddLocalVideoStream:(VIVideoStream *)videoStream {
-    
+    [CallManager addVideoStream:videoStream];
+    [self sendEventWithName:kEventCallLocalVideoStreamAdded body:@{
+                                                                   kEventParamName          : kEventNameCallLocalVideoStreamAdded,
+                                                                   kEventParamCallId        : call.callId,
+                                                                   kEventParamVideoStreamId : videoStream.streamId
+                                                                   }];
 }
 
 - (void)call:(VICall *)call didRemoveLocalVideoStream:(VIVideoStream *)videoStream {
-    
+    [CallManager removeVideoStreamById:videoStream.streamId];
+    [self sendEventWithName:kEventCallLocalVideoStreamRemoved body:@{
+                                                                     kEventParamName          : kEventNameCallLocalVideoStreamRemoved,
+                                                                     kEventParamCallId        : call.callId,
+                                                                     kEventParamVideoStreamId : videoStream.streamId
+                                                                     }];
 }
+
+- (void) call:(VICall *)call didAddEndpoint:(VIEndpoint *)endpoint {
+    [CallManager addEndpoint:endpoint forCall:call.callId];
+    [endpoint setDelegate:self];
+    [self sendEventWithName:kEventCallEndpointAdded body:@{
+                                                           kEventParamName           : kEventNameCallEndpointAdded,
+                                                           kEventParamCallId         : call.callId,
+                                                           kEventParamEndpointId     : endpoint.endpointId,
+                                                           kEventParamEndpointName   : endpoint.user ? endpoint.user : [NSNull null],
+                                                           kEventParamDisplayName    : endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null],
+                                                           kEventParamEndpointSipUri : endpoint.sipURI ? endpoint.sipURI : [NSNull null]
+                                                           }];
+}
+
+- (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIVideoStream *)videoStream {
+    [CallManager addVideoStream:videoStream];
+    [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
+                                                                   kEventParamName          : kEventNameEndpointRemoteStreamAdded,
+                                                                   kEventParamCallId        : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                                   kEventParamEndpointId    : endpoint.endpointId,
+                                                                   kEventParamVideoStreamId : videoStream.streamId
+                                                                   }];
+}
+
+- (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIVideoStream *)videoStream {
+    [CallManager removeVideoStreamById:videoStream.streamId];
+    [self sendEventWithName:kEventEndpointRemoteStreanRemoved body:@{
+                                                                   kEventParamName          : kEventNameEndpointRemoteStreanRemoved,
+                                                                   kEventParamCallId        : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                                   kEventParamEndpointId    : endpoint.endpointId,
+                                                                   kEventParamVideoStreamId : videoStream.streamId
+                                                                   }];
+}
+
+- (void)endpointDidRemove:(VIEndpoint *)endpoint {
+    [CallManager removeEndpointById:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointRemoved body:@{
+                                                         kEventParamName           : kEventNameEndpointRemoved,
+                                                         kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                         kEventParamEndpointId     : endpoint.endpointId
+                                                         }];
+}
+
+- (void)endpointInfoDidUpdate:(VIEndpoint *)endpoint {
+    [self sendEventWithName:kEventEndpointInfoUpdate body:@{
+                                                         kEventParamName           : kEventNameEndpointInfoUpdate,
+                                                         kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                         kEventParamEndpointId     : endpoint.endpointId,
+                                                         kEventParamEndpointName   : endpoint.user,
+                                                         kEventParamDisplayName    : endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null],
+                                                         kEventParamEndpointSipUri : endpoint.sipURI ? endpoint.sipURI : [NSNull null]
+                                                         }];
+}
+
+
+
 @end

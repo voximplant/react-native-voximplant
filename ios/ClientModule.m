@@ -86,9 +86,6 @@ RCT_EXPORT_METHOD(disconnect) {
 }
 
 RCT_EXPORT_METHOD(connect:(BOOL)connectivityCheck gateways:(NSArray *)gateways callback:(RCTResponseSenderBlock)callback) {
-    if (gateways.count == 0) {
-        gateways = nil;
-    }
     if (_client) {
         BOOL isValidState = [_client connectWithConnectivityCheck:connectivityCheck gateways:gateways];
         callback(@[[NSNumber numberWithBool:isValidState]]);
