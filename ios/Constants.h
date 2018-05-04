@@ -84,6 +84,8 @@ FOUNDATION_EXPORT NSString *const kEventParamEndpointId;
 FOUNDATION_EXPORT NSString *const kEventParamEndpointName;
 FOUNDATION_EXPORT NSString *const kEventParamEndpointSipUri;
 FOUNDATION_EXPORT NSString *const kEventParamVideoStreamId;
+FOUNDATION_EXPORT NSString *const kEventParamCurrentAudioDevice;
+FOUNDATION_EXPORT NSString *const kEventParamDeviceList;
 
 FOUNDATION_EXPORT NSString *const kScaleTypeFit;
 FOUNDATION_EXPORT NSString *const kScaleTypeFill;
@@ -94,3 +96,11 @@ FOUNDATION_EXPORT NSString *const kCallErrorAlreadyInThisState;
 FOUNDATION_EXPORT NSString *const kCallErrorMediaIsOnHold;
 FOUNDATION_EXPORT NSString *const kCallErrorInternal;
 
+FOUNDATION_EXPORT NSString *const kAudioDeviceEarpiece;
+FOUNDATION_EXPORT NSString *const kAudioDeviceSpeaker;
+FOUNDATION_EXPORT NSString *const kAudioDeviceWired;
+FOUNDATION_EXPORT NSString *const kAudioDeviceBluetooth;
+FOUNDATION_EXPORT NSString *const kAudioDeviceNone;
+
+FOUNDATION_EXPORT NSString *const kCameraTypeBack;
+FOUNDATION_EXPORT NSString *const kCameraTypeFront;

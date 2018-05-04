@@ -9,6 +9,6 @@ const CameraEvents = {
     CameraError        : 'CameraError',
     CameraSwitchDone   : 'CameraSwitchDone',
     CameraSwitchError  : 'CameraSwitchError'
-}
+};
 
 export default CameraEvents;

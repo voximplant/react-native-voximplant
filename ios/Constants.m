@@ -85,6 +85,8 @@ NSString *const kEventParamEndpointId = @"endpointId";
 NSString *const kEventParamEndpointName = @"endpointName";
 NSString *const kEventParamEndpointSipUri = @"sipUri";
 NSString *const kEventParamVideoStreamId = @"videoStreamId";
+NSString *const kEventParamCurrentAudioDevice = @"currentDevice";
+NSString *const kEventParamDeviceList = @"newDeviceList";
 
 NSString *const kScaleTypeFit = @"fit";
 NSString *const kScaleTypeFill = @"fill";
@@ -95,3 +97,11 @@ NSString *const kCallErrorAlreadyInThisState = @"ALREADY_IN_THIS_STATE";
 NSString *const kCallErrorMediaIsOnHold = @"MEDIA_IS_ON_HOLD";
 NSString *const kCallErrorInternal = @"INTERNAL_ERROR";
 
+NSString *const kAudioDeviceEarpiece = @"Earpiece";
+NSString *const kAudioDeviceSpeaker = @"Speaker";
+NSString *const kAudioDeviceWired = @"WiredHeadset";
+NSString *const kAudioDeviceBluetooth = @"Bluetooth";
+NSString *const kAudioDeviceNone = @"None";
+
+NSString *const kCameraTypeBack = @"back";
+NSString *const kCameraTypeFront = @"front";

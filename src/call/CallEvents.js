@@ -18,6 +18,6 @@ const CallEvents = {
     ProgressToneStart      : 'ProgressToneStart',
     ProgressToneStop       : 'ProgressToneStop',
     Updated                : 'Updated'
-}
+};
 
 export default CallEvents;

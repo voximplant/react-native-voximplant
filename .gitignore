@@ -29,5 +29,8 @@ npm-debug.log
 
 .npmrc
 
-# android
+# Android/IntelliJ
+#
 android/.gradle/
+build/
+.idea

@@ -15,7 +15,6 @@ import CameraEvents from './CameraEvents';
 
 const CameraModule = NativeModules.CameraModule;
 const EventEmitter = Platform.select({
-	ios: new NativeEventEmitter(CameraModule),
 	android: DeviceEventEmitter,
 });
 
@@ -31,14 +30,16 @@ export default class CameraManager {
 
     constructor() {
         this.listeners = {};
-        this._VICameraDisconnectedCallback = (event) => this._onCameraDisconnected(event);
-        this._VICameraErrorCallback = (event) => this._onCameraError(event);
-        this._VICameraSwitchDoneCallback = (event) => this._onCameraSwitchDone(event);
-        this._VICameraSwitchErrorCallback = (event) => this._onCameraSwitchError(event);
-        EventEmitter.addListener('VICameraDisconnected', this._VICameraDisconnectedCallback);
-        EventEmitter.addListener('VICameraError', this._VICameraErrorCallback);
-        EventEmitter.addListener('VICameraSwitchDone', this._VICameraSwitchDoneCallback);
-        EventEmitter.addListener('VICameraSwitchError', this._VICameraSwitchErrorCallback);
+        if (Platform.OS === 'android') {
+            this._VICameraDisconnectedCallback = (event) => this._onCameraDisconnected(event);
+            this._VICameraErrorCallback = (event) => this._onCameraError(event);
+            this._VICameraSwitchDoneCallback = (event) => this._onCameraSwitchDone(event);
+            this._VICameraSwitchErrorCallback = (event) => this._onCameraSwitchError(event);
+            EventEmitter.addListener('VICameraDisconnected', this._VICameraDisconnectedCallback);
+            EventEmitter.addListener('VICameraError', this._VICameraErrorCallback);
+            EventEmitter.addListener('VICameraSwitchDone', this._VICameraSwitchDoneCallback);
+            EventEmitter.addListener('VICameraSwitchError', this._VICameraSwitchErrorCallback);
+        }  
     }
 
     switchCamera(cameraType) {

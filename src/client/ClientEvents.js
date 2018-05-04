@@ -11,6 +11,6 @@ const ClientEvents = {
     AuthResult            : 'AuthResult',
     RefreshTokenResult    : 'RefreshTokenResult',
     IncomingCall          : 'IncomingCall'
-}
+};
 
 export default ClientEvents;

@@ -7,6 +7,6 @@
 const AudioDeviceEvents = {
     DeviceChanged     : 'DeviceChanged',
     DeviceListChanged : 'DeviceListChanged',
-}
+};
 
 export default AudioDeviceEvents;

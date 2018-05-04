@@ -9,6 +9,6 @@ const EndpointEvents = {
     RemoteVideoStreamAdded: 'RemoteVideoStreamAdded',
     RemoteVideoStreamRemoved : 'RemoteVideoStreamRemoved',
     Removed : 'Removed'
-}
+};
 
 export default EndpointEvents;

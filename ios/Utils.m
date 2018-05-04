@@ -44,4 +44,38 @@
     }
 }
 
++ (VIAudioDevice *)convertStringToAudioDevice:(NSString *)device {
+    if (!device) {
+        return nil;
+    }
+    if ([device isEqualToString:kAudioDeviceEarpiece]) {
+        return [VIAudioDevice deviceWithType:VIAudioDeviceTypeReceiver];
+    }
+    if ([device isEqualToString:kAudioDeviceSpeaker]) {
+        return [VIAudioDevice deviceWithType:VIAudioDeviceTypeSpeaker];
+    }
+    if ([device isEqualToString:kAudioDeviceWired]) {
+        return [VIAudioDevice deviceWithType:VIAudioDeviceTypeWired];
+    }
+    if ([device isEqualToString:kAudioDeviceBluetooth]) {
+        return [VIAudioDevice deviceWithType:VIAudioDeviceTypeBluetooth];
+    }
+    return [VIAudioDevice deviceWithType:VIAudioDeviceTypeNone];
+}
+
++ (NSString *)convertAudioDeviceToString:(VIAudioDevice *)device {
+    switch (device.type) {
+        case VIAudioDeviceTypeReceiver:
+            return kAudioDeviceEarpiece;
+        case VIAudioDeviceTypeSpeaker:
+            return kAudioDeviceSpeaker;
+        case VIAudioDeviceTypeWired:
+            return kAudioDeviceWired;
+        case VIAudioDeviceTypeBluetooth:
+            return kAudioDeviceBluetooth;
+        default:
+            return kAudioDeviceNone;
+    }
+}
+
 @end
