@@ -12,8 +12,8 @@
     "sdk"
   ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/voximplant/react-native-voximplant.git"
+    "type": "git",
+    "url": "https://github.com/voximplant/react-native-voximplant.git"
   },
   "engines": {
     "node": ">=4"
