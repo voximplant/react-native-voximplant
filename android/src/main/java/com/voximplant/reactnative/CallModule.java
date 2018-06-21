@@ -15,6 +15,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.call.CallError;
 import com.voximplant.sdk.call.CallException;
+import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallCompletionHandler;
 import com.voximplant.sdk.call.ICallListener;
@@ -285,6 +286,12 @@ public class CallModule extends ReactContextBaseJavaModule implements ICallListe
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_ICECOMPLETED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
         sendEvent(EVENT_CALL_ICECOMPLETED, params);
+    }
+
+
+    @Override
+    public void onCallStatsReceived(ICall call, CallStats callStats) {
+
     }
 
     @Override
