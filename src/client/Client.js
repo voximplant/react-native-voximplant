@@ -27,6 +27,9 @@ export default class Client {
     static clientInstance = null;
 
     constructor(clientConfig) {
+        if(Client.clientInstance){
+            throw new Error('Error - use Voximplant.getInstance()');
+        }
         if (!clientConfig) clientConfig = {};
         if (Platform.OS === 'android') {
             if (clientConfig.enableVideo === undefined) clientConfig.enableVideo = true;
@@ -43,14 +46,14 @@ export default class Client {
             ClientModule.init(clientConfig.logLevel);
         }
         EventEmitter.addListener('VIConnectionEstablished', (event) => this._onConnectionEstablished(event));
-        EventEmitter.addListener('VIConnectionClosed', (event) => this._onConnectionClosed(event));
+        EventEmitter.addListener('VIConnectionClosed', (event) => this(event));
         EventEmitter.addListener('VIConnectionFailed', (event) => this._onConnectionFailed(event));
         EventEmitter.addListener('VIAuthResult', (event) => this._onAuthResult(event));
         EventEmitter.addListener('VIAuthTokenResult', (event) => this._onAuthTokenResult(event));
         EventEmitter.addListener('VIIncomingCall', (event) => this._onIncomingCall(event));
     }
 
-    static getInstnce(clientConfig) {
+    static getInstance(clientConfig) {
         if (this.clientInstance === null) {
             this.clientInstance = new Client();
         }
@@ -78,11 +81,11 @@ export default class Client {
             let connected = (event) => {
                 resolve(event);
                 EventEmitter.removeListener('VIConnectionEstablished', connected);
-            }
+            };
             let failed = (event) => {
                 reject(event);
                 EventEmitter.removeListener('VIConnectionFailed', failed);
-            }
+            };
             EventEmitter.addListener('VIConnectionEstablished', connected);
             EventEmitter.addListener('VIConnectionFailed', failed);
             ClientModule.connect(options.connectivityCheck, options.servers, (isValidState) => {
@@ -119,7 +122,7 @@ export default class Client {
                     reject(event);
                 }
                 EventEmitter.removeListener('VIAuthResult', loginResult);
-            }
+            };
             EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.login(username, password);
         });
@@ -134,7 +137,7 @@ export default class Client {
                     reject(event);
                 }
                 EventEmitter.removeListener('VIAuthResult', loginResult);
-            }
+            };
             EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.loginWithOneTimeKey(username, hash);
         });
@@ -149,7 +152,7 @@ export default class Client {
                     reject(event);
                 }
                 EventEmitter.removeListener('VIAuthResult', loginResult);
-            }
+            };
             EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.loginWithToken(username, token);
         });
@@ -164,7 +167,7 @@ export default class Client {
                     reject(event);
                 }
                 EventEmitter.removeListener('VIAuthResult', requestResult);
-            }
+            };
             EventEmitter.addListener('VIAuthResult', requestResult);
             ClientModule.requestOneTimeLoginKey(username);
         });
@@ -179,7 +182,7 @@ export default class Client {
                     reject(event);
                 }
                 EventEmitter.removeListener('VIAuthTokenResult', refreshResult);
-            }
+            };
             EventEmitter.addListener('VIAuthTokenResult', refreshResult);
             CLientModule.refreshToken(username, refreshToken);
         });

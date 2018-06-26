@@ -4,18 +4,18 @@
 
 'use strict';
 
-import React from 'react'
-import PropTypes from 'prop-types';
-import {
-    Platform,
-    NativeModules
-} from 'react-native';
+export Client from './client/Client';
+export Call from './call/Call';
+export CallEvents from './call/CallEvents';
+export Endpoint from './call/Endpoint';
+export VideoStream from './call/VideoStream';
+export VideoView from './call/VideoView';
+export EndpointEvents from './call/EndpointEvents';
+export ClientEvents from './client/ClientEvents';
+export {ClientState,RenderScaleType} from './Structures';
+import * as Hardware from './hardware';
 
-import Client from './client/Client'
-
-export default class Voximplant {
-
-    static getClientInstance(clientConfig) {
-        return Client.getInstnce(clientConfig);
-    }
-}
+export {Hardware};
+export const getInstance = (clientConfig) =>{
+    return Client.getInstance(clientConfig);
+};
