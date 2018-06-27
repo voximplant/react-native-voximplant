@@ -29,6 +29,10 @@ RCT_EXPORT_MODULE();
     return self;
 }
 
++ (BOOL)requiresMainQueueSetup {
+    return NO;
+}
+
 RCT_EXPORT_METHOD(selectAudioDevice:(NSString *)device) {
     VIAudioDevice *audioDevice = [Utils convertStringToAudioDevice:device];
     [[VIAudioManager sharedAudioManager] selectAudioDevice:audioDevice];

@@ -3,9 +3,9 @@
  */
 
 #import "CallManager.h"
-#import "VICall.h"
 
 @interface CallManager()
+@property(nonatomic, strong) VIClient *client;
 @property(nonatomic, strong) NSMutableDictionary<NSString *, VICall *> *calls;
 @property(nonatomic, strong) NSMutableDictionary<NSString *, VIEndpoint *> *endpoints;
 @property(nonatomic, strong) NSMutableDictionary<NSString *, VIVideoStream *> *videoStreams;
@@ -30,8 +30,13 @@
         _endpoints = [NSMutableDictionary dictionary];
         _callEndpoints = [NSMutableDictionary dictionary];
         _videoStreams = [NSMutableDictionary dictionary];
+        _client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue()];
     }
     return self;
+}
+
++ (VIClient *)getClient {
+    return [CallManager getInstance].client;
 }
 
 + (void)addCall:(VICall *)call {

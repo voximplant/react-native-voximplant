@@ -25,6 +25,10 @@ RCT_EXPORT_MODULE();
     return self;
 }
 
++ (BOOL)requiresMainQueueSetup {
+    return NO;
+}
+
 // VoxImplant API
 
 RCT_EXPORT_METHOD(init: (NSString*)logLevel) {

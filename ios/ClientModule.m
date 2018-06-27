@@ -48,7 +48,7 @@ RCT_ENUM_CONVERTER(VIClientState, (@{
 @end
 
 @interface ClientModule()
-@property(nonatomic, strong) VIClient* client;
+@property(nonatomic, weak) VIClient* client;
 @end
 
 @implementation ClientModule
@@ -72,9 +72,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(init:(VILogLevel)logLevel) {
     [VIClient setLogLevel:logLevel];
-    if (!_client) {
-        _client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue()];
-    }
+    _client = [CallManager getClient];
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
 }

@@ -2,11 +2,14 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
+#import "VIClient.h"
 #import "VICall.h"
 #import "VIEndpoint.h"
 #import "VIVideoStream.h"
 
 @interface CallManager : NSObject
+
++ (VIClient *)getClient;
 
 + (void)addCall:(VICall *)call;
 + (VICall *)getCallById:(NSString *)callId;

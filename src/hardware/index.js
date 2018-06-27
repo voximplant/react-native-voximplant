@@ -8,7 +8,7 @@ import AudioDeviceManager from './AudioDeviceManager';
 import AudioDeviceEvents from './AudioDeviceEvents';
 import CameraManager from './CameraManager';
 import CameraEvents from './CameraEvents';
-import {AudioDevice, CameraType} from "../Structures";
+import {AudioDevice, CameraType} from "../Enums";
 
 export {
     AudioDeviceManager,
