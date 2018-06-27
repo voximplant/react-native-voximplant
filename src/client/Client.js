@@ -10,7 +10,7 @@ import {
 	NativeEventEmitter,
 	DeviceEventEmitter,
 } from 'react-native';
-import { ClientConfig, LogLevel } from './../Structures';
+import { LogLevel } from './../Enums';
 import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
 

@@ -12,7 +12,7 @@ import VideoStream from './call/VideoStream';
 import VideoView from './call/VideoView';
 import EndpointEvents from './call/EndpointEvents';
 import ClientEvents from './client/ClientEvents';
-import {ClientState, CameraType, RenderScaleType, LogLevel, CallError} from "./Structures";
+import {ClientState, CameraType, RenderScaleType, LogLevel, CallError} from "./Enums";
 import * as Hardware from './hardware';
 
 export const getInstance = (clientConfig) => {
