@@ -14,7 +14,7 @@ import {
 
 import EndpointEvents from './EndpointEvents';
 import CallManager from './CallManager';
-import { VideoStream } from '../..';
+import VideoStream from './VideoStream';
 
 const CallModule = NativeModules.CallModule;
 
@@ -29,13 +29,7 @@ export default class Endpoint {
         this.displayName = displayName;
         this.sipUri = sipUri;
         this.userName = userName;
-
         this.listeners = {};
-
-        this._VIEndpointInfoUpdatedCallback = (event) => this._onEndpointInfoUpdated(event);
-        this._VIEndpointRemovedCallback = (event) => this._onEndpointRemoved(event);
-        this._VIRemoteVideoStreamAddedCallback = (event) => this._onRemoteVideoStreamAdded(event);
-        this._VIRemoteVideoStreamRemovedCallback = (event) => this._onRemoteVideoStreamRemoved(event);
 
         this._addEventListeners();
     }
@@ -71,7 +65,7 @@ export default class Endpoint {
 
     //Endpoint events
 
-    _onEndpointInfoUpdated(event) {
+    _VIEndpointInfoUpdated = (event) => {
         if (event.endpointId === this.id) {
             this.displayName = event.displayName;
             this.sipUri = event.sipUri;
@@ -79,18 +73,18 @@ export default class Endpoint {
             this._prepareEvent(event);
             this._emit(EndpointEvents.InfoUpdated, event);
         }
-    }
+    };
 
-    _onEndpointRemoved(event) {
+    _VIEndpointRemoved = (event) => {
         if (event.endpointId === this.id) {
             CallManager.getInstance().removeEndpoint(event.callId, this);
             this._removeEventListeners();
             this._prepareEvent(event);
             this._emit(EndpointEvents.Removed, event);
         }
-    }
+    };
 
-    _onRemoteVideoStreamAdded(event) {
+    _VIEndpointRemoteVideoStreamAdded = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
             let videoStream = new VideoStream(event.videoStreamId, false);
@@ -98,9 +92,9 @@ export default class Endpoint {
             event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamAdded, event);
         }
-    }
+    };
 
-    _onRemoteVideoStreamRemoved(event) {
+    _VIEndpointRemoteVideoStreamRemoved = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
@@ -108,19 +102,22 @@ export default class Endpoint {
             event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamRemoved, event);
         }
-    }
+    };
+
+    _events = ['VIEndpointInfoUpdated',
+        'VIEndpointRemoved',
+        'VIEndpointRemoteVideoStreamAdded',
+        'VIEndpointRemoteVideoStreamRemoved'];
 
     _addEventListeners() {
-        EventEmitter.addListener('VIEndpointInfoUpdated', this._VIEndpointInfoUpdatedCallback);
-        EventEmitter.addListener('VIEndpointRemoved', this._VIEndpointRemovedCallback);
-        EventEmitter.addListener('VIEndpointRemoteVideoStreamAdded', this._VIRemoteVideoStreamAddedCallback);
-        EventEmitter.addListener('VIEndpointRemoteVideoStreamRemoved', this._VIRemoteVideoStreamRemovedCallback);
+        this._events.forEach((item) => {
+            EventEmitter.addListener(item, this[`_${item}`]);
+        });
     }
 
     _removeEventListeners() {
-        EventEmitter.removeListener('VIEndpointInfoUpdated', this._VIEndpointInfoUpdatedCallback);
-        EventEmitter.removeListener('VIEndpointRemoved', this._VIEndpointRemovedCallback);
-        EventEmitter.removeListener('VIEndpointRemoteVideoStreamAdded', this._VIRemoteVideoStreamAddedCallback);
-        EventEmitter.removeListener('VIEndpointRemoteVideoStreamRemoved', this._VIRemoteVideoStreamRemovedCallback);
+        this._events.forEach((item) => {
+            EventEmitter.removeListener(item, this[`_${item}`]);
+        });
     }
 }

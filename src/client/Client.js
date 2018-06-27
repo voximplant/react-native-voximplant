@@ -27,7 +27,7 @@ export default class Client {
     static clientInstance = null;
 
     constructor(clientConfig) {
-        if(Client.clientInstance){
+        if (Client.clientInstance) {
             throw new Error('Error - use Voximplant.getInstance()');
         }
         if (!clientConfig) clientConfig = {};
@@ -45,12 +45,12 @@ export default class Client {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
             ClientModule.init(clientConfig.logLevel);
         }
-        EventEmitter.addListener('VIConnectionEstablished', (event) => this._onConnectionEstablished(event));
-        EventEmitter.addListener('VIConnectionClosed', (event) => this(event));
-        EventEmitter.addListener('VIConnectionFailed', (event) => this._onConnectionFailed(event));
-        EventEmitter.addListener('VIAuthResult', (event) => this._onAuthResult(event));
-        EventEmitter.addListener('VIAuthTokenResult', (event) => this._onAuthTokenResult(event));
-        EventEmitter.addListener('VIIncomingCall', (event) => this._onIncomingCall(event));
+        EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
+        EventEmitter.addListener('VIConnectionClosed', this._onConnectionClosed);
+        EventEmitter.addListener('VIConnectionFailed', this._onConnectionFailed);
+        EventEmitter.addListener('VIAuthResult', this._onAuthResult);
+        EventEmitter.addListener('VIAuthTokenResult', this._onAuthTokenResult);
+        EventEmitter.addListener('VIIncomingCall', this._onIncomingCall);
     }
 
     static getInstance(clientConfig) {
@@ -103,7 +103,7 @@ export default class Client {
             let disconnected = (event) => {
                 resolve(event);
                 EventEmitter.removeListener('VIConnectionClosed', disconnected);
-            }
+            };
             EventEmitter.addListener('VIConnectionClosed', disconnected);
             ClientModule.disconnect();
         });
@@ -200,6 +200,12 @@ export default class Client {
         ClientModule.handlePushNotification(notification);
     }
 
+    /**
+     *
+     * @param number
+     * @param callSettings
+     * @returns {Promise<Call>}
+     */
     call(number, callSettings) {
         //TODO(yulia): add H264First parameter for ios module call
         if (!callSettings) {
@@ -240,30 +246,29 @@ export default class Client {
         }
     }
 
-    _onConnectionEstablished(event) {
+    _onConnectionEstablished = (event) => {
         this._emit(ClientEvents.ConnectionEstablished, event);
-    }
+    };
 
-    _onConnectionFailed(event) {
+    _onConnectionFailed = (event) => {
         this._emit(ClientEvents.ConnectionFailed, event);
-    }
+    };
 
-    _onConnectionClosed(event) {
+    _onConnectionClosed = (event) => {
         this._emit(ClientEvents.ConnectionClosed, event);
-    }
+    };
 
-    _onAuthResult(event) {
+    _onAuthResult = (event) => {
         this._emit(ClientEvents.AuthResult, event);
-    }
+    };
     
-    _onAuthTokenResult(event) {
+    _onAuthTokenResult = (event) => {
         this._emit(ClientEvents.RefreshTokenResult, event);
-    }
+    };
 
-    _onIncomingCall(event) {
-        let call = new Call(event.callId);
-        event.call = call;
+    _onIncomingCall = (event) => {
+        event.call = new Call(event.callId);
         delete event.callId;
         this._emit(ClientEvents.IncomingCall, event);
-    }
+    };
 } 

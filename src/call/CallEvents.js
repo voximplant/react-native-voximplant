@@ -5,19 +5,19 @@
 'use strict';
 
 const CallEvents = {
-    Connected              : 'Connected',
-    Disconnected           : 'Disconnected',
-    EndpointAdded          : 'EndpointAdded',
-    Failed                 : 'Failed',
-    ICECompleted           : 'ICECompleted',
-    ICETimeout             : 'ICETimeout',
-    InfoReceived           : 'InfoReceived',
-    LocalVideoStreamAdded  : 'LocalVideoStreamAdded',
-    LocalVideStreamRemoved : 'LocalVideoStreamRemoved',
-    MessageReceived        : 'MessageReceived',
-    ProgressToneStart      : 'ProgressToneStart',
-    ProgressToneStop       : 'ProgressToneStop',
-    Updated                : 'Updated'
+    Connected               : 'Connected',
+    Disconnected            : 'Disconnected',
+    EndpointAdded           : 'EndpointAdded',
+    Failed                  : 'Failed',
+    ICECompleted            : 'ICECompleted',
+    ICETimeout              : 'ICETimeout',
+    InfoReceived            : 'InfoReceived',
+    LocalVideoStreamAdded   : 'LocalVideoStreamAdded',
+    LocalVideoStreamRemoved : 'LocalVideoStreamRemoved',
+    MessageReceived         : 'MessageReceived',
+    ProgressToneStart       : 'ProgressToneStart',
+    ProgressToneStop        : 'ProgressToneStop',
+    Updated                 : 'Updated'
 };
 
 export default CallEvents;

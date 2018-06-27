@@ -12,7 +12,7 @@
  * @property {boolean} enableDebugLogging - Enable debug logging. Set to false by default. ANDROID ONLY
  * @property {LogLevel} logLevel - Log levels. IOS ONLY
  */
-var ClientConfig = {
+const ClientConfig = {
 
 };
 
@@ -20,7 +20,7 @@ var ClientConfig = {
  * @property {boolean} connectivityCheck - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
  * @property {array} servers - Server name of particular media gateway for connection
  */
-var ConnectOptions = {
+const ConnectOptions = {
 
 };
 
@@ -69,7 +69,7 @@ export const RenderScaleType = {
     SCALE_FIT  : 'fit'
 };
 
-export const CallEroor = {
+export const CallError = {
     ALREADY_IN_THIS_STATE     : 'ALREADY_IN_THIS_STATE',
     FUNCTIONALITY_IS_DISABLED : 'FUNCTIONALITY_IS_DISABLED',
     INCORRECT_OPERATION       : 'INCORRECT_OPERATION',
@@ -105,7 +105,7 @@ export const CameraType = {
  * @property {number} refreshExpire - Seconds to refresh token expire
  * @property {string} refreshToken - Refresh token that can be used one time before refresh token expired
  */
-var LoginTokens = {
+const LoginTokens = {
 
 };
 
@@ -113,7 +113,7 @@ var LoginTokens = {
  * @property {boolean} receiveVideo - Set true if video receive is enabled for a call
  * @property {boolean} sendVideo - Set true if video send is enabled for a call
  */
-var VideoFlags = {
+const VideoFlags = {
 
 };
 
@@ -123,6 +123,6 @@ var VideoFlags = {
  * @property {object} extraHeaders - Optional custom parameter (SIP headers) that should be passes with call (INVITE) message. Parameter names must start with "X-" to be processed. Headers size limit is 200  bytes
  * @property {VideoFlags} video - Tells if video should be supported for the call 
  */
-var CallSettings = {
+const CallSettings = {
 
 };

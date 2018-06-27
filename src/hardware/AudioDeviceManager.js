@@ -22,6 +22,10 @@ const EventEmitter = Platform.select({
 export default class AudioDeviceManager {
     static _instance = null;
 
+    /**
+     *
+     * @returns {AudioDeviceManager}
+     */
     static getInstance() {
         if (this._instance === null) {
             this._instance = new AudioDeviceManager();
@@ -30,11 +34,12 @@ export default class AudioDeviceManager {
     }
 
     constructor() {
+        if (AudioDeviceManager._instance) {
+            throw new Error('Error - use AudioDeviceManager.getInstance()');
+        }
         this.listeners = {};
-        this._VIAudioDeviceChangedCallback = (event) => this._onDeviceChanged(event);
-        this._VIAudioDeviceListChangedCallback = (event) => this._onDeviceListChanged(event);
-        EventEmitter.addListener('VIAudioDeviceChanged', this._VIAudioDeviceChangedCallback);
-        EventEmitter.addListener('VIAudioDeviceListChanged', this._VIAudioDeviceListChangedCallback);
+        EventEmitter.addListener('VIAudioDeviceChanged', this._onDeviceChanged);
+        EventEmitter.addListener('VIAudioDeviceListChanged', this._onDeviceListChanged);
     }
 
     on(event, handler) {
@@ -71,13 +76,13 @@ export default class AudioDeviceManager {
         AudioDeviceModule.selectAudioDevice(audioDevice);
     }
 
-    _onDeviceChanged(event) {
+    _onDeviceChanged = (event) => {
         console.log('AudioDeviceManager: _onDeviceChanged');
         this._emit(AudioDeviceEvents.DeviceChanged, event);
-    }
+    };
 
-    _onDeviceListChanged(event) {
+    _onDeviceListChanged = (event) => {
         console.log('AudioDeviceManager: _onDeviceListChanged');
         this._emit(AudioDeviceEvents.DeviceListChanged, event);
-    }
+    };
 }

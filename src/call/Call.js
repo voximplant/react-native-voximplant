@@ -8,8 +8,8 @@ import React, { Component } from 'react';
 import {
     Platform,
     NativeModules,
-	NativeEventEmitter,
-	DeviceEventEmitter,
+    NativeEventEmitter,
+    DeviceEventEmitter,
 } from 'react-native';
 import CallEvents from './CallEvents';
 import CallManager from './CallManager';
@@ -19,8 +19,8 @@ import VideoStream from './VideoStream';
 const CallModule = NativeModules.CallModule;
 
 const EventEmitter = Platform.select({
-	ios: new NativeEventEmitter(CallModule),
-	android: DeviceEventEmitter,
+    ios: new NativeEventEmitter(CallModule),
+    android: DeviceEventEmitter,
 });
 
 export default class Call {
@@ -130,7 +130,7 @@ export default class Call {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.Connected, event);
         }
-    }
+    };
 
     _VICallDisconnectedCallback = (event) => {
         if (event.callId === this.callId) {
@@ -139,7 +139,7 @@ export default class Call {
             CallManager.getInstance().removeCall(this);
             this._emit(CallEvents.Disconnected, event);
         }
-    }
+    };
 
     _VICallEndpointAddedCallback = (event) => {
         if (event.callId === this.callId) {
@@ -149,7 +149,7 @@ export default class Call {
             event.endpoint = endpoint;
             this._emit(CallEvents.EndpointAdded, event);
         }
-    }
+    };
 
     _VICallFailedCallback = (event) => {
         if (event.callId === this.callId) {
@@ -158,49 +158,49 @@ export default class Call {
             CallManager.getInstance().removeCall(this);
             this._emit(CallEvents.Failed, event);
         }
-    }
+    };
 
     _VICallICETimeoutCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ICETimeout, event);
         }
-    }
+    };
 
     _VICallICECompletedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ICECompleted, event);
         }
-    }
+    };
 
     _VICallInfoReceivedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.InfoReceived, event);
         }
-    }
+    };
 
     _VICallMessageReceivedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.MessageReceived, event);
         }
-    }
+    };
 
     _VICallProgressToneStartCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ProgressToneStart, event);
         }
-    }
+    };
 
     _VICallProgressToneStopCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.ProgressToneStop, event);
         }
-    }
+    };
 
     _VICallLocalVideoStreamAddedCallback = (event) => {
         if (event.callId === this.callId) {
@@ -211,7 +211,7 @@ export default class Call {
             event.videoStream = videoStream;
             this._emit(CallEvents.LocalVideoStreamAdded, event);
         }
-    }
+    };
 
     _VICallLocalVideoStreamRemovedCallback = (event) => {
         if (event.callId === this.callId) {
@@ -221,35 +221,35 @@ export default class Call {
             event.videoStream = videoStream;
             this._emit(CallEvents.LocalVideStreamRemoved, event);
         }
-    }
+    };
 
     _replaceCallIdWithCallInEvent(event) {
         delete event.callId;
         event.call = this;
     }
 
-    _event = ['VICallConnected',
-      'VICallDisconnected',
-      'VICallEndpointAdded',
-      'VICallFailed',
-      'VICallICECompleted',
-      'VICallICETimeout',
-      'VICallInfoReceived',
-      'VICallMessageReceived',
-      'VICallProgressToneStart',
-      'VICallProgressToneStop',
-      'VICallLocalVideoStreamAdded',
-      'VICallLocalVideoStreamRemoved',];
+    _events = ['VICallConnected',
+        'VICallDisconnected',
+        'VICallEndpointAdded',
+        'VICallFailed',
+        'VICallICECompleted',
+        'VICallICETimeout',
+        'VICallInfoReceived',
+        'VICallMessageReceived',
+        'VICallProgressToneStart',
+        'VICallProgressToneStop',
+        'VICallLocalVideoStreamAdded',
+        'VICallLocalVideoStreamRemoved'];
 
     _addEventListeners() {
-        this._event.forEach((item) => {
-            EventEmitter.addListener(item, this[`${item}Callback`]);
+        this._events.forEach((item) => {
+            EventEmitter.addListener(item, this[`_${item}Callback`]);
         });
     }
 
     _removeEventListeners() {
-        this._event.forEach((item) => {
-            EventEmitter.removeListener(item, this[`${item}Callback`]);
+        this._events.forEach((item) => {
+            EventEmitter.removeListener(item, this[`_${item}Callback`]);
         });
     }
 

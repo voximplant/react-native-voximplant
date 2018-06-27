@@ -5,10 +5,10 @@
 'use strict';
 
 const EndpointEvents = {
-    InfoUpdated: 'InfoUpdated',
-    RemoteVideoStreamAdded: 'RemoteVideoStreamAdded',
+    InfoUpdated              : 'InfoUpdated',
+    RemoteVideoStreamAdded   : 'RemoteVideoStreamAdded',
     RemoteVideoStreamRemoved : 'RemoteVideoStreamRemoved',
-    Removed : 'Removed'
+    Removed                  : 'Removed'
 };
 
 export default EndpointEvents;

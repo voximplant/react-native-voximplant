@@ -29,16 +29,15 @@ export default class CameraManager {
     }
 
     constructor() {
+        if (CameraManager._instance) {
+            throw new Error('Error - use CameraManager.getInstance()');
+        }
         this.listeners = {};
         if (Platform.OS === 'android') {
-            this._VICameraDisconnectedCallback = (event) => this._onCameraDisconnected(event);
-            this._VICameraErrorCallback = (event) => this._onCameraError(event);
-            this._VICameraSwitchDoneCallback = (event) => this._onCameraSwitchDone(event);
-            this._VICameraSwitchErrorCallback = (event) => this._onCameraSwitchError(event);
-            EventEmitter.addListener('VICameraDisconnected', this._VICameraDisconnectedCallback);
-            EventEmitter.addListener('VICameraError', this._VICameraErrorCallback);
-            EventEmitter.addListener('VICameraSwitchDone', this._VICameraSwitchDoneCallback);
-            EventEmitter.addListener('VICameraSwitchError', this._VICameraSwitchErrorCallback);
+            EventEmitter.addListener('VICameraDisconnected', this._onCameraDisconnected);
+            EventEmitter.addListener('VICameraError', this._onCameraError);
+            EventEmitter.addListener('VICameraSwitchDone', this._onCameraSwitchDone);
+            EventEmitter.addListener('VICameraSwitchError', this._onCameraSwitchError);
         }  
     }
 
@@ -72,20 +71,20 @@ export default class CameraManager {
         }
     }
 
-    _onCameraDisconnected(event) {
+    _onCameraDisconnected = (event) => {
         this._emit(CameraEvents.CameraDisconnected, event);
-    }
+    };
 
-    _onCameraError(event) {
+    _onCameraError = (event) => {
         this._emit(CameraEvents.CameraError, event);
-    }
+    };
 
-    _onCameraSwitchDone(event) {
+    _onCameraSwitchDone = (event) => {
         this._emit(CameraEvents.CameraSwitchDone, event);
-    }
+    };
 
-    _onCameraSwitchError(event) {
+    _onCameraSwitchError = (event) => {
         this._emit(CameraEvents.CameraSwitchError, event);
-    }
+    };
 
 }

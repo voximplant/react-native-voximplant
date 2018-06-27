@@ -16,7 +16,7 @@ class VoximplantLegacy {
 
   /**
    * Initialization Voximplant SDK
-   * @param {VoxImplantClientConfig} Options
+   * @param {VoxImplantClientConfig} options
    */
   init(options) {
     if (!options) options = {};
@@ -38,7 +38,7 @@ class VoximplantLegacy {
   }
   /**
    * Connect to the Voximplant cloud
-   * @param {VoxImplantConnectOptions} Options
+   * @param {VoxImplantConnectOptions} options
    */
   connect(options) {
     if (!options) options = {};
@@ -60,14 +60,14 @@ class VoximplantLegacy {
    * @param {object} callback - Callback object
    */
   createCall(to, video, customData, callback) {
-    if (typeof(video) == 'function') {
+    if (typeof(video) === 'function') {
       return VoxImplantModule.createCall(to,
              false,
              "",
              video);  
     }
     else
-    if (typeof(customData) == 'function') {
+    if (typeof(customData) === 'function') {
       return VoxImplantModule.createCall(to,
              video,
              "",
@@ -138,7 +138,7 @@ class VoximplantLegacy {
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    */
   startCall(callId, headers) {
-    VoxImplantModule.startCall(callId, headers == undefined ? {} :  headers);
+    VoxImplantModule.startCall(callId, headers === undefined ? {} :  headers);
   };
 
   /**
@@ -156,7 +156,7 @@ class VoximplantLegacy {
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by Voximplant
    */
   disconnectCall(callId, headers) {
-    VoxImplantModule.disconnectCall(callId, headers == undefined ? {} :  headers);
+    VoxImplantModule.disconnectCall(callId, headers === undefined ? {} :  headers);
   };
 
   /**
@@ -165,7 +165,7 @@ class VoximplantLegacy {
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    */
   declineCall(callId, headers) {
-    VoxImplantModule.declineCall(callId, headers == undefined ? {} :  headers);
+    VoxImplantModule.declineCall(callId, headers === undefined ? {} :  headers);
   };
 
   /**
@@ -175,8 +175,8 @@ class VoximplantLegacy {
    */
   answerCall(callId, customData, headers) {
     VoxImplantModule.answerCall(callId, 
-                                customData == undefined ? null : customData,
-                                headers == undefined ? {} :  headers);
+                                customData === undefined ? null : customData,
+                                headers === undefined ? {} :  headers);
   };
 
   /**
@@ -196,7 +196,7 @@ class VoximplantLegacy {
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    */
   sendInfo(callId, mimeType, content, headers) {
-    VoxImplantModule.sendInfo(callId, mimeType, content, headers == undefined ? {} : headers);
+    VoxImplantModule.sendInfo(callId, mimeType, content, headers === undefined ? {} : headers);
   };
 
   /**
@@ -209,7 +209,7 @@ class VoximplantLegacy {
 
   /**
    * Enable/disable loudspeaker
-   * @param {boolean} useLoudSpeaker - Enable/disable loudspeaker
+   * @param {boolean} enable - Enable/disable loudspeaker
    */
   setUseLoudspeaker(enable) {
     VoxImplantModule.setUseLoudspeaker(enable);
@@ -225,7 +225,7 @@ class VoximplantLegacy {
 
   /**
    * Start/stop sending video from local camera
-   * @param {boolean} doSendVideo - Specify if video should be sent
+   * @param {boolean} doSend - Specify if video should be sent
    */
   sendVideo(doSend) {
     VoxImplantModule.sendVideo(doSend);
@@ -441,7 +441,7 @@ class VoximplantLegacy {
    */
   LoginTokens = {
 
-  }
+  };
 
   /**
    * @property {boolean} enableVideo - Enable video functionality. Set to true by default. ANDROID ONLY

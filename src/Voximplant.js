@@ -4,18 +4,34 @@
 
 'use strict';
 
-export Client from './client/Client';
-export Call from './call/Call';
-export CallEvents from './call/CallEvents';
-export Endpoint from './call/Endpoint';
-export VideoStream from './call/VideoStream';
-export VideoView from './call/VideoView';
-export EndpointEvents from './call/EndpointEvents';
-export ClientEvents from './client/ClientEvents';
-export {ClientState,RenderScaleType} from './Structures';
+import Client from './client/Client';
+import Call from './call/Call';
+import CallEvents from './call/CallEvents';
+import Endpoint from './call/Endpoint';
+import VideoStream from './call/VideoStream';
+import VideoView from './call/VideoView';
+import EndpointEvents from './call/EndpointEvents';
+import ClientEvents from './client/ClientEvents';
+import {ClientState, CameraType, RenderScaleType, LogLevel, CallError} from "./Structures";
 import * as Hardware from './hardware';
 
-export {Hardware};
-export const getInstance = (clientConfig) =>{
+export const getInstance = (clientConfig) => {
     return Client.getInstance(clientConfig);
+};
+
+export {
+    Client,
+    Call,
+    CallEvents,
+    Endpoint,
+    VideoStream,
+    VideoView,
+    EndpointEvents,
+    ClientEvents,
+    ClientState,
+    CameraType,
+    RenderScaleType,
+    CallError,
+    LogLevel,
+    Hardware
 };
