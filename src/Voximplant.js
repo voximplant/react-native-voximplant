@@ -15,6 +15,11 @@ import ClientEvents from './client/ClientEvents';
 import {ClientState, CameraType, RenderScaleType, LogLevel, CallError} from "./Enums";
 import * as Hardware from './hardware';
 
+/**
+ * Get VoxImplant.Client instance to use platform functions
+ * @param {ClientConfig} clientConfig Configuration for new Client instance.
+ * @returns {Voximplant.Client}
+ */
 export const getInstance = (clientConfig) => {
     return Client.getInstance(clientConfig);
 };

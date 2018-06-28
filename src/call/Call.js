@@ -29,8 +29,9 @@ export default class Call {
         this.callId = callId;
         this.listeners = {};
 
-        CallModule.internalSetup(this.callId);
         this._addEventListeners();
+        CallModule.internalSetup(this.callId);
+
         CallManager.getInstance().addCall(this);
     }
 
