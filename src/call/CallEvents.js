@@ -16,8 +16,7 @@ const CallEvents = {
     LocalVideoStreamRemoved : 'LocalVideoStreamRemoved',
     MessageReceived         : 'MessageReceived',
     ProgressToneStart       : 'ProgressToneStart',
-    ProgressToneStop        : 'ProgressToneStop',
-    Updated                 : 'Updated'
+    ProgressToneStop        : 'ProgressToneStop'
 };
 
 export default CallEvents;
