@@ -223,6 +223,7 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 RCT_REMAP_METHOD(createAndStartCall,
                  callUser:(NSString *)user
                  withVideoSettings:(NSDictionary *)videoFlags
+                 withH264Codec:(BOOL)H264first
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers
                  responseCallback:(RCTResponseSenderBlock)callback) {
@@ -232,6 +233,9 @@ RCT_REMAP_METHOD(createAndStartCall,
                               receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                                 customData:customData];
         if (call) {
+            if (H264first) {
+                call.preferredVideoCodec = @"H264";
+            }
             [CallManager addCall:call];
             [call startWithHeaders:headers];
             callback(@[call.callId]);

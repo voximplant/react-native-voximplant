@@ -214,7 +214,6 @@ export default class Client {
      * @returns {Promise<Call>}
      */
     call(number, callSettings) {
-        //TODO(yulia): add H264First parameter for ios module call
         if (!callSettings) {
             callSettings = {};
         }
@@ -233,14 +232,26 @@ export default class Client {
             callSettings.extraHeaders = null;
         }
         return new Promise((resolve, reject) => {
-            ClientModule.createAndStartCall(number, callSettings.video, callSettings.customData, callSettings.extraHeaders, (callId) => {
-                if (callId) {
-                    let call = new Call(callId);
-                    resolve(call);
-                } else {
-                    reject();
-                }
-            });
+            if (Platform.OS === 'android') {
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.customData, callSettings.extraHeaders, (callId) => {
+                    if (callId) {
+                        let call = new Call(callId);
+                        resolve(call);
+                    } else {
+                        reject();
+                    }
+                });
+            }
+            if (Platform.OS === 'ios') {
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.H264First, callSettings.customData, callSettings.extraHeaders, (callId) => {
+                    if (callId) {
+                        let call = new Call(callId);
+                        resolve(call);
+                    } else {
+                        reject();
+                    }
+                });
+            }
         });
     }
 
