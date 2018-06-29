@@ -7,10 +7,14 @@
 
 /**
  * @property {boolean} enableVideo - Enable video functionality. Set to true by default. ANDROID ONLY
+ * @property {boolean} enableCameraMirroring - Enable/disable front facing camera mirroring. True by default. ANDROID ONLY.
+ * @property {boolean} enableLogcatLogging - Enable log output to logcat. True by default. ANDROID ONLY
+ * @property {boolean} H264first - Use H264 video codec, if exist. ANDROID ONLY
  * @property {boolean} enableHWAcceleration - Enable hardware video acceleration. Set to true by default. Should be set to false, if provideLocalFramesInByteBuffers is set to true. ANDROID ONLY
  * @property {boolean} provideLocalFramesInByteBuffers - Request video frames from camera in I420 format with byte buffers. Set to false by default. If set to false, video frames from camera will be provided in I420 format with textures. ANDROID ONLY
  * @property {boolean} enableDebugLogging - Enable debug logging. Set to false by default. ANDROID ONLY
  * @property {LogLevel} logLevel - Log levels. IOS ONLY
+ * @property {boolean} saveLogsToFile -  Enable saving of the logs to file. Log files are located at: Library/Caches/Logs. False by default. IOS ONLY
  */
 const ClientConfig = {
 

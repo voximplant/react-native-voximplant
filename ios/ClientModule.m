@@ -70,7 +70,10 @@ RCT_EXPORT_MODULE();
     }
 }
 
-RCT_EXPORT_METHOD(init:(VILogLevel)logLevel) {
+RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel saveLogsToFile:(BOOL)enable) {
+    if (enable) {
+        [VIClient saveLogToFileEnable];
+    }
     [VIClient setLogLevel:logLevel];
     _client = [CallManager getClient];
     _client.sessionDelegate = self;

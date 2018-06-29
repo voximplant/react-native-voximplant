@@ -36,14 +36,21 @@ export default class Client {
             if (clientConfig.enableHWAcceleration === undefined) clientConfig.enableHWAcceleration = true;
             if (clientConfig.provideLocalFramesInByteBuffer === undefined) clientConfig.provideLocalFramesInByteBuffer = false;
             if (clientConfig.enableDebugLogging === undefined) clientConfig.enableDebugLogging = false;
+            if (clientConfig.enableCameraMirroring === undefined) clientConfig.enableCameraMirroring = true;
+            if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
+            if (clientConfig.H264first === undefined) clientConfig.H264first = false;
             ClientModule.init(clientConfig.enableVideo,
                 clientConfig.enableHWAcceleration,
                 clientConfig.provideLocalFramesInByteBuffer,
-                clientConfig.enableDebugLogging);
+                clientConfig.enableDebugLogging,
+                clientConfig.enableCameraMirroring,
+                clientConfig.enableLogcatLogging,
+                clientConfig.H264first);
         }
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
-            ClientModule.init(clientConfig.logLevel);
+            if (clientConfig.saveLogsToFile === undefined) clientConfig.saveLogsToFile = false;
+            ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
         EventEmitter.addListener('VIConnectionClosed', this._onConnectionClosed);
@@ -55,7 +62,7 @@ export default class Client {
 
     static getInstance(clientConfig) {
         if (this.clientInstance === null) {
-            this.clientInstance = new Client();
+            this.clientInstance = new Client(clientConfig);
         }
         return this.clientInstance;
     }
