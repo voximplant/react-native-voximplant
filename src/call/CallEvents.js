@@ -8,6 +8,7 @@
  * The events that are triggered by {@link Call} instance.
  * Use {@link Call#on} to subscribe on any of these events.
  *
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{Connected: string, Disconnected: string, EndpointAdded: string, Failed: string, ICECompleted: string, ICETimeout: string, InfoReceived: string, LocalVideoStreamAdded: string, LocalVideoStreamRemoved: string, MessageReceived: string, ProgressToneStart: string, ProgressToneStop: string}}
  */

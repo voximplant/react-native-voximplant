@@ -6,6 +6,7 @@
 
 /**
  * Camera events listener to be notified about camera events on Android only
+ * @memberof Voximplant.Hardware
  * @enum {string}
  * @type {{CameraDisconnected: string, CameraError: string, CameraSwitchDone: string, CameraSwitchError: string}}
  */

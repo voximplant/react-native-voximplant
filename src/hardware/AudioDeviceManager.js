@@ -20,6 +20,7 @@ const EventEmitter = Platform.select({
 });
 
 /**
+ * @memberof Voximplant.Hardware
  * @class AudioDeviceManager
  * @classdesc Class may be used to manage audio devices, i.e. see current active device, select another active device and get the list of available devices.
  */

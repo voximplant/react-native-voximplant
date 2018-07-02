@@ -6,6 +6,7 @@
 
 /**
  * Events that may be used to monitor and handle audio device change events
+ * @memberof Voximplant.Hardware
  * @enum {string}
  * @type {{DeviceChanged: string, DeviceListChanged: string}}
  */

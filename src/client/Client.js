@@ -24,6 +24,7 @@ const EventEmitter = Platform.select({
 });
 
 /**
+ * @memberOf Voximplant
  * @class Client
  * @classdesc The Client class is used to control platform functions. Can't be instantiated directly (singleton), so use the {@link Voximplant#getInstance} method to get the class instance.
  */

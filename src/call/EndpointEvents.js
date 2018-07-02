@@ -6,6 +6,7 @@
 
 /**
  * Events that are triggered when Endpoint is updated/edited, removed or started/stopped to receive stream from another Endpoint.
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{InfoUpdated: string, RemoteVideoStreamAdded: string, RemoteVideoStreamRemoved: string, Removed: string}}
  */

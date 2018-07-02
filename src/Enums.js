@@ -6,6 +6,7 @@
 
 /**
  * Enum of log levels. IOS ONLY
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{ERROR: string, WARNING: string, INFO: string, DEBUG: string, VERBOSE: string, MAX: string}}
  */
@@ -38,6 +39,7 @@ export const LogLevel = {
 
 /**
  * The client states
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{DISCONNECTED: string, CONNECTING: string, CONNECTED: string, LOGGING_IN: string, LOGGED_IN: string}}
  */
@@ -56,6 +58,7 @@ export const ClientState = {
 
 /**
  * Types of video rendering scaling
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{SCALE_FILL: string, SCALE_FIT: string}}
  */
@@ -66,6 +69,7 @@ export const RenderScaleType = {
 
 /**
  * Call related errors
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{ALREADY_IN_THIS_STATE: string, FUNCTIONALITY_IS_DISABLED: string, INCORRECT_OPERATION: string, INTERNAL_ERROR: string, MEDIA_IS_ON_HOLD: string, MISSING_PERMISSION: string, REJECTED: string, TIMEOUT: string}}
  */
@@ -90,6 +94,7 @@ export const CallError = {
 
 /**
  * Enum representing audio devices
+ * @memberOf Voximplant.Hardware
  * @enum {string}
  * @type {{BLUETOOTH: string, EARPIECE: string, NONE: string, SPEAKER: string, WIRED_HEADSET: string}}
  */
@@ -110,6 +115,7 @@ export const AudioDevice = {
 
 /**
  * Enum representing camera types
+ * @memberOf Voximplant.Hardware
  * @enum {string}
  * @type {{FRONT: string, BACK: string}}
  */

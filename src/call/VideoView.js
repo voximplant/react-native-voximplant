@@ -15,6 +15,9 @@ const RCTVoximplantVideoView = requireNativeComponent(
     VideoView
 );
 
+/**
+ * @memberOf Voximplant
+ */
 export default class VideoView extends Component {
     render() {
         return (

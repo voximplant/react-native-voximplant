@@ -19,6 +19,7 @@ const EventEmitter = Platform.select({
 });
 
 /**
+ * @memberof Voximplant.Hardware
  * @class CameraManager
  * @classdesc Class that may be used to manage cameras on a device.
  */

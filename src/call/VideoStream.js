@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 
 /**
+ * @memberOf Voximplant
  * @class VideoStream
  * @classdesc Class that represents a video stream within a call.
  */

@@ -2,6 +2,10 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
+/**
+ * @module Voximplant.Hardware
+ */
+
 'use strict';
 
 import AudioDeviceManager from './AudioDeviceManager';

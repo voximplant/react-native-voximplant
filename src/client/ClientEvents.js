@@ -6,6 +6,7 @@
 
 /**
  * The events that are triggered by Client instance. See {@link Voximplant#getInstance}.
+ * @memberOf Voximplant
  * @enum {string}
  * @type {{ConnectionEstablished: string, ConnectionFailed: string, ConnectionClosed: string, AuthResult: string, RefreshTokenResult: string, IncomingCall: string}}
  */

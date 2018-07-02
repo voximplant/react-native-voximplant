@@ -24,6 +24,7 @@ const EventEmitter = Platform.select({
 });
 
 /**
+ * @memberOf Voximplant
  * @class Endpoint
  * @classdesc Class that represents any remote media unit in a call. Current endpoints can be retrieved via the {@link Call#getEndpoints} method.
  */
