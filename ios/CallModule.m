@@ -45,10 +45,14 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
 RCT_REMAP_METHOD(answer,
                  answerCall:(NSString *)callId
                  withVideoSettings:(NSDictionary *)videoFlags
+                 withH264codec:(BOOL)H264first
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers) {
     VICall *call = [CallManager getCallById:callId];
     if (call) {
+        if (H264first) {
+            call.preferredVideoCodec = @"H264";
+        }
         [call answerWithSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
                      receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                        customData:customData

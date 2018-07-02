@@ -77,7 +77,6 @@ export default class Call {
      * @param {CallSettings} [callSettings] Optional set of call settings.
      */
     answer(callSettings) {
-        //TODO(yulia): add H264First parameter for ios module call
         if (!callSettings) {
             callSettings = {};
         }
@@ -96,7 +95,12 @@ export default class Call {
             callSettings.extraHeaders = null;
         }
 
-        CallModule.answer(this.callId, callSettings.video, callSettings.customData, callSettings.extraHeaders);
+        if (Platform.OS === 'android') {
+            CallModule.answer(this.callId, callSettings.video, callSettings.customData, callSettings.extraHeaders);
+        }
+        if (Platform.OS === 'ios') {
+            CallModule.answer(this.callId, callSettings.video, callSettings.H264First, callSettings.customData, callSettings.extraHeaders);
+        }
     }
 
     /**
