@@ -6,7 +6,23 @@
 
 import React, { Component } from 'react';
 
+/**
+ * @class VideoStream
+ * @classdesc Class that represents a video stream within a call.
+ */
 export default class VideoStream {
+    /**
+     * @member {string} id The video stream id.
+     */
+    id;
+    /**
+     * @member {boolean} isLocal True if video stream is local, false otherwise.
+     */
+    isLocal;
+
+    /**
+     * @ignore
+     */
     constructor(id, isLocal) {
         this.id = id;
         this.isLocal = isLocal;

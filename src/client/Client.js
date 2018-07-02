@@ -23,11 +23,21 @@ const EventEmitter = Platform.select({
 	android: DeviceEventEmitter,
 });
 
+/**
+ * @class Client
+ * @classdesc The Client class is used to control platform functions. Can't be instantiated directly (singleton), so use the {@link Voximplant#getInstance} method to get the class instance.
+ */
 export default class Client {
-    static clientInstance = null;
+    /**
+     * @private
+     */
+    static _clientInstance = null;
 
+    /**
+     * @ignore
+     */
     constructor(clientConfig) {
-        if (Client.clientInstance) {
+        if (Client._clientInstance) {
             throw new Error('Error - use Voximplant.getInstance()');
         }
         if (!clientConfig) clientConfig = {};
@@ -60,13 +70,22 @@ export default class Client {
         EventEmitter.addListener('VIIncomingCall', this._onIncomingCall);
     }
 
+    /**
+     * @ignore
+     */
     static getInstance(clientConfig) {
-        if (this.clientInstance === null) {
-            this.clientInstance = new Client(clientConfig);
+        if (this._clientInstance === null) {
+            this._clientInstance = new Client(clientConfig);
         }
-        return this.clientInstance;
+        return this._clientInstance;
     }
 
+    /**
+     * Register handler for specified client event.
+     * Use {@link Client#off} method to delete a handler.
+     * @param {ClientEvents} event
+     * @param {function} handler Handler function
+     */
     on(event, handler) {
         if (!listeners[event]) {
             listeners[event] = new Set();
@@ -74,12 +93,22 @@ export default class Client {
         listeners[event].add(handler);
     }
 
+    /**
+     * Remove handler for specified event
+     * @param {ClientEvents} event
+     * @param {function} handler Handler function
+     */
     off(event, handler) {
         if (listeners[event]) {
             listeners[event].delete(handler);
         }
     }
 
+    /**
+     * Connect to the Voximplant Cloud
+     * @param {ConnectOptions} options
+     * @returns {Promise<any>}
+     */
     connect(options) {
         return new Promise((resolve, reject) => {
             if (!options) options = {};
@@ -105,6 +134,11 @@ export default class Client {
         });
     };
 
+    /**
+     * Disconnect from the Voximplant Cloud
+     * @returns {Promise<any>}
+     * @todo promise
+     */
     disconnect() {
         return new Promise((resolve, reject) => {
             let disconnected = (event) => {
@@ -116,10 +150,20 @@ export default class Client {
         });
     }
 
+    /**
+     * Get current client state
+     * @returns {Promise<ClientState>}
+     */
     getClientState() {
         return ClientModule.getClientState();
     }
 
+    /**
+     * Login to specified Voximplant application with password.
+     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} password User password
+     * @returns {Promise<any>}
+     */
     login(username, password) {
         return new Promise((resolve, reject) => {
             let loginResult = (event) => {
@@ -135,6 +179,15 @@ export default class Client {
         });
     }
 
+    /**
+     * Login to specified Voximplant application using 'onetimekey' auth method. Hash should be calculated with the key received in AuthResult event.
+     * Please, read {@link http://voximplant.com/docs/quickstart/24/automated-login/ howto page}
+     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} hash Hash that was generated using following formula: MD5(oneTimeKey+"|"+MD5(user+":voximplant.com:"+password)).
+     * Please note that here user is just a user name, without app name, account name or anything else after "@".
+     * So if you pass myuser@myapp.myacc.voximplant.com as a username, you should only use myuser while computing this hash.
+     * @returns {Promise<any>}
+     */
     loginWithOneTimeKey(username, hash) {
         return new Promise((resolve, reject) => {
             let loginResult = (event) => {
@@ -150,6 +203,12 @@ export default class Client {
         });
     }
 
+    /**
+     * Login to specified Voximplant application using accessToken
+     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} token Access token that was obtained in AuthResult event
+     * @returns {Promise<any>}
+     */
     loginWithToken(username, token) {
         return new Promise((resolve, reject) => {
             let loginResult = (event) => {
@@ -165,6 +224,11 @@ export default class Client {
         });
     }
 
+    /**
+     * Request a key for 'onetimekey' auth method. Server will send the key in AuthResult event with code 302
+     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @returns {Promise<any>}
+     */
     requestOneTimeLoginKey(username) {
         return new Promise((resolve, reject) => {
             let requestResult = (event) => {
@@ -180,6 +244,12 @@ export default class Client {
         });
     }
 
+    /**
+     * Refresh expired access token
+     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} refreshToken Refresh token that was obtained in AuthResult event
+     * @returns {Promise<any>}
+     */
     tokenRefresh(username, refreshToken) {
         return new Promise((resolve, reject) => {
             let refreshResult = (event) => {
@@ -195,22 +265,34 @@ export default class Client {
         });
     }
 
+    /**
+     * Register for push notifications. Application will receive push notifications from the Voximplant Server after first log in
+     * @param {string} token Push registration token
+     */
     registerPushNotificationsToken(token) {
         ClientModule.registerPushNotificationsToken(token);
     }
 
+    /**
+     * Unregister from push notifications. Application will no longer receive push notifications from the Voximplant server
+     * @param {string} token Push registration token
+     */
     unregisterPushNotificationsToken(token) {
         ClientModule.unregisterPushNotificationsToken(token);
     }
 
+    /**
+     * Handle incoming push notification
+     * @param {object} notification Incoming push notification
+     */
     handlePushNotification(notification) {
         ClientModule.handlePushNotification(notification);
     }
 
     /**
-     *
-     * @param number
-     * @param callSettings
+     * Create outgoing call
+     * @param {string} number The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
+     * @param {CallSettings} callSettings
      * @returns {Promise<Call>}
      */
     call(number, callSettings) {
@@ -255,6 +337,9 @@ export default class Client {
         });
     }
 
+    /**
+     * @private
+     */
     _emit(event, ...args) {
         const handlers = listeners[event];
         if (handlers) {
@@ -264,26 +349,44 @@ export default class Client {
         }
     }
 
+    /**
+     * @private
+     */
     _onConnectionEstablished = (event) => {
         this._emit(ClientEvents.ConnectionEstablished, event);
     };
 
+    /**
+     * @private
+     */
     _onConnectionFailed = (event) => {
         this._emit(ClientEvents.ConnectionFailed, event);
     };
 
+    /**
+     * @private
+     */
     _onConnectionClosed = (event) => {
         this._emit(ClientEvents.ConnectionClosed, event);
     };
 
+    /**
+     * @private
+     */
     _onAuthResult = (event) => {
         this._emit(ClientEvents.AuthResult, event);
     };
-    
+
+    /**
+     * @private
+     */
     _onAuthTokenResult = (event) => {
         this._emit(ClientEvents.RefreshTokenResult, event);
     };
 
+    /**
+     * @private
+     */
     _onIncomingCall = (event) => {
         event.call = new Call(event.callId);
         delete event.callId;

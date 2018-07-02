@@ -23,8 +23,19 @@ const EventEmitter = Platform.select({
     android: DeviceEventEmitter,
 });
 
+/**
+ * @class Call
+ * @classdesc CLass that may be used for call operations like answer, reject, hang up abd mid-call operations like hold, start/stop video and others.
+ */
 export default class Call {
+    /**
+     * @member {string} id The call id
+     */
+    callId;
 
+    /**
+     * @ignore
+     */
     constructor(callId) {
         this.callId = callId;
         this.listeners = {};
@@ -35,6 +46,13 @@ export default class Call {
         CallManager.getInstance().addCall(this);
     }
 
+    /**
+     * Register a handler for the specified call event.
+     * One event can have more than one handler.
+     * Use the {@link Call#off} method to delete a handler.
+     * @param {CallEvents} event
+     * @param {function} handler  Handler function. A single parameter is passed - object with event information
+     */
     on(event, handler) {
         if (!this.listeners[event]) {
             this.listeners[event] = new Set();
@@ -42,12 +60,21 @@ export default class Call {
         this.listeners[event].add(handler);
     }
 
+    /**
+     * Remove a handler for the specified call event.
+     * @param {CallEvents} event
+     * @param {function} handler Handler function
+     */
     off(event, handler) {
         if (this.listeners[event]) {
             this.listeners[event].delete(handler);
         }
     }
 
+    /**
+     * Answer the incoming call.
+     * @param {CallSettings} [callSettings] Optional set of call settings.
+     */
     answer(callSettings) {
         //TODO(yulia): add H264First parameter for ios module call
         if (!callSettings) {
@@ -71,50 +98,115 @@ export default class Call {
         CallModule.answer(this.callId, callSettings.video, callSettings.customData, callSettings.extraHeaders);
     }
 
+    /**
+     * Reject incoming call on all devices, where this user logged in.
+     * @param {object} [headers]  Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     */
     decline(headers) {
         CallModule.decline(this.callId, headers);
     }
 
+    /**
+     * Reject incoming call on the part of Web SDK.
+     * If a call is initiated from the PSTN, the network will receive "reject" command.
+     * In case of a call from another Web SDK client, it will receive the CallEvents.Failed event with the 603 code.
+     * @param {object} headers  Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     */
     reject(headers) {
         CallModule.reject(this.callId, headers);
     }
 
+    /**
+     * Enables or disables audio transfer from microphone into the call.
+     * @param {boolean} enable True if audio should be sent, false otherwise
+     */
     sendAudio(enable) {
         CallModule.sendAudio(this.callId, enable);
     }
 
+    /**
+     * Send tone (DTMF). It triggers the {@link https://voximplant.com/docs/references/appengine/CallEvents.html#CallEvents_ToneReceived CallEvents.ToneReceived} event in the Voximplant cloud.
+     * @param {string} key Send tone according to pressed key: 0-9 , * , #
+     */
     sendTone(key) {
         CallModule.sendDTMF(this.callId, key);
     }
 
+    /**
+     * Start/stop sending video from a call.
+     * In case of a remote participant uses a React Native SDK client, it will receive either
+     * the {@link EndpointEvents#RemoteVideoStreamAdded} or {@link EndpointEvents#RemoteVideoStreamRemoved} event accordingly.
+     * @param {boolean} enable True if video should be sent, false otherwise
+     * @returns {Promise}
+     * @todo promise description
+     */
     sendVideo(enable) {
         return CallModule.sendVideo(this.callId, enable);
     }
 
+    /**
+     * Hold or unhold the call
+     * @param {boolean} enable True if the call should be put on hold, false for unhold
+     * @returns {Promise}
+     * @todo promise description
+     */
     hold(enable) {
         return CallModule.hold(this.callId, enable);
     }
 
+    /**
+     * Start receive video if video receive was disabled before. Stop receiving video during the call is not supported.
+     * @returns {Promise}
+     * @todo promise description
+     */
     receiveVideo() {
         return CallModule.receiveVideo(this.callId);
     }
 
+    /**
+     * Hangup the call
+     * @param {object} [headers] Optional custom parameters (SIP headers) that should be sent after disconnecting/cancelling call. Parameter names must start with "X-" to be processed by application
+     */
     hangup(headers) {
         CallModule.hangup(this.callId, headers);
     }
 
+    /**
+     * Send text message. It is a special case of the {@link Call#sendInfo} method as it allows to send messages only of "text/plain" type.
+     * You can get this message via the Voxengine {@link https://voximplant.com/docs/references/websdk/voximplant/callevents#messagereceived CallEvents.MessageReceived} event in our cloud.
+     * You can get this message in Web SDK on other side via the {@link CallEvents#MessageReceived} event; see the similar events for the Web, iOS and Android SDKs.
+     * @param {string} message Message text
+     * @todo links to web, ios, and android sdks
+     */
     sendMessage(message) {
         CallModule.sendMessage(this.callId, message);
     }
 
+    /**
+     * Send Info (SIP INFO) message inside the call.
+     * You can get this message via the Voxengine {@link https://voximplant.com/docs/references/websdk/voximplant/callevents#inforeceived CallEvents.InfoReceived}
+     * event in the Voximplant cloud.
+     * You can get this message in Web SDK on other side via the {@link CallEvents.InfoReceived} event; see the similar events for the iOS and Android SDKs.
+     * @param {string} mimeType MIME type of the message, for example "text/plain", "multipart/mixed" etc.
+     * @param {string} body Message content
+     * @param {object} [extraHeaders] Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     * @todo links to android, web and ios sdks
+     */
     sendInfo(mimeType, body, extraHeaders) {
         CallModule.sendInfo(this.callId, mimeType, body, extraHeaders);
     }
 
+    /**
+     * Get all current Endpoints in the call.
+     * @returns {Endpoint[]}
+     */
     getEndpoints() {
         return [...CallManager.getInstance().getCallEndpoints(this.callId)];
     }
 
+    /**
+     * @private
+     */
     _emit(event, ...args) {
         const handlers = this.listeners[event];
         if (handlers) {
@@ -126,6 +218,9 @@ export default class Call {
 
     //Call events
 
+    /**
+     * @private
+     */
     _VICallConnectedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -133,6 +228,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallDisconnectedCallback = (event) => {
         if (event.callId === this.callId) {
             this._removeEventListeners();
@@ -142,6 +240,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallEndpointAddedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -152,6 +253,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallFailedCallback = (event) => {
         if (event.callId === this.callId) {
             this._removeEventListeners();
@@ -161,6 +265,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallICETimeoutCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -168,6 +275,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallICECompletedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -175,6 +285,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallInfoReceivedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -182,6 +295,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallMessageReceivedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -189,6 +305,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallProgressToneStartCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -196,6 +315,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallProgressToneStopCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -203,6 +325,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallLocalVideoStreamAddedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -214,6 +339,9 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _VICallLocalVideoStreamRemovedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
@@ -224,11 +352,17 @@ export default class Call {
         }
     };
 
+    /**
+     * @private
+     */
     _replaceCallIdWithCallInEvent(event) {
         delete event.callId;
         event.call = this;
     }
 
+    /**
+     * @private
+     */
     _events = ['VICallConnected',
         'VICallDisconnected',
         'VICallEndpointAdded',
@@ -242,12 +376,18 @@ export default class Call {
         'VICallLocalVideoStreamAdded',
         'VICallLocalVideoStreamRemoved'];
 
+    /**
+     * @private
+     */
     _addEventListeners() {
         this._events.forEach((item) => {
             EventEmitter.addListener(item, this[`_${item}Callback`]);
         });
     }
 
+    /**
+     * @private
+     */
     _removeEventListeners() {
         this._events.forEach((item) => {
             EventEmitter.removeListener(item, this[`_${item}Callback`]);

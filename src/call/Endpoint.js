@@ -23,7 +23,34 @@ const EventEmitter = Platform.select({
 	android: DeviceEventEmitter,
 });
 
+/**
+ * @class Endpoint
+ * @classdesc Class that represents any remote media unit in a call. Current endpoints can be retrieved via the {@link Call#getEndpoints} method.
+ */
 export default class Endpoint {
+    /**
+     * @member {string} id The endpoint id
+     */
+    id;
+
+    /**
+     * @member {string} displayName User display name of the endpoint.
+     */
+    displayName;
+
+    /**
+     * @member {string} sipUri SIP URI of the endpoint
+     */
+    sipUri;
+
+    /**
+     * @member {string} userName User name of the endpoint.
+     */
+    userName;
+
+    /**
+     * @ignore
+     */
     constructor(id, displayName, sipUri, userName) {
         this.id = id;
         this.displayName = displayName;
@@ -34,6 +61,13 @@ export default class Endpoint {
         this._addEventListeners();
     }
 
+    /**
+     * Register a handler for the specified endpoint event.
+     * One event can have more than one handler.x
+     * Use the {@link Endpoint#off} method to delete a handler.
+     * @param {EndpointEvents} event
+     * @param {function} handler
+     */
     on(event, handler) {
         if (!this.listeners[event]) {
             this.listeners[event] = new Set();
@@ -41,12 +75,20 @@ export default class Endpoint {
         this.listeners[event].add(handler);
     }
 
+    /**
+     * Remove a handler for the specified endpoint event.
+     * @param {EndpointEvents} event
+     * @param {function} handler
+     */
     off(event, handler) {
         if (this.listeners[event]) {
             this.listeners[event].delete(handler);
         }
     }
 
+    /**
+     * @private
+     */
     _emit(event, ...args) {
         const handlers = this.listeners[event];
         if (handlers) {
@@ -56,6 +98,9 @@ export default class Endpoint {
         }
     }
 
+    /**
+     * @private
+     */
     _prepareEvent(event) {
         delete event.endpointId;
         event.endpoint = this;
@@ -64,7 +109,10 @@ export default class Endpoint {
     }
 
     //Endpoint events
-
+    /**
+     *
+     * @private
+     */
     _VIEndpointInfoUpdated = (event) => {
         if (event.endpointId === this.id) {
             this.displayName = event.displayName;
@@ -75,6 +123,9 @@ export default class Endpoint {
         }
     };
 
+    /**
+     * @private
+     */
     _VIEndpointRemoved = (event) => {
         if (event.endpointId === this.id) {
             CallManager.getInstance().removeEndpoint(event.callId, this);
@@ -84,6 +135,9 @@ export default class Endpoint {
         }
     };
 
+    /**
+     * @private
+     */
     _VIEndpointRemoteVideoStreamAdded = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
@@ -94,6 +148,9 @@ export default class Endpoint {
         }
     };
 
+    /**
+     * @private
+     */
     _VIEndpointRemoteVideoStreamRemoved = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
@@ -104,17 +161,26 @@ export default class Endpoint {
         }
     };
 
+    /**
+     * @private
+     */
     _events = ['VIEndpointInfoUpdated',
         'VIEndpointRemoved',
         'VIEndpointRemoteVideoStreamAdded',
         'VIEndpointRemoteVideoStreamRemoved'];
 
+    /**
+     * @private
+     */
     _addEventListeners() {
         this._events.forEach((item) => {
             EventEmitter.addListener(item, this[`_${item}`]);
         });
     }
 
+    /**
+     * @private
+     */
     _removeEventListeners() {
         this._events.forEach((item) => {
             EventEmitter.removeListener(item, this[`_${item}`]);

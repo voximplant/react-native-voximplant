@@ -18,7 +18,6 @@ const RCTVoximplantVideoView = requireNativeComponent(
 export default class VideoView extends Component {
     render() {
         return (
-            
             <RCTVoximplantVideoView style={this.props.style} videoStreamId={this.props.videoStreamId} scaleType={this.props.scaleType} />
         );
     }
