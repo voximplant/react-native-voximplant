@@ -17,6 +17,7 @@ const RCTVoximplantVideoView = requireNativeComponent(
 
 /**
  * @memberOf Voximplant
+ * A React component to render video streams
  */
 export default class VideoView extends Component {
     render() {
@@ -26,6 +27,11 @@ export default class VideoView extends Component {
     }
 }
 
+/**
+ * @memberOf Voximplant.VideoView
+ * @property {string} videoStreamId - Id of the video stream that will be rendered to the video view
+ * @property {Voximplant.RenderScaleType} - Type of video render scale
+ */
 VideoView.propTypes = {
     videoStreamId: PropTypes.string,
     scaleType: PropTypes.oneOf([RenderScaleType.SCALE_FIT, RenderScaleType.SCALE_FILL]),
