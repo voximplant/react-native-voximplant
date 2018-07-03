@@ -30,22 +30,26 @@ const EventEmitter = Platform.select({
  */
 export default class Endpoint {
     /**
-     * @member {string} id The endpoint id
+     * @member {string} id - The endpoint id
+     * @memberOf Voximplant.Endpoint
      */
     id;
 
     /**
-     * @member {string} displayName User display name of the endpoint.
+     * @member {string} displayName - User display name of the endpoint.
+     * @memberOf Voximplant.Endpoint
      */
     displayName;
 
     /**
-     * @member {string} sipUri SIP URI of the endpoint
+     * @member {string} sipUri - SIP URI of the endpoint
+     * @memberOf Voximplant.Endpoint
      */
     sipUri;
 
     /**
-     * @member {string} userName User name of the endpoint.
+     * @member {string} userName - User name of the endpoint.
+     * @memberOf Voximplant.Endpoint
      */
     userName;
 
@@ -65,9 +69,10 @@ export default class Endpoint {
     /**
      * Register a handler for the specified endpoint event.
      * One event can have more than one handler.x
-     * Use the {@link Endpoint#off} method to delete a handler.
-     * @param {EndpointEvents} event
+     * Use the {@link Voximplant.Endpoint#off} method to delete a handler.
+     * @param {Voximplant.EndpointEvents} event
      * @param {function} handler
+     * @memberOf Voximplant.Endpoint
      */
     on(event, handler) {
         if (!this.listeners[event]) {
@@ -78,8 +83,9 @@ export default class Endpoint {
 
     /**
      * Remove a handler for the specified endpoint event.
-     * @param {EndpointEvents} event
+     * @param {Voximplant.EndpointEvents} event
      * @param {function} handler
+     * @memberOf Voximplant.Endpoint
      */
     off(event, handler) {
         if (this.listeners[event]) {
@@ -119,6 +125,10 @@ export default class Endpoint {
             this.displayName = event.displayName;
             this.sipUri = event.sipUri;
             this.userName = event.endpointName;
+            delete event.displayName;
+            delete event.sipUri;
+            delete event.endpointName;
+            delete event.endpointName;
             this._prepareEvent(event);
             this._emit(EndpointEvents.InfoUpdated, event);
         }

@@ -50,6 +50,8 @@ export default class Client {
             if (clientConfig.enableCameraMirroring === undefined) clientConfig.enableCameraMirroring = true;
             if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
             if (clientConfig.H264first === undefined) clientConfig.H264first = false;
+            if (clientConfig.saveLogsToFile !== undefined) console.log('saveLogsToFile is iOS only option');
+            if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
             ClientModule.init(clientConfig.enableVideo,
                 clientConfig.enableHWAcceleration,
                 clientConfig.provideLocalFramesInByteBuffer,
@@ -61,6 +63,13 @@ export default class Client {
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
             if (clientConfig.saveLogsToFile === undefined) clientConfig.saveLogsToFile = false;
+            if (clientConfig.enableVideo !== undefined) console.log('enableVideo is Android only option');
+            if (clientConfig.enableHWAcceleration !== undefined) console.log('enableHWAcceleration is Android only option');
+            if (clientConfig.provideLocalFramesInByteBuffer !== undefined) console.log('provideLocalFramesInByteBuffer is Android only option');
+            if (clientConfig.enableDebugLogging !== undefined) console.log('enableDebugLogging is Android only option');
+            if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
+            if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
+            if (clientConfig.H264first !== undefined) console.log('H264first is Android only option');
             ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
@@ -83,9 +92,10 @@ export default class Client {
 
     /**
      * Register handler for specified client event.
-     * Use {@link Client#off} method to delete a handler.
-     * @param {ClientEvents} event
-     * @param {function} handler Handler function
+     * Use {@link Voximplant.Client#off} method to delete a handler.
+     * @param {Voximplant.ClientEvents} event
+     * @param {function} handler - Handler function
+     * @memberOf Voximplant.Client
      */
     on(event, handler) {
         if (!listeners[event]) {
@@ -96,8 +106,9 @@ export default class Client {
 
     /**
      * Remove handler for specified event
-     * @param {ClientEvents} event
-     * @param {function} handler Handler function
+     * @param {Voximplant.ClientEvents} event
+     * @param {function} handler - Handler function
+     * @memberOf Voximplant.Client
      */
     off(event, handler) {
         if (listeners[event]) {
@@ -107,8 +118,9 @@ export default class Client {
 
     /**
      * Connect to the Voximplant Cloud
-     * @param {ConnectOptions} options
-     * @returns {Promise<any>}
+     * @param {Voximplant.ConnectOptions} [options] - Connection options
+     * @returns {Promise<EventHandlers.ConnectionEstablished|EventHandlers.ConnectionFailed>}
+     * @memberOf Voximplant.Client
      */
     connect(options) {
         return new Promise((resolve, reject) => {
@@ -137,8 +149,8 @@ export default class Client {
 
     /**
      * Disconnect from the Voximplant Cloud
-     * @returns {Promise<any>}
-     * @todo promise
+     * @returns {Promise<EventHandlers.ConnectionClosed>}
+     * @memberOf Voximplant.Client
      */
     disconnect() {
         return new Promise((resolve, reject) => {
@@ -153,7 +165,8 @@ export default class Client {
 
     /**
      * Get current client state
-     * @returns {Promise<ClientState>}
+     * @returns {Promise<Voximplant.ClientState>}
+     * @memberOf Voximplant.Client
      */
     getClientState() {
         return ClientModule.getClientState();
@@ -161,9 +174,10 @@ export default class Client {
 
     /**
      * Login to specified Voximplant application with password.
-     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
-     * @param {string} password User password
-     * @returns {Promise<any>}
+     * @param {string} username - Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} password - User password
+     * @returns {Promise<EventHandlers.AuthResult>}
+     * @memberOf Voximplant.Client
      */
     login(username, password) {
         return new Promise((resolve, reject) => {
@@ -183,11 +197,12 @@ export default class Client {
     /**
      * Login to specified Voximplant application using 'onetimekey' auth method. Hash should be calculated with the key received in AuthResult event.
      * Please, read {@link http://voximplant.com/docs/quickstart/24/automated-login/ howto page}
-     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
-     * @param {string} hash Hash that was generated using following formula: MD5(oneTimeKey+"|"+MD5(user+":voximplant.com:"+password)).
+     * @param {string} username - Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} hash - Hash that was generated using following formula: MD5(oneTimeKey+"|"+MD5(user+":voximplant.com:"+password)).
      * Please note that here user is just a user name, without app name, account name or anything else after "@".
      * So if you pass myuser@myapp.myacc.voximplant.com as a username, you should only use myuser while computing this hash.
-     * @returns {Promise<any>}
+     * @returns {Promise<EventHandlers.AuthResult>}
+     * @memberOf Voximplant.Client
      */
     loginWithOneTimeKey(username, hash) {
         return new Promise((resolve, reject) => {
@@ -206,9 +221,10 @@ export default class Client {
 
     /**
      * Login to specified Voximplant application using accessToken
-     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
-     * @param {string} token Access token that was obtained in AuthResult event
-     * @returns {Promise<any>}
+     * @param {string} username - Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} token - Access token that was obtained in AuthResult event
+     * @returns {Promise<EventHandlers.AuthResult>}
+     * @memberOf Voximplant.Client
      */
     loginWithToken(username, token) {
         return new Promise((resolve, reject) => {
@@ -227,8 +243,9 @@ export default class Client {
 
     /**
      * Request a key for 'onetimekey' auth method. Server will send the key in AuthResult event with code 302
-     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
-     * @returns {Promise<any>}
+     * @param {string} username Fully - qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @returns {Promise<EventHandlers.AuthResult>}
+     * @memberOf Voximplant.Client
      */
     requestOneTimeLoginKey(username) {
         return new Promise((resolve, reject) => {
@@ -247,9 +264,10 @@ export default class Client {
 
     /**
      * Refresh expired access token
-     * @param {string} username Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
-     * @param {string} refreshToken Refresh token that was obtained in AuthResult event
-     * @returns {Promise<any>}
+     * @param {string} username - Fully-qualified username that includes Voximplant user, application and account names. The format is: "username@appname.accname.voximplant.com".
+     * @param {string} refreshToken - Refresh token that was obtained in AuthResult event
+     * @returns {Promise<EventHandlers.AuthTokenResult>}
+     * @memberOf Voximplant.Client
      */
     tokenRefresh(username, refreshToken) {
         return new Promise((resolve, reject) => {
@@ -268,7 +286,8 @@ export default class Client {
 
     /**
      * Register for push notifications. Application will receive push notifications from the Voximplant Server after first log in
-     * @param {string} token Push registration token
+     * @param {string} token - Push registration token
+     * @memberOf Voximplant.Client
      */
     registerPushNotificationsToken(token) {
         ClientModule.registerPushNotificationsToken(token);
@@ -276,7 +295,8 @@ export default class Client {
 
     /**
      * Unregister from push notifications. Application will no longer receive push notifications from the Voximplant server
-     * @param {string} token Push registration token
+     * @param {string} token - Push registration token
+     * @memberOf Voximplant.Client
      */
     unregisterPushNotificationsToken(token) {
         ClientModule.unregisterPushNotificationsToken(token);
@@ -284,7 +304,8 @@ export default class Client {
 
     /**
      * Handle incoming push notification
-     * @param {object} notification Incoming push notification
+     * @param {object} notification - Incoming push notification
+     * @memberOf Voximplant.Client
      */
     handlePushNotification(notification) {
         ClientModule.handlePushNotification(notification);
@@ -292,9 +313,10 @@ export default class Client {
 
     /**
      * Create outgoing call
-     * @param {string} number The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
-     * @param {CallSettings} callSettings
-     * @returns {Promise<Call>}
+     * @param {string} number - The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
+     * @param {Voximplant.CallSettings} [callSettings] - Optional call settings
+     * @returns {Promise<Voximplant.Call>}
+     * @memberOf Voximplant.Client
      */
     call(number, callSettings) {
         if (!callSettings) {

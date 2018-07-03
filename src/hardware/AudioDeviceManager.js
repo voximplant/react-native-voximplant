@@ -32,7 +32,8 @@ export default class AudioDeviceManager {
 
     /**
      * Get AudioDeviceManager instance to control audio hardware settings
-     * @returns {AudioDeviceManager}
+     * @returns {Voximplant.Hardware.AudioDeviceManager}
+     * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     static getInstance() {
         if (this._instance === null) {
@@ -56,9 +57,10 @@ export default class AudioDeviceManager {
     /**
      * Register a handler for the specified AudioDeviceManager event.
      * One event can have more than one handler.
-     * Use the {@link AudioDeviceManager#off} method to delete a handler.
-     * @param {AudioDeviceEvents} event
+     * Use the {@link Voximplant.Hardware.AudioDeviceManager#off} method to delete a handler.
+     * @param {Voximplant.Hardware.AudioDeviceEvents} event
      * @param {function} handler
+     * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     on(event, handler) {
         if (!this.listeners[event]) {
@@ -69,8 +71,9 @@ export default class AudioDeviceManager {
 
     /**
      * Remove a handler for the specified AudioDeviceManager event.
-     * @param {AudioDeviceEvents} event
+     * @param {Voximplant.Hardware.AudioDeviceEvents} event
      * @param {function} handler
+     * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     off(event, handler) {
         if (this.listeners[event]) {
@@ -92,7 +95,8 @@ export default class AudioDeviceManager {
 
     /**
      * Returns active audio device during the call or audio device that will be used for a call if there is no calls at this moment.
-     * @returns {Promise<AudioDevice>}
+     * @returns {Promise<Voximplant.Hardware.AudioDevice>}
+     * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     getActiveDevice() {
         return AudioDeviceModule.getActiveDevice();
@@ -100,15 +104,18 @@ export default class AudioDeviceManager {
 
     /**
      * Returns the list of available audio devices.
-     * @returns {Promise<AudioDevice[]>}
+     * @returns {Promise<Voximplant.Hardware.AudioDevice[]>}
+     * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     getAudioDevices() {
         return AudioDeviceModule.getAudioDevices();
     }
 
     /**
-     * Changes selection of the current active audio device.
-     * @param {AudioDevice} audioDevice
+     * Changes selection of the current active audio device. Please see {@link https://voximplant.com/docs/references/androidsdk/iaudiodevicemanager Android}
+     * and {@link https://voximplant.com/docs/references/iossdk/viaudiomanager#selectaudiodevice iOS} documentation for platform specific.
+     * @param {Voximplant.Hardware.AudioDevice} audioDevice - Preferred audio device to use.
+     * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     selectAudioDevice(audioDevice) {
         AudioDeviceModule.selectAudioDevice(audioDevice);

@@ -30,7 +30,8 @@ const EventEmitter = Platform.select({
  */
 export default class Call {
     /**
-     * @member {string} id The call id
+     * @member {string} id - The call id
+     * @memberOf Voximplant.Call
      */
     callId;
 
@@ -50,9 +51,10 @@ export default class Call {
     /**
      * Register a handler for the specified call event.
      * One event can have more than one handler.
-     * Use the {@link Call#off} method to delete a handler.
-     * @param {CallEvents} event
-     * @param {function} handler  Handler function. A single parameter is passed - object with event information
+     * Use the {@link Voximplant.Call#off} method to delete a handler.
+     * @param {Voximplant.CallEvents} event
+     * @param {function} handler - Handler function. A single parameter is passed - object with event information
+     * @memberOf Voximplant.Call
      */
     on(event, handler) {
         if (!this.listeners[event]) {
@@ -63,8 +65,9 @@ export default class Call {
 
     /**
      * Remove a handler for the specified call event.
-     * @param {CallEvents} event
-     * @param {function} handler Handler function
+     * @param {Voximplant.CallEvents} event
+     * @param {function} handler -  Handler function
+     * @memberOf Voximplant.Call
      */
     off(event, handler) {
         if (this.listeners[event]) {
@@ -74,7 +77,8 @@ export default class Call {
 
     /**
      * Answer the incoming call.
-     * @param {CallSettings} [callSettings] Optional set of call settings.
+     * @param {Voximplant.CallSettings} [callSettings] - Optional set of call settings.
+     * @memberOf Voximplant.Call
      */
     answer(callSettings) {
         if (!callSettings) {
@@ -105,7 +109,8 @@ export default class Call {
 
     /**
      * Reject incoming call on all devices, where this user logged in.
-     * @param {object} [headers]  Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     * @param {object} [headers] - Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     * @memberOf Voximplant.Call
      */
     decline(headers) {
         CallModule.decline(this.callId, headers);
@@ -115,7 +120,8 @@ export default class Call {
      * Reject incoming call on the part of Web SDK.
      * If a call is initiated from the PSTN, the network will receive "reject" command.
      * In case of a call from another Web SDK client, it will receive the CallEvents.Failed event with the 603 code.
-     * @param {object} headers  Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     * @param {object} [headers] - Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     * @memberOf Voximplant.Call
      */
     reject(headers) {
         CallModule.reject(this.callId, headers);
@@ -123,7 +129,8 @@ export default class Call {
 
     /**
      * Enables or disables audio transfer from microphone into the call.
-     * @param {boolean} enable True if audio should be sent, false otherwise
+     * @param {boolean} enable - True if audio should be sent, false otherwise
+     * @memberOf Voximplant.Call
      */
     sendAudio(enable) {
         CallModule.sendAudio(this.callId, enable);
@@ -131,7 +138,8 @@ export default class Call {
 
     /**
      * Send tone (DTMF). It triggers the {@link https://voximplant.com/docs/references/appengine/CallEvents.html#CallEvents_ToneReceived CallEvents.ToneReceived} event in the Voximplant cloud.
-     * @param {string} key Send tone according to pressed key: 0-9 , * , #
+     * @param {string} key - Send tone according to pressed key: 0-9 , * , #
+     * @memberOf Voximplant.Call
      */
     sendTone(key) {
         CallModule.sendDTMF(this.callId, key);
@@ -141,9 +149,9 @@ export default class Call {
      * Start/stop sending video from a call.
      * In case of a remote participant uses a React Native SDK client, it will receive either
      * the {@link EndpointEvents#RemoteVideoStreamAdded} or {@link EndpointEvents#RemoteVideoStreamRemoved} event accordingly.
-     * @param {boolean} enable True if video should be sent, false otherwise
-     * @returns {Promise}
-     * @todo promise description
+     * @param {boolean} enable - True if video should be sent, false otherwise
+     * @returns {Promise<void|EventHandlers.CallOperationFailed>}
+     * @memberOf Voximplant.Call
      */
     sendVideo(enable) {
         return CallModule.sendVideo(this.callId, enable);
@@ -151,9 +159,9 @@ export default class Call {
 
     /**
      * Hold or unhold the call
-     * @param {boolean} enable True if the call should be put on hold, false for unhold
-     * @returns {Promise}
-     * @todo promise description
+     * @param {boolean} enable - True if the call should be put on hold, false for unhold
+     * @returns {Promise<void|EventHandlers.CallOperationFailed>}
+     * @memberOf Voximplant.Call
      */
     hold(enable) {
         return CallModule.hold(this.callId, enable);
@@ -161,8 +169,8 @@ export default class Call {
 
     /**
      * Start receive video if video receive was disabled before. Stop receiving video during the call is not supported.
-     * @returns {Promise}
-     * @todo promise description
+     * @returns {Promise<void|EventHandlers.CallOperationFailed>}
+     * @memberOf Voximplant.Call
      */
     receiveVideo() {
         return CallModule.receiveVideo(this.callId);
@@ -170,18 +178,21 @@ export default class Call {
 
     /**
      * Hangup the call
-     * @param {object} [headers] Optional custom parameters (SIP headers) that should be sent after disconnecting/cancelling call. Parameter names must start with "X-" to be processed by application
+     * @param {object} [headers] - Optional custom parameters (SIP headers) that should be sent after disconnecting/cancelling call. Parameter names must start with "X-" to be processed by application
+     * @memberOf Voximplant.Call
      */
     hangup(headers) {
         CallModule.hangup(this.callId, headers);
     }
 
     /**
-     * Send text message. It is a special case of the {@link Call#sendInfo} method as it allows to send messages only of "text/plain" type.
+     * Send text message. It is a special case of the {@link Voximplant.Call#sendInfo} method as it allows to send messages only of "text/plain" type.
      * You can get this message via the Voxengine {@link https://voximplant.com/docs/references/websdk/voximplant/callevents#messagereceived CallEvents.MessageReceived} event in our cloud.
-     * You can get this message in Web SDK on other side via the {@link CallEvents#MessageReceived} event; see the similar events for the Web, iOS and Android SDKs.
-     * @param {string} message Message text
-     * @todo links to web, ios, and android sdks
+     * You can get this message in Web SDK on other side via the {@link CallEvents#MessageReceived} event; see the similar
+     * events for the {@link https://voximplant.com/docs/references/websdk Web},
+     * {@link https://voximplant.com/docs/references/iossdk iOS} and {@link https://voximplant.com/docs/references/androidsdk Android} SDKs.
+     * @param {string} message - Message text
+     * @memberOf Voximplant.Call
      */
     sendMessage(message) {
         CallModule.sendMessage(this.callId, message);
@@ -191,11 +202,13 @@ export default class Call {
      * Send Info (SIP INFO) message inside the call.
      * You can get this message via the Voxengine {@link https://voximplant.com/docs/references/websdk/voximplant/callevents#inforeceived CallEvents.InfoReceived}
      * event in the Voximplant cloud.
-     * You can get this message in Web SDK on other side via the {@link CallEvents.InfoReceived} event; see the similar events for the iOS and Android SDKs.
-     * @param {string} mimeType MIME type of the message, for example "text/plain", "multipart/mixed" etc.
-     * @param {string} body Message content
-     * @param {object} [extraHeaders] Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
-     * @todo links to android, web and ios sdks
+     * You can get this message in Web SDK on other side via the {@link CallEvents.InfoReceived} event; see the similar
+     * events for the {@link https://voximplant.com/docs/references/websdk Web},
+     * {@link https://voximplant.com/docs/references/iossdk iOS} and {@link https://voximplant.com/docs/references/androidsdk Android} SDKs.
+     * @param {string} mimeType -  MIME type of the message, for example "text/plain", "multipart/mixed" etc.
+     * @param {string} body - Message content
+     * @param {object} [extraHeaders] - Optional custom parameters (SIP headers) that should be sent after rejecting incoming call. Parameter names must start with "X-" to be processed by application
+     * @memberOf Voximplant.Call
      */
     sendInfo(mimeType, body, extraHeaders) {
         CallModule.sendInfo(this.callId, mimeType, body, extraHeaders);
@@ -203,7 +216,8 @@ export default class Call {
 
     /**
      * Get all current Endpoints in the call.
-     * @returns {Endpoint[]}
+     * @returns {Voximplant.Endpoint[]}
+     * @memberOf Voximplant.Call
      */
     getEndpoints() {
         return [...CallManager.getInstance().getCallEndpoints(this.callId)];

@@ -19,7 +19,7 @@ const EventEmitter = Platform.select({
 });
 
 /**
- * @memberof Voximplant.Hardware
+ * @memberOf Voximplant.Hardware
  * @class CameraManager
  * @classdesc Class that may be used to manage cameras on a device.
  */
@@ -31,7 +31,8 @@ export default class CameraManager {
 
     /**
      * Get CameraManager instance to control camera hardware settings
-     * @returns {CameraManager}
+     * @returns {Voximplant.Hardware.CameraManager}
+     * @memberOf Voximplant.Hardware.CameraManager
      */
     static getInstance() {
         if (this._instance === null) {
@@ -58,7 +59,8 @@ export default class CameraManager {
 
     /**
      * Select camera
-     * @param {CameraType} cameraType
+     * @param {Voximplant.Hardware.CameraType} cameraType - Preferred video camera
+     * @memberOf Voximplant.Hardware.CameraManager
      */
     switchCamera(cameraType) {
         CameraModule.switchCamera(cameraType);
@@ -66,8 +68,9 @@ export default class CameraManager {
 
     /**
      * Set a local camera resolution
-     * @param {number} width Camera resolution width
-     * @param {number} height Camera resolution height
+     * @param {number} width - Camera resolution width
+     * @param {number} height - Camera resolution height
+     * @memberOf Voximplant.Hardware.CameraManager
      */
     setCameraResolution(width, height) {
         CameraModule.setCameraResolution(width, height);
@@ -76,9 +79,10 @@ export default class CameraManager {
     /**
      * Register a handler for the specified camera event.
      * One event can have more than one handler.
-     * Use the {@link CameraManager#off} method to delete a handler.
-     * @param {CameraEvents} event
+     * Use the {@link CameraManager#off} method to delete a handler. ANDROID ONLY.
+     * @param {Voximplant.Hardware.CameraEvents} event
      * @param {function} handler
+     * @memberOf Voximplant.Hardware.CameraManager
      */
     on(event, handler) {
         if (!this.listeners[event]) {
@@ -88,9 +92,10 @@ export default class CameraManager {
     }
 
     /**
-     * Remove a handler for the specified camera event.
-     * @param {CameraEvents} event
+     * Remove a handler for the specified camera event. ANDROID ONLY.
+     * @param {Voximplant.Hardware.CameraEvents} event
      * @param {function} handler
+     * @memberOf Voximplant.Hardware.CameraManager
      */
     off(event, handler) {
         if (this.listeners[event]) {

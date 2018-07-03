@@ -13,11 +13,13 @@ import React, { Component } from 'react';
  */
 export default class VideoStream {
     /**
-     * @member {string} id The video stream id.
+     * @member {string} id - The video stream id.
+     * @memberOf Voximplant.VideoStream
      */
     id;
     /**
-     * @member {boolean} isLocal True if video stream is local, false otherwise.
+     * @member {boolean} isLocal - True if video stream is local, false otherwise.
+     * @memberOf Voximplant.VideoStream
      */
     isLocal;
 

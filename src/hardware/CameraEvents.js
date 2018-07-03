@@ -12,19 +12,23 @@
  */
 const CameraEvents = {
     /**
-     * Invoked when camera is disconnected
+     * Invoked when camera is disconnected. ANDROID ONLY.
+     * Handler function receives {@link EventHandlers.CameraDisconnected} object as an argument.
      */
     CameraDisconnected : 'CameraDisconnected',
     /**
-     * Invoked when camera can not be opened or any camera exception happens
+     * Invoked when camera can not be opened or any camera exception happens. ANDROID ONLY.
+     * Handler function receives {@link EventHandlers.CameraError} object as an argument.
      */
     CameraError        : 'CameraError',
     /**
-     * Invoked when camera switch was successful
+     * Invoked when camera switch was successful. ANDROID ONLY.
+     * Handler function receives {@link EventHandlers.CameraSwitchDone} object as an argument.
      */
     CameraSwitchDone   : 'CameraSwitchDone',
     /**
-     * Invoked when camera switch is failed, e.g. camera is stopped or only one camera is available
+     * Invoked when camera switch is failed, e.g. camera is stopped or only one camera is available. ANDROID ONLY.
+     * Handler function receives {@link EventHandlers.CameraSwitchError} object as an argument.
      */
     CameraSwitchError  : 'CameraSwitchError'
 };
