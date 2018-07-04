@@ -312,7 +312,12 @@ export default class Client {
     }
 
     /**
-     * Create outgoing call
+     * Create outgoing call.
+     *
+     * Important: There is a difference between rejected promise and the Voximplant.CallEvents.CallFailed event.
+     * If a promise is rejected, that indicates the issues in the application's code (e.g. a try to make a call without a login to the Voximplant cloud);
+     * in case the CallFailed event is triggered, that means a telecom-related issue (e.g. another participant rejects a call).
+     *
      * @param {string} number - The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
      * @param {Voximplant.CallSettings} [callSettings] - Optional call settings
      * @returns {Promise<Voximplant.Call>}

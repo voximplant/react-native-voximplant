@@ -70,9 +70,9 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
 You will need free VoxImplant developer account setup for making and receiving calls using the SDK. 
 Learn more at [quick start](https://voximplant.com/docs/references/articles/quickstart).
 
-Useful links:
-- [React Native SDK quick start quide]()
-- [Migration guide]()
+Official guides:
+- [React Native SDK quick start quide](#)
+- [Migration guide](#)
 
 
 ## Todo
