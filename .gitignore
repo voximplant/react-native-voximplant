@@ -28,3 +28,11 @@ node_modules/
 npm-debug.log
 
 .npmrc
+out/
+result.json
+
+# Android/IntelliJ
+#
+android/.gradle/
+build/
+.idea

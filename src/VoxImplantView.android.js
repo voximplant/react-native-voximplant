@@ -18,7 +18,6 @@ var VoxImplantView = createReactClass({
   },
 
   render: function() {
-    return;
   }
 });
 
@@ -26,6 +25,7 @@ var VoxImplantView = createReactClass({
  * Create and setup local preview for video calls
  * 
  * @param {string} callId - The call id
+ * @deprecated Use {@link Voximplant.VideoView} instead
  */
 const VoxImplantPreview = createReactClass({
   propTypes: {
@@ -50,6 +50,7 @@ const VoxImplantPreview = createReactClass({
  * Create and setup remote video view
  * 
  * @param {string} callId - The call id
+ * @deprecated Use {@link Voximplant.VideoView} instead
  */
 const VoxImplantRemoteView = createReactClass({
   propTypes: {

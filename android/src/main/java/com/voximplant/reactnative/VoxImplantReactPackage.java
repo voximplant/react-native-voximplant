@@ -12,16 +12,18 @@ import com.facebook.react.ReactPackage;
 import java.util.List;
 import java.util.Arrays;
 
-public class VoxImplantReactPackage implements ReactPackage
-{
-  @Override 
-  public List<NativeModule> createNativeModules( ReactApplicationContext reactContext) {
-    return Arrays.<NativeModule>asList(
-      new VoxImplantModule(reactContext));
-  }
+public class VoxImplantReactPackage implements ReactPackage {
+	@Override
+	public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+		return Arrays.<NativeModule>asList(new VoxImplantModule(reactContext),
+				new ClientModule(reactContext),
+				new CallModule(reactContext),
+				new AudioDeviceModule(reactContext),
+				new CameraModule(reactContext));
+	}
 
-  @Override 
-  public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return Arrays.<ViewManager>asList(new VoxImplantViewManager());
-  }
+	@Override
+	public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+		return Arrays.<ViewManager>asList(new VoxImplantViewManager(), new VideoViewManager());
+	}
 }

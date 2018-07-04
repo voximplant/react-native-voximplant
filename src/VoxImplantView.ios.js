@@ -15,6 +15,7 @@ var createReactClass = require('create-react-class');
  * Create and setup local preview for video calls
  * 
  * @param {string} callId - The call id
+ * @deprecated Use {@link Voximplant.VideoView} instead
  */
 var VoxImplantPreview = createReactClass({
   propTypes: {
@@ -35,6 +36,7 @@ var VoxImplantPreview = createReactClass({
  * Create and setup remote video view
  * 
  * @param {string} callId - The call id
+ * @deprecated Use {@link Voximplant.VideoView} instead
  */
 var VoxImplantRemoteView = createReactClass({
   propTypes: {
