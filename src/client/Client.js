@@ -314,9 +314,11 @@ export default class Client {
     /**
      * Create outgoing call.
      *
-     * Important: There is a difference between rejected promise and the Voximplant.CallEvents.CallFailed event.
-     * If a promise is rejected, that indicates the issues in the application's code (e.g. a try to make a call without a login to the Voximplant cloud);
-     * in case the CallFailed event is triggered, that means a telecom-related issue (e.g. another participant rejects a call).
+     * Important: There is a difference between resolving the Voximplant.Client.call promise and handling Voximplant.CallEvents.
+     * If the promise is resolved, the SDK sends a call to the cloud. However, it doesn't mean that a call is connected;
+     * to catch this call state, subscribe to the Voximplant.CallEvents.Connected event.
+     * If the promise is rejected, that indicates the issues in the application's code (e.g., a try to make a call without login to the Voximplant cloud);
+     * in case of the CallFailed event is triggered, that means a telecom-related issue (e.g., another participant rejects a call).
      *
      * @param {string} number - The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
      * @param {Voximplant.CallSettings} [callSettings] - Optional call settings
