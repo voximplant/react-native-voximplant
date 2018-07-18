@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.0.1
+- Update native Android module to use the Voximplant Android SDK 2.5.1
+
 ### 1.0.0
 - New APIs with advanced functionality: 
     - Promises support
