@@ -16,6 +16,7 @@ var createReactClass = require('create-react-class');
  * 
  * @param {string} callId - The call id
  * @deprecated Use {@link Voximplant.VideoView} instead
+ * @memberOf Legacy
  */
 var VoxImplantPreview = createReactClass({
   propTypes: {
@@ -37,6 +38,7 @@ var VoxImplantPreview = createReactClass({
  * 
  * @param {string} callId - The call id
  * @deprecated Use {@link Voximplant.VideoView} instead
+ * @memberOf Legacy
  */
 var VoxImplantRemoteView = createReactClass({
   propTypes: {

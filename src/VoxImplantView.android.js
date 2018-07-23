@@ -26,6 +26,7 @@ var VoxImplantView = createReactClass({
  * 
  * @param {string} callId - The call id
  * @deprecated Use {@link Voximplant.VideoView} instead
+ * @memberOf Legacy
  */
 const VoxImplantPreview = createReactClass({
   propTypes: {
@@ -51,6 +52,7 @@ const VoxImplantPreview = createReactClass({
  * 
  * @param {string} callId - The call id
  * @deprecated Use {@link Voximplant.VideoView} instead
+ * @memberOf Legacy
  */
 const VoxImplantRemoteView = createReactClass({
   propTypes: {

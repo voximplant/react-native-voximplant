@@ -2,6 +2,10 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
+/**
+ * @module Legacy
+ */
+
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
@@ -10,14 +14,20 @@ import {
   NativeModules
 } from 'react-native';
 
+/**
+ * @memberOf Legacy
+ * @class VoximplantLegacy
+ * @deprecated Use {@link Voximplant.Client} instead
+ */
 class VoximplantLegacy {
 
   constructor() {}
 
   /**
-   * Initialization Voximplant SDK
+   * Initialization of Voximplant SDK
    * @param {VoxImplantClientConfig} options
    * @deprecated Use {@link Voximplant#getInstance} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   init(options) {
     if (!options) options = {};
@@ -41,6 +51,7 @@ class VoximplantLegacy {
    * Connect to the Voximplant cloud
    * @param {VoxImplantConnectOptions} options
    * @deprecated Use {@link Voximplant.Client#connect} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   connect(options) {
     if (!options) options = {};
@@ -61,6 +72,7 @@ class VoximplantLegacy {
    * @param {string} customData - Optional custom data passed with call. Will be available in VoxEngine scenario
    * @param {object} callback - Callback object
    * @deprecated Use {@link Voximplant.Client#call} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   createCall(to, video, customData, callback) {
     if (typeof(video) === 'function') {
@@ -89,6 +101,7 @@ class VoximplantLegacy {
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
    * @param {string} password - User password
    * @deprecated Use {@link Voximplant.Client#login} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   login(user, password) {
     VoxImplantModule.login(user, password);
@@ -99,6 +112,7 @@ class VoximplantLegacy {
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
    * @param {string} hash - Hash that was generated using following formula: MD5(oneTimeKey+"|"+MD5(user+":voximplant.com:"+password)). <b>Please note that here user is just a user name, without app name, account name or anything else after "@"</b>. So if you pass <i>myuser@myapp.myacc.voximplant.com</i> as a<b>username</b>, you should only use <i>myuser</i>  while computing this hash
    * @deprecated Use {@link Voximplant.Client#loginWithOneTimeKey} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   loginUsingOneTimeKey(user, hash) {
     VoxImplantModule.loginUsingOneTimeKey(user, hash);
@@ -109,6 +123,7 @@ class VoximplantLegacy {
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
    * @param {string} accessToken - Access token that was obtained in LoginSuccessful callback
    * @deprecated Use {@link Voximplant.Client#loginWithToken} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   loginUsingAccessToken(user, accessToken) {
     VoxImplantModule.loginUsingAccessToken(user, accessToken);
@@ -118,7 +133,8 @@ class VoximplantLegacy {
    * Perform refresh of login tokens required for login using access token
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
    * @param {string} refreshToken - Refresh token that was obtained in LoginSuccessful callback
-   * @depreacted Use {@link Voximplant.Client#tokenRefresh} instead
+   * @deprecated Use {@link Voximplant.Client#tokenRefresh} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   refreshToken(user, refreshToken) {
     VoxImplantModule.refreshToken(user, refreshToken);
@@ -128,6 +144,7 @@ class VoximplantLegacy {
    * Generates one time login key to be used for automated login process
    * @param {string} user - Full user name, including app and account name, like <i>someuser@someapp.youraccount.voximplant.com</i>
    * @deprecated Use {@link Voximplant.Client#requestOneTimeLoginKey} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   requestOneTimeKey(user) {
     VoxImplantModule.requestOneTimeKey(user);
@@ -136,6 +153,7 @@ class VoximplantLegacy {
   /**
    * Closes connection with media server
    * @deprecated Use {@link Voximplant.Client#disconnect} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   closeConnection() {
     VoxImplantModule.closeConnection();
@@ -146,6 +164,7 @@ class VoximplantLegacy {
    * @param {string} callId - Id of previously created call
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    * @deprecated Use {@link Voximplant.Client#call} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   startCall(callId, headers) {
     VoxImplantModule.startCall(callId, headers === undefined ? {} :  headers);
@@ -156,6 +175,7 @@ class VoximplantLegacy {
    * @param {string} callId - Id of previously created call
    * @param {number} digit - Digit can be 0-9 for 0-9, 10 for * and 11 for #
    * @deprecated Use {@link Voximplant.Call#sendTone} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   sendDTMF(callId, digit) {
     VoxImplantModule.sendDTMF(callId, digit);
@@ -166,6 +186,7 @@ class VoximplantLegacy {
    * @param {string} callId - Id of previously created call
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by Voximplant
    * @deprecated Use {@link Voximplant.Call#hangup} instead.
+   * @memberOf Legacy.VoximplantLegacy
    */
   disconnectCall(callId, headers) {
     VoxImplantModule.disconnectCall(callId, headers === undefined ? {} :  headers);
@@ -176,6 +197,7 @@ class VoximplantLegacy {
    * @param {string} callId - Id of previously created call
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    * @deprecated Use {@link Voximplant.Call#decline} or {@link Voximplant.Call#reject} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   declineCall(callId, headers) {
     VoxImplantModule.declineCall(callId, headers === undefined ? {} :  headers);
@@ -185,7 +207,8 @@ class VoximplantLegacy {
    * Answer incoming call
    * @param {string} callId - Id of previously created call
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
-   * @depreacted Use {@link Voximplant.Call#answer} instead
+   * @deprecated Use {@link Voximplant.Call#answer} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   answerCall(callId, customData, headers) {
     VoxImplantModule.answerCall(callId, 
@@ -198,6 +221,7 @@ class VoximplantLegacy {
    * @param {string} callId - Id of previously created call
    * @param {string} text - Message text
    * @deprecated Use {@link Voximplant.Call#sendMessage} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   sendMessage(callId, text) {
     VoxImplantModule.sendMessage(callId, text);
@@ -209,7 +233,8 @@ class VoximplantLegacy {
    * @param {string} mimeType - MIME type of info
    * @param {string} content - Custom string data
    * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
-   * @depreacted Use {@link Voximplant.Call#sendInfo} instead
+   * @deprecated Use {@link Voximplant.Call#sendInfo} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   sendInfo(callId, mimeType, content, headers) {
     VoxImplantModule.sendInfo(callId, mimeType, content, headers === undefined ? {} : headers);
@@ -219,6 +244,7 @@ class VoximplantLegacy {
    * Mute or unmute microphone. This is reset after audio interruption
    * @param {boolean} doMute - Enable/disable flag
    * @deprecated Use {@link Voximplant.Call#sendAudio} instead.
+   * @memberOf Legacy.VoximplantLegacy
    */
   setMute(doMute) {
     VoxImplantModule.setMute(doMute);
@@ -228,6 +254,7 @@ class VoximplantLegacy {
    * Enable/disable loudspeaker
    * @param {boolean} enable - Enable/disable loudspeaker
    * @deprecated Use {@link Voximplant.Harware.AudioDeviceManager#selectAudioDevice} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   setUseLoudspeaker(enable) {
     VoxImplantModule.setUseLoudspeaker(enable);
@@ -237,6 +264,7 @@ class VoximplantLegacy {
    * Set video display mode. Applies to both incoming and outgoing stream. IOS ONLY
    * @param {VideoResizeMode} mode - Resize mode
    * @deprecated
+   * @memberOf Legacy.VoximplantLegacy
    */
   setVideoResizeMode(mode) {
     VoxImplantModule.setVideoResizeMode(mode);
@@ -246,6 +274,7 @@ class VoximplantLegacy {
    * Start/stop sending video from local camera
    * @param {boolean} doSend - Specify if video should be sent
    * @deprecated Use {@link Voximplant.Call#sendVideo} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   sendVideo(doSend) {
     VoxImplantModule.sendVideo(doSend);
@@ -256,6 +285,7 @@ class VoximplantLegacy {
    * @param {number} width - Camera resolution width
    * @param {number} height - Camera resolution height
    * @deprecated Use {@link Voximplant.Hardware.CameraManager#setCameraResolution} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   setCameraResolution(width, height) {
     VoxImplantModule.setCameraResolution(width, height);
@@ -264,7 +294,8 @@ class VoximplantLegacy {
   /**
    * Switch camera
    * @param {CameraType} cameraName - Must be "front" or "back"
-   * @depreacted Use {@link Voximplant.Hardware.CameraManager#switchCamera} instead
+   * @deprecated Use {@link Voximplant.Hardware.CameraManager#switchCamera} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   switchToCamera(cameraName) {
     VoxImplantModule.switchToCamera(cameraName);
@@ -273,7 +304,8 @@ class VoximplantLegacy {
   /**
    * Register for push notifications. Application will receive push notifications from the Voximplant Server after first log in
    * @param {string} pushRegistrationToken - Push registration token
-   * @depreacted Use {@link Voximplant.Client#registerPushNotificationsToken} instead
+   * @deprecated Use {@link Voximplant.Client#registerPushNotificationsToken} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   registerForPushNotifications(pushRegistrationToken) {
     VoxImplantModule.registerForPushNotifications(pushRegistrationToken);
@@ -282,7 +314,8 @@ class VoximplantLegacy {
   /**
    * Unregister from push notifications. Application will no longer receive push notifications from the Voximplant server
    * @param {string} pushRegistrationToken - Push registration token that was used to register for push notifications
-   * @depreacted Use {@link Voximplant.Client#unregisterPushNotificationsToken} instead
+   * @deprecated Use {@link Voximplant.Client#unregisterPushNotificationsToken} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   unregisterFromPushNotifications(pushRegistrationToken) {
     VoxImplantModule.unregisterFromPushNotifications(pushRegistrationToken);
@@ -291,7 +324,8 @@ class VoximplantLegacy {
   /**
    * Handle incoming push notification
    * @param {object} notification - Incoming push notification
-   * @depreacted Use {@link Voximplant.Client#handlePushNotification} instead
+   * @deprecated Use {@link Voximplant.Client#handlePushNotification} instead
+   * @memberOf Legacy.VoximplantLegacy
    */
   handlePushNotification(notification) {
     VoxImplantModule.handlePushNotification(notification);
@@ -299,8 +333,10 @@ class VoximplantLegacy {
 
   /**
    * List of events
+   * @enum {string}
    * @type {{LoginSuccessful: string, LoginFailed: string, OneTimeKeyGenerated: string, ConnectionSuccessful: string, ConnectionClosed: string, ConnectionFailed: string, CallConnected: string, CallDisconnected: string, CallRinging: string, CallFailed: string, CallAudioStarted: string, IncomingCall: string, SIPInfoReceivedInCall: string, MessageReceivedInCall: string, NetStatsReceived: string, RefreshTokenSuccess: string, RefreshTokenFailed: string}}
-   * @namespace Events
+   * @deprecated Use {@link Voximplant#ClientEvents} instead
+   * @memberOf Legacy
    */
   Events = {
     /**
@@ -405,7 +441,7 @@ class VoximplantLegacy {
      * Event dispatched when packet loss data received from Voximplant servers
      * @property {string} callId - Id of call
      * @property {object} stats - NetworkInfo
-     * @depreacted
+     * @deprecated
      */
     NetStatsReceived:"NetStatsReceived",
     /**
@@ -426,6 +462,7 @@ class VoximplantLegacy {
    * Enum of supported video resize modes
    * @enum {string}
    * @deprecated Use {@link Voximplant.RenderScaleType} instead
+   * @memberOf Legacy
    */
   VideoResizeMode = {
     /**
@@ -442,6 +479,7 @@ class VoximplantLegacy {
    * Enum of supported camera type modes
    * @enum {string}
    * @deprecated Use {@link Voximplant.Hardware.CameraType} instead.
+   * @memberOf Legacy
    */
   CameraType = {
       /**
@@ -458,6 +496,7 @@ class VoximplantLegacy {
    * Enum of log levels. IOS ONLY
    * @enum {string}
    * @deprecated Use {@link Voximplant.LogLevel} instead.
+   * @memberOf Legacy
    */
   LogLevel = {
     /**
@@ -484,6 +523,7 @@ class VoximplantLegacy {
    * @property {number} refreshExpire - Seconds to refresh token expire
    * @property {string} refreshToken - Refresh token that can be used one time before refresh token expired
    * @deprecated Use {@link Voximplant.LoginTokens} instead
+   * @memberOf Legacy
    */
   LoginTokens = {
 
@@ -496,6 +536,7 @@ class VoximplantLegacy {
    * @property {boolean} enableDebugLogging - Enable debug logging. Set to false by default. ANDROID ONLY
    * @property {LogLevel} logLevel - Log levels. IOS ONLY
    * @deprecated Use {@link Voximplant.ClientConfig}
+   * @memberOf Legacy
    */
   VoxImplantClientConfig = {
 
@@ -504,6 +545,7 @@ class VoximplantLegacy {
    * @property {boolean} connectivityCheck - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
    * @property {array} servers - Server name of particular media gateway for connection
    * @deprecated Use {@link Voximplant.ConnectOptions} instead.
+   * @memberOf Legacy
    */
   VoxImplantConnectOptions = {
 

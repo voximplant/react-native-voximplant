@@ -23,6 +23,7 @@ import * as Hardware from './hardware';
  * Get VoxImplant.Client instance to use platform functions
  * @param {ClientConfig} clientConfig Configuration for new Client instance.
  * @returns {Voximplant.Client}
+ * @memberOf Voximplant
  */
 export const getInstance = (clientConfig) => {
     return Client.getInstance(clientConfig);
