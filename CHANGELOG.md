@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.0
+- Introduce ClientConfig.bundleId property to specify Android application package name to enable 
+  push notifications across several mobile applications on a specific platform (Android or iOS) 
+  using a single Voximplant application.
+
 ### 1.0.1
 - Update native Android module to use the Voximplant Android SDK 2.5.1
 

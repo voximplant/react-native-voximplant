@@ -50,6 +50,7 @@ export default class Client {
             if (clientConfig.enableCameraMirroring === undefined) clientConfig.enableCameraMirroring = true;
             if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
             if (clientConfig.H264first === undefined) clientConfig.H264first = false;
+            if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.saveLogsToFile !== undefined) console.log('saveLogsToFile is iOS only option');
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
             ClientModule.init(clientConfig.enableVideo,
@@ -58,11 +59,13 @@ export default class Client {
                 clientConfig.enableDebugLogging,
                 clientConfig.enableCameraMirroring,
                 clientConfig.enableLogcatLogging,
-                clientConfig.H264first);
+                clientConfig.H264first,
+                clientConfig.bundleId);
         }
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
             if (clientConfig.saveLogsToFile === undefined) clientConfig.saveLogsToFile = false;
+            if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.enableVideo !== undefined) console.log('enableVideo is Android only option');
             if (clientConfig.enableHWAcceleration !== undefined) console.log('enableHWAcceleration is Android only option');
             if (clientConfig.provideLocalFramesInByteBuffer !== undefined) console.log('provideLocalFramesInByteBuffer is Android only option');
@@ -70,7 +73,7 @@ export default class Client {
             if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
             if (clientConfig.H264first !== undefined) console.log('H264first is Android only option');
-            ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile);
+            ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile, clientConfig.bundleId);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
         EventEmitter.addListener('VIConnectionClosed', this._onConnectionClosed);

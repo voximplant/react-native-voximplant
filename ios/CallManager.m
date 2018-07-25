@@ -30,12 +30,21 @@
         _endpoints = [NSMutableDictionary dictionary];
         _callEndpoints = [NSMutableDictionary dictionary];
         _videoStreams = [NSMutableDictionary dictionary];
-        _client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue()];
     }
     return self;
 }
 
 + (VIClient *)getClient {
+    if (![CallManager getInstance].client) {
+        [CallManager getInstance].client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue()];
+    }
+    return [CallManager getInstance].client;
+}
+
++ (VIClient *)getClientWithBundleId:(NSString *)bundleId {
+    if (![CallManager getInstance].client) {
+        [CallManager getInstance].client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue() bundleId:bundleId];
+    }
     return [CallManager getInstance].client;
 }
 

@@ -10,6 +10,7 @@
 @interface CallManager : NSObject
 
 + (VIClient *)getClient;
++ (VIClient *)getClientWithBundleId:(NSString *)bundleId;
 
 + (void)addCall:(VICall *)call;
 + (VICall *)getCallById:(NSString *)callId;

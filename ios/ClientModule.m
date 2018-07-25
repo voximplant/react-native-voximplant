@@ -70,12 +70,16 @@ RCT_EXPORT_MODULE();
     }
 }
 
-RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel saveLogsToFile:(BOOL)enable) {
+RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel saveLogsToFile:(BOOL)enable bundleId:(NSString *)bundleId) {
     if (enable) {
         [VIClient saveLogToFileEnable];
     }
     [VIClient setLogLevel:logLevel];
-    _client = [CallManager getClient];
+    if (bundleId) {
+        _client = [CallManager getClientWithBundleId:bundleId];
+    } else {
+        _client = [CallManager getClient];
+    }
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
 }

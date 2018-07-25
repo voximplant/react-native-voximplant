@@ -44,13 +44,14 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableHWAcceleration, boolean provideLocalFramesInByteBuffers,
-			boolean enableDebugLogging) {
+			boolean enableDebugLogging, String packageName) {
 		this.client = VoxImplantClient.instance();
 		VoxImplantClient.VoxImplantClientConfig clientConfig = new VoxImplantClient.VoxImplantClientConfig();
 		clientConfig.enableVideo = enableVideo;
 		clientConfig.enableHWAcceleration = enableHWAcceleration;
 		clientConfig.provideLocalFramesInByteBuffers = provideLocalFramesInByteBuffers;
 		clientConfig.enableDebugLogging = enableDebugLogging;
+		clientConfig.packageName = packageName;
 		this.client.setAndroidContext(reactContext, clientConfig);
 		this.client.setCallback(this);
 	}

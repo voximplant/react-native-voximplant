@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.facebook.react:react-native:+"
-    compile "com.voximplant:voximplant-sdk:2.5.1"
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"
+    implementation "com.voximplant:voximplant-sdk:2.5.2"
 }

@@ -54,7 +54,7 @@ public class ClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableHWAcceleration, boolean provideLocalFramesInByteBuffers,
 					 boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
-					 boolean H264first) {
+					 boolean H264first, String packageName) {
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableHWAccelerationForDecoding = enableHWAcceleration;
@@ -64,6 +64,7 @@ public class ClientModule extends ReactContextBaseJavaModule
 		config.enableCameraMirroring = enableCameraMirroring;
 		config.enableLogcatLogging = enableLogcatLogging;
 		config.H264first = H264first;
+		config.packageName = packageName;
 		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
 		mClient.setClientIncomingCallListener(this);
 		mClient.setClientLoginListener(this);

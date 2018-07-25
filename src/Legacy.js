@@ -37,14 +37,17 @@ class VoximplantLegacy {
       if (options.provideLocalFramesInByteBuffer === undefined) 
         options.provideLocalFramesInByteBuffer = false;
       if (options.enableDebugLogging === undefined) options.enableDebugLogging = false;
+      if (options.bundleId === undefined) options.bundleId = null;
       VoxImplantModule.init(options.enableVideo,
         options.enableHWAcceleration,
         options.provideLocalFramesInByteBuffer,
-        options.enableDebugLogging);
+        options.enableDebugLogging,
+        options.bundleId);
     }
     if (Platform.OS === 'ios') {
       if (options.logLevel === undefined) options.logLevel = 'info';
-      VoxImplantModule.init(options.logLevel);
+      if (options.bundleId === undefined) options.bundleId = null;
+      VoxImplantModule.init(options.logLevel, options.bundleId);
     }
   }
   /**
@@ -535,6 +538,9 @@ class VoximplantLegacy {
    * @property {boolean} provideLocalFramesInByteBuffers - Request video frames from camera in I420 format with byte buffers. Set to false by default. If set to false, video frames from camera will be provided in I420 format with textures. ANDROID ONLY
    * @property {boolean} enableDebugLogging - Enable debug logging. Set to false by default. ANDROID ONLY
    * @property {LogLevel} logLevel - Log levels. IOS ONLY
+   * @property {string} bundleId - Application bundle id/package name for iOS/Android respectively.
+   *                               You need to set this only if you are going to send push notifications across several mobile apps on a specific platform (Android or iOS)
+   *                               using a single Voximplant application.
    * @deprecated Use {@link Voximplant.ClientConfig}
    * @memberOf Legacy
    */

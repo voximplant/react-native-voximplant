@@ -31,7 +31,7 @@ RCT_EXPORT_MODULE();
 
 // VoxImplant API
 
-RCT_EXPORT_METHOD(init: (NSString*)logLevel) {
+RCT_REMAP_METHOD(init, initWithLogLevel:(NSString *)logLevel bundleId:(NSString *)bundleId) {
     enum VoxImplantLogLevel level = ERROR_LOG_LEVEL;
     if ([logLevel isEqualToString:@"error"]) {
         level = ERROR_LOG_LEVEL;
@@ -42,9 +42,13 @@ RCT_EXPORT_METHOD(init: (NSString*)logLevel) {
     } else if ([logLevel isEqualToString:@"trace"]) {
         level = TRACE_LOG_LEVEL;
     }
-    
+
     [VoxImplant setLogLevel: level];
-    sdk = [VoxImplant getInstance];
+    if (bundleId) {
+        sdk = [VoxImplant getInstanceWithBundleId:bundleId];
+    } else {
+        sdk = [VoxImplant getInstance];
+    }
     [sdk setVoxDelegate:self];
 }
 
