@@ -17,7 +17,8 @@ const RCTVoximplantVideoView = requireNativeComponent(
 
 /**
  * @memberOf Voximplant
- * A React component to render video streams
+ * @class VideoView
+ * @classdesc A React component to render video streams
  */
 export default class VideoView extends Component {
     render() {
