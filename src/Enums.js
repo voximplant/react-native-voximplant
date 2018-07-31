@@ -6,6 +6,7 @@
 
 /**
  * Enum of log levels. IOS ONLY
+ * @name LogLevel
  * @memberOf Voximplant
  * @enum {string}
  * @type {{ERROR: string, WARNING: string, INFO: string, DEBUG: string, VERBOSE: string, MAX: string}}
@@ -39,6 +40,7 @@ export const LogLevel = {
 
 /**
  * The client states
+ * @name ClientState
  * @memberOf Voximplant
  * @enum {string}
  * @type {{DISCONNECTED: string, CONNECTING: string, CONNECTED: string, LOGGING_IN: string, LOGGED_IN: string}}
@@ -58,17 +60,21 @@ export const ClientState = {
 
 /**
  * Types of video rendering scaling
+ * @name RenderScaleType
  * @memberOf Voximplant
  * @enum {string}
  * @type {{SCALE_FILL: string, SCALE_FIT: string}}
  */
 export const RenderScaleType = {
+    /** Video frame is scaled to fill the size of the view by maintaining the aspect ratio. Some portion of the video frame may be clipped. */
     SCALE_FILL : 'fill',
+    /** Video frame is scaled to be fit the size of the view by maintaining the aspect ratio (black borders may be displayed). */
     SCALE_FIT  : 'fit'
 };
 
 /**
  * Call related errors
+ * @name CallError
  * @memberOf Voximplant
  * @enum {string}
  * @type {{ALREADY_IN_THIS_STATE: string, FUNCTIONALITY_IS_DISABLED: string, INCORRECT_OPERATION: string, INTERNAL_ERROR: string, MEDIA_IS_ON_HOLD: string, MISSING_PERMISSION: string, REJECTED: string, TIMEOUT: string}}
@@ -94,6 +100,7 @@ export const CallError = {
 
 /**
  * Enum representing audio devices
+ * @name AudioDevice
  * @memberOf Voximplant.Hardware
  * @enum {string}
  * @type {{BLUETOOTH: string, EARPIECE: string, NONE: string, SPEAKER: string, WIRED_HEADSET: string}}
@@ -115,6 +122,7 @@ export const AudioDevice = {
 
 /**
  * Enum representing camera types
+ * @name CameraType
  * @memberOf Voximplant.Hardware
  * @enum {string}
  * @type {{FRONT: string, BACK: string}}
@@ -122,10 +130,12 @@ export const AudioDevice = {
 export const CameraType = {
     /**
      * The facing of the camera is the same as that of the screen
+     * @memberOf Hardware.CameraType
      */
     FRONT : 'front',
     /**
      * The facing of the camera is opposite to that of the screen
+     * @memberOf Hardware.CameraType
      */
     BACK  : 'back'
 };

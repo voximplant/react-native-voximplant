@@ -3,7 +3,7 @@
  */
 
 /**
- * @module EventHandlers
+ * @module Voximplant.EventHandlers
  */
 
 'use strict';
