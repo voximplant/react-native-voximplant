@@ -24,6 +24,7 @@ import * as Hardware from './hardware';
  * @param {ClientConfig} clientConfig Configuration for new Client instance.
  * @returns {Voximplant.Client}
  * @memberOf Voximplant
+ * @kind function
  */
 export const getInstance = (clientConfig) => {
     return Client.getInstance(clientConfig);
