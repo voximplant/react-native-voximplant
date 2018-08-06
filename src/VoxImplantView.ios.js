@@ -12,7 +12,8 @@ import PropTypes from 'prop-types';
 var createReactClass = require('create-react-class');
 
 /**
- * Create and setup local preview for video calls
+ * @class VoxImplantPreview
+ * @classdesc Create and setup local preview for video calls
  * 
  * @param {string} callId - The call id
  * @deprecated Use {@link Voximplant.VideoView} instead
@@ -34,7 +35,8 @@ var VoxImplantPreview = createReactClass({
 });
 
 /**
- * Create and setup remote video view
+ * @class VoxImplantRemoteView
+ * @classdesc Create and setup remote video view
  * 
  * @param {string} callId - The call id
  * @deprecated Use {@link Voximplant.VideoView} instead
