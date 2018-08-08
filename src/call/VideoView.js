@@ -31,7 +31,7 @@ export default class VideoView extends Component {
 /**
  * @memberOf Voximplant.VideoView
  * @property {string} videoStreamId - Id of the video stream that will be rendered to the video view
- * @property {Voximplant.RenderScaleType} - Type of video render scale
+ * @property {Voximplant.RenderScaleType} scaleType - Type of video render scale
  */
 VideoView.propTypes = {
     videoStreamId: PropTypes.string,

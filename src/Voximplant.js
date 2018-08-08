@@ -20,7 +20,7 @@ import {ClientState, CameraType, RenderScaleType, LogLevel, CallError} from "./E
 import * as Hardware from './hardware';
 
 /**
- * Get VoxImplant.Client instance to use platform functions
+ * Get Voximplant.Client instance to use platform functions
  * @param {ClientConfig} clientConfig Configuration for new Client instance.
  * @returns {Voximplant.Client}
  * @memberOf Voximplant

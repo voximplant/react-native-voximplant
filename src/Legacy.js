@@ -256,7 +256,7 @@ class VoximplantLegacy {
   /**
    * Enable/disable loudspeaker
    * @param {boolean} enable - Enable/disable loudspeaker
-   * @deprecated Use {@link Voximplant.Harware.AudioDeviceManager#selectAudioDevice} instead
+   * @deprecated Use {@link Voximplant.Hardware.AudioDeviceManager#selectAudioDevice} instead
    * @memberOf Legacy.VoximplantLegacy
    */
   setUseLoudspeaker(enable) {
@@ -339,7 +339,7 @@ class VoximplantLegacy {
    * @name Events
    * @enum {string}
    * @type {{LoginSuccessful: string, LoginFailed: string, OneTimeKeyGenerated: string, ConnectionSuccessful: string, ConnectionClosed: string, ConnectionFailed: string, CallConnected: string, CallDisconnected: string, CallRinging: string, CallFailed: string, CallAudioStarted: string, IncomingCall: string, SIPInfoReceivedInCall: string, MessageReceivedInCall: string, NetStatsReceived: string, RefreshTokenSuccess: string, RefreshTokenFailed: string}}
-   * @deprecated Use {@link Voximplant#ClientEvents} instead
+   * @deprecated Use {@link Voximplant.ClientEvents} instead
    * @memberOf Legacy
    */
   Events = {

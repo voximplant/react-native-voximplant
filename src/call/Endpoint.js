@@ -68,7 +68,7 @@ export default class Endpoint {
 
     /**
      * Register a handler for the specified endpoint event.
-     * One event can have more than one handler.x
+     * One event can have more than one handler.
      * Use the {@link Voximplant.Endpoint#off} method to delete a handler.
      * @param {Voximplant.EndpointEvents} event
      * @param {function} handler
