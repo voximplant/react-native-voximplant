@@ -25,7 +25,7 @@ class VoximplantLegacy {
 
   /**
    * Initialization of Voximplant SDK
-   * @param {VoxImplantClientConfig} options
+   * @param {VoxImplantClientConfig} [options]
    * @deprecated Use {@link Voximplant#getInstance} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -52,7 +52,7 @@ class VoximplantLegacy {
   }
   /**
    * Connect to the Voximplant cloud
-   * @param {VoxImplantConnectOptions} options
+   * @param {VoxImplantConnectOptions} [options] - Optional connection options
    * @deprecated Use {@link Voximplant.Client#connect} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -165,7 +165,7 @@ class VoximplantLegacy {
   /**
    * Send start call request If call with specified id is not found - returns false
    * @param {string} callId - Id of previously created call
-   * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
+   * @param {object} [headers] - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    * @deprecated Use {@link Voximplant.Client#call} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -187,7 +187,7 @@ class VoximplantLegacy {
   /**
    * Terminate specified call. Call must be either established, or outgoing progressing
    * @param {string} callId - Id of previously created call
-   * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by Voximplant
+   * @param {object} [headers] - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by Voximplant
    * @deprecated Use {@link Voximplant.Call#hangup} instead.
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -198,7 +198,7 @@ class VoximplantLegacy {
   /**
    * Reject incoming alerting call
    * @param {string} callId - Id of previously created call
-   * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
+   * @param {object} [headers] - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    * @deprecated Use {@link Voximplant.Call#decline} or {@link Voximplant.Call#reject} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -209,7 +209,7 @@ class VoximplantLegacy {
   /**
    * Answer incoming call
    * @param {string} callId - Id of previously created call
-   * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
+   * @param {object} [headers] - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    * @deprecated Use {@link Voximplant.Call#answer} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -235,7 +235,7 @@ class VoximplantLegacy {
    * @param {string} callId - Id of previously created call
    * @param {string} mimeType - MIME type of info
    * @param {string} content - Custom string data
-   * @param {object} headers - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
+   * @param {object} [headers] - Optional set of headers to be sent with message. Names must begin with "X-" to be processed by SDK
    * @deprecated Use {@link Voximplant.Call#sendInfo} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -296,7 +296,7 @@ class VoximplantLegacy {
 
   /**
    * Switch camera
-   * @param {CameraType} cameraName - Must be "front" or "back"
+   * @param {Legacy.CameraType} cameraName - Must be "front" or "back"
    * @deprecated Use {@link Voximplant.Hardware.CameraManager#switchCamera} instead
    * @memberOf Legacy.VoximplantLegacy
    */
@@ -346,7 +346,7 @@ class VoximplantLegacy {
     /**
      * Invoked when login process finished successfully.
      * @property {string} displayName - Display name of logged in user
-     * @property {LoginTokens} loginTokens - Login tokens that can be used to login using access token
+     * @property {Legacy.LoginTokens} loginTokens - Login tokens that can be used to login using access token
      * @deprecated Use {@link Voximplant.ClientEvents.AuthResult} instead
      * @memberOf Legacy.Events
      */
@@ -562,12 +562,12 @@ class VoximplantLegacy {
   };
 
   /**
-   * @property {boolean} enableVideo - Enable video functionality. Set to true by default. ANDROID ONLY
-   * @property {boolean} enableHWAcceleration - Enable hardware video acceleration. Set to true by default. Should be set to false, if provideLocalFramesInByteBuffers is set to true. ANDROID ONLY
-   * @property {boolean} provideLocalFramesInByteBuffers - Request video frames from camera in I420 format with byte buffers. Set to false by default. If set to false, video frames from camera will be provided in I420 format with textures. ANDROID ONLY
-   * @property {boolean} enableDebugLogging - Enable debug logging. Set to false by default. ANDROID ONLY
-   * @property {LogLevel} logLevel - Log levels. IOS ONLY
-   * @property {string} bundleId - Application bundle id/package name for iOS/Android respectively.
+   * @property {boolean} [enableVideo] - Enable video functionality. Set to true by default. ANDROID ONLY
+   * @property {boolean} [enableHWAcceleration] - Enable hardware video acceleration. Set to true by default. Should be set to false, if provideLocalFramesInByteBuffers is set to true. ANDROID ONLY
+   * @property {boolean} [provideLocalFramesInByteBuffers] - Request video frames from camera in I420 format with byte buffers. Set to false by default. If set to false, video frames from camera will be provided in I420 format with textures. ANDROID ONLY
+   * @property {boolean} [enableDebugLogging] - Enable debug logging. Set to false by default. ANDROID ONLY
+   * @property {LogLevel} [logLevel] - Log levels. IOS ONLY
+   * @property {string} [bundleId] - Application bundle id/package name for iOS/Android respectively.
    *                               You need to set this only if you are going to send push notifications across several mobile apps on a specific platform (Android or iOS)
    *                               using a single Voximplant application.
    * @deprecated Use {@link Voximplant.ClientConfig}
@@ -577,8 +577,8 @@ class VoximplantLegacy {
 
   };
   /**
-   * @property {boolean} connectivityCheck - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
-   * @property {array} servers - Server name of particular media gateway for connection
+   * @property {boolean} [connectivityCheck] - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
+   * @property {array} [servers] - Server name of particular media gateway for connection
    * @deprecated Use {@link Voximplant.ConnectOptions} instead.
    * @memberOf Legacy
    */
