@@ -111,7 +111,7 @@ export const AudioDevice = {
     /** Earpiece */
     EARPIECE      : 'Earpiece',
     /** No audio device, generally indicates that something is wrong with audio device selection.
-     * Should not be selected via {@link Voximplant.Hardware.AudioDeviceManger#selectAudioDevice}
+     * Should not be selected via {@link Voximplant.Hardware.AudioDeviceManager#selectAudioDevice}
      */
     NONE          : 'None',
     /** Speaker */
