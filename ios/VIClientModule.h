@@ -9,5 +9,5 @@
 #import "RCTEventEmitter.h"
 #import "VIClient.h"
 
-@interface ClientModule : RCTEventEmitter <RCTBridgeModule, VIClientSessionDelegate, VIClientCallManagerDelegate>
+@interface VIClientModule : RCTEventEmitter <RCTBridgeModule, VIClientSessionDelegate, VIClientCallManagerDelegate>
 @end

@@ -13,7 +13,7 @@ import {
 
 import CameraEvents from './CameraEvents';
 
-const CameraModule = NativeModules.CameraModule;
+const CameraModule = NativeModules.VICameraModule;
 const EventEmitter = Platform.select({
 	android: DeviceEventEmitter,
 });

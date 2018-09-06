@@ -4,9 +4,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "VIAudioManager.h"
+#import "VICameraManager.h"
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
 
-@interface AudioDeviceModule : RCTEventEmitter <RCTBridgeModule, VIAudioManagerDelegate>
+@interface VICameraModule : RCTEventEmitter <RCTBridgeModule>
 @end
+

@@ -2,18 +2,18 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
-#import "CallModule.h"
+#import "VICallModule.h"
 #import "RCTBridgeModule.h"
 #import "Constants.h"
 #import "CallManager.h"
 #import "VICall.h"
 #import "Utils.h"
 
-@interface CallModule()
+@interface VICallModule()
 
 @end
 
-@implementation CallModule
+@implementation VICallModule
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {

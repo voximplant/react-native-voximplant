@@ -14,7 +14,7 @@ import { LogLevel } from './../Enums';
 import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
 
-const ClientModule = NativeModules.ClientModule;
+const ClientModule = NativeModules.VIClientModule;
 
 const listeners = {};
 

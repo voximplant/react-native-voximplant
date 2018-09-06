@@ -26,14 +26,14 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class CameraModule extends ReactContextBaseJavaModule implements ICameraEventsListener {
+public class VICameraModule extends ReactContextBaseJavaModule implements ICameraEventsListener {
     private ReactApplicationContext mReactContext;
     private ICameraManager mCameraManager;
     private int mCameraResolutionWidth = DEFAULT_CAMERA_RESOLUTION_WITDTH;
     private int mCameraResolutionHeight = DEFAULT_CAMERA_RESOLUTION_HEIGHT;
     private int mCameraIndex = DEFAULT_CAMERA_INDEX;
 
-    public CameraModule(ReactApplicationContext reactContext) {
+    public VICameraModule(ReactApplicationContext reactContext) {
         super(reactContext);
         mReactContext = reactContext;
         mCameraManager = Voximplant.getCameraManager(mReactContext);
@@ -42,7 +42,7 @@ public class CameraModule extends ReactContextBaseJavaModule implements ICameraE
 
     @Override
     public String getName() {
-        return "CameraModule";
+        return "VICameraModule";
     }
 
     @ReactMethod

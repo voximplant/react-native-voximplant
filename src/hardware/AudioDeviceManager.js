@@ -13,7 +13,7 @@ import {
 
 import AudioDeviceEvents from './AudioDeviceEvents';
 
-const AudioDeviceModule = NativeModules.AudioDeviceModule;
+const AudioDeviceModule = NativeModules.VIAudioDeviceModule;
 const EventEmitter = Platform.select({
 	ios: new NativeEventEmitter(AudioDeviceModule),
 	android: DeviceEventEmitter,

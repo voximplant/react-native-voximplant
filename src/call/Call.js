@@ -16,7 +16,7 @@ import CallManager from './CallManager';
 import Endpoint from './Endpoint';
 import VideoStream from './VideoStream';
 
-const CallModule = NativeModules.CallModule;
+const CallModule = NativeModules.VICallModule;
 
 const EventEmitter = Platform.select({
     ios: new NativeEventEmitter(CallModule),

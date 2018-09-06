@@ -2,18 +2,18 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
-#import "AudioDeviceModule.h"
+#import "VIAudioDeviceModule.h"
 #import "RCTBridgeModule.h"
 #import "Constants.h"
 #import "VIAudioManager.h"
 #import "Utils.h"
 
 
-@interface AudioDeviceModule()
+@interface VIAudioDeviceModule()
 
 @end
 
-@implementation AudioDeviceModule
+@implementation VIAudioDeviceModule
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {

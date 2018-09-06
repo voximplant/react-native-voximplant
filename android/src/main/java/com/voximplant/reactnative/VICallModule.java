@@ -31,17 +31,17 @@ import javax.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 
-public class CallModule extends ReactContextBaseJavaModule implements ICallListener, IEndpointListener {
+public class VICallModule extends ReactContextBaseJavaModule implements ICallListener, IEndpointListener {
     private ReactApplicationContext mReactContext;
 
-    public CallModule(ReactApplicationContext reactContext) {
+    public VICallModule(ReactApplicationContext reactContext) {
         super(reactContext);
         mReactContext = reactContext;
     }
 
     @Override
     public String getName() {
-        return "CallModule";
+        return "VICallModule";
     }
 
     @ReactMethod

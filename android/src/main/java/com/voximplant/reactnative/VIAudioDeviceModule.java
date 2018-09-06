@@ -28,11 +28,11 @@ import javax.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 
-public class AudioDeviceModule extends ReactContextBaseJavaModule implements IAudioDeviceEventsListener {
+public class VIAudioDeviceModule extends ReactContextBaseJavaModule implements IAudioDeviceEventsListener {
     private ReactApplicationContext mReactContext;
     private IAudioDeviceManager mAudioDeviceManager;
 
-    public AudioDeviceModule(ReactApplicationContext reactContext) {
+    public VIAudioDeviceModule(ReactApplicationContext reactContext) {
         super(reactContext);
         mReactContext = reactContext;
         mAudioDeviceManager = Voximplant.getAudioDeviceManager();
@@ -41,7 +41,7 @@ public class AudioDeviceModule extends ReactContextBaseJavaModule implements IAu
 
     @Override
     public String getName() {
-        return "AudioDeviceModule";
+        return "VIAudioDeviceModule";
     }
 
     @ReactMethod

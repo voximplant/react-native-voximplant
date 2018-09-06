@@ -7,7 +7,7 @@
 
 #import "RCTBridgeModule.h"
 #import "RCTConvert.h"
-#import "ClientModule.h"
+#import "VIClientModule.h"
 #import "Constants.h"
 #import "Utils.h"
 #import "VICall.h"
@@ -47,11 +47,11 @@ RCT_ENUM_CONVERTER(VIClientState, (@{
                                      }), VIClientStateDisconnected, integerValue)
 @end
 
-@interface ClientModule()
+@interface VIClientModule()
 @property(nonatomic, weak) VIClient* client;
 @end
 
-@implementation ClientModule
+@implementation VIClientModule
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {

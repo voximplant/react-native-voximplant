@@ -4,10 +4,12 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "VICameraManager.h"
+
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
+#import "VICall.h"
+#import "VIEndpoint.h"
 
-@interface CameraModule : RCTEventEmitter <RCTBridgeModule>
+
+@interface VICallModule : RCTEventEmitter <RCTBridgeModule, VICallDelegate, VIEndpointDelegate>
 @end
-

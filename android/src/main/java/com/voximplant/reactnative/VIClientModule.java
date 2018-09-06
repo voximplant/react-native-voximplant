@@ -35,19 +35,19 @@ import javax.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 
-public class ClientModule extends ReactContextBaseJavaModule
+public class VIClientModule extends ReactContextBaseJavaModule
 		implements IClientSessionListener, IClientLoginListener, IClientIncomingCallListener{
 	private IClient mClient = null;
 	private ReactApplicationContext mReactContext;
 
-	public ClientModule(ReactApplicationContext reactContext) {
+	public VIClientModule(ReactApplicationContext reactContext) {
 		super(reactContext);
 		mReactContext = reactContext;
 	}
 
 	@Override
 	public String getName() {
-		return "ClientModule";
+		return "VIClientModule";
 	}
 
 	//region React methods

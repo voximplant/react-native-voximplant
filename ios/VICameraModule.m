@@ -2,16 +2,16 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
-#import "CameraModule.h"
+#import "VICameraModule.h"
 #import "RCTBridgeModule.h"
 #import "Constants.h"
 
 
-@interface CameraModule()
+@interface VICameraModule()
 @end
 
 
-@implementation CameraModule
+@implementation VICameraModule
 
 RCT_EXPORT_MODULE();
 
