@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.1
+- Update native Android and iOS modules to use the latest Voximplant SDKs
+- Fix: videoStream is undefined in RemoteVideoStreamRemoved event
+- Rename native Android and iOS modules to avoid naming conflicts with other react native packages
+
 ### 1.1.0
 - Introduce ClientConfig.bundleId property to specify Android application package name to enable 
   push notifications across several mobile applications on a specific platform (Android or iOS) 
