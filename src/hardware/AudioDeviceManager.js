@@ -121,6 +121,42 @@ export default class AudioDeviceManager {
         AudioDeviceModule.selectAudioDevice(audioDevice);
     }
 
+    callKitConfigureAudioSession() {
+        if (Platform.OS === 'ios') {
+            AudioDeviceModule.callKitConfigureAudioSession();
+        }
+        if (Platform.OS === 'android') {
+            console.log('AudioDeviceManager.callKitConfigureAudioSession is available only on iOS');
+        }
+    }
+
+    callKitReleaseAudioSession() {
+        if (Platform.OS === 'ios') {
+            AudioDeviceModule.callKitReleaseAudioSession();
+        }
+        if (Platform.OS === 'android') {
+            console.log('AudioDeviceManager.callKitReleaseAudioSession is available only on iOS');
+        }
+    }
+
+    callKitStartAudio() {
+        if (Platform.OS === 'ios') {
+            AudioDeviceModule.callKitStartAudio();
+        }
+        if (Platform.OS === 'android') {
+            console.log('AudioDeviceManager.callKitStartAudio is available only on iOS');
+        }
+    }
+
+    callKitStopAudio() {
+        if (Platform.OS === 'ios') {
+            AudioDeviceModule.callKitStopAudio();
+        }
+        if (Platform.OS === 'android') {
+            console.log('AudioDeviceManager.callKitStopAudio is available only on iOS');
+        }
+    }
+
     /**
      * @private
      */

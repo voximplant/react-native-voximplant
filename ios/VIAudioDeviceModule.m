@@ -52,6 +52,22 @@ RCT_REMAP_METHOD(getActiveDevice, getActiveDeviceWithResolver:(RCTPromiseResolve
     resolve([Utils convertAudioDeviceToString:device]);
 }
 
+RCT_EXPORT_METHOD(callKitConfigureAudioSession) {
+    [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
+}
+
+RCT_EXPORT_METHOD(callKitReleaseAudioSession) {
+    [[VIAudioManager sharedAudioManager] callKitReleaseAudioSession];
+}
+
+RCT_EXPORT_METHOD(callKitStartAudio) {
+    [[VIAudioManager sharedAudioManager] callKitStartAudio];
+}
+
+RCT_EXPORT_METHOD(callKitStopAudio) {
+    [[VIAudioManager sharedAudioManager] callKitStopAudio];
+}
+
 - (void)audioDeviceChanged:(VIAudioDevice *)audioDevice {
     [self sendEventWithName:kEventAudioDeviceChanged body:@{
                                                             kEventParamName               : kEventNameAudioDeviceChanged,
