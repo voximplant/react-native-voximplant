@@ -18,6 +18,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.ICall;
+import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.AuthParams;
 import com.voximplant.sdk.client.ClientConfig;
@@ -184,11 +185,21 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@Override
 	public void onIncomingCall(ICall call, boolean hasIncomingVideo, Map<String, String> headers) {
 		CallManager.getInstance().addCall(call);
+		IEndpoint endpoint = call.getEndpoints().get(0);
+		if (endpoint != null) {
+			CallManager.getInstance().addEndpoint(endpoint, call.getCallId());
+		}
 		WritableMap params = Arguments.createMap();
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_INCOMING_CALL);
 		params.putString(EVENT_PARAM_CALLID, call.getCallId());
 		params.putBoolean(EVENT_PARAM_INCOMING_VIDEO, hasIncomingVideo);
 		params.putMap(EVENT_PARAM_HEADERS, Utils.createWritableMap(headers));
+		if (endpoint != null) {
+			params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+			params.putString(EVENT_PARAM_ENDPOINT_NAME, endpoint.getUserName());
+			params.putString(EVENT_PARAM_DISPLAY_NAME, endpoint.getUserDisplayName());
+			params.putString(EVENT_PARAM_ENDPOINT_SIP_URI, endpoint.getSipUri());
+		}
 		sendEvent(EVENT_INCOMING_CALL, params);
 	}
 

@@ -287,11 +287,19 @@ RCT_REMAP_METHOD(createAndStartCall,
 
 - (void)client:(VIClient *)client didReceiveIncomingCall:(VICall *)call withIncomingVideo:(BOOL)video headers:(NSDictionary *)headers {
     [CallManager addCall:call];
+    VIEndpoint *endpoint = call.endpoints.firstObject;
+    if (endpoint) {
+        [CallManager addEndpoint:endpoint forCall:call.callId];
+    }
     [self sendEventWithName:kEventIncomingCall body:@{
-                                                      kEventParamName          : kEventNameIncomingCall,
-                                                      kEventParamCallId        : call.callId,
-                                                      kEventParamIncomingVideo : @(video),
-                                                      kEventParamHeaders       : headers
+                                                      kEventParamName           : kEventNameIncomingCall,
+                                                      kEventParamCallId         : call.callId,
+                                                      kEventParamIncomingVideo  : @(video),
+                                                      kEventParamHeaders        : headers,
+                                                      kEventParamEndpointId     : endpoint && endpoint.endpointId ? endpoint.endpointId : [NSNull null],
+                                                      kEventParamEndpointName   : endpoint && endpoint.user ? endpoint.user : [NSNull null],
+                                                      kEventParamEndpointSipUri : endpoint && endpoint.sipURI ? endpoint.sipURI : [NSNull null],
+                                                      kEventParamDisplayName    : endpoint && endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null]
                                                       }];
 }
 

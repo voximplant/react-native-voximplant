@@ -13,6 +13,8 @@ import {
 import { LogLevel } from './../Enums';
 import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
+import Endpoint from './../call/Endpoint';
+import CallManager from "../call/CallManager";
 
 const ClientModule = NativeModules.VIClientModule;
 
@@ -422,6 +424,12 @@ export default class Client {
      */
     _onIncomingCall = (event) => {
         event.call = new Call(event.callId);
+        let endpoint = new Endpoint(event.endpointId, event.displayName, event.sipUri, event.endpointName);
+        CallManager.getInstance().addEndpoint(event.callId, endpoint);
+        delete event.endpointId;
+        delete event.sipUri;
+        delete event.displayName;
+        delete event.endpointName;
         delete event.callId;
         this._emit(ClientEvents.IncomingCall, event);
     };

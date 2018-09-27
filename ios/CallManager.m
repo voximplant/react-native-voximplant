@@ -74,8 +74,10 @@
 }
 
 + (void)addEndpoint:(VIEndpoint *)endpoint forCall:(NSString *)callId {
-    [[CallManager getInstance].endpoints setObject:endpoint forKey:endpoint.endpointId];
-    [[CallManager getInstance].callEndpoints setObject:callId forKey:endpoint.endpointId];
+    if (endpoint && endpoint.endpointId && callId) {
+        [[CallManager getInstance].endpoints setObject:endpoint forKey:endpoint.endpointId];
+        [[CallManager getInstance].callEndpoints setObject:callId forKey:endpoint.endpointId];
+    }
 }
 
 + (VIEndpoint *)getEndpointById:(NSString *)endpointId {
