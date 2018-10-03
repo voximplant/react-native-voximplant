@@ -59,6 +59,7 @@ const VideoFlags = {
  * @property {string} [customData] - Custom string associated with the call session. It can be passed to the cloud to be obtained from the [CallAlerting](https://voximplant.com/docs/references/voxengine/appevents#callalerting) event or [Call History](https://voximplant.com/docs/references/httpapi/managing_history#getcallhistory) using HTTP API. Maximum size is 200 bytes. Use the {@link Voximplant.Call#sendMessage} method to pass a string over the limit; in order to pass a large data use [media_session_access_url](https://voximplant.com/docs/references/httpapi/managing_scenarios#startscenarios) on your backend.
  * @property {object} [extraHeaders] - Optional custom parameter (SIP headers) that should be passes with call (INVITE) message. Parameter names must start with "X-" to be processed. Headers size limit is 200  bytes
  * @property {Voximplant.VideoFlags} [video] - Tells if video should be supported for the call
+ * @property {boolean} [setupCallKit] - Specify if the outgoing call on iOS will be made with CallKit. Applicable only for outgoing calls. IOS ONLY.
  */
 const CallSettings = {
 

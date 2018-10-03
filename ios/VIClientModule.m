@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "VICall.h"
 #import "CallManager.h"
+#import "VIAudioManager.h"
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -225,11 +226,12 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 }
 
 RCT_REMAP_METHOD(createAndStartCall,
-                 callUser:(NSString *)user
-                 withVideoSettings:(NSDictionary *)videoFlags
-                 withH264Codec:(BOOL)H264first
-                 customData:(NSString *)customData
-                 headers:(NSDictionary *)headers
+                  callUser:(NSString *)user
+                  withVideoSettings:(NSDictionary *)videoFlags
+                  withH264Codec:(BOOL)H264first
+                  customData:(NSString *)customData
+                  headers:(NSDictionary *)headers
+                  setupCallKit:(BOOL)setupCallKit
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
         VICall* call = [_client callToUser:user
@@ -239,6 +241,9 @@ RCT_REMAP_METHOD(createAndStartCall,
         if (call) {
             if (H264first) {
                 call.preferredVideoCodec = @"H264";
+            }
+            if (setupCallKit) {
+                [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [CallManager addCall:call];
             [call startWithHeaders:headers];

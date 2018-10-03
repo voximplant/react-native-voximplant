@@ -348,6 +348,9 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = null;
         }
+        if (callSettings.setupCallKit === undefined) {
+            callSettings.setupCallKit = false;
+        }
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
                 ClientModule.createAndStartCall(number, callSettings.video, callSettings.customData, callSettings.extraHeaders, (callId) => {
@@ -360,7 +363,8 @@ export default class Client {
                 });
             }
             if (Platform.OS === 'ios') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.H264First, callSettings.customData, callSettings.extraHeaders, (callId) => {
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.H264First, callSettings.customData,
+                    callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
                     if (callId) {
                         let call = new Call(callId);
                         resolve(call);
