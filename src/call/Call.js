@@ -367,7 +367,7 @@ export default class Call {
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
             delete event.videoStreamId;
             event.videoStream = videoStream;
-            this._emit(CallEvents.LocalVideStreamRemoved, event);
+            this._emit(CallEvents.LocalVideoStreamRemoved, event);
         }
     };
 
