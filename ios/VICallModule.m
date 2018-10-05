@@ -7,6 +7,7 @@
 #import "Constants.h"
 #import "CallManager.h"
 #import "VICall.h"
+#import "VICallSettings.h"
 #import "Utils.h"
 
 @interface VICallModule()
@@ -49,14 +50,16 @@ RCT_REMAP_METHOD(answer,
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers) {
     VICall *call = [CallManager getCallById:callId];
+    VICallSettings *callSettings = [[VICallSettings alloc] init];
+    callSettings.customData = customData;
+    callSettings.extraHeaders = headers;
+    callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                                             sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
+    if (H264first) {
+        callSettings.preferredVideoCodec = VIVideoCodecH264;
+    }
     if (call) {
-        if (H264first) {
-            call.preferredVideoCodec = @"H264";
-        }
-        [call answerWithSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
-                     receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                       customData:customData
-                          headers:headers];
+        [call answerWithSettings:callSettings];
     }
 }
 
@@ -289,7 +292,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                          kEventParamName           : kEventNameEndpointInfoUpdate,
                                                          kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
                                                          kEventParamEndpointId     : endpoint.endpointId,
-                                                         kEventParamEndpointName   : endpoint.user,
+                                                         kEventParamEndpointName   : endpoint.user ? endpoint.user : [NSNull null],
                                                          kEventParamDisplayName    : endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null],
                                                          kEventParamEndpointSipUri : endpoint.sipURI ? endpoint.sipURI : [NSNull null]
                                                          }];

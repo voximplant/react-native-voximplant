@@ -7,7 +7,6 @@ package com.voximplant.reactnative;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -15,6 +14,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.call.CallError;
 import com.voximplant.sdk.call.CallException;
+import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallCompletionHandler;
@@ -56,9 +56,12 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     public void answer(String callId, ReadableMap videoSettings, String customData, ReadableMap headers) {
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
-            VideoFlags videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+            CallSettings callSettings = new CallSettings();
+            callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+            callSettings.customData = customData;
+            callSettings.extraHeaders = Utils.createHashMap(headers);
             try {
-                call.answer(customData, videoFlags, Utils.createHashMap(headers));
+                call.answer(callSettings);
             } catch (CallException e) {
 
             }

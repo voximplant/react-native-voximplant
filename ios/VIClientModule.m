@@ -13,6 +13,7 @@
 #import "VICall.h"
 #import "CallManager.h"
 #import "VIAudioManager.h"
+#import "VICallSettings.h"
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -202,7 +203,7 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
                                                                                                 kEventParamTokens : authParams
                                                                                                 }];
                                    }
-                                
+
                                }];
     }
 }
@@ -234,19 +235,21 @@ RCT_REMAP_METHOD(createAndStartCall,
                   setupCallKit:(BOOL)setupCallKit
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        VICall* call = [_client callToUser:user
-                             withSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
-                              receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                customData:customData];
+        VICallSettings *callSettings = [[VICallSettings alloc] init];
+        callSettings.customData = customData;
+        callSettings.extraHeaders = headers;
+        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
+        if (H264first) {
+            callSettings.preferredVideoCodec = VIVideoCodecH264;
+        }
+        VICall *call = [_client call:user settings:callSettings];
         if (call) {
-            if (H264first) {
-                call.preferredVideoCodec = @"H264";
-            }
             if (setupCallKit) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [CallManager addCall:call];
-            [call startWithHeaders:headers];
+            [call start];
             callback(@[call.callId]);
         } else {
             callback(@[[NSNull null]]);
