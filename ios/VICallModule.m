@@ -171,6 +171,8 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)call:(VICall *)call didFailWithError:(NSError *)error headers:(NSDictionary *)headers {
+    [call removeDelegate:self];
+    [CallManager removeCallById:call.callId];
     [self sendEventWithName:kEventCallFailed body:@{
                                                     kEventParamName    : kEventNameCallFailed,
                                                     kEventParamCallId  : call.callId,

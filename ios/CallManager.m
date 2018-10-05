@@ -71,6 +71,14 @@
 
 + (void)removeCallById:(NSString *)callId {
     [[CallManager getInstance].calls removeObjectForKey:callId];
+    NSMutableArray *endpointIdToRemove = [NSMutableArray new];
+    [[CallManager getInstance].callEndpoints enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull endpointId_, NSString * _Nonnull callid_, BOOL * _Nonnull stop) {
+        if ([callid_ isEqualToString:callId]) {
+            [endpointIdToRemove addObject:endpointId_];
+        }
+    }];
+    [[CallManager getInstance].callEndpoints removeObjectsForKeys:endpointIdToRemove];
+    [[CallManager getInstance].endpoints removeObjectsForKeys:endpointIdToRemove];
 }
 
 + (void)addEndpoint:(VIEndpoint *)endpoint forCall:(NSString *)callId {

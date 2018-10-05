@@ -253,8 +253,8 @@ export default class Call {
     _VICallDisconnectedCallback = (event) => {
         if (event.callId === this.callId) {
             this._removeEventListeners();
-            this._replaceCallIdWithCallInEvent(event);
             CallManager.getInstance().removeCall(this);
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.Disconnected, event);
         }
     };
@@ -351,7 +351,7 @@ export default class Call {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             let videoStream = new VideoStream(event.videoStreamId, true);
-            CallManager.getInstance().addVideoStream(videoStream);
+            CallManager.getInstance().addVideoStream(this.callId, videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
             this._emit(CallEvents.LocalVideoStreamAdded, event);
@@ -365,6 +365,7 @@ export default class Call {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            CallManager.getInstance().removeVideoStream(this.callId, videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
             this._emit(CallEvents.LocalVideoStreamRemoved, event);
