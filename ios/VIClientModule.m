@@ -65,13 +65,6 @@ RCT_EXPORT_MODULE();
              kEventIncomingCall];
 }
 
-- (void)dealloc {
-    if (_client) {
-        [_client disconnect];
-        _client = nil;
-    }
-}
-
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel saveLogsToFile:(BOOL)enable bundleId:(NSString *)bundleId) {
     if (enable) {
         [VIClient saveLogToFileEnable];
