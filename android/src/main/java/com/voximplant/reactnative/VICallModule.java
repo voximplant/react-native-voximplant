@@ -198,6 +198,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallDisconnected(ICall call, Map<String, String> headers, boolean answeredElsewhere) {
         call.removeCallListener(this);
+        CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_DISCONNECTED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -218,6 +219,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallFailed(ICall call, int code, String description, Map<String, String> headers) {
         call.removeCallListener(this);
+        CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_FAILED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -257,7 +259,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
-        CallManager.getInstance().addVideoStream(videoStream);
+        CallManager.getInstance().addVideoStream(call.getCallId(), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -336,7 +338,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
-        CallManager.getInstance().addVideoStream(videoStream);
+        CallManager.getInstance().addVideoStream(CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));

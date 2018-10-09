@@ -8,7 +8,9 @@ import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IVideoStream;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 class CallManager {
     private static CallManager mInstance = null;
@@ -17,7 +19,9 @@ class CallManager {
     // endpoint id and call id matching
     private HashMap<String, String> mCallEndpoints = new HashMap<>();
 
-    private HashMap<String, IVideoStream> mVideoStreams = new HashMap();
+    private HashMap<String, IVideoStream> mVideoStreams = new HashMap<>();
+    // video stream id and call id matching
+    private HashMap<String, String> mCallVideoStreams = new HashMap<>();
 
     private CallManager() {
 
@@ -38,6 +42,27 @@ class CallManager {
 
     void removeCall(ICall call) {
         if (call != null) {
+            ArrayList<String> objectsToRemove = new ArrayList<>();
+            for (Map.Entry<String, String> callEndpoint : mCallEndpoints.entrySet()) {
+                if (callEndpoint.getValue().equals(call.getCallId())) {
+                    mEndpoints.remove(callEndpoint.getKey());
+                    objectsToRemove.add(callEndpoint.getKey());
+                }
+            }
+            for (String endpointId : objectsToRemove) {
+                mCallEndpoints.remove(endpointId);
+            }
+            objectsToRemove.clear();
+            for (Map.Entry<String, String> callVideoStream : mCallVideoStreams.entrySet()) {
+                if (callVideoStream.getValue().equals(call.getCallId())) {
+                    mVideoStreams.remove(callVideoStream.getKey());
+                    objectsToRemove.add(callVideoStream.getKey());
+                }
+            }
+            for (String videoStreamId : objectsToRemove) {
+                mCallVideoStreams.remove(videoStreamId);
+            }
+            objectsToRemove.clear();
             mCalls.remove(call.getCallId());
         }
     }
@@ -73,20 +98,22 @@ class CallManager {
         return mEndpoints.get(endpointId);
     }
 
-    void addVideoStream(IVideoStream videoStream) {
+    void addVideoStream(String callId, IVideoStream videoStream) {
         if (videoStream != null) {
             mVideoStreams.put(videoStream.getVideoStreamId(), videoStream);
+            mCallVideoStreams.put(videoStream.getVideoStreamId(), callId);
         }
-    } 
+    }
 
     void removeVideoStream(IVideoStream videoStream) {
         if (videoStream != null) {
             mVideoStreams.remove(videoStream.getVideoStreamId());
+            mCallVideoStreams.remove(videoStream.getVideoStreamId());
         }
     }
 
     IVideoStream getVideoStreamById(String videoStreamId) {
         return mVideoStreams.get(videoStreamId);
     }
-    
+
 }
