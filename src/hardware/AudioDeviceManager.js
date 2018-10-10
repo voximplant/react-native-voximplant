@@ -121,6 +121,15 @@ export default class AudioDeviceManager {
         AudioDeviceModule.selectAudioDevice(audioDevice);
     }
 
+    /**
+     * IOS ONLY. Required for the correct CallKit integration only. Otherwise don't use this method.
+     * Initialize AVAudioSession if the application uses CallKit.
+     * Should be called when:
+     * 1. the provider performs [the specified start call action](https://developer.apple.com/documentation/callkit/cxproviderdelegate/1648260-provider?language=objc)
+     * 2. the provider performs [the specified answer call action](https://developer.apple.com/documentation/callkit/cxproviderdelegate/1648270-provider?language=objc)
+     *
+     * @memberOf Voximplant.Hardware.AudioDeviceManager
+     */
     callKitConfigureAudioSession() {
         if (Platform.OS === 'ios') {
             AudioDeviceModule.callKitConfigureAudioSession();
@@ -130,6 +139,12 @@ export default class AudioDeviceManager {
         }
     }
 
+    /**
+     * IOS ONLY. Required for the correct CallKit integration only. Otherwise don't use this method.
+     * Restores default AVAudioSession initialization routines, MUST be called if CallKit becomes disabled.
+     *
+     * @memberOf Voximplant.Hardware.AudioDeviceManager
+     */
     callKitReleaseAudioSession() {
         if (Platform.OS === 'ios') {
             AudioDeviceModule.callKitReleaseAudioSession();
@@ -139,6 +154,15 @@ export default class AudioDeviceManager {
         }
     }
 
+    /**
+     * IOS ONLY. Required for the correct CallKit integration only. Otherwise don't use this method.
+     * Starts AVAudioSession.
+     * Should be called when:
+     * 1. the provider’s audio session is [activated](https://developer.apple.com/documentation/callkit/cxproviderdelegate/1833281-provider?language=objc)
+     * 2. the provider performs [the specified set held call action](https://developer.apple.com/documentation/callkit/cxproviderdelegate/1648256-provider?language=objc)
+     *
+     * @memberOf Voximplant.Hardware.AudioDeviceManager
+     */
     callKitStartAudio() {
         if (Platform.OS === 'ios') {
             AudioDeviceModule.callKitStartAudio();
@@ -148,6 +172,15 @@ export default class AudioDeviceManager {
         }
     }
 
+    /**
+     * IOS ONLY. Required for the correct CallKit integration only. Otherwise don't use this method.
+     * Stops AVAudioSession.
+     * Should be called when
+     * 1. the provider performs [the specified end call action](https://developer.apple.com/documentation/callkit/cxproviderdelegate/1648264-provider?language=objc)
+     * 2. the provider performs [the specified set held call action](https://developer.apple.com/documentation/callkit/cxproviderdelegate/1648256-provider?language=objc)
+     *
+     * @memberOf Voximplant.Hardware.AudioDeviceManager
+     */
     callKitStopAudio() {
         if (Platform.OS === 'ios') {
             AudioDeviceModule.callKitStopAudio();
