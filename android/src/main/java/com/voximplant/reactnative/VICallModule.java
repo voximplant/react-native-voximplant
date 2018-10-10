@@ -53,13 +53,14 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @ReactMethod
-    public void answer(String callId, ReadableMap videoSettings, String customData, ReadableMap headers) {
+    public void answer(String callId, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers) {
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
             CallSettings callSettings = new CallSettings();
             callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
             callSettings.customData = customData;
             callSettings.extraHeaders = Utils.createHashMap(headers);
+            callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
             try {
                 call.answer(callSettings);
             } catch (CallException e) {

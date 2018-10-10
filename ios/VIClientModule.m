@@ -49,6 +49,14 @@ RCT_ENUM_CONVERTER(VIClientState, (@{
                                      }), VIClientStateDisconnected, integerValue)
 @end
 
+@implementation RCTConvert (VIVideoCodec)
+RCT_ENUM_CONVERTER(VIVideoCodec, (@{
+                                     @"VP8"  : @(VIVideoCodecVP8),
+                                     @"H264" : @(VIVideoCodecH264),
+                                     @"AUTO" : @(VIVideoCodecAuto),
+                                     }), VIVideoCodecAuto, integerValue)
+@end
+
 @interface VIClientModule()
 @property(nonatomic, weak) VIClient* client;
 @end
@@ -222,7 +230,7 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 RCT_REMAP_METHOD(createAndStartCall,
                   callUser:(NSString *)user
                   withVideoSettings:(NSDictionary *)videoFlags
-                  withH264Codec:(BOOL)H264first
+                  withVideoCodec:(VIVideoCodec)videoCodec
                   customData:(NSString *)customData
                   headers:(NSDictionary *)headers
                   setupCallKit:(BOOL)setupCallKit
@@ -233,9 +241,7 @@ RCT_REMAP_METHOD(createAndStartCall,
         callSettings.extraHeaders = headers;
         callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                                                                  sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-        if (H264first) {
-            callSettings.preferredVideoCodec = VIVideoCodecH264;
-        }
+        callSettings.preferredVideoCodec = videoCodec;
         VICall *call = [_client call:user settings:callSettings];
         if (call) {
             if (setupCallKit) {

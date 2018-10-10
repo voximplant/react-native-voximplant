@@ -25,11 +25,17 @@ export default class CallManager {
     }
 
     removeCall(call) {
-        for (let endpoint of this.getCallEndpoints(call.callId)) {
-            this.removeEndpoint(call.callId, endpoint);
+        let endpoints_ = this.getCallEndpoints(call.callId);
+        if (endpoints_ !== undefined) {
+            for (let endpoint of endpoints_) {
+                this.removeEndpoint(call.callId, endpoint);
+            }
         }
-        for (let videoStream of this.videoStreams.get(call.callId)) {
-            this.removeVideoStream(call.callId, videoStream);
+        let videoStreams_ = this.videoStreams.get(call.callId);
+        if (videoStreams_ !== undefined) {
+            for (let videoStream of videoStreams_) {
+                this.removeVideoStream(call.callId, videoStream);
+            }
         }
         this.calls.delete(call.callId);
     }

@@ -4,11 +4,20 @@
 
 #import "VICallModule.h"
 #import "RCTBridgeModule.h"
+#import "RCTConvert.h"
 #import "Constants.h"
 #import "CallManager.h"
 #import "VICall.h"
 #import "VICallSettings.h"
 #import "Utils.h"
+
+@implementation RCTConvert (VIVideoCodec)
+RCT_ENUM_CONVERTER(VIVideoCodec, (@{
+                                    @"VP8"  : @(VIVideoCodecVP8),
+                                    @"H264" : @(VIVideoCodecH264),
+                                    @"AUTO" : @(VIVideoCodecAuto),
+                                    }), VIVideoCodecAuto, integerValue)
+@end
 
 @interface VICallModule()
 
@@ -46,7 +55,7 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
 RCT_REMAP_METHOD(answer,
                  answerCall:(NSString *)callId
                  withVideoSettings:(NSDictionary *)videoFlags
-                 withH264codec:(BOOL)H264first
+                 withHVideoCodec:(VIVideoCodec)videoCodec
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers) {
     VICall *call = [CallManager getCallById:callId];
@@ -55,9 +64,7 @@ RCT_REMAP_METHOD(answer,
     callSettings.extraHeaders = headers;
     callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                                                              sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-    if (H264first) {
-        callSettings.preferredVideoCodec = VIVideoCodecH264;
-    }
+    callSettings.preferredVideoCodec = videoCodec;
     if (call) {
         [call answerWithSettings:callSettings];
     }

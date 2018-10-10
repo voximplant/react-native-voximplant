@@ -57,7 +57,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableHWAcceleration, boolean provideLocalFramesInByteBuffers,
 					 boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
-					 boolean H264first, String packageName) {
+					 String videoCodec, String packageName) {
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableHWAccelerationForDecoding = enableHWAcceleration;
@@ -66,9 +66,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		config.enableDebugLogging = enableDebugLogging;
 		config.enableCameraMirroring = enableCameraMirroring;
 		config.enableLogcatLogging = enableLogcatLogging;
-		if (H264first) {
-			config.preferredVideoCodec = VideoCodec.H264;
-		}
+		config.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
 		config.packageName = packageName;
 		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
 		mClient.setClientIncomingCallListener(this);
@@ -166,12 +164,13 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void createAndStartCall(String user, ReadableMap videoSettings, String customData, ReadableMap headers, Callback callback) {
+	public void createAndStartCall(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
 		if (mClient != null) {
 			CallSettings callSettings = new CallSettings();
 			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
 			callSettings.customData = customData;
 			callSettings.extraHeaders = Utils.createHashMap(headers);
+			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
 			ICall call = mClient.call(user, callSettings);
 			if (call != null) {
 				try {

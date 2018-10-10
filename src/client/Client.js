@@ -10,7 +10,7 @@ import {
 	NativeEventEmitter,
 	DeviceEventEmitter,
 } from 'react-native';
-import { LogLevel } from './../Enums';
+import {LogLevel, VideoCodec} from './../Enums';
 import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
 import Endpoint from './../call/Endpoint';
@@ -51,7 +51,7 @@ export default class Client {
             if (clientConfig.enableDebugLogging === undefined) clientConfig.enableDebugLogging = false;
             if (clientConfig.enableCameraMirroring === undefined) clientConfig.enableCameraMirroring = true;
             if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
-            if (clientConfig.H264first === undefined) clientConfig.H264first = false;
+            if (clientConfig.preferredVideoCodec === undefined) clientConfig.preferredVideoCodec = VideoCodec.VP8;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.saveLogsToFile !== undefined) console.log('saveLogsToFile is iOS only option');
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
@@ -61,7 +61,7 @@ export default class Client {
                 clientConfig.enableDebugLogging,
                 clientConfig.enableCameraMirroring,
                 clientConfig.enableLogcatLogging,
-                clientConfig.H264first,
+                clientConfig.preferredVideoCodec,
                 clientConfig.bundleId);
         }
         if (Platform.OS === 'ios') {
@@ -74,7 +74,7 @@ export default class Client {
             if (clientConfig.enableDebugLogging !== undefined) console.log('enableDebugLogging is Android only option');
             if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
-            if (clientConfig.H264first !== undefined) console.log('H264first is Android only option');
+            if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
             ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile, clientConfig.bundleId);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
@@ -334,8 +334,8 @@ export default class Client {
         if (!callSettings) {
             callSettings = {};
         }
-        if (callSettings.H264First === undefined) {
-            callSettings.H264First = false;
+        if (callSettings.preferredVideoCodec === undefined) {
+            callSettings.preferredVideoCodec = VideoCodec.AUTO;
         }
         if (callSettings.video === undefined) {
             callSettings.video = {};
@@ -353,7 +353,8 @@ export default class Client {
         }
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.customData, callSettings.extraHeaders, (callId) => {
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, (callId) => {
                     if (callId) {
                         let call = new Call(callId);
                         resolve(call);
@@ -363,7 +364,7 @@ export default class Client {
                 });
             }
             if (Platform.OS === 'ios') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.H264First, callSettings.customData,
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
                     callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
                     if (callId) {
                         let call = new Call(callId);
@@ -437,4 +438,4 @@ export default class Client {
         delete event.callId;
         this._emit(ClientEvents.IncomingCall, event);
     };
-} 
+}

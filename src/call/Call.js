@@ -15,6 +15,7 @@ import CallEvents from './CallEvents';
 import CallManager from './CallManager';
 import Endpoint from './Endpoint';
 import VideoStream from './VideoStream';
+import {VideoCodec} from "../Enums";
 
 const CallModule = NativeModules.VICallModule;
 
@@ -84,8 +85,8 @@ export default class Call {
         if (!callSettings) {
             callSettings = {};
         }
-        if (callSettings.H264First === undefined) {
-            callSettings.H264First = false;
+        if (callSettings.preferredVideoCodec === undefined) {
+            callSettings.preferredVideoCodec = VideoCodec.AUTO;
         }
         if (callSettings.video === undefined) {
             callSettings.video = {};
@@ -99,12 +100,7 @@ export default class Call {
             callSettings.extraHeaders = null;
         }
 
-        if (Platform.OS === 'android') {
-            CallModule.answer(this.callId, callSettings.video, callSettings.customData, callSettings.extraHeaders);
-        }
-        if (Platform.OS === 'ios') {
-            CallModule.answer(this.callId, callSettings.video, callSettings.H264First, callSettings.customData, callSettings.extraHeaders);
-        }
+        CallModule.answer(this.callId, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData, callSettings.extraHeaders);
     }
 
     /**
