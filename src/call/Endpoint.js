@@ -128,7 +128,6 @@ export default class Endpoint {
             delete event.displayName;
             delete event.sipUri;
             delete event.endpointName;
-            delete event.endpointName;
             this._prepareEvent(event);
             this._emit(EndpointEvents.InfoUpdated, event);
         }

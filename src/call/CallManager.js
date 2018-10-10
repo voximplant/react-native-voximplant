@@ -25,6 +25,7 @@ export default class CallManager {
     }
 
     removeCall(call) {
+        call._removeEventListeners();
         let endpoints_ = this.getCallEndpoints(call.callId);
         if (endpoints_ !== undefined) {
             for (let endpoint of endpoints_) {
@@ -53,6 +54,7 @@ export default class CallManager {
 
     removeEndpoint(callId, endpoint) {
         if (this.endpoints.get(callId) !== undefined) {
+            endpoint._removeEventListeners();
             this.endpoints.get(callId).delete(endpoint);
             if (this.endpoints.get(callId).size === 0) {
                 this.endpoints.delete(callId);
