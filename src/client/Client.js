@@ -378,6 +378,67 @@ export default class Client {
     }
 
     /**
+     * Create call to a dedicated conference without proxy session. For details see [the video conferencing guide](https://voximplant.com/blog/video-conference-through-voximplant-media-servers).
+     *
+     * Important: There is a difference between resolving the Voximplant.Client.call promise and handling Voximplant.CallEvents.
+     * If the promise is resolved, the SDK sends a call to the cloud. However, it doesn't mean that a call is connected;
+     * to catch this call state, subscribe to the Voximplant.CallEvents.Connected event.
+     * If the promise is rejected, that indicates the issues in the application's code (e.g., a try to make a call without login to the Voximplant cloud);
+     * in case of the CallFailed event is triggered, that means a telecom-related issue (e.g., another participant rejects a call).
+     *
+     * @param {string} number - The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
+     * @param {Voximplant.CallSettings} [callSettings] - Optional call settings
+     * @returns {Promise<Voximplant.Call>}
+     * @memberOf Voximplant.Client
+     */
+    callConference(number, callSettings) {
+        if (!callSettings) {
+            callSettings = {};
+        }
+        if (callSettings.preferredVideoCodec === undefined) {
+            callSettings.preferredVideoCodec = VideoCodec.AUTO;
+        }
+        if (callSettings.video === undefined) {
+            callSettings.video = {};
+            callSettings.video.sendVideo = false;
+            callSettings.video.receiveVideo = true;
+        }
+        if (callSettings.customData === undefined) {
+            callSettings.customData = null;
+        }
+        if (callSettings.extraHeaders === undefined) {
+            callSettings.extraHeaders = null;
+        }
+        if (callSettings.setupCallKit === undefined) {
+            callSettings.setupCallKit = false;
+        }
+        return new Promise((resolve, reject) => {
+            if (Platform.OS === 'android') {
+                ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, (callId) => {
+                        if (callId) {
+                            let call = new Call(callId);
+                            resolve(call);
+                        } else {
+                            reject();
+                        }
+                    });
+            }
+            if (Platform.OS === 'ios') {
+                ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
+                        if (callId) {
+                            let call = new Call(callId);
+                            resolve(call);
+                        } else {
+                            reject();
+                        }
+                    });
+            }
+        });
+    }
+
+    /**
      * @private
      */
     _emit(event, ...args) {

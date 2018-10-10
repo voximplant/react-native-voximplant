@@ -115,7 +115,7 @@ RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString
                        success:^(NSString *displayName, NSDictionary *authParams) {
                            [self sendEventWithName:kEventAuthResult body:@{kEventParamName        : kEventNameAuthResult,
                                                                            kEventParamResult      : @(true),
-                                                                           kEventParamDisplayName : displayName,
+                                                                           kEventParamDisplayName : displayName ? displayName : [NSNull null],
                                                                            kEventParamTokens      : authParams
                                                                           }];
                        }
@@ -137,7 +137,7 @@ RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneT
                            [self sendEventWithName:kEventAuthResult body:@{
                                                                            kEventParamName        : kEventNameAuthResult,
                                                                            kEventParamResult      : @(true),
-                                                                           kEventParamDisplayName : displayName,
+                                                                           kEventParamDisplayName : displayName ? displayName : [NSNull null],
                                                                            kEventParamTokens      : authParams
                                                                           }];
                        }
@@ -159,7 +159,7 @@ RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NS
                            [self sendEventWithName:kEventAuthResult body:@{
                                                                           kEventParamName        : kEventNameAuthResult,
                                                                           kEventParamResult      : @(true),
-                                                                          kEventParamDisplayName : displayName,
+                                                                          kEventParamDisplayName : displayName ? displayName : [NSNull null],
                                                                           kEventParamTokens      : authParams
                                                                           }];
                        } failure:^(NSError *error) {
@@ -180,7 +180,7 @@ RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
                                                                                         kEventParamName   : kEventNameAuthResult,
                                                                                         kEventParamResult : @(false),
                                                                                         kEventParamCode   : @(302),
-                                                                                        kEventParamKey    : oneTimeKey
+                                                                                        kEventParamKey    : oneTimeKey ? oneTimeKey : [NSNull null]
                                                                                        }];
                                     }];
     }
@@ -243,6 +243,36 @@ RCT_REMAP_METHOD(createAndStartCall,
                                                                  sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
         callSettings.preferredVideoCodec = videoCodec;
         VICall *call = [_client call:user settings:callSettings];
+        if (call) {
+            if (setupCallKit) {
+                [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
+            }
+            [CallManager addCall:call];
+            [call start];
+            callback(@[call.callId]);
+        } else {
+            callback(@[[NSNull null]]);
+        }
+    } else {
+        callback(@[[NSNull null]]);
+    }
+}
+
+RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
+                 withVideoSettings:(NSDictionary *)videoFlags
+                 withVideoCodec:(VIVideoCodec)videoCodec
+                 customData:(NSString *)customData
+                 headers:(NSDictionary *)headers
+                 setupCallKit:(BOOL)setupCallKit
+                 responseCallback:(RCTResponseSenderBlock)callback) {
+    if (_client) {
+        VICallSettings *callSettings = [[VICallSettings alloc] init];
+        callSettings.customData = customData;
+        callSettings.extraHeaders = headers;
+        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
+        callSettings.preferredVideoCodec = videoCodec;
+        VICall *call = [_client callConference:user settings:callSettings];
         if (call) {
             if (setupCallKit) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];

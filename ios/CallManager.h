@@ -17,7 +17,7 @@
 + (void)removeCallById:(NSString *)callId;
 
 + (VICall *)getCallByEndpointId:(NSString *)endpointId;
-+ (NSString *)getCallIdByEndppointId:(NSString *)endpointId;
++ (NSString *)getCallIdByEndpointId:(NSString *)endpointId;
 
 + (void)addEndpoint:(VIEndpoint *)endpoint forCall:(NSString *)callId;
 + (VIEndpoint *)getEndpointById:(NSString *)endpointId;

@@ -25,7 +25,7 @@ NSString *const kEventCallProgressToneStart = @"VICallProgressToneStart";
 NSString *const kEventCallProgressToneStop = @"VICallProgressToneStop";
 NSString *const kEventEndpointInfoUpdate = @"VIEndpointInfoUpdated";
 NSString *const kEventEndpointRemoteStreamAdded = @"VIEndpointRemoteVideoStreamAdded";
-NSString *const kEventEndpointRemoteStreanRemoved = @"VIEndpointRemoteVideoStreamRemoved";
+NSString *const kEventEndpointRemoteStreamRemoved = @"VIEndpointRemoteVideoStreamRemoved";
 NSString *const kEventEndpointRemoved = @"VIEndpointRemoved";
 
 NSString *const kEventAudioDeviceChanged = @"VIAudioDeviceChanged";

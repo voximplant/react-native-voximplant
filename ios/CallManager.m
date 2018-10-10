@@ -62,7 +62,7 @@
 + (VICall *)getCallByEndpointId:(NSString *)endpointId {
     return [[CallManager getInstance].calls objectForKey:[[CallManager getInstance].callEndpoints objectForKey:endpointId]];
 }
-+ (NSString *)getCallIdByEndppointId:(NSString *)endpointId {
++ (NSString *)getCallIdByEndpointId:(NSString *)endpointId {
     if (endpointId) {
         return [[CallManager getInstance].callEndpoints objectForKey:endpointId];
     }

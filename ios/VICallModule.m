@@ -42,7 +42,7 @@ RCT_EXPORT_MODULE();
              kEventEndpointInfoUpdate,
              kEventEndpointRemoved,
              kEventEndpointRemoteStreamAdded,
-             kEventEndpointRemoteStreanRemoved];
+             kEventEndpointRemoteStreamRemoved];
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
@@ -271,7 +271,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
     [CallManager addVideoStream:videoStream];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
                                                                    kEventParamName          : kEventNameEndpointRemoteStreamAdded,
-                                                                   kEventParamCallId        : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                                   kEventParamCallId        : [CallManager getCallIdByEndpointId:endpoint.endpointId],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
@@ -279,27 +279,27 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 
 - (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIVideoStream *)videoStream {
     [CallManager removeVideoStreamById:videoStream.streamId];
-    [self sendEventWithName:kEventEndpointRemoteStreanRemoved body:@{
-                                                                   kEventParamName          : kEventNameEndpointRemoteStreanRemoved,
-                                                                   kEventParamCallId        : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+    [self sendEventWithName:kEventEndpointRemoteStreamRemoved body:@{
+                                                                   kEventParamName          : kEventEndpointRemoteStreamRemoved,
+                                                                   kEventParamCallId        : [CallManager getCallIdByEndpointId:endpoint.endpointId],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
 }
 
 - (void)endpointDidRemove:(VIEndpoint *)endpoint {
-    [CallManager removeEndpointById:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoved body:@{
                                                          kEventParamName           : kEventNameEndpointRemoved,
-                                                         kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                         kEventParamCallId         : [CallManager getCallIdByEndpointId:endpoint.endpointId],
                                                          kEventParamEndpointId     : endpoint.endpointId
                                                          }];
+    [CallManager removeEndpointById:endpoint.endpointId];
 }
 
 - (void)endpointInfoDidUpdate:(VIEndpoint *)endpoint {
     [self sendEventWithName:kEventEndpointInfoUpdate body:@{
                                                          kEventParamName           : kEventNameEndpointInfoUpdate,
-                                                         kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                         kEventParamCallId         : [CallManager getCallIdByEndpointId:endpoint.endpointId],
                                                          kEventParamEndpointId     : endpoint.endpointId,
                                                          kEventParamEndpointName   : endpoint.user ? endpoint.user : [NSNull null],
                                                          kEventParamDisplayName    : endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null],
