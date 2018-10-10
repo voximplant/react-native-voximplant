@@ -28,6 +28,9 @@ export default class CallManager {
         for (let endpoint of this.getCallEndpoints(call.callId)) {
             this.removeEndpoint(call.callId, endpoint);
         }
+        for (let videoStream of this.videoStreams.get(call.callId)) {
+            this.removeVideoStream(call.callId, videoStream);
+        }
         this.calls.delete(call.callId);
     }
 
