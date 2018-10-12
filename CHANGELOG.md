@@ -1,5 +1,18 @@
 # Changelog
 
+### 1.2.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.6.1 and Voximplant iOS SDK 2.16.0
+- CallKit integration support for iOS
+- Fix for [#45](https://github.com/voximplant/react-native-voximplant/issues/45)
+- Fix: not able to get endpoints while processing incoming call event
+- Fix: CallEvents.LocalVideoStreamRemoved is not invoked
+- New API: Client.callConference API to create call to a dedicated conference without proxy session
+- New API: VideoCodec enum to specify preferred video codec for calls.
+- Replace H264First property with preferredVideoCodec property
+- Add ability to specify video codec for a particular call on android
+- Memory management improvements
+- Stability improvements and bugfix
+
 ### 1.1.1
 - Update native Android and iOS modules to use the latest Voximplant SDKs
 - Fix: videoStream is undefined in RemoteVideoStreamRemoved event
