@@ -62,7 +62,7 @@
 + (VICall *)getCallByEndpointId:(NSString *)endpointId {
     return [[CallManager getInstance].calls objectForKey:[[CallManager getInstance].callEndpoints objectForKey:endpointId]];
 }
-+ (NSString *)getCallIdByEndppointId:(NSString *)endpointId {
++ (NSString *)getCallIdByEndpointId:(NSString *)endpointId {
     if (endpointId) {
         return [[CallManager getInstance].callEndpoints objectForKey:endpointId];
     }
@@ -71,11 +71,21 @@
 
 + (void)removeCallById:(NSString *)callId {
     [[CallManager getInstance].calls removeObjectForKey:callId];
+    NSMutableArray *endpointIdToRemove = [NSMutableArray new];
+    [[CallManager getInstance].callEndpoints enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull endpointId_, NSString * _Nonnull callid_, BOOL * _Nonnull stop) {
+        if ([callid_ isEqualToString:callId]) {
+            [endpointIdToRemove addObject:endpointId_];
+        }
+    }];
+    [[CallManager getInstance].callEndpoints removeObjectsForKeys:endpointIdToRemove];
+    [[CallManager getInstance].endpoints removeObjectsForKeys:endpointIdToRemove];
 }
 
 + (void)addEndpoint:(VIEndpoint *)endpoint forCall:(NSString *)callId {
-    [[CallManager getInstance].endpoints setObject:endpoint forKey:endpoint.endpointId];
-    [[CallManager getInstance].callEndpoints setObject:callId forKey:endpoint.endpointId];
+    if (endpoint && endpoint.endpointId && callId) {
+        [[CallManager getInstance].endpoints setObject:endpoint forKey:endpoint.endpointId];
+        [[CallManager getInstance].callEndpoints setObject:callId forKey:endpoint.endpointId];
+    }
 }
 
 + (VIEndpoint *)getEndpointById:(NSString *)endpointId {

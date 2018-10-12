@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
 import com.voximplant.sdk.hardware.AudioDevice;
@@ -129,5 +130,17 @@ class Utils {
 
 	static int convertCameraTypeToCameraIndex(String cameraType) {
 		return cameraType.equals(Constants.CAMERA_TYPE_BACK) ? 0 : 1;
+	}
+
+	static VideoCodec convertStringToVideoCodec(String videoCodec) {
+		switch (videoCodec) {
+			case "VP8":
+				return VideoCodec.VP8;
+			case "H264":
+				return VideoCodec.H264;
+			case "AUTO":
+			default:
+				return VideoCodec.AUTO;
+		}
 	}
 }

@@ -139,3 +139,28 @@ export const CameraType = {
      */
     BACK  : 'back'
 };
+
+/**
+ * Enum representing supported video codecs
+ * @name VideoCodec
+ * @memberOf Voximplant
+ * @enum {string}
+ * @type {{VP8: string, H264: string, AUTO: string}}
+ */
+export const VideoCodec = {
+    /**
+     * VP8 video codec
+     * @memberOf Voximplant.VideoCodec
+     */
+    VP8  : 'VP8',
+    /**
+     * H264 video codec
+     * @memberOf Voximplant.VideoCodec
+     */
+    H264 : 'H264',
+    /**
+     * Video codec for call will be chosen automatically
+     * @memberOf Voximplant.VideoCodec
+     */
+    AUTO : 'AUTO'
+};

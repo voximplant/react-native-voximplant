@@ -4,10 +4,20 @@
 
 #import "VICallModule.h"
 #import "RCTBridgeModule.h"
+#import "RCTConvert.h"
 #import "Constants.h"
 #import "CallManager.h"
 #import "VICall.h"
+#import "VICallSettings.h"
 #import "Utils.h"
+
+@implementation RCTConvert (VIVideoCodec)
+RCT_ENUM_CONVERTER(VIVideoCodec, (@{
+                                    @"VP8"  : @(VIVideoCodecVP8),
+                                    @"H264" : @(VIVideoCodecH264),
+                                    @"AUTO" : @(VIVideoCodecAuto),
+                                    }), VIVideoCodecAuto, integerValue)
+@end
 
 @interface VICallModule()
 
@@ -32,7 +42,7 @@ RCT_EXPORT_MODULE();
              kEventEndpointInfoUpdate,
              kEventEndpointRemoved,
              kEventEndpointRemoteStreamAdded,
-             kEventEndpointRemoteStreanRemoved];
+             kEventEndpointRemoteStreamRemoved];
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
@@ -45,18 +55,18 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
 RCT_REMAP_METHOD(answer,
                  answerCall:(NSString *)callId
                  withVideoSettings:(NSDictionary *)videoFlags
-                 withH264codec:(BOOL)H264first
+                 withHVideoCodec:(VIVideoCodec)videoCodec
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers) {
     VICall *call = [CallManager getCallById:callId];
+    VICallSettings *callSettings = [[VICallSettings alloc] init];
+    callSettings.customData = customData;
+    callSettings.extraHeaders = headers;
+    callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                                             sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
+    callSettings.preferredVideoCodec = videoCodec;
     if (call) {
-        if (H264first) {
-            call.preferredVideoCodec = @"H264";
-        }
-        [call answerWithSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
-                     receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                       customData:customData
-                          headers:headers];
+        [call answerWithSettings:callSettings];
     }
 }
 
@@ -168,6 +178,8 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)call:(VICall *)call didFailWithError:(NSError *)error headers:(NSDictionary *)headers {
+    [call removeDelegate:self];
+    [CallManager removeCallById:call.callId];
     [self sendEventWithName:kEventCallFailed body:@{
                                                     kEventParamName    : kEventNameCallFailed,
                                                     kEventParamCallId  : call.callId,
@@ -234,12 +246,12 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)call:(VICall *)call didRemoveLocalVideoStream:(VIVideoStream *)videoStream {
-    [CallManager removeVideoStreamById:videoStream.streamId];
     [self sendEventWithName:kEventCallLocalVideoStreamRemoved body:@{
                                                                      kEventParamName          : kEventNameCallLocalVideoStreamRemoved,
                                                                      kEventParamCallId        : call.callId,
                                                                      kEventParamVideoStreamId : videoStream.streamId
                                                                      }];
+    [CallManager removeVideoStreamById:videoStream.streamId];
 }
 
 - (void) call:(VICall *)call didAddEndpoint:(VIEndpoint *)endpoint {
@@ -257,39 +269,43 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 
 - (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIVideoStream *)videoStream {
     [CallManager addVideoStream:videoStream];
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
                                                                    kEventParamName          : kEventNameEndpointRemoteStreamAdded,
-                                                                   kEventParamCallId        : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                                   kEventParamCallId        : callId ? callId : [NSNull null],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
 }
 
 - (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIVideoStream *)videoStream {
-    [CallManager removeVideoStreamById:videoStream.streamId];
-    [self sendEventWithName:kEventEndpointRemoteStreanRemoved body:@{
-                                                                   kEventParamName          : kEventNameEndpointRemoteStreanRemoved,
-                                                                   kEventParamCallId        : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointRemoteStreamRemoved body:@{
+                                                                   kEventParamName          : kEventEndpointRemoteStreamRemoved,
+                                                                   kEventParamCallId        : callId ? callId : [NSNull null],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
+    [CallManager removeVideoStreamById:videoStream.streamId];
 }
 
 - (void)endpointDidRemove:(VIEndpoint *)endpoint {
-    [CallManager removeEndpointById:endpoint.endpointId];
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoved body:@{
                                                          kEventParamName           : kEventNameEndpointRemoved,
-                                                         kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                         kEventParamCallId         : callId ? callId : [NSNull null],
                                                          kEventParamEndpointId     : endpoint.endpointId
                                                          }];
+    [CallManager removeEndpointById:endpoint.endpointId];
 }
 
 - (void)endpointInfoDidUpdate:(VIEndpoint *)endpoint {
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointInfoUpdate body:@{
                                                          kEventParamName           : kEventNameEndpointInfoUpdate,
-                                                         kEventParamCallId         : [CallManager getCallIdByEndppointId:endpoint.endpointId],
+                                                         kEventParamCallId         : callId ? callId : [NSNull null],
                                                          kEventParamEndpointId     : endpoint.endpointId,
-                                                         kEventParamEndpointName   : endpoint.user,
+                                                         kEventParamEndpointName   : endpoint.user ? endpoint.user : [NSNull null],
                                                          kEventParamDisplayName    : endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null],
                                                          kEventParamEndpointSipUri : endpoint.sipURI ? endpoint.sipURI : [NSNull null]
                                                          }];

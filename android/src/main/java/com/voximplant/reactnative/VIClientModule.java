@@ -17,7 +17,10 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.call.CallException;
+import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.ICall;
+import com.voximplant.sdk.call.IEndpoint;
+import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.AuthParams;
 import com.voximplant.sdk.client.ClientConfig;
@@ -54,7 +57,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableHWAcceleration, boolean provideLocalFramesInByteBuffers,
 					 boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
-					 boolean H264first, String packageName) {
+					 String videoCodec, String packageName) {
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableHWAccelerationForDecoding = enableHWAcceleration;
@@ -63,7 +66,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		config.enableDebugLogging = enableDebugLogging;
 		config.enableCameraMirroring = enableCameraMirroring;
 		config.enableLogcatLogging = enableLogcatLogging;
-		config.H264first = H264first;
+		config.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
 		config.packageName = packageName;
 		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
 		mClient.setClientIncomingCallListener(this);
@@ -161,14 +164,41 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void createAndStartCall(String user, ReadableMap videoSettings, String customData, ReadableMap headers, Callback callback) {
+	public void createAndStartCall(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
 		if (mClient != null) {
-			VideoFlags videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
-			ICall call = mClient.callTo(user, videoFlags, customData);
+			CallSettings callSettings = new CallSettings();
+			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+			callSettings.customData = customData;
+			callSettings.extraHeaders = Utils.createHashMap(headers);
+			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
+			ICall call = mClient.call(user, callSettings);
 			if (call != null) {
 				try {
 					CallManager.getInstance().addCall(call);
-					call.start(Utils.createHashMap(headers));
+					call.start();
+					callback.invoke(call.getCallId());
+				} catch (CallException e) {
+					callback.invoke((Object)null);
+				}
+			} else {
+				callback.invoke((Object)null);
+			}
+		}
+	}
+
+	@ReactMethod
+	public void createAndStartConference(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
+		if (mClient != null) {
+			CallSettings callSettings = new CallSettings();
+			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+			callSettings.customData = customData;
+			callSettings.extraHeaders = Utils.createHashMap(headers);
+			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
+			ICall call = mClient.callConference(user, callSettings);
+			if (call != null) {
+				try {
+					CallManager.getInstance().addCall(call);
+					call.start();
 					callback.invoke(call.getCallId());
 				} catch (CallException e) {
 					callback.invoke((Object)null);
@@ -184,11 +214,21 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@Override
 	public void onIncomingCall(ICall call, boolean hasIncomingVideo, Map<String, String> headers) {
 		CallManager.getInstance().addCall(call);
+		IEndpoint endpoint = call.getEndpoints().get(0);
+		if (endpoint != null) {
+			CallManager.getInstance().addEndpoint(endpoint, call.getCallId());
+		}
 		WritableMap params = Arguments.createMap();
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_INCOMING_CALL);
 		params.putString(EVENT_PARAM_CALLID, call.getCallId());
 		params.putBoolean(EVENT_PARAM_INCOMING_VIDEO, hasIncomingVideo);
 		params.putMap(EVENT_PARAM_HEADERS, Utils.createWritableMap(headers));
+		if (endpoint != null) {
+			params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+			params.putString(EVENT_PARAM_ENDPOINT_NAME, endpoint.getUserName());
+			params.putString(EVENT_PARAM_DISPLAY_NAME, endpoint.getUserDisplayName());
+			params.putString(EVENT_PARAM_ENDPOINT_SIP_URI, endpoint.getSipUri());
+		}
 		sendEvent(EVENT_INCOMING_CALL, params);
 	}
 

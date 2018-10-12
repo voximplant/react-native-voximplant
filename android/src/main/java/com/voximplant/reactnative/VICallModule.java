@@ -7,7 +7,6 @@ package com.voximplant.reactnative;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -15,6 +14,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.call.CallError;
 import com.voximplant.sdk.call.CallException;
+import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallCompletionHandler;
@@ -53,12 +53,16 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @ReactMethod
-    public void answer(String callId, ReadableMap videoSettings, String customData, ReadableMap headers) {
+    public void answer(String callId, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers) {
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
-            VideoFlags videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+            CallSettings callSettings = new CallSettings();
+            callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
+            callSettings.customData = customData;
+            callSettings.extraHeaders = Utils.createHashMap(headers);
+            callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
             try {
-                call.answer(customData, videoFlags, Utils.createHashMap(headers));
+                call.answer(callSettings);
             } catch (CallException e) {
 
             }
@@ -195,6 +199,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallDisconnected(ICall call, Map<String, String> headers, boolean answeredElsewhere) {
         call.removeCallListener(this);
+        CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_DISCONNECTED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -215,6 +220,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallFailed(ICall call, int code, String description, Map<String, String> headers) {
         call.removeCallListener(this);
+        CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_FAILED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -254,7 +260,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
-        CallManager.getInstance().addVideoStream(videoStream);
+        CallManager.getInstance().addVideoStream(call.getCallId(), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -333,7 +339,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
-        CallManager.getInstance().addVideoStream(videoStream);
+        CallManager.getInstance().addVideoStream(CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));

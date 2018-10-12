@@ -25,6 +25,19 @@ export default class CallManager {
     }
 
     removeCall(call) {
+        call._removeEventListeners();
+        let endpoints_ = this.getCallEndpoints(call.callId);
+        if (endpoints_ !== undefined) {
+            for (let endpoint of endpoints_) {
+                this.removeEndpoint(call.callId, endpoint);
+            }
+        }
+        let videoStreams_ = this.videoStreams.get(call.callId);
+        if (videoStreams_ !== undefined) {
+            for (let videoStream of videoStreams_) {
+                this.removeVideoStream(call.callId, videoStream);
+            }
+        }
         this.calls.delete(call.callId);
     }
 
@@ -41,7 +54,11 @@ export default class CallManager {
 
     removeEndpoint(callId, endpoint) {
         if (this.endpoints.get(callId) !== undefined) {
+            endpoint._removeEventListeners();
             this.endpoints.get(callId).delete(endpoint);
+            if (this.endpoints.get(callId).size === 0) {
+                this.endpoints.delete(callId);
+            }
         }
     }
 
@@ -50,24 +67,48 @@ export default class CallManager {
     }
 
     getEndpointById(id) {
-        this.endpoints.forEach((value, key, map) => {
-            value.forEach((endpoint) => {
+        for (let [callId, endpoints] of this.endpoints) {
+            for (let endpoint of endpoints) {
                 if (endpoint.id === id) {
                     return endpoint;
                 }
-            })
-        });
+            }
+        }
     }
 
-    addVideoStream(videoStream) {
-        this.videoStreams.set(videoStream.id, videoStream);
+    getCallIdByEndpointId(endpointId) {
+        for (let [callId, endpoints] of this.endpoints) {
+            for (let endpoint of endpoints) {
+                if (endpoint.id === endpointId) {
+                    return callId;
+                }
+            }
+        }
     }
 
-    removeVideoStream(videoStream) {
-        this.videoStreams.delete(videoStream.id);
+    addVideoStream(callId, videoStream) {
+        if (this.videoStreams.get(callId) === undefined) {
+            this.videoStreams.set(callId, new Set());
+        }
+        this.videoStreams.get(callId).add(videoStream);
+    }
+
+    removeVideoStream(callId, videoStream) {
+        if (this.videoStreams.get(callId) !== undefined) {
+            this.videoStreams.get(callId).delete(videoStream);
+            if (this.videoStreams.get(callId).size === 0) {
+                this.videoStreams.delete(callId);
+            }
+        }
     }
 
     getVideoStreamById(id) {
-        return this.videoStreams.get(id);
+        for (let [callId, videoStreams] of this.videoStreams) {
+            for (let videoStream of videoStreams) {
+                if (videoStream.id === id) {
+                    return videoStream;
+                }
+            }
+        }
     }
 }

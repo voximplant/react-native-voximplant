@@ -128,7 +128,6 @@ export default class Endpoint {
             delete event.displayName;
             delete event.sipUri;
             delete event.endpointName;
-            delete event.endpointName;
             this._prepareEvent(event);
             this._emit(EndpointEvents.InfoUpdated, event);
         }
@@ -153,7 +152,7 @@ export default class Endpoint {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
             let videoStream = new VideoStream(event.videoStreamId, false);
-            CallManager.getInstance().addVideoStream(videoStream);
+            CallManager.getInstance().addVideoStream(CallManager.getInstance().getCallIdByEndpointId(this.id), videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamAdded, event);
@@ -167,6 +166,7 @@ export default class Endpoint {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            CallManager.getInstance().removeVideoStream(CallManager.getInstance().getCallIdByEndpointId(this.id), videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamRemoved, event);

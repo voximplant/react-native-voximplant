@@ -10,9 +10,11 @@ import {
 	NativeEventEmitter,
 	DeviceEventEmitter,
 } from 'react-native';
-import { LogLevel } from './../Enums';
+import {LogLevel, VideoCodec} from './../Enums';
 import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
+import Endpoint from './../call/Endpoint';
+import CallManager from "../call/CallManager";
 
 const ClientModule = NativeModules.VIClientModule;
 
@@ -49,7 +51,7 @@ export default class Client {
             if (clientConfig.enableDebugLogging === undefined) clientConfig.enableDebugLogging = false;
             if (clientConfig.enableCameraMirroring === undefined) clientConfig.enableCameraMirroring = true;
             if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
-            if (clientConfig.H264first === undefined) clientConfig.H264first = false;
+            if (clientConfig.preferredVideoCodec === undefined) clientConfig.preferredVideoCodec = VideoCodec.VP8;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.saveLogsToFile !== undefined) console.log('saveLogsToFile is iOS only option');
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
@@ -59,7 +61,7 @@ export default class Client {
                 clientConfig.enableDebugLogging,
                 clientConfig.enableCameraMirroring,
                 clientConfig.enableLogcatLogging,
-                clientConfig.H264first,
+                clientConfig.preferredVideoCodec,
                 clientConfig.bundleId);
         }
         if (Platform.OS === 'ios') {
@@ -72,7 +74,7 @@ export default class Client {
             if (clientConfig.enableDebugLogging !== undefined) console.log('enableDebugLogging is Android only option');
             if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
-            if (clientConfig.H264first !== undefined) console.log('H264first is Android only option');
+            if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
             ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile, clientConfig.bundleId);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
@@ -332,8 +334,8 @@ export default class Client {
         if (!callSettings) {
             callSettings = {};
         }
-        if (callSettings.H264First === undefined) {
-            callSettings.H264First = false;
+        if (callSettings.preferredVideoCodec === undefined) {
+            callSettings.preferredVideoCodec = VideoCodec.AUTO;
         }
         if (callSettings.video === undefined) {
             callSettings.video = {};
@@ -346,9 +348,13 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = null;
         }
+        if (callSettings.setupCallKit === undefined) {
+            callSettings.setupCallKit = false;
+        }
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.customData, callSettings.extraHeaders, (callId) => {
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, (callId) => {
                     if (callId) {
                         let call = new Call(callId);
                         resolve(call);
@@ -358,7 +364,8 @@ export default class Client {
                 });
             }
             if (Platform.OS === 'ios') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.H264First, callSettings.customData, callSettings.extraHeaders, (callId) => {
+                ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
                     if (callId) {
                         let call = new Call(callId);
                         resolve(call);
@@ -366,6 +373,67 @@ export default class Client {
                         reject();
                     }
                 });
+            }
+        });
+    }
+
+    /**
+     * Create call to a dedicated conference without proxy session. For details see [the video conferencing guide](https://voximplant.com/blog/video-conference-through-voximplant-media-servers).
+     *
+     * Important: There is a difference between resolving the Voximplant.Client.call promise and handling Voximplant.CallEvents.
+     * If the promise is resolved, the SDK sends a call to the cloud. However, it doesn't mean that a call is connected;
+     * to catch this call state, subscribe to the Voximplant.CallEvents.Connected event.
+     * If the promise is rejected, that indicates the issues in the application's code (e.g., a try to make a call without login to the Voximplant cloud);
+     * in case of the CallFailed event is triggered, that means a telecom-related issue (e.g., another participant rejects a call).
+     *
+     * @param {string} number - The number to call. For SIP compatibility reasons it should be a non-empty string even if the number itself is not used by a Voximplant cloud scenario.
+     * @param {Voximplant.CallSettings} [callSettings] - Optional call settings
+     * @returns {Promise<Voximplant.Call>}
+     * @memberOf Voximplant.Client
+     */
+    callConference(number, callSettings) {
+        if (!callSettings) {
+            callSettings = {};
+        }
+        if (callSettings.preferredVideoCodec === undefined) {
+            callSettings.preferredVideoCodec = VideoCodec.AUTO;
+        }
+        if (callSettings.video === undefined) {
+            callSettings.video = {};
+            callSettings.video.sendVideo = false;
+            callSettings.video.receiveVideo = true;
+        }
+        if (callSettings.customData === undefined) {
+            callSettings.customData = null;
+        }
+        if (callSettings.extraHeaders === undefined) {
+            callSettings.extraHeaders = null;
+        }
+        if (callSettings.setupCallKit === undefined) {
+            callSettings.setupCallKit = false;
+        }
+        return new Promise((resolve, reject) => {
+            if (Platform.OS === 'android') {
+                ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, (callId) => {
+                        if (callId) {
+                            let call = new Call(callId);
+                            resolve(call);
+                        } else {
+                            reject();
+                        }
+                    });
+            }
+            if (Platform.OS === 'ios') {
+                ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
+                    callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
+                        if (callId) {
+                            let call = new Call(callId);
+                            resolve(call);
+                        } else {
+                            reject();
+                        }
+                    });
             }
         });
     }
@@ -422,7 +490,13 @@ export default class Client {
      */
     _onIncomingCall = (event) => {
         event.call = new Call(event.callId);
+        let endpoint = new Endpoint(event.endpointId, event.displayName, event.sipUri, event.endpointName);
+        CallManager.getInstance().addEndpoint(event.callId, endpoint);
+        delete event.endpointId;
+        delete event.sipUri;
+        delete event.displayName;
+        delete event.endpointName;
         delete event.callId;
         this._emit(ClientEvents.IncomingCall, event);
     };
-} 
+}

@@ -12,6 +12,8 @@
 #import "Utils.h"
 #import "VICall.h"
 #import "CallManager.h"
+#import "VIAudioManager.h"
+#import "VICallSettings.h"
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -47,6 +49,14 @@ RCT_ENUM_CONVERTER(VIClientState, (@{
                                      }), VIClientStateDisconnected, integerValue)
 @end
 
+@implementation RCTConvert (VIVideoCodec)
+RCT_ENUM_CONVERTER(VIVideoCodec, (@{
+                                     @"VP8"  : @(VIVideoCodecVP8),
+                                     @"H264" : @(VIVideoCodecH264),
+                                     @"AUTO" : @(VIVideoCodecAuto),
+                                     }), VIVideoCodecAuto, integerValue)
+@end
+
 @interface VIClientModule()
 @property(nonatomic, weak) VIClient* client;
 @end
@@ -61,13 +71,6 @@ RCT_EXPORT_MODULE();
              kEventAuthResult,
              kEventAuthTokenResult,
              kEventIncomingCall];
-}
-
-- (void)dealloc {
-    if (_client) {
-        [_client disconnect];
-        _client = nil;
-    }
 }
 
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel saveLogsToFile:(BOOL)enable bundleId:(NSString *)bundleId) {
@@ -112,7 +115,7 @@ RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString
                        success:^(NSString *displayName, NSDictionary *authParams) {
                            [self sendEventWithName:kEventAuthResult body:@{kEventParamName        : kEventNameAuthResult,
                                                                            kEventParamResult      : @(true),
-                                                                           kEventParamDisplayName : displayName,
+                                                                           kEventParamDisplayName : displayName ? displayName : [NSNull null],
                                                                            kEventParamTokens      : authParams
                                                                           }];
                        }
@@ -134,7 +137,7 @@ RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneT
                            [self sendEventWithName:kEventAuthResult body:@{
                                                                            kEventParamName        : kEventNameAuthResult,
                                                                            kEventParamResult      : @(true),
-                                                                           kEventParamDisplayName : displayName,
+                                                                           kEventParamDisplayName : displayName ? displayName : [NSNull null],
                                                                            kEventParamTokens      : authParams
                                                                           }];
                        }
@@ -156,7 +159,7 @@ RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NS
                            [self sendEventWithName:kEventAuthResult body:@{
                                                                           kEventParamName        : kEventNameAuthResult,
                                                                           kEventParamResult      : @(true),
-                                                                          kEventParamDisplayName : displayName,
+                                                                          kEventParamDisplayName : displayName ? displayName : [NSNull null],
                                                                           kEventParamTokens      : authParams
                                                                           }];
                        } failure:^(NSError *error) {
@@ -172,13 +175,21 @@ RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NS
 RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
     if (_client) {
         [_client requestOneTimeKeyWithUser:user
-                                    result:^(NSString *oneTimeKey) {
-                                        [self sendEventWithName:kEventAuthResult body:@{
-                                                                                        kEventParamName   : kEventNameAuthResult,
-                                                                                        kEventParamResult : @(false),
-                                                                                        kEventParamCode   : @(302),
-                                                                                        kEventParamKey    : oneTimeKey
-                                                                                       }];
+                                    result:^(NSString *oneTimeKey, NSError *error) {
+                                        if (error) {
+                                            [self sendEventWithName:kEventAuthResult body:@{
+                                                                                            kEventParamName   : kEventNameAuthResult,
+                                                                                            kEventParamResult : @(false),
+                                                                                            kEventParamCode   : @(error.code)
+                                                                                            }];
+                                        } else {
+                                            [self sendEventWithName:kEventAuthResult body:@{
+                                                                                            kEventParamName   : kEventNameAuthResult,
+                                                                                            kEventParamResult : @(false),
+                                                                                            kEventParamCode   : @(302),
+                                                                                            kEventParamKey    : oneTimeKey ? oneTimeKey : [NSNull null]
+                                                                                           }];
+                                        }
                                     }];
     }
 }
@@ -187,7 +198,7 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
     if (_client) {
         [_client refreshTokenWithUser:user
                                 token:token
-                               result:^(NSError *error, NSDictionary *authParams) {
+                               result:^(NSDictionary *authParams, NSError *error) {
                                    if (error) {
                                        [self sendEventWithName:kEventNameAuthTokenResult body:@{
                                                                                                 kEventParamName   : kEventNameAuthTokenResult,
@@ -201,7 +212,7 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
                                                                                                 kEventParamTokens : authParams
                                                                                                 }];
                                    }
-                                
+
                                }];
     }
 }
@@ -225,23 +236,57 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 }
 
 RCT_REMAP_METHOD(createAndStartCall,
-                 callUser:(NSString *)user
-                 withVideoSettings:(NSDictionary *)videoFlags
-                 withH264Codec:(BOOL)H264first
-                 customData:(NSString *)customData
-                 headers:(NSDictionary *)headers
+                  callUser:(NSString *)user
+                  withVideoSettings:(NSDictionary *)videoFlags
+                  withVideoCodec:(VIVideoCodec)videoCodec
+                  customData:(NSString *)customData
+                  headers:(NSDictionary *)headers
+                  setupCallKit:(BOOL)setupCallKit
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        VICall* call = [_client callToUser:user
-                             withSendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]
-                              receiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                customData:customData];
+        VICallSettings *callSettings = [[VICallSettings alloc] init];
+        callSettings.customData = customData;
+        callSettings.extraHeaders = headers;
+        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
+        callSettings.preferredVideoCodec = videoCodec;
+        VICall *call = [_client call:user settings:callSettings];
         if (call) {
-            if (H264first) {
-                call.preferredVideoCodec = @"H264";
+            if (setupCallKit) {
+                [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [CallManager addCall:call];
-            [call startWithHeaders:headers];
+            [call start];
+            callback(@[call.callId]);
+        } else {
+            callback(@[[NSNull null]]);
+        }
+    } else {
+        callback(@[[NSNull null]]);
+    }
+}
+
+RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
+                 withVideoSettings:(NSDictionary *)videoFlags
+                 withVideoCodec:(VIVideoCodec)videoCodec
+                 customData:(NSString *)customData
+                 headers:(NSDictionary *)headers
+                 setupCallKit:(BOOL)setupCallKit
+                 responseCallback:(RCTResponseSenderBlock)callback) {
+    if (_client) {
+        VICallSettings *callSettings = [[VICallSettings alloc] init];
+        callSettings.customData = customData;
+        callSettings.extraHeaders = headers;
+        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
+                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
+        callSettings.preferredVideoCodec = videoCodec;
+        VICall *call = [_client callConference:user settings:callSettings];
+        if (call) {
+            if (setupCallKit) {
+                [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
+            }
+            [CallManager addCall:call];
+            [call start];
             callback(@[call.callId]);
         } else {
             callback(@[[NSNull null]]);
@@ -287,11 +332,19 @@ RCT_REMAP_METHOD(createAndStartCall,
 
 - (void)client:(VIClient *)client didReceiveIncomingCall:(VICall *)call withIncomingVideo:(BOOL)video headers:(NSDictionary *)headers {
     [CallManager addCall:call];
+    VIEndpoint *endpoint = call.endpoints.firstObject;
+    if (endpoint) {
+        [CallManager addEndpoint:endpoint forCall:call.callId];
+    }
     [self sendEventWithName:kEventIncomingCall body:@{
-                                                      kEventParamName          : kEventNameIncomingCall,
-                                                      kEventParamCallId        : call.callId,
-                                                      kEventParamIncomingVideo : @(video),
-                                                      kEventParamHeaders       : headers
+                                                      kEventParamName           : kEventNameIncomingCall,
+                                                      kEventParamCallId         : call.callId,
+                                                      kEventParamIncomingVideo  : @(video),
+                                                      kEventParamHeaders        : headers,
+                                                      kEventParamEndpointId     : endpoint && endpoint.endpointId ? endpoint.endpointId : [NSNull null],
+                                                      kEventParamEndpointName   : endpoint && endpoint.user ? endpoint.user : [NSNull null],
+                                                      kEventParamEndpointSipUri : endpoint && endpoint.sipURI ? endpoint.sipURI : [NSNull null],
+                                                      kEventParamDisplayName    : endpoint && endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null]
                                                       }];
 }
 

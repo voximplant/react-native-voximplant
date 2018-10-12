@@ -15,6 +15,7 @@ import CallEvents from './CallEvents';
 import CallManager from './CallManager';
 import Endpoint from './Endpoint';
 import VideoStream from './VideoStream';
+import {VideoCodec} from "../Enums";
 
 const CallModule = NativeModules.VICallModule;
 
@@ -84,8 +85,8 @@ export default class Call {
         if (!callSettings) {
             callSettings = {};
         }
-        if (callSettings.H264First === undefined) {
-            callSettings.H264First = false;
+        if (callSettings.preferredVideoCodec === undefined) {
+            callSettings.preferredVideoCodec = VideoCodec.AUTO;
         }
         if (callSettings.video === undefined) {
             callSettings.video = {};
@@ -99,12 +100,7 @@ export default class Call {
             callSettings.extraHeaders = null;
         }
 
-        if (Platform.OS === 'android') {
-            CallModule.answer(this.callId, callSettings.video, callSettings.customData, callSettings.extraHeaders);
-        }
-        if (Platform.OS === 'ios') {
-            CallModule.answer(this.callId, callSettings.video, callSettings.H264First, callSettings.customData, callSettings.extraHeaders);
-        }
+        CallModule.answer(this.callId, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData, callSettings.extraHeaders);
     }
 
     /**
@@ -253,8 +249,8 @@ export default class Call {
     _VICallDisconnectedCallback = (event) => {
         if (event.callId === this.callId) {
             this._removeEventListeners();
-            this._replaceCallIdWithCallInEvent(event);
             CallManager.getInstance().removeCall(this);
+            this._replaceCallIdWithCallInEvent(event);
             this._emit(CallEvents.Disconnected, event);
         }
     };
@@ -351,7 +347,7 @@ export default class Call {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             let videoStream = new VideoStream(event.videoStreamId, true);
-            CallManager.getInstance().addVideoStream(videoStream);
+            CallManager.getInstance().addVideoStream(this.callId, videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
             this._emit(CallEvents.LocalVideoStreamAdded, event);
@@ -365,9 +361,10 @@ export default class Call {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            CallManager.getInstance().removeVideoStream(this.callId, videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
-            this._emit(CallEvents.LocalVideStreamRemoved, event);
+            this._emit(CallEvents.LocalVideoStreamRemoved, event);
         }
     };
 

@@ -33,5 +33,5 @@ repositories {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"
-    implementation "com.voximplant:voximplant-sdk:2.5.4"
+    implementation "com.voximplant:voximplant-sdk:2.6.1"
 }

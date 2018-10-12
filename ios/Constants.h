@@ -25,7 +25,7 @@ FOUNDATION_EXPORT NSString *const kEventCallProgressToneStart;
 FOUNDATION_EXPORT NSString *const kEventCallProgressToneStop;
 FOUNDATION_EXPORT NSString *const kEventEndpointInfoUpdate;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamAdded;
-FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreanRemoved;
+FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
 
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceChanged;
