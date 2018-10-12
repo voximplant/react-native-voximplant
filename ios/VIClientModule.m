@@ -175,13 +175,21 @@ RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NS
 RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
     if (_client) {
         [_client requestOneTimeKeyWithUser:user
-                                    result:^(NSString *oneTimeKey) {
-                                        [self sendEventWithName:kEventAuthResult body:@{
-                                                                                        kEventParamName   : kEventNameAuthResult,
-                                                                                        kEventParamResult : @(false),
-                                                                                        kEventParamCode   : @(302),
-                                                                                        kEventParamKey    : oneTimeKey ? oneTimeKey : [NSNull null]
-                                                                                       }];
+                                    result:^(NSString *oneTimeKey, NSError *error) {
+                                        if (error) {
+                                            [self sendEventWithName:kEventAuthResult body:@{
+                                                                                            kEventParamName   : kEventNameAuthResult,
+                                                                                            kEventParamResult : @(false),
+                                                                                            kEventParamCode   : @(error.code)
+                                                                                            }];
+                                        } else {
+                                            [self sendEventWithName:kEventAuthResult body:@{
+                                                                                            kEventParamName   : kEventNameAuthResult,
+                                                                                            kEventParamResult : @(false),
+                                                                                            kEventParamCode   : @(302),
+                                                                                            kEventParamKey    : oneTimeKey ? oneTimeKey : [NSNull null]
+                                                                                           }];
+                                        }
                                     }];
     }
 }
@@ -190,7 +198,7 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
     if (_client) {
         [_client refreshTokenWithUser:user
                                 token:token
-                               result:^(NSError *error, NSDictionary *authParams) {
+                               result:^(NSDictionary *authParams, NSError *error) {
                                    if (error) {
                                        [self sendEventWithName:kEventNameAuthTokenResult body:@{
                                                                                                 kEventParamName   : kEventNameAuthTokenResult,
