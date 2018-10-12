@@ -348,7 +348,7 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = null;
         }
-        if (callSettings.setupCallKit === undefined) {
+        if (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null) {
             callSettings.setupCallKit = false;
         }
         return new Promise((resolve, reject) => {
