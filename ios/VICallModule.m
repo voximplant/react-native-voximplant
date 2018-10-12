@@ -246,12 +246,12 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)call:(VICall *)call didRemoveLocalVideoStream:(VIVideoStream *)videoStream {
-    [CallManager removeVideoStreamById:videoStream.streamId];
     [self sendEventWithName:kEventCallLocalVideoStreamRemoved body:@{
                                                                      kEventParamName          : kEventNameCallLocalVideoStreamRemoved,
                                                                      kEventParamCallId        : call.callId,
                                                                      kEventParamVideoStreamId : videoStream.streamId
                                                                      }];
+    [CallManager removeVideoStreamById:videoStream.streamId];
 }
 
 - (void) call:(VICall *)call didAddEndpoint:(VIEndpoint *)endpoint {
@@ -269,37 +269,41 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 
 - (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIVideoStream *)videoStream {
     [CallManager addVideoStream:videoStream];
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
                                                                    kEventParamName          : kEventNameEndpointRemoteStreamAdded,
-                                                                   kEventParamCallId        : [CallManager getCallIdByEndpointId:endpoint.endpointId],
+                                                                   kEventParamCallId        : callId ? callId : [NSNull null],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
 }
 
 - (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIVideoStream *)videoStream {
-    [CallManager removeVideoStreamById:videoStream.streamId];
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamRemoved body:@{
                                                                    kEventParamName          : kEventEndpointRemoteStreamRemoved,
-                                                                   kEventParamCallId        : [CallManager getCallIdByEndpointId:endpoint.endpointId],
+                                                                   kEventParamCallId        : callId ? callId : [NSNull null],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
+    [CallManager removeVideoStreamById:videoStream.streamId];
 }
 
 - (void)endpointDidRemove:(VIEndpoint *)endpoint {
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoved body:@{
                                                          kEventParamName           : kEventNameEndpointRemoved,
-                                                         kEventParamCallId         : [CallManager getCallIdByEndpointId:endpoint.endpointId],
+                                                         kEventParamCallId         : callId ? callId : [NSNull null],
                                                          kEventParamEndpointId     : endpoint.endpointId
                                                          }];
     [CallManager removeEndpointById:endpoint.endpointId];
 }
 
 - (void)endpointInfoDidUpdate:(VIEndpoint *)endpoint {
+    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointInfoUpdate body:@{
                                                          kEventParamName           : kEventNameEndpointInfoUpdate,
-                                                         kEventParamCallId         : [CallManager getCallIdByEndpointId:endpoint.endpointId],
+                                                         kEventParamCallId         : callId ? callId : [NSNull null],
                                                          kEventParamEndpointId     : endpoint.endpointId,
                                                          kEventParamEndpointName   : endpoint.user ? endpoint.user : [NSNull null],
                                                          kEventParamDisplayName    : endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null],
