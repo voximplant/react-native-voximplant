@@ -380,7 +380,7 @@ export default class Client {
     /**
      * Create call to a dedicated conference without proxy session. For details see [the video conferencing guide](https://voximplant.com/blog/video-conference-through-voximplant-media-servers).
      *
-     * Important: There is a difference between resolving the Voximplant.Client.call promise and handling Voximplant.CallEvents.
+     * Important: There is a difference between resolving the Voximplant.Client.callConference promise and handling Voximplant.CallEvents.
      * If the promise is resolved, the SDK sends a call to the cloud. However, it doesn't mean that a call is connected;
      * to catch this call state, subscribe to the Voximplant.CallEvents.Connected event.
      * If the promise is rejected, that indicates the issues in the application's code (e.g., a try to make a call without login to the Voximplant cloud);
