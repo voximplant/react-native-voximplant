@@ -1,0 +1,12 @@
+rootProject.name = 'TestingProject'
+
+include ':jet'
+project(':jet').projectDir = new File(rootProject.projectDir, '../node_modules/jet/android')
+
+include ':react-native-voximplant'
+project(':react-native-voximplant').projectDir = new File(rootProject.projectDir, './../../android')
+
+include ':app'
+
+include ':detox'
+project(':detox').projectDir = new File(rootProject.projectDir, '../node_modules/detox/android/detox')

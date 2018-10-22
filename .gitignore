@@ -36,3 +36,9 @@ result.json
 android/.gradle/
 build/
 .idea
+
+
+# coverage
+.nyc_output/*
+coverage
+
