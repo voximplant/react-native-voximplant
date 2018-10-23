@@ -8,3 +8,10 @@ Object.defineProperty(global, 'Voximplant', {
     return jet.module;
   },
 });
+
+global.sleep = duration =>
+    new Promise(resolve => setTimeout(resolve, duration));
+
+global.TestHelpers = {
+  credentials: require('./Credentials')
+};

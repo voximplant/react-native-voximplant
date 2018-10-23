@@ -67,13 +67,8 @@
   "nyc": {
     "check-coverage": true,
     "include": [
-      "**/src/**",
-      "**/index.js"
-    ],
-    "exclude": [
-      "node_modules",
-      "**/*.spec.js",
-      "build"
+      "src/**",
+      "index.js"
     ],
     "cwd": "..",
     "all": true,

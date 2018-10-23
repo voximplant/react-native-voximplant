@@ -19,7 +19,8 @@ public class VoxImplantReactPackage implements ReactPackage {
 				new VIClientModule(reactContext),
 				new VICallModule(reactContext),
 				new VIAudioDeviceModule(reactContext),
-				new VICameraModule(reactContext));
+				new VICameraModule(reactContext),
+				new VIMessagingModule(reactContext));
 	}
 
 	@Override
