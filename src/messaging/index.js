@@ -9,7 +9,12 @@
 'use strict';
 
 import Messenger from './Messenger';
+import MessengerEventTypes from'./MessengerEventTypes';
+import {MessengerAction} from "../Enums";
+
 
 export {
-    Messenger
+    Messenger,
+    MessengerEventTypes,
+    MessengerAction
 }

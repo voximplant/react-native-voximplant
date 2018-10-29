@@ -1,7 +1,9 @@
 const TEST_LOGIN = "user@app.acc.voximplant.com";
 const TEST_PASSWORD = "p@ssw0rd";
+const TEST_USER_2 = "user2@app.acc";
 
 module.exports = {
     TEST_LOGIN,
-    TEST_PASSWORD
+    TEST_PASSWORD,
+    TEST_USER_2
 };

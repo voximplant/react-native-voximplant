@@ -164,3 +164,11 @@ export const VideoCodec = {
      */
     AUTO : 'AUTO'
 };
+
+/**
+ *
+ * @type {{getUser: string}}
+ */
+export const MessengerAction = {
+    getUser : "getUser"
+};

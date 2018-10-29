@@ -123,4 +123,19 @@ class Constants {
     static final String NONE = "None";
     static final String SPEAKER = "Speaker";
     static final String WIRED_HEADSET = "WiredHeadset";
+
+    //Messenger
+    static final String EVENT_MES_GET_USER = "VIGetUser";
+
+    static final String EVENT_NAME_MES_GET_USER = "GetUser";
+
+    static final String EVENT_MES_ACTION_GET_USER = "getUser";
+
+    static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
+    static final String EVENT_MES_PARAM_ACTION = "messengerAction";
+    static final String EVENT_MES_PARAM_USER_ID = "userId";
+    static final String EVENT_MES_PARAM_CONVERSATIONS_LIST = "conversationsList";
+    static final String EVENT_MES_PARAM_CUSTOM_DATA = "customData";
+    static final String EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA = "privateCustomData";
+    static final String EVENT_MES_PARAM_USER = "user";
 }
