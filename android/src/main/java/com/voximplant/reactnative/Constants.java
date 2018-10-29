@@ -126,10 +126,14 @@ class Constants {
 
     //Messenger
     static final String EVENT_MES_GET_USER = "VIGetUser";
+    static final String EVENT_MES_SET_STATUS = "VISetStatus";
 
     static final String EVENT_NAME_MES_GET_USER = "GetUser";
+    static final String EVENT_NAME_MES_SET_STATUS = "SetStatus";
 
     static final String EVENT_MES_ACTION_GET_USER = "getUser";
+    static final String EVENT_MES_ACTION_GET_USERS = "getUsers";
+    static final String EVENT_MES_ACTION_SET_STATUS = "setStatus";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";
@@ -138,4 +142,7 @@ class Constants {
     static final String EVENT_MES_PARAM_CUSTOM_DATA = "customData";
     static final String EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA = "privateCustomData";
     static final String EVENT_MES_PARAM_USER = "user";
+    static final String EVENT_MES_PARAM_USER_STATUS = "userStatus";
+    static final String EVENT_MES_PARAM_ONLINE = "online";
+    static final String EVENT_MES_PARAM_TIMESTAMP = "timestamp";
 }

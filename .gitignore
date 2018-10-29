@@ -36,6 +36,7 @@ result.json
 android/.gradle/
 build/
 .idea
+*.iml
 
 
 # coverage

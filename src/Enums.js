@@ -166,9 +166,10 @@ export const VideoCodec = {
 };
 
 /**
- *
+ * @memberOf Voximplant.Messaging
  * @type {{getUser: string}}
  */
 export const MessengerAction = {
-    getUser : "getUser"
+    getUser : "getUser",
+    setStatus : "setStatus"
 };

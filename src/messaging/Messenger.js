@@ -41,6 +41,7 @@ export default class Messenger {
             throw new Error("Error - use Voximplant.getMessenger()");
         }
         EventEmitter.addListener('VIGetUser', this._onGetUser);
+        EventEmitter.addListener('VISetStatus', this._onSetStatus);
     }
 
     /**
@@ -87,10 +88,30 @@ export default class Messenger {
 
     /**
      *
-     * @param user_id
+     * @param userId
      */
-    getUser(user_id) {
-        MessagingModule.getUser(user_id);
+    getUser(userId) {
+        MessagingModule.getUser(userId);
+    }
+
+    /**
+     *
+     * @param users
+     */
+    getUsers(users) {
+        MessagingModule.getUsers(users);
+    }
+
+    editUser(customData, privateCustomData) {
+        //TODO
+    }
+
+    /**
+     *
+     * @param online
+     */
+    setStatus(online) {
+        MessagingModule.setStatus(online);
     }
 
     /**
@@ -108,4 +129,8 @@ export default class Messenger {
     _onGetUser = (event) => {
         this._emit(MessengerEventTypes.GetUser, event);
     };
+
+    _onSetStatus = (event) => {
+        this._emit(MessengerEventTypes.SetStatus, event);
+    }
 }

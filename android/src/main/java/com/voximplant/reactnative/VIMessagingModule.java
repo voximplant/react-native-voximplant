@@ -7,14 +7,12 @@ package com.voximplant.reactnative;
 import android.support.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.messaging.IConversationEvent;
@@ -29,16 +27,18 @@ import com.voximplant.sdk.messaging.ISubscriptionEvent;
 import com.voximplant.sdk.messaging.IUser;
 import com.voximplant.sdk.messaging.IUserEvent;
 
-import java.util.Map;
+import java.util.List;
 
-import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ACTION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATIONS_LIST;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENT_TYPE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ONLINE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TIMESTAMP;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_ID;
-import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_STATUS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_SET_STATUS;
 
 public class VIMessagingModule extends ReactContextBaseJavaModule implements IMessengerListener {
     private ReactApplicationContext mReactContext;
@@ -62,11 +62,33 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void getUsers(ReadableArray users) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            List<String> usersList;
+            try {
+                usersList = Utils.createArrayList(users);
+            } catch (IllegalArgumentException e) {
+                usersList = null;
+            }
+            messenger.getUsers(usersList);
+        }
+    }
+
+    @ReactMethod
+    public void setStatus(boolean online) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            messenger.setStatus(online);
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, EVENT_NAME_MES_GET_USER);
-        params.putString(EVENT_MES_PARAM_ACTION, EVENT_MES_ACTION_GET_USER);
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(userEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(userEvent.getMessengerAction()));
         params.putString(EVENT_MES_PARAM_USER_ID, userEvent.getUserId());
         IUser user = userEvent.getUser();
         WritableMap userParam = Arguments.createMap();
@@ -117,7 +139,15 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onSetStatus(IStatusEvent statusEvent) {
-
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(statusEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(statusEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, statusEvent.getUserId());
+        WritableMap statusParams = Arguments.createMap();
+        statusParams.putBoolean(EVENT_MES_PARAM_ONLINE, statusEvent.getUserStatus().isOnline());
+        statusParams.putDouble(EVENT_MES_PARAM_TIMESTAMP, (double) statusEvent.getUserStatus().getTimestamp());
+        params.putMap(EVENT_MES_PARAM_USER_STATUS, statusParams);
+        sendEvent(EVENT_MES_SET_STATUS, params);
     }
 
     @Override

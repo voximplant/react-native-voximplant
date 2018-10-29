@@ -3,9 +3,13 @@
  */
 
 'use strict';
-
+/**
+ * @memberOf Voximplant.Messaging
+ * @type {{GetUser: string}}
+ */
 const MessengerEventTypes = {
-    GetUser : "GetUser"
+    GetUser : 'GetUser',
+    SetStatus : 'SetStatus'
 };
 
 export default MessengerEventTypes;

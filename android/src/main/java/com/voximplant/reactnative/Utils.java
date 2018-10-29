@@ -10,11 +10,19 @@ import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
 import com.voximplant.sdk.hardware.AudioDevice;
+import com.voximplant.sdk.messaging.MessengerAction;
+import com.voximplant.sdk.messaging.MessengerEventType;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USERS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SET_STATUS;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SET_STATUS;
 
 class Utils {
 
@@ -141,6 +149,76 @@ class Utils {
 			case "AUTO":
 			default:
 				return VideoCodec.AUTO;
+		}
+	}
+
+	static String convertMessengerActionToString(MessengerAction action) {
+    	switch (action) {
+			case ADD_MODERATORS:
+			case ADD_PARTICIPANTS:
+			case CREATE_CONVERSATION:
+			case EDIT_CONVERSATION:
+			case EDIT_MESSAGE:
+			case EDIT_PARTICIPANTS:
+			case EDIT_USER:
+			case GET_CONVERSATION:
+			case GET_CONVERSATIONS:
+				return "";
+			case GET_USER:
+				return EVENT_MES_ACTION_GET_USER;
+			case GET_USERS:
+				return EVENT_MES_ACTION_GET_USERS;
+			case IS_DELIVERED:
+			case IS_READ:
+			case JOIN_CONVERSATION:
+			case LEAVE_CONVERSATION:
+			case MANAGE_NOTIFICATIONS:
+			case REMOVE_CONVERSATION:
+			case REMOVE_MESSAGE:
+			case REMOVE_MODERATORS:
+			case REMOVE_PARTICIPANTS:
+			case RETRANSMIT_EVENTS:
+			case SEND_MESSAGE:
+				return "";
+			case SET_STATUS:
+				return EVENT_MES_ACTION_SET_STATUS;
+			case SUBSCRIBE:
+			case TYPING_MESSAGE:
+			case UNSUBSCRIBE:
+			case ACTION_UNKNOWN:
+				default:
+				return "";
+		}
+	}
+
+	static String convertMessengerEventToString(MessengerEventType eventType) {
+    	switch (eventType) {
+			case IS_DELIVERED:
+			case IS_READ:
+			case ON_CREATE_CONVERSATION:
+			case ON_EDIT_CONVERSATION:
+			case ON_EDIT_MESSAGE:
+			case ON_EDIT_USER:
+			case ON_ERROR:
+			case ON_GET_CONVERSATION:
+				return "";
+			case ON_GET_USER:
+				return EVENT_NAME_MES_GET_USER;
+			case ON_JOIN_CONVERSATION:
+			case ON_LEAVE_CONVERSATION:
+			case ON_REMOVE_CONVERSATION:
+			case ON_REMOVE_MESSAGE:
+			case ON_RETRANSMIT_EVENTS:
+			case ON_SEND_MESSAGE:
+				return "";
+			case ON_SET_STATUS:
+				return EVENT_NAME_MES_SET_STATUS;
+			case ON_SUBSCRIBE:
+			case ON_TYPING:
+			case ON_UNSUBSCRIBE:
+			case EVENT_UNKNOWN:
+				default:
+				return "";
 		}
 	}
 }
