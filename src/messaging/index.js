@@ -9,12 +9,14 @@
 'use strict';
 
 import Messenger from './Messenger';
+import Conversation from './Conversation';
 import MessengerEventTypes from'./MessengerEventTypes';
 import {MessengerAction, MessengerNotifications} from "../Enums";
 
 
 export {
     Messenger,
+    Conversation,
     MessengerEventTypes,
     MessengerAction,
     MessengerNotifications

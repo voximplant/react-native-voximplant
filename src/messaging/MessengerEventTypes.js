@@ -8,8 +8,11 @@
  * @type {{GetUser: string}}
  */
 const MessengerEventTypes = {
+    CreateConversation : 'CreateConversation',
     EditUser : 'EditUser',
+    GetConversation : 'GetConversation',
     GetUser : 'GetUser',
+    RemoveConversation : 'RemoveConversation',
     SetStatus : 'SetStatus',
     Subscribe : 'Subscribe',
     Unsubscribe : 'Unsubscribe'

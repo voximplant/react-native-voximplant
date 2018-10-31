@@ -25,3 +25,13 @@ const User = {
 const UserStatus = {
 
 };
+
+/**
+ * @memberOf Voximplant.Messaging
+ * @property {boolean} canManageParticipants - If 'true', user can add, remove and edit access rights for conversation participants (but not conversation moderators)
+ * @property {boolean} canWrite - If 'true', user can write to the conversation
+ * @property {string} userId - Voximplant user identifier, ex 'username@appname.accname'
+ */
+const ConversationParticipant = {
+
+};

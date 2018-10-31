@@ -4,7 +4,7 @@ const { TEST_LOGIN,
         TEST_USER_2,
         TEST_USER_3 } = TestHelpers.credentials;
 
-describe('Messaging - User tests', () => {
+describe('user', () => {
     let client = null;
     let messenger = null;
 

@@ -45,7 +45,12 @@ export default class Messenger {
         EventEmitter.addListener('VISubscribe', this._onSubscribe);
         EventEmitter.addListener('VIUnsubscribe', this._onUnsubscribe);
         EventEmitter.addListener('VIEditUser', this._onEditUser);
+        EventEmitter.addListener('VIGetConversation', this.onGetConversation);
+        EventEmitter.addListener('VICreateConversation', this._onCreateConversation);
+        EventEmitter.addListener('VIRemoveConversation', this._onRemoveConversation);
     }
+
+    // init() {}
 
     /**
      *  @ignore
@@ -142,6 +147,67 @@ export default class Messenger {
     }
 
     /**
+     *
+     * @param participants
+     * @param title
+     * @param distinct
+     * @param publicJoin
+     * @param customData
+     * @param moderators
+     * @param isUber
+     */
+    createConversation(participants, title, distinct, publicJoin, customData, moderators, isUber) {
+        if (title === undefined) {
+            title = null;
+        }
+        if (distinct === undefined) {
+            distinct = false;
+        }
+        if (publicJoin === undefined) {
+            publicJoin = false;
+        }
+        if (customData === undefined) {
+            customData = null;
+        }
+        if (moderators === undefined) {
+            moderators = null;
+        }
+        if (isUber === undefined) {
+            isUber = false;
+        }
+        MessagingModule.createConversation(participants, title, distinct, publicJoin, customData, moderators, isUber);
+    }
+
+    /**
+     *
+     * @param uuid
+     */
+    getConversation(uuid) {
+       if (uuid === undefined) {
+           uuid = null;
+       }
+       MessagingModule.getConversation(uuid);
+    }
+
+    /**
+     *
+     * @param conversations
+     */
+    getConversations(conversations) {
+        if (conversations === undefined) {
+            conversations = [];
+        }
+        MessagingModule.getConversations(conversations);
+    }
+
+    removeConversation(uuid) {
+        if (uuid === undefined) {
+            uuid = null;
+        }
+        MessagingModule.removeConversation(uuid);
+    }
+
+    /**
      * @private
      */
     _emit(event, ...args) {
@@ -167,9 +233,21 @@ export default class Messenger {
 
     _onUnsubscribe = (event) => {
         this._emit(MessengerEventTypes.Unsubscribe, event);
-    }
+    };
 
     _onEditUser = (event) => {
         this._emit(MessengerEventTypes.EditUser, event);
     };
+
+    _onCreateConversation = (event) => {
+        this._emit(MessengerEventTypes.CreateConversation, event);
+    };
+
+    onGetConversation = (event) => {
+        this._emit(MessengerEventTypes.GetConversation, event);
+    };
+
+    _onRemoveConversation = (event) => {
+        this._emit(MessengerEventTypes.RemoveConversation, event);
+    }
 }

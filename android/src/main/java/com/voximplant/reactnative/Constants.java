@@ -130,12 +130,18 @@ class Constants {
     static final String EVENT_MES_SET_STATUS = "VISetStatus";
     static final String EVENT_MES_SUBSCRIBE = "VISubscribe";
     static final String EVENT_MES_UNSUBSCRIBE = "VIUnsubscribe";
+    static final String EVENT_MES_CREATE_CONVERSATION = "VICreateConversation";
+    static final String EVENT_MES_GET_CONVERSATION = "VIGetConversation";
+    static final String EVENT_MES_REMOVE_CONVERSATION = "VIRemoveConversation";
 
     static final String EVENT_NAME_MES_GET_USER = "GetUser";
     static final String EVENT_NAME_MES_EDIT_USER = "EditUser";
     static final String EVENT_NAME_MES_SET_STATUS = "SetStatus";
     static final String EVENT_NAME_MES_SUBSCRIBE = "Subscribe";
     static final String EVENT_NAME_MES_UNSUBSCRIBE = "Unsubscribe";
+    static final String EVENT_NAME_MES_CREATE_CONVERSATION = "CreateConversation";
+    static final String EVENT_NAME_MES_GET_CONVERSATION = "GetConversation";
+    static final String EVENT_NAME_MES_REMOVE_CONVERSATION = "RemoveConversation";
 
     static final String EVENT_MES_ACTION_GET_USER = "getUser";
     static final String EVENT_MES_ACTION_GET_USERS = "getUsers";
@@ -144,6 +150,10 @@ class Constants {
     static final String EVENT_MES_ACTION_SUBSCRIBE = "subscribe";
     static final String EVENT_MES_ACTION_UNSUBSCRIBE = "unsubscribe";
     static final String EVENT_MES_ACTION_MANAGE_NOTIFICATIONS = "manageNotifications";
+    static final String EVENT_MES_ACTION_CREATE_CONVERSATION = "createConversation";
+    static final String EVENT_MES_ACTION_GET_CONVERSATION = "getConversation";
+    static final String EVENT_MES_ACTION_GET_CONVERSATIONS = "getConversations";
+    static final String EVENT_MES_ACTION_REMOVE_CONVERSATION = "removeConversation";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";
@@ -157,6 +167,21 @@ class Constants {
     static final String EVENT_MES_PARAM_TIMESTAMP = "timestamp";
     static final String EVENT_MES_PARAM_USERS = "users";
     static final String EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS = "messengerNotifications";
+    static final String EVENT_MES_PARAM_CAN_WRITE = "canWrite";
+    static final String EVENT_MES_PARAM_CAN_MANAGE_PARTICIPANTS = "canManageParticipants";
+    static final String EVENT_MES_PARAM_SEQUENCE = "sequence";
+    static final String EVENT_MES_PARAM_UUID = "uuid";
+    static final String EVENT_MES_PARAM_TITLE = "title";
+    static final String EVENT_MES_PARAM_CREATED_AT = "createdAt";
+    static final String EVENT_MES_PARAM_DISTINCT = "distinct";
+    static final String EVENT_MES_PARAM_LAST_READ = "lastRead";
+    static final String EVENT_MES_PARAM_LAST_SEQ = "lastSeq";
+    static final String EVENT_MES_PARAM_LAST_UPDATE = "lastUpdate";
+    static final String EVENT_MES_PARAM_MODERATORS = "moderators";
+    static final String EVENT_MES_PARAM_PARTICIPANTS = "participants";
+    static final String EVENT_MES_PARAM_PUBLIC_JOIN = "publicJoin";
+    static final String EVENT_MES_PARAM_IS_UBER = "isUber";
+    static final String EVENT_MES_PARAM_CONVERSATION = "conversation";
 
     static final String EDIT_MESSAGE = "EditMessage";
     static final String SEND_MESSAGE = "SendMessage";
