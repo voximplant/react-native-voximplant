@@ -42,6 +42,9 @@ export default class Messenger {
         }
         EventEmitter.addListener('VIGetUser', this._onGetUser);
         EventEmitter.addListener('VISetStatus', this._onSetStatus);
+        EventEmitter.addListener('VISubscribe', this._onSubscribe);
+        EventEmitter.addListener('VIUnsubscribe', this._onUnsubscribe);
+        EventEmitter.addListener('VIEditUser', this._onEditUser);
     }
 
     /**
@@ -103,7 +106,7 @@ export default class Messenger {
     }
 
     editUser(customData, privateCustomData) {
-        //TODO
+        MessagingModule.editUser(customData, privateCustomData);
     }
 
     /**
@@ -112,6 +115,30 @@ export default class Messenger {
      */
     setStatus(online) {
         MessagingModule.setStatus(online);
+    }
+
+    /**
+     *
+     * @param users
+     */
+    subscribe(users) {
+        MessagingModule.subscribe(users)
+    }
+
+    /**
+     *
+     * @param users
+     */
+    unsubscribe(users) {
+        MessagingModule.unsubscribe(users);
+    }
+
+    /**
+     *
+     * @param notifications
+     */
+    managePushNotifications(notifications) {
+        MessagingModule.manageNotifications(notifications);
     }
 
     /**
@@ -132,5 +159,17 @@ export default class Messenger {
 
     _onSetStatus = (event) => {
         this._emit(MessengerEventTypes.SetStatus, event);
+    };
+
+    _onSubscribe = (event) => {
+        this._emit(MessengerEventTypes.Subscribe, event);
+    };
+
+    _onUnsubscribe = (event) => {
+        this._emit(MessengerEventTypes.Unsubscribe, event);
     }
+
+    _onEditUser = (event) => {
+        this._emit(MessengerEventTypes.EditUser, event);
+    };
 }

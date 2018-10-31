@@ -126,14 +126,24 @@ class Constants {
 
     //Messenger
     static final String EVENT_MES_GET_USER = "VIGetUser";
+    static final String EVENT_MES_EDIT_USER = "VIEditUser";
     static final String EVENT_MES_SET_STATUS = "VISetStatus";
+    static final String EVENT_MES_SUBSCRIBE = "VISubscribe";
+    static final String EVENT_MES_UNSUBSCRIBE = "VIUnsubscribe";
 
     static final String EVENT_NAME_MES_GET_USER = "GetUser";
+    static final String EVENT_NAME_MES_EDIT_USER = "EditUser";
     static final String EVENT_NAME_MES_SET_STATUS = "SetStatus";
+    static final String EVENT_NAME_MES_SUBSCRIBE = "Subscribe";
+    static final String EVENT_NAME_MES_UNSUBSCRIBE = "Unsubscribe";
 
     static final String EVENT_MES_ACTION_GET_USER = "getUser";
     static final String EVENT_MES_ACTION_GET_USERS = "getUsers";
+    static final String EVENT_MES_ACTION_EDIT_USER = "editUser";
     static final String EVENT_MES_ACTION_SET_STATUS = "setStatus";
+    static final String EVENT_MES_ACTION_SUBSCRIBE = "subscribe";
+    static final String EVENT_MES_ACTION_UNSUBSCRIBE = "unsubscribe";
+    static final String EVENT_MES_ACTION_MANAGE_NOTIFICATIONS = "manageNotifications";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";
@@ -145,4 +155,9 @@ class Constants {
     static final String EVENT_MES_PARAM_USER_STATUS = "userStatus";
     static final String EVENT_MES_PARAM_ONLINE = "online";
     static final String EVENT_MES_PARAM_TIMESTAMP = "timestamp";
+    static final String EVENT_MES_PARAM_USERS = "users";
+    static final String EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS = "messengerNotifications";
+
+    static final String EDIT_MESSAGE = "EditMessage";
+    static final String SEND_MESSAGE = "SendMessage";
 }

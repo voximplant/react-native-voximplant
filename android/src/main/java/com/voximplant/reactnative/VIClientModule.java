@@ -8,7 +8,6 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
@@ -20,7 +19,6 @@ import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.IEndpoint;
-import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.AuthParams;
 import com.voximplant.sdk.client.ClientConfig;
@@ -36,7 +34,35 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Nullable;
 
-import static com.voximplant.reactnative.Constants.*;
+import static com.voximplant.reactnative.Constants.EVENT_AUTH_RESULT;
+import static com.voximplant.reactnative.Constants.EVENT_AUTH_TOKEN_RESULT;
+import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_CLOSED;
+import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_ESTABLISHED;
+import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_FAILED;
+import static com.voximplant.reactnative.Constants.EVENT_INCOMING_CALL;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_AUTH_RESULT;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_AUTH_TOKEN_RESULT;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_CLOSED;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_ESTABLISHED;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_FAILED;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_INCOMING_CALL;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_ACCESS_EXPIRE;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_ACCESS_TOKEN;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_CALLID;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_CODE;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_DISPLAY_NAME;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_ENDPOINTID;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_ENDPOINT_NAME;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_ENDPOINT_SIP_URI;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_HEADERS;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_INCOMING_VIDEO;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_KEY;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_MESSAGE;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_NAME;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_REFRESH_EXPIRE;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_REFRESH_TOKEN;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_RESULT;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_TOKENS;
 
 public class VIClientModule extends ReactContextBaseJavaModule
 		implements IClientSessionListener, IClientLoginListener, IClientIncomingCallListener{

@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -26,19 +27,29 @@ import com.voximplant.sdk.messaging.IStatusEvent;
 import com.voximplant.sdk.messaging.ISubscriptionEvent;
 import com.voximplant.sdk.messaging.IUser;
 import com.voximplant.sdk.messaging.IUserEvent;
+import com.voximplant.sdk.messaging.MessengerNotifications;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ACTION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATIONS_LIST;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CUSTOM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENT_TYPE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ONLINE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TIMESTAMP;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USERS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_ID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SET_STATUS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_SUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_UNSUBSCRIBE;
 
 public class VIMessagingModule extends ReactContextBaseJavaModule implements IMessengerListener {
     private ReactApplicationContext mReactContext;
@@ -77,10 +88,60 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
     }
 
     @ReactMethod
+    public void editUser(ReadableMap customData, ReadableMap privateCustomData) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            Map<Object, Object> customDataMap = Utils.createObjectMap(customData);
+            Map<Object, Object> privateCustomDataMap = Utils.createObjectMap(privateCustomData);
+            messenger.editUser(customDataMap, privateCustomDataMap);
+        }
+    }
+
+    @ReactMethod
     public void setStatus(boolean online) {
         IMessenger messenger = getMessenger();
         if (messenger != null) {
             messenger.setStatus(online);
+        }
+    }
+
+    @ReactMethod
+    public void subscribe(ReadableArray users) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            List<String> usersList;
+            try {
+                usersList = Utils.createArrayList(users);
+            } catch (IllegalArgumentException e) {
+                usersList = null;
+            }
+            messenger.subscribe(usersList);
+        }
+    }
+
+    @ReactMethod
+    public void unsubscribe(ReadableArray users) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            List<String> usersList;
+            try {
+                usersList = Utils.createArrayList(users);
+            } catch (IllegalArgumentException e) {
+                usersList = null;
+            }
+            messenger.unSubscribe(usersList);
+        }
+    }
+
+    @ReactMethod
+    public void manageNotifications(ReadableArray notifications) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            ArrayList<MessengerNotifications> list = new ArrayList<>();
+            for (int i = 0; i < notifications.size(); i++) {
+                list.add(Utils.convertStringToMessengerNotification(notifications.getString(i)));
+            }
+            messenger.managePushNotifications(list);
         }
     }
 
@@ -93,28 +154,75 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         IUser user = userEvent.getUser();
         WritableMap userParam = Arguments.createMap();
         userParam.putString(EVENT_MES_PARAM_USER_ID, user.getUserId());
-        WritableArray conversationList = Arguments.createArray();
-        for (String conversation : user.getConversationsList()) {
-            conversationList.pushString(conversation);
+        if (user.getCustomData() != null) {
+            userParam.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(user.getCustomData()));
         }
-        userParam.putArray(EVENT_MES_PARAM_CONVERSATIONS_LIST, conversationList);
+        if (user.getPrivateCustomData() != null) {
+            userParam.putMap(EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA, Utils.createObjectWritableMap(user.getPrivateCustomData()));
+        }
+        if (user.getConversationsList() != null) {
+            userParam.putArray(EVENT_MES_PARAM_CONVERSATIONS_LIST, Utils.createWritableArray(user.getConversationsList()));
+        }
+        if (user.getMessengerNotifications() != null) {
+            WritableArray notifications = Arguments.createArray();
+            for (MessengerNotifications notification : user.getMessengerNotifications()) {
+                notifications.pushString(Utils.convertMessengerNotificationsToString(notification));
+            }
+            userParam.putArray(EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS, notifications);
+        }
         params.putMap(EVENT_MES_PARAM_USER, userParam);
         sendEvent(EVENT_MES_GET_USER, params);
     }
 
     @Override
     public void onEditUser(IUserEvent userEvent) {
-
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(userEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(userEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, userEvent.getUserId());
+        IUser user = userEvent.getUser();
+        WritableMap userParam = Arguments.createMap();
+        userParam.putString(EVENT_MES_PARAM_USER_ID, user.getUserId());
+        if (user.getCustomData() != null) {
+            userParam.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(user.getCustomData()));
+        }
+        if (user.getPrivateCustomData() != null) {
+            userParam.putMap(EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA, Utils.createObjectWritableMap(user.getPrivateCustomData()));
+        }
+        if (user.getConversationsList() != null) {
+            userParam.putArray(EVENT_MES_PARAM_CONVERSATIONS_LIST, Utils.createWritableArray(user.getConversationsList()));
+        }
+        if (user.getMessengerNotifications() != null) {
+            WritableArray notifications = Arguments.createArray();
+            for (MessengerNotifications notification : user.getMessengerNotifications()) {
+                notifications.pushString(Utils.convertMessengerNotificationsToString(notification));
+            }
+            userParam.putArray(EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS, notifications);
+        }
+        params.putMap(EVENT_MES_PARAM_USER, userParam);
+        sendEvent(EVENT_MES_EDIT_USER, params);
     }
 
     @Override
     public void onSubscribe(ISubscriptionEvent subscriptionEvent) {
-
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(subscriptionEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(subscriptionEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, subscriptionEvent.getUserId());
+        WritableArray users = Utils.createWritableArray(subscriptionEvent.getUsers());
+        params.putArray(EVENT_MES_PARAM_USERS, users);
+        sendEvent(EVENT_MES_SUBSCRIBE, params);
     }
 
     @Override
     public void onUnsubscribe(ISubscriptionEvent subscriptionEvent) {
-
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(subscriptionEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(subscriptionEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, subscriptionEvent.getUserId());
+        WritableArray users = Utils.createWritableArray(subscriptionEvent.getUsers());
+        params.putArray(EVENT_MES_PARAM_USERS, users);
+        sendEvent(EVENT_MES_UNSUBSCRIBE, params);
     }
 
     @Override

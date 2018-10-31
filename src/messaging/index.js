@@ -10,11 +10,12 @@
 
 import Messenger from './Messenger';
 import MessengerEventTypes from'./MessengerEventTypes';
-import {MessengerAction} from "../Enums";
+import {MessengerAction, MessengerNotifications} from "../Enums";
 
 
 export {
     Messenger,
     MessengerEventTypes,
-    MessengerAction
+    MessengerAction,
+    MessengerNotifications
 }

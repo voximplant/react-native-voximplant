@@ -1,10 +1,11 @@
 package com.voximplant.reactnative;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
-import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.client.ClientState;
@@ -12,21 +13,31 @@ import com.voximplant.sdk.client.LoginError;
 import com.voximplant.sdk.hardware.AudioDevice;
 import com.voximplant.sdk.messaging.MessengerAction;
 import com.voximplant.sdk.messaging.MessengerEventType;
+import com.voximplant.sdk.messaging.MessengerNotifications;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 
+import static com.voximplant.reactnative.Constants.EDIT_MESSAGE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USERS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SET_STATUS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNSUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SET_STATUS;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNSUBSCRIBE;
+import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 
 class Utils {
 
-    static List<String> createArrayList(ReadableArray readableArray) {
+	static List<String> createArrayList(ReadableArray readableArray) {
 		if (readableArray == null) {
 			return null;
 		}
@@ -34,14 +45,81 @@ class Utils {
 		for (int i = 0; i < readableArray.size(); i++) {
 			ReadableType indexType = readableArray.getType(i);
 			switch (indexType) {
-			case String:
-				list.add(readableArray.getString(i));
-				break;
-			default:
-				throw new IllegalArgumentException("Could not convert object with index: " + i);
+				case String:
+					list.add(readableArray.getString(i));
+					break;
+				default:
+					throw new IllegalArgumentException("Could not convert object with index: " + i);
 			}
 		}
 		return list;
+	}
+
+    static List<Object> createObjectArrayList(ReadableArray readableArray) {
+		if (readableArray == null) {
+			return null;
+		}
+		ArrayList<Object> list = new ArrayList<>(readableArray.size());
+		for (int i = 0; i < readableArray.size(); i++) {
+			ReadableType indexType = readableArray.getType(i);
+			switch (indexType) {
+				case Null:
+					list.add(null);
+					break;
+				case Boolean:
+					list.add(readableArray.getBoolean(i));
+					break;
+				case Number:
+					list.add(readableArray.getDouble(i));
+					break;
+				case String:
+					list.add(readableArray.getString(i));
+					break;
+				case Map:
+					list.add(createHashMap(readableArray.getMap(i)));
+					break;
+				case Array:
+					list.add(createArrayList(readableArray.getArray(i)));
+					break;
+			}
+		}
+		return list;
+	}
+
+	static WritableArray createWritableArray(List<String> list) {
+    	if (list == null) {
+    		return null;
+		}
+		WritableArray array = Arguments.createArray();
+    	for (String item : list) {
+    		array.pushString(item);
+		}
+		return array;
+	}
+
+	static WritableArray createObjectWritableArray(List<Object> list) {
+		if (list == null) {
+		    return null;
+        }
+        WritableArray array = Arguments.createArray();
+		for (Object item : list) {
+		    if (item == null) {
+		        array.pushNull();
+            } else if (item instanceof String) {
+		        array.pushString((String) item);
+            } else if (item instanceof Double || item instanceof Long) {
+		        array.pushDouble((Double) item);
+            } else if (item instanceof Integer) {
+		        array.pushInt((Integer) item);
+            } else if (item instanceof Boolean) {
+		        array.pushBoolean((Boolean) item);
+            } else if (item instanceof List) {
+		        array.pushArray(createObjectWritableArray((List) item));
+            } else if (item instanceof Map) {
+		        array.pushMap(createObjectWritableMap((Map) item));
+            }
+        }
+        return array;
 	}
 
     static Map<String, String> createHashMap(ReadableMap v) {
@@ -57,12 +135,70 @@ class Utils {
         return map;
     }
 
+    static Map<Object, Object> createObjectMap(ReadableMap map) {
+    	if (map == null) {
+    		return null;
+		}
+		HashMap<Object, Object> resultMap = new HashMap<>();
+		ReadableMapKeySetIterator it = map.keySetIterator();
+		while (it.hasNextKey()) {
+			String key = it.nextKey();
+			switch (map.getType(key)) {
+				case Null:
+					resultMap.put(key, null);
+				case Boolean:
+					resultMap.put(key, map.getBoolean(key));
+					break;
+				case Number:
+					resultMap.put(key, map.getDouble(key));
+					break;
+				case String:
+					resultMap.put(key, map.getString(key));
+					break;
+				case Map:
+					resultMap.put(key, createObjectMap(map.getMap(key)));
+					break;
+				case Array:
+					resultMap.put(key, createObjectArrayList(map.getArray(key)));
+					break;
+			}
+		}
+		return resultMap;
+	}
+
     static WritableMap createWritableMap(Map<String, String> v) {
         WritableMap map = Arguments.createMap();
         for (Map.Entry<String, String> entry : v.entrySet()) {
             map.putString(entry.getKey(), entry.getValue());
         }
         return map;
+    }
+
+    static WritableMap createObjectWritableMap(Map<Object, Object> map) {
+        if (map == null) {
+            return null;
+        }
+        WritableMap resultMap = Arguments.createMap();
+        for (Map.Entry<Object, Object> entry : map.entrySet()) {
+            Object key = entry.getKey();
+            if (entry.getValue() == null) {
+                resultMap.putNull(key.toString());
+            } else if (entry.getValue() instanceof String) {
+                resultMap.putString(key.toString(), (String) entry.getValue());
+            } else if (entry.getValue() instanceof Long ||
+                    entry.getValue() instanceof Double) {
+                resultMap.putDouble(key.toString(), (Double) entry.getValue());
+            } else if (entry.getValue() instanceof Integer) {
+                resultMap.putInt(key.toString(), (Integer) entry.getValue());
+            } else if (entry.getValue() instanceof Boolean) {
+                resultMap.putBoolean(key.toString(), (Boolean) entry.getValue());
+            } else if (entry.getValue() instanceof List) {
+                resultMap.putArray(key.toString(), createObjectWritableArray((List) entry.getValue()));
+            } else if (entry.getValue() instanceof Map) {
+                resultMap.putMap(key.toString(), createObjectWritableMap((Map) entry.getValue()));
+            }
+        }
+        return resultMap;
     }
 
 	static String convertClientStateToString(ClientState state) {
@@ -152,6 +288,26 @@ class Utils {
 		}
 	}
 
+	static MessengerNotifications convertStringToMessengerNotification(String notification) {
+    	switch (notification) {
+			case EDIT_MESSAGE:
+				return MessengerNotifications.ON_EDIT_MESSAGE;
+			case SEND_MESSAGE:
+				default:
+				return MessengerNotifications.ON_SEND_MESSAGE;
+		}
+	}
+
+	static String convertMessengerNotificationsToString(MessengerNotifications notification) {
+    	switch (notification) {
+			case ON_EDIT_MESSAGE:
+				return EDIT_MESSAGE;
+			case ON_SEND_MESSAGE:
+				default:
+				return SEND_MESSAGE;
+		}
+	}
+
 	static String convertMessengerActionToString(MessengerAction action) {
     	switch (action) {
 			case ADD_MODERATORS:
@@ -160,7 +316,9 @@ class Utils {
 			case EDIT_CONVERSATION:
 			case EDIT_MESSAGE:
 			case EDIT_PARTICIPANTS:
+				return "";
 			case EDIT_USER:
+				return EVENT_MES_ACTION_EDIT_USER;
 			case GET_CONVERSATION:
 			case GET_CONVERSATIONS:
 				return "";
@@ -172,7 +330,9 @@ class Utils {
 			case IS_READ:
 			case JOIN_CONVERSATION:
 			case LEAVE_CONVERSATION:
+			    return "";
 			case MANAGE_NOTIFICATIONS:
+			    return EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 			case REMOVE_CONVERSATION:
 			case REMOVE_MESSAGE:
 			case REMOVE_MODERATORS:
@@ -183,8 +343,11 @@ class Utils {
 			case SET_STATUS:
 				return EVENT_MES_ACTION_SET_STATUS;
 			case SUBSCRIBE:
+				return EVENT_MES_ACTION_SUBSCRIBE;
 			case TYPING_MESSAGE:
+				return "";
 			case UNSUBSCRIBE:
+				return EVENT_MES_ACTION_UNSUBSCRIBE;
 			case ACTION_UNKNOWN:
 				default:
 				return "";
@@ -198,7 +361,9 @@ class Utils {
 			case ON_CREATE_CONVERSATION:
 			case ON_EDIT_CONVERSATION:
 			case ON_EDIT_MESSAGE:
+				return "";
 			case ON_EDIT_USER:
+				return EVENT_NAME_MES_EDIT_USER;
 			case ON_ERROR:
 			case ON_GET_CONVERSATION:
 				return "";
@@ -214,8 +379,11 @@ class Utils {
 			case ON_SET_STATUS:
 				return EVENT_NAME_MES_SET_STATUS;
 			case ON_SUBSCRIBE:
+				return EVENT_NAME_MES_SUBSCRIBE;
 			case ON_TYPING:
+				return "";
 			case ON_UNSUBSCRIBE:
+				return EVENT_NAME_MES_UNSUBSCRIBE;
 			case EVENT_UNKNOWN:
 				default:
 				return "";

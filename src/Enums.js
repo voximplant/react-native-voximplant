@@ -170,6 +170,19 @@ export const VideoCodec = {
  * @type {{getUser: string}}
  */
 export const MessengerAction = {
-    getUser : "getUser",
-    setStatus : "setStatus"
+    editUser : 'editUser',
+    getUser : 'getUser',
+    manageNotifications : 'manageNotifications',
+    setStatus : 'setStatus',
+    subscribe : 'subscribe',
+    unsubscribe : 'unsubscribe'
+};
+
+/**
+ * @memberOf Voximplant.Messaging
+ * @type {{EditMessage: string, SendMessage: string}}
+ */
+export const MessengerNotifications = {
+    EditMessage : 'EditMessage',
+    SendMessage : 'SendMessage'
 };

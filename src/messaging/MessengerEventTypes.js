@@ -8,8 +8,11 @@
  * @type {{GetUser: string}}
  */
 const MessengerEventTypes = {
+    EditUser : 'EditUser',
     GetUser : 'GetUser',
-    SetStatus : 'SetStatus'
+    SetStatus : 'SetStatus',
+    Subscribe : 'Subscribe',
+    Unsubscribe : 'Unsubscribe'
 };
 
 export default MessengerEventTypes;
