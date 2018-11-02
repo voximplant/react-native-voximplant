@@ -105,3 +105,64 @@ NSString *const kAudioDeviceNone = @"None";
 
 NSString *const kCameraTypeBack = @"back";
 NSString *const kCameraTypeFront = @"front";
+
+NSString *const kEventMesGetUser = @"VIGetUser";
+NSString *const kEventMesEditUser = @"VIEditUser";
+NSString *const kEventMesSetStatus = @"VISetStatus";
+NSString *const kEventMesSubscribe = @"VISubscribe";
+NSString *const kEventMesUnsubscribe = @"VIUnsubscribe";
+NSString *const kEventMesCreateConversation = @"VICreateConversation";
+NSString *const kEventMesGetConversation = @"VIGetConversation";
+NSString *const kEventMesRemoveConversation = @"VIRemoveConversation";
+
+NSString *const kEventNameMesGetUser = @"GetUser";
+NSString *const kEventNameMesEditUser = @"EditUser";
+NSString *const kEventNameMesSetStatus = @"SetStatus";
+NSString *const kEventNameMesSubscribe = @"Subscribe";
+NSString *const kEventNameMesUnsubscribe = @"Unsubscribe";
+NSString *const kEventNameMesCreateConversation = @"CreateConversation";
+NSString *const kEventNameMesGetConversation = @"GetConversation";
+NSString *const kEventNameMesRemoveConversation = @"RemoveConversation";
+
+NSString *const kEventMesActionGetUser = @"getUser";
+NSString *const kEventMesActionGetUsers = @"getUsers";
+NSString *const kEventMesActionEditUser = @"editUser";
+NSString *const kEventMesActionSetStatus = @"setStatus";
+NSString *const kEventMesActionSubscribe = @"subscribe";
+NSString *const kEventMesActionUnsubscribe = @"unsubscribe";
+NSString *const kEventMesActionManageNotifications = @"manageNotifications";
+NSString *const kEventMesActionCreateConversation = @"createConversation";
+NSString *const kEventMesActionGetConversation = @"getConversation";
+NSString *const kEventMesActionGetConversations = @"getConversations";
+NSString *const kEventMesActionRemoveConversation = @"removeConversation";
+
+NSString *const kEventMesParamEventType = @"messengerEventType";
+NSString *const kEventMesParamAction = @"messengerAction";
+NSString *const kEventMesParamEventUserId = @"userId";
+NSString *const kEventMesParamConversationList = @"conversationsList";
+NSString *const kEventMesParamCustomData = @"customData";
+NSString *const kEventMesParamPrivateCustomData = @"privateCustomData";
+NSString *const kEventMesParamUser = @"user";
+NSString *const kEventMesParamUserStatus = @"userStatus";
+NSString *const kEventMesParamOnline = @"online";
+NSString *const kEventMesParamUserTimestamp = @"timestamp";
+NSString *const kEventMesParamUsers = @"users";
+NSString *const kEventMesParamUserMessengerNotifications = @"messengerNotifications";
+NSString *const kEventMesParamCanWrite = @"canWrite";
+NSString *const kEventMesParamCanManageParticipants = @"canManageParticipants";
+NSString *const kEventMesParamSequence = @"sequence";
+NSString *const kEventMesParamUuid = @"uuid";
+NSString *const kEventMesParamTitle = @"title";
+NSString *const kEventMesParamCreatedAt = @"createdAt";
+NSString *const kEventMesParamDistinct = @"distinct";
+NSString *const kEventMesParamLastRead = @"lastRead";
+NSString *const kEventMesParamLastSeq = @"lastSeq";
+NSString *const kEventMesParamLastUpdate = @"lastUpdate";
+NSString *const kEventMesParamModerators = @"moderators";
+NSString *const kEventMesParamParticipants = @"participants";
+NSString *const kEventMesParamPublicJoin = @"publicJoin";
+NSString *const kEventMesParamIsUber = @"isUber";
+NSString *const kEventMesParamConversation = @"conversation";
+
+NSString *const kEditMessage = @"EditMessage";
+NSString *const kSendMessage = @"SendMessage";
