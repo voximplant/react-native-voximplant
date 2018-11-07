@@ -75,7 +75,6 @@ describe('conversation', () => {
                 isUber: false
             });
             (event.conversation.participants).should.deepEqual(expectedParticipants);
-            (event.conversation.moderators).should.eql([me]);
             should.exist(event.conversation.createdAt);
             should.exist(event.conversation.lastRead);
             should.exist(event.conversation.lastUpdate);
@@ -112,7 +111,6 @@ describe('conversation', () => {
                 lastSeq: conversation.lastSeq,
                 isUber: conversation.isUber,
                 participants: conversation.participants,
-                moderators: conversation.moderators,
                 createdAt: conversation.createdAt,
                 lastRead: conversation.lastRead,
                 lastUpdate: conversation.lastUpdate,

@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.voximplant.reactnative.Constants.CONNECTED;
 import static com.voximplant.reactnative.Constants.EVENT_MES_CREATE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_CONVERSATION;
@@ -55,7 +54,6 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_SEQ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_UPDATE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS;
-import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_MODERATORS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ONLINE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA;
@@ -169,7 +167,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @ReactMethod
     public void createConversation(ReadableArray participants, String title, boolean distinct, boolean publicJoin,
-                                   ReadableMap customData, ReadableArray moderators, boolean isUber) {
+                                   ReadableMap customData, boolean isUber) {
         IMessenger messenger = getMessenger();
         if (messenger != null) {
             List<ConversationParticipant> participantList = new ArrayList<>();
@@ -184,7 +182,6 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
                     .setDistinct(distinct)
                     .setEnablePublicJoin(publicJoin)
                     .setCustomData(Utils.createObjectMap(customData))
-                    .setModerators(Utils.createArrayList(moderators))
                     .setUberConversation(isUber)
                     .build();
             messenger.createConversation(participantList, conversationConfig);
@@ -437,9 +434,6 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
         if (conversation.getCustomData() != null) {
             map.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(conversation.getCustomData()));
-        }
-        if (conversation.getModerators() != null) {
-            map.putArray(EVENT_MES_PARAM_MODERATORS, Utils.createWritableArray(conversation.getModerators()));
         }
         if (conversation.getParticipants() != null) {
             WritableArray array = Arguments.createArray();

@@ -59,12 +59,6 @@ export default class Conversation {
     lastUpdate;
 
     /**
-     * @member {string[]} moderators - Conversation moderator names list.
-     * @memberOf Voximplant.Messaging.Conversation
-     */
-    moderators;
-
-    /**
      * @member {Voximplant.Messaging.ConversationParticipant[]} participants - Conversation participants list alongside with their rights.
      * @memberOf Voximplant.Messaging.Conversation
      */

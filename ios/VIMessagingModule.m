@@ -15,7 +15,9 @@
 #import "VIUserStatusEvent.h"
 #import "VISubscribeEvent.h"
 #import "VIUser.h"
-
+#import "VIConversationParticipant.h"
+#import "VIConversationEvent.h"
+#import "VIConversation.h"
 
 #import "CocoaLumberjack.h"
 
@@ -26,8 +28,6 @@
 @implementation VIMessagingModule
 RCT_EXPORT_MODULE();
 
-
-
 - (NSArray<NSString *> *)supportedEvents {
     return @[kEventMesGetUser,
              kEventMesEditUser,
@@ -37,6 +37,10 @@ RCT_EXPORT_MODULE();
              kEventMesGetConversation,
              kEventMesCreateConversation,
              kEventMesRemoveConversation];
+}
+
++ (BOOL)requiresMainQueueSetup {
+    return NO;
 }
 
 - (VIMessenger *)getMessenger {
@@ -118,6 +122,64 @@ RCT_EXPORT_MODULE();
     return dictionary;
 }
 
+- (NSDictionary *)convertConversationEvent:(VIConversationEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    if (event.userId) {
+        [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    }
+    if (event.seq) {
+        [dictionary setObject:event.seq forKey:kEventMesParamSequence];
+    }
+    
+    VIConversation *conversation = event.conversation;
+    if (conversation) {
+        NSMutableDictionary *conversationDictionary = [NSMutableDictionary new];
+        if (conversation.createdAt) {
+            [conversationDictionary setObject:conversation.createdAt forKey:kEventMesParamCreatedAt];
+        }
+        if (conversation.lastUpdate) {
+            [conversationDictionary setObject:conversation.lastUpdate forKey:kEventMesParamLastUpdate];
+        }
+        if (conversation.customData) {
+            [conversationDictionary setObject:conversation.customData forKey:kEventMesParamCustomData];
+        }
+        if (conversation.lastRead) {
+            [conversationDictionary setObject:conversation.lastRead forKey:kEventMesParamLastRead];
+        }
+        if (conversation.lastSeq) {
+            [conversationDictionary setObject:conversation.lastSeq forKey:kEventMesParamLastSeq];
+        }
+        if (conversation.uuid) {
+            [conversationDictionary setObject:conversation.uuid forKey:kEventMesParamUuid];
+        }
+        if (conversation.title) {
+            [conversationDictionary setObject:conversation.title forKey:kEventMesParamTitle];
+        }
+        if (conversation.participants) {
+            NSMutableArray<NSDictionary *> *conversationParticipants = [NSMutableArray new];
+            for (VIConversationParticipant *participant in conversation.participants) {
+                NSMutableDictionary * conversationParticipant = [NSMutableDictionary new];
+                if (participant.userId) {
+                    [conversationParticipant setObject:participant.userId forKey:kEventMesParamEventUserId];
+                }
+                [conversationParticipant setObject:@(participant.canWrite) forKey:kEventMesParamCanWrite];
+                [conversationParticipant setObject:@(participant.canManageParticipants) forKey:kEventMesParamCanManageParticipants];
+                [conversationParticipants addObject:conversationParticipant];
+            }
+            [conversationDictionary setObject:conversationParticipants forKey:kEventMesParamParticipants];
+        }
+        [conversationDictionary setObject:@(conversation.distinct) forKey:kEventMesParamDistinct];
+        [conversationDictionary setObject:@(conversation.publicJoin) forKey:kEventMesParamPublicJoin];
+        [conversationDictionary setObject:@(conversation.isUberConversation) forKey:kEventMesParamIsUber];
+        
+        [dictionary setObject:conversationDictionary forKey:kEventMesParamConversation];
+    }
+    
+    return dictionary;
+}
+
 RCT_EXPORT_METHOD(getUser:(NSString *)user) {
     VIMessenger *messenger = [self getMessenger];
     if (messenger) {
@@ -175,8 +237,47 @@ RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSString *> *)notifications) {
     }
 }
 
-- (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
+RCT_REMAP_METHOD(createConversation, createConversationWithParticipants:(NSArray<NSDictionary *> *)participants
+                                                                   title:(NSString *)title
+                                                                distinct:(BOOL)distinct
+                                                              publicJoin:(BOOL)publicJoin
+                                                              customData:(NSDictionary *)customData
+                                                                    uber:(BOOL)isUber) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        NSMutableArray<VIConversationParticipant *> *conversationParticipants = [NSMutableArray new];
+        for (NSDictionary *participant in participants) {
+            VIConversationParticipant * conversationParticipant = [[VIConversationParticipant alloc] initWithUserId:[RCTConvert NSString:participant[@"userId"]]
+                                                                                                           canWrite:[RCTConvert BOOL:participant[@"canWrite"]]
+                                                                                              canManageParticipants:[RCTConvert BOOL:participant[@"canManageParticipants"]]];
+            [conversationParticipants addObject:conversationParticipant];
+        }
+        [messenger createConversation:conversationParticipants
+                           moderators:[NSArray new]
+                                title:title
+                             distinct:distinct
+                     enablePublicJoin:publicJoin
+                           customData:customData
+                     uberConversation:isUber];
+    }
+}
 
+RCT_EXPORT_METHOD(getConversation:(NSString *)uuid) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        [messenger getConversation:uuid];
+    }
+}
+
+RCT_EXPORT_METHOD(removeConversation:(NSString *)uuid) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        [messenger removeConversation:uuid];
+    }
+}
+
+- (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
+    [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didEditConversation:(VIConversationEvent *)event {
@@ -192,7 +293,7 @@ RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSString *> *)notifications) {
 }
 
 - (void)messenger:(VIMessenger *)messenger didGetConversation:(VIConversationEvent *)event {
-
+    [self sendEventWithName:kEventMesGetConversation body:[self convertConversationEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didGetUser:(VIUserEvent *)event {
@@ -216,7 +317,24 @@ RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSString *> *)notifications) {
 }
 
 - (void)messenger:(VIMessenger *)messenger didRemoveConversation:(VIConversationEvent *)event {
-
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    if (event.userId) {
+        [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    }
+    if (event.seq) {
+        [dictionary setObject:event.seq forKey:kEventMesParamSequence];
+    }
+    VIConversation *conversation = event.conversation;
+    if (conversation) {
+        NSMutableDictionary *conversationDictionary = [NSMutableDictionary new];
+        if (conversation.uuid) {
+            [conversationDictionary setObject:conversation.uuid forKey:kEventMesParamUuid];
+        }
+        [dictionary setObject:conversationDictionary forKey:kEventMesParamConversation];
+    }
+    [self sendEventWithName:kEventMesRemoveConversation body:dictionary];
 }
 
 - (void)messenger:(VIMessenger *)messenger didRemoveMessage:(VIMessageEvent *)event {

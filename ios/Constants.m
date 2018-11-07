@@ -158,7 +158,6 @@ NSString *const kEventMesParamDistinct = @"distinct";
 NSString *const kEventMesParamLastRead = @"lastRead";
 NSString *const kEventMesParamLastSeq = @"lastSeq";
 NSString *const kEventMesParamLastUpdate = @"lastUpdate";
-NSString *const kEventMesParamModerators = @"moderators";
 NSString *const kEventMesParamParticipants = @"participants";
 NSString *const kEventMesParamPublicJoin = @"publicJoin";
 NSString *const kEventMesParamIsUber = @"isUber";

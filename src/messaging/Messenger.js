@@ -156,9 +156,9 @@ export default class Messenger {
      * @param moderators
      * @param isUber
      */
-    createConversation(participants, title, distinct, publicJoin, customData, moderators, isUber) {
-        if (title === undefined) {
-            title = null;
+    createConversation(participants, title, distinct, publicJoin, customData, isUber) {
+        if (title === undefined || title === null) {
+            title = "";
         }
         if (distinct === undefined) {
             distinct = false;
@@ -166,16 +166,13 @@ export default class Messenger {
         if (publicJoin === undefined) {
             publicJoin = false;
         }
-        if (customData === undefined) {
-            customData = null;
-        }
-        if (moderators === undefined) {
-            moderators = null;
+        if (customData === undefined || customData === null) {
+            customData = {};
         }
         if (isUber === undefined) {
             isUber = false;
         }
-        MessagingModule.createConversation(participants, title, distinct, publicJoin, customData, moderators, isUber);
+        MessagingModule.createConversation(participants, title, distinct, publicJoin, customData, isUber);
     }
 
     /**

@@ -177,7 +177,6 @@ class Constants {
     static final String EVENT_MES_PARAM_LAST_READ = "lastRead";
     static final String EVENT_MES_PARAM_LAST_SEQ = "lastSeq";
     static final String EVENT_MES_PARAM_LAST_UPDATE = "lastUpdate";
-    static final String EVENT_MES_PARAM_MODERATORS = "moderators";
     static final String EVENT_MES_PARAM_PARTICIPANTS = "participants";
     static final String EVENT_MES_PARAM_PUBLIC_JOIN = "publicJoin";
     static final String EVENT_MES_PARAM_IS_UBER = "isUber";

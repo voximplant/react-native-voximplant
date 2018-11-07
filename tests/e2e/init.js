@@ -32,6 +32,6 @@ beforeEach(async function beforeEach() {
 
 after(async () => {
     console.log('Cleaning up...');
-    // await detox.cleanup(); // TODO hangs - most likely jet internals interfering
+    await detox.cleanup(); // TODO hangs - most likely jet internals interfering
     console.log('Detox cleaned up...');
 });
