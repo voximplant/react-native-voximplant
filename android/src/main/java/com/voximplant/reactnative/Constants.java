@@ -159,6 +159,7 @@ class Constants {
     static final String EVENT_MES_ACTION_ADD_PARTICIPANTS = "addParticipants";
     static final String EVENT_MES_ACTION_EDIT_PARTICIPANTS = "editParticipants";
     static final String EVENT_MES_ACTION_REMOVE_PARTICIPANTS = "removeParticipants";
+    static final String EVENT_MES_ACTION_EDIT_CONVERSATION = "editConversation";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";

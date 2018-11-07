@@ -312,6 +312,56 @@ describe('conversation', () => {
         conversation.editParticipants(editedParticipants);
     });
 
+    it('edit conversation', (done) => {
+        messenger.should.be.not.null();
+        let customData = {
+            conversationCD: 'Conversation custom data test',
+            testCD: '123456'
+        };
+
+        let conversationEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.EditConversation);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.editConversation);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(5);
+            should.exist(event.conversation);
+            (event.conversation).should.have.properties({
+                title: 'New test conversation title',
+                distinct: false,
+                publicJoin: false,
+                lastSeq: 5,
+                isUber: conversation.isUber,
+                createdAt: conversation.createdAt,
+                lastRead: conversation.lastRead,
+                uuid: conversation.uuid
+            });
+
+            should.exist(event.conversation.participants);
+            (event.conversation.participants).should.containDeep(conversation.participants);
+
+            should.exist(event.conversation.customData);
+            (event.conversation.customData).should.containDeep(customData);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+
+            conversation = event.conversation;
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+
+        conversation.setPublicJoin(false);
+        conversation.setDistinct(false);
+        conversation.setCustomData(customData);
+        conversation.setTitle('New test conversation title');
+        conversation.update();
+
+    });
+
     it('remove conversation', (done) => {
         messenger.should.be.not.null();
 
@@ -324,7 +374,7 @@ describe('conversation', () => {
             should.exist(event.userId);
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
-            (event.sequence).should.be.eql(5);
+            (event.sequence).should.be.eql(6);
             should.exist(event.conversation);
             (event.conversation).should.have.properties({
                 uuid: conversation.uuid

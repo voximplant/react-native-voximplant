@@ -233,6 +233,19 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void updateConversation(String uuid, String title, boolean publicJoin, boolean distinct, ReadableMap customData) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.setCustomData(Utils.createObjectMap(customData));
+            conversation.setDistinct(distinct);
+            conversation.setPublicJoin(publicJoin);
+            conversation.setTitle(title);
+            conversation.update();
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));

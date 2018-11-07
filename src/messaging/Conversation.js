@@ -96,6 +96,22 @@ export default class Conversation {
 
     }
 
+    setCustomData(customData) {
+        this.customData = customData;
+    }
+
+    setDistinct(distinct) {
+        this.distinct = distinct;
+    }
+
+    setPublicJoin(publicJoin) {
+        this.publicJoin = publicJoin;
+    }
+
+    setTitle(title) {
+        this.title = title;
+    }
+
     /**
      *
      * @param participants
@@ -118,10 +134,21 @@ export default class Conversation {
         MessagingModule.editParticipants(this.uuid, participants);
     }
 
+    /**
+     *
+     * @param participants
+     */
     removeParticipants(participants) {
         if (participants === undefined) {
             participants = [];
         }
         MessagingModule.removeParticipants(this.uuid, participants);
+    }
+
+    /**
+     *
+     */
+    update() {
+        MessagingModule.updateConversation(this.uuid, this.title, this.publicJoin, this.distinct, this.customData);
     }
 }

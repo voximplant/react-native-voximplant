@@ -348,6 +348,33 @@ RCT_REMAP_METHOD(removeParticipants, removeParticipantsFromConversation:(NSStrin
     }
 }
 
+RCT_REMAP_METHOD(updateConversation, updateConversation:(NSString *)uuid
+                                                   title:(NSString *)title
+                                              publicJoin:(BOOL)publicJoin
+                                                distinct:(BOOL)distinct
+                                              customData:(NSDictionary *)customData) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        conversation.title = title;
+        conversation.publicJoin = publicJoin;
+        conversation.distinct = distinct;
+        conversation.customData = customData;
+        [conversation update];
+    }
+}
+
 - (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
     [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }

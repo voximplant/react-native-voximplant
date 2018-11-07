@@ -172,6 +172,7 @@ export const VideoCodec = {
 export const MessengerAction = {
     addParticipants: 'addParticipants',
     createConversation : 'createConversation',
+    editConversation: 'editConversation',
     editParticipants: 'editParticipants',
     editUser : 'editUser',
     getConversation : 'getConversation',

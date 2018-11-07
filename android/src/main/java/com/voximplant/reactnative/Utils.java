@@ -23,6 +23,7 @@ import java.util.Map;
 import static com.voximplant.reactnative.Constants.EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_ADD_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSATION;
@@ -328,6 +329,7 @@ class Utils {
 			case CREATE_CONVERSATION:
 			    return EVENT_MES_ACTION_CREATE_CONVERSATION;
 			case EDIT_CONVERSATION:
+				return EVENT_MES_ACTION_EDIT_CONVERSATION;
 			case EDIT_MESSAGE:
 				return "";
 			case EDIT_PARTICIPANTS:
