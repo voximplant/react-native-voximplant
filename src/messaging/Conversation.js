@@ -95,4 +95,33 @@ export default class Conversation {
     constructor() {
 
     }
+
+    /**
+     *
+     * @param participants
+     */
+    addParticipants(participants) {
+        if (participants === undefined) {
+            participants = [];
+        }
+        MessagingModule.addParticipants(this.uuid, participants);
+    }
+
+    /**
+     *
+     * @param participants
+     */
+    editParticipants(participants) {
+        if (participants === undefined) {
+            participants = [];
+        }
+        MessagingModule.editParticipants(this.uuid, participants);
+    }
+
+    removeParticipants(participants) {
+        if (participants === undefined) {
+            participants = [];
+        }
+        MessagingModule.removeParticipants(this.uuid, participants);
+    }
 }

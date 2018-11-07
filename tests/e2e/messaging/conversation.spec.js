@@ -124,6 +124,194 @@ describe('conversation', () => {
         messenger.getConversation(conversation.uuid);
     });
 
+    it('remove participants', (done) => {
+        messenger.should.be.not.null();
+
+        const me = messenger.getMe();
+        let removedParticipants = [
+            {
+                userId: TEST_USER_3,
+                canWrite: true,
+                canManageParticipants: true
+            }
+        ];
+
+        let resultParticipants = [
+            {
+                userId: me,
+                canWrite: true,
+                canManageParticipants: true
+            },
+            {
+                userId: TEST_USER_2,
+                canWrite: true,
+                canManageParticipants: false
+            }
+        ];
+
+        let conversationEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.EditConversation);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.removeParticipants);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(2);
+            should.exist(event.conversation);
+            (event.conversation).should.have.properties({
+                title: conversation.title,
+                distinct: conversation.distinct,
+                publicJoin: conversation.publicJoin,
+                lastSeq: 2,
+                isUber: conversation.isUber,
+                createdAt: conversation.createdAt,
+                lastRead: conversation.lastRead,
+                uuid: conversation.uuid
+            });
+
+            should.exist(event.conversation.participants);
+            (event.conversation.participants).should.containDeep(resultParticipants);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+
+            conversation = event.conversation;
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+        conversation.removeParticipants(removedParticipants);
+    });
+
+    it('add participants', (done) => {
+        messenger.should.be.not.null();
+
+        const me = messenger.getMe();
+        let addedParticipants = [
+            {
+                userId: TEST_USER_3,
+                canWrite: true,
+                canManageParticipants: true
+            }
+        ];
+
+        let resultParticipants = [
+            {
+                userId: me,
+                canWrite: true,
+                canManageParticipants: true
+            },
+            {
+                userId: TEST_USER_2,
+                canWrite: true,
+                canManageParticipants: false
+            },
+            {
+                userId: TEST_USER_3,
+                canWrite: true,
+                canManageParticipants: true
+            }
+        ];
+
+        let conversationEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.EditConversation);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.addParticipants);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(3);
+            should.exist(event.conversation);
+            (event.conversation).should.have.properties({
+                title: conversation.title,
+                distinct: conversation.distinct,
+                publicJoin: conversation.publicJoin,
+                lastSeq: 3,
+                isUber: conversation.isUber,
+                createdAt: conversation.createdAt,
+                lastRead: conversation.lastRead,
+                uuid: conversation.uuid
+            });
+
+            should.exist(event.conversation.participants);
+            (event.conversation.participants).should.containDeep(resultParticipants);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+
+            conversation = event.conversation;
+
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+        conversation.addParticipants(addedParticipants);
+    });
+
+    it('edit participants', (done) => {
+        messenger.should.be.not.null();
+
+        const me = messenger.getMe();
+        let editedParticipants = [
+            {
+                userId: TEST_USER_3,
+                canWrite: true,
+                canManageParticipants: false
+            }
+        ];
+
+        let resultParticipants = [
+            {
+                userId: me,
+                canWrite: true,
+                canManageParticipants: true
+            },
+            {
+                userId: TEST_USER_2,
+                canWrite: true,
+                canManageParticipants: false
+            },
+            {
+                userId: TEST_USER_3,
+                canWrite: true,
+                canManageParticipants: false
+            }
+        ];
+
+        let conversationEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.EditConversation);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.editParticipants);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(4);
+            should.exist(event.conversation);
+            (event.conversation).should.have.properties({
+                title: conversation.title,
+                distinct: conversation.distinct,
+                publicJoin: conversation.publicJoin,
+                lastSeq: 4,
+                isUber: conversation.isUber,
+                createdAt: conversation.createdAt,
+                lastRead: conversation.lastRead,
+                uuid: conversation.uuid
+            });
+
+            should.exist(event.conversation.participants);
+            (event.conversation.participants).should.containDeep(resultParticipants);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+
+            conversation = event.conversation;
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.EditConversation, conversationEvent);
+        conversation.editParticipants(editedParticipants);
+    });
+
     it('remove conversation', (done) => {
         messenger.should.be.not.null();
 
@@ -136,7 +324,7 @@ describe('conversation', () => {
             should.exist(event.userId);
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
-            (event.sequence).should.be.eql(2);
+            (event.sequence).should.be.eql(5);
             should.exist(event.conversation);
             (event.conversation).should.have.properties({
                 uuid: conversation.uuid
@@ -148,4 +336,5 @@ describe('conversation', () => {
         messenger.on(Voximplant.Messaging.MessengerEventTypes.RemoveConversation, conversationEvent);
         messenger.removeConversation(conversation.uuid);
     });
+
 });

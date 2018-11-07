@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.voximplant.reactnative.Constants.EDIT_MESSAGE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_ADD_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSATIONS;
@@ -29,10 +31,12 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USERS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
@@ -318,14 +322,16 @@ class Utils {
 	static String convertMessengerActionToString(MessengerAction action) {
     	switch (action) {
 			case ADD_MODERATORS:
+				return "";
 			case ADD_PARTICIPANTS:
-			    return "";
+			    return EVENT_MES_ACTION_ADD_PARTICIPANTS;
 			case CREATE_CONVERSATION:
 			    return EVENT_MES_ACTION_CREATE_CONVERSATION;
 			case EDIT_CONVERSATION:
 			case EDIT_MESSAGE:
-			case EDIT_PARTICIPANTS:
 				return "";
+			case EDIT_PARTICIPANTS:
+				return EVENT_MES_ACTION_EDIT_PARTICIPANTS;
 			case EDIT_USER:
 				return EVENT_MES_ACTION_EDIT_USER;
 			case GET_CONVERSATION:
@@ -347,7 +353,9 @@ class Utils {
 			    return EVENT_MES_ACTION_REMOVE_CONVERSATION;
 			case REMOVE_MESSAGE:
 			case REMOVE_MODERATORS:
+				return "";
 			case REMOVE_PARTICIPANTS:
+				return EVENT_MES_ACTION_REMOVE_PARTICIPANTS;
 			case RETRANSMIT_EVENTS:
 			case SEND_MESSAGE:
 				return "";
@@ -373,6 +381,7 @@ class Utils {
 			case ON_CREATE_CONVERSATION:
 			    return EVENT_NAME_MES_CREATE_CONVERSATION;
 			case ON_EDIT_CONVERSATION:
+				return EVENT_NAME_MES_EDIT_CONVERSATION;
 			case ON_EDIT_MESSAGE:
 				return "";
 			case ON_EDIT_USER:

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import MessagingShared from "./MessagingShared";
 import MessengerEventTypes from "./MessengerEventTypes";
+import Conversation from "./Conversation";
 
 const MessagingModule = NativeModules.VIMessagingModule;
 
@@ -48,6 +49,7 @@ export default class Messenger {
         EventEmitter.addListener('VIGetConversation', this.onGetConversation);
         EventEmitter.addListener('VICreateConversation', this._onCreateConversation);
         EventEmitter.addListener('VIRemoveConversation', this._onRemoveConversation);
+        EventEmitter.addListener('VIEditConversation', this._onEditConversation);
     }
 
     // init() {}
@@ -197,6 +199,10 @@ export default class Messenger {
         MessagingModule.getConversations(conversations);
     }
 
+    /**
+     *
+     * @param uuid
+     */
     removeConversation(uuid) {
         if (uuid === undefined) {
             uuid = null;
@@ -214,6 +220,23 @@ export default class Messenger {
                 handler(...args);
             }
         }
+    }
+
+    _processConversationEvent(event) {
+        let conversation = new Conversation();
+        conversation.createdAt = event.conversation.createdAt;
+        conversation.uuid = event.conversation.uuid;
+        conversation.lastRead = event.conversation.lastRead;
+        conversation.participants = event.conversation.participants;
+        conversation.isUber = event.conversation.isUber;
+        conversation.lastSeq = event.conversation.lastSeq;
+        conversation.publicJoin = event.conversation.publicJoin;
+        conversation.distinct = event.conversation.distinct;
+        conversation.lastUpdate = event.conversation.lastUpdate;
+        conversation.customData = event.conversation.customData;
+        conversation.title = event.conversation.title;
+        delete event.conversation;
+        event.conversation = conversation;
     }
 
     _onGetUser = (event) => {
@@ -237,14 +260,25 @@ export default class Messenger {
     };
 
     _onCreateConversation = (event) => {
+        this._processConversationEvent(event);
         this._emit(MessengerEventTypes.CreateConversation, event);
     };
 
     onGetConversation = (event) => {
+        this._processConversationEvent(event);
         this._emit(MessengerEventTypes.GetConversation, event);
     };
 
     _onRemoveConversation = (event) => {
+        let conversation = new Conversation();
+        conversation.uuid = event.conversation.uuid;
+        delete event.conversation;
+        event.conversation = conversation;
         this._emit(MessengerEventTypes.RemoveConversation, event);
-    }
+    };
+
+    _onEditConversation = (event) => {
+        this._processConversationEvent(event);
+        this._emit(MessengerEventTypes.EditConversation, event);
+    };
 }

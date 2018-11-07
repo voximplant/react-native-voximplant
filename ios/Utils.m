@@ -91,7 +91,7 @@
         case VIMessengerEventTypeRemoveConversation:
             return kEventNameMesRemoveConversation;
         case VIMessengerEventTypeEditConversation:
-            return @"";
+            return kEventNameMesEditConversation;
         case VIMessengerEventTypeGetConversation:
             return kEventNameMesGetConversation;
         case VIMessengerEventTypeSubscribe:
@@ -126,11 +126,11 @@
         case VIMessengerActionTypeRemoveConversation:
             return kEventMesActionRemoveConversation;
         case VIMessengerActionTypeJoinConversation:
-            return @"";
+            return kEventMesActionJoinConversation;
         case VIMessengerActionTypeLeaveConversation:
-            return @"";
+            return kEventMesActionLeaveConversation;
         case VIMessengerActionTypeEditConversation:
-            return @"";
+            return kEventMesActionEditConversation;
         case VIMessengerActionTypeGetUser:
             return kEventMesActionGetUser;
         case VIMessengerActionTypeGetUsers:
@@ -142,11 +142,11 @@
         case VIMessengerActionTypeGetConversations:
             return kEventMesActionGetConversations;
         case VIMessengerActionTypeAddParticipants:
-            return @"";
+            return kEventMesActionAddParticipants;
         case VIMessengerActionTypeEditParticipants:
-            return @"";
+            return kEventMesActionEditParticipants;
         case VIMessengerActionTypeRemoveParticipants:
-            return @"";
+            return kEventMesActionRemoveParticipants;
         case VIMessengerActionTypeAddModerators:
             return @"";
         case VIMessengerActionTypeRemoveModerators:

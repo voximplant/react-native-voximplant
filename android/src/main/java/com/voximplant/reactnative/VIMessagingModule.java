@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.voximplant.reactnative.Constants.EVENT_MES_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_USER;
@@ -170,13 +171,6 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
                                    ReadableMap customData, boolean isUber) {
         IMessenger messenger = getMessenger();
         if (messenger != null) {
-            List<ConversationParticipant> participantList = new ArrayList<>();
-            for (int i = 0; i < participants.size(); i++) {
-                ConversationParticipant participant = convertMapToConversationParticipant(participants.getMap(i));
-                if (participant != null) {
-                    participantList.add(participant);
-                }
-            }
             ConversationConfig conversationConfig = ConversationConfig.createBuilder()
                     .setTitle(title)
                     .setDistinct(distinct)
@@ -184,7 +178,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
                     .setCustomData(Utils.createObjectMap(customData))
                     .setUberConversation(isUber)
                     .build();
-            messenger.createConversation(participantList, conversationConfig);
+            messenger.createConversation(convertArrayToConversationParticipantList(participants), conversationConfig);
         }
     }
 
@@ -212,98 +206,56 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void addParticipants(String uuid, ReadableArray participants) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.addParticipants(convertArrayToConversationParticipantList(participants));
+        }
+    }
+
+    @ReactMethod
+    public void editParticipants(String uuid, ReadableArray participants) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.editParticipants(convertArrayToConversationParticipantList(participants));
+        }
+    }
+
+    @ReactMethod
+    public void removeParticipants(String uuid, ReadableArray participants) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.removeParticipants(convertArrayToConversationParticipantList(participants));
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
-        WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(userEvent.getMessengerEventType()));
-        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(userEvent.getMessengerAction()));
-        params.putString(EVENT_MES_PARAM_USER_ID, userEvent.getUserId());
-        IUser user = userEvent.getUser();
-        WritableMap userParam = Arguments.createMap();
-        userParam.putString(EVENT_MES_PARAM_USER_ID, user.getUserId());
-        if (user.getCustomData() != null) {
-            userParam.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(user.getCustomData()));
-        }
-        if (user.getPrivateCustomData() != null) {
-            userParam.putMap(EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA, Utils.createObjectWritableMap(user.getPrivateCustomData()));
-        }
-        if (user.getConversationsList() != null) {
-            userParam.putArray(EVENT_MES_PARAM_CONVERSATIONS_LIST, Utils.createWritableArray(user.getConversationsList()));
-        }
-        if (user.getMessengerNotifications() != null) {
-            WritableArray notifications = Arguments.createArray();
-            for (MessengerNotifications notification : user.getMessengerNotifications()) {
-                notifications.pushString(Utils.convertMessengerNotificationsToString(notification));
-            }
-            userParam.putArray(EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS, notifications);
-        }
-        params.putMap(EVENT_MES_PARAM_USER, userParam);
-        sendEvent(EVENT_MES_GET_USER, params);
+        sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));
     }
 
     @Override
     public void onEditUser(IUserEvent userEvent) {
-        WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(userEvent.getMessengerEventType()));
-        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(userEvent.getMessengerAction()));
-        params.putString(EVENT_MES_PARAM_USER_ID, userEvent.getUserId());
-        IUser user = userEvent.getUser();
-        WritableMap userParam = Arguments.createMap();
-        userParam.putString(EVENT_MES_PARAM_USER_ID, user.getUserId());
-        if (user.getCustomData() != null) {
-            userParam.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(user.getCustomData()));
-        }
-        if (user.getPrivateCustomData() != null) {
-            userParam.putMap(EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA, Utils.createObjectWritableMap(user.getPrivateCustomData()));
-        }
-        if (user.getConversationsList() != null) {
-            userParam.putArray(EVENT_MES_PARAM_CONVERSATIONS_LIST, Utils.createWritableArray(user.getConversationsList()));
-        }
-        if (user.getMessengerNotifications() != null) {
-            WritableArray notifications = Arguments.createArray();
-            for (MessengerNotifications notification : user.getMessengerNotifications()) {
-                notifications.pushString(Utils.convertMessengerNotificationsToString(notification));
-            }
-            userParam.putArray(EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS, notifications);
-        }
-        params.putMap(EVENT_MES_PARAM_USER, userParam);
-        sendEvent(EVENT_MES_EDIT_USER, params);
+        sendEvent(EVENT_MES_EDIT_USER, convertUserEventToMap(userEvent));
     }
 
     @Override
     public void onSubscribe(ISubscriptionEvent subscriptionEvent) {
-        WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(subscriptionEvent.getMessengerEventType()));
-        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(subscriptionEvent.getMessengerAction()));
-        params.putString(EVENT_MES_PARAM_USER_ID, subscriptionEvent.getUserId());
-        WritableArray users = Utils.createWritableArray(subscriptionEvent.getUsers());
-        params.putArray(EVENT_MES_PARAM_USERS, users);
-        sendEvent(EVENT_MES_SUBSCRIBE, params);
+        sendEvent(EVENT_MES_SUBSCRIBE, convertSubscriptionEventToMap(subscriptionEvent));
     }
 
     @Override
     public void onUnsubscribe(ISubscriptionEvent subscriptionEvent) {
-        WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(subscriptionEvent.getMessengerEventType()));
-        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(subscriptionEvent.getMessengerAction()));
-        params.putString(EVENT_MES_PARAM_USER_ID, subscriptionEvent.getUserId());
-        WritableArray users = Utils.createWritableArray(subscriptionEvent.getUsers());
-        params.putArray(EVENT_MES_PARAM_USERS, users);
-        sendEvent(EVENT_MES_UNSUBSCRIBE, params);
+        sendEvent(EVENT_MES_UNSUBSCRIBE, convertSubscriptionEventToMap(subscriptionEvent));
     }
 
     @Override
     public void onCreateConversation(IConversationEvent conversationEvent) {
-        WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(conversationEvent.getMessengerEventType()));
-        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(conversationEvent.getMessengerAction()));
-        params.putString(EVENT_MES_PARAM_USER_ID, conversationEvent.getUserId());
-        params.putDouble(EVENT_MES_PARAM_SEQUENCE, conversationEvent.getSequence());
-        WritableMap conversation = convertConversationToMap(conversationEvent.getConversation());
-        if (conversation != null) {
-            params.putMap(EVENT_MES_PARAM_CONVERSATION, conversation);
-        }
-        sendEvent(EVENT_MES_CREATE_CONVERSATION, params);
+        sendEvent(EVENT_MES_CREATE_CONVERSATION, convertConversationEventToMap(conversationEvent));
     }
 
     @Override
@@ -321,21 +273,12 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onGetConversation(IConversationEvent conversationEvent) {
-        WritableMap params = Arguments.createMap();
-        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(conversationEvent.getMessengerEventType()));
-        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(conversationEvent.getMessengerAction()));
-        params.putString(EVENT_MES_PARAM_USER_ID, conversationEvent.getUserId());
-        params.putDouble(EVENT_MES_PARAM_SEQUENCE, conversationEvent.getSequence());
-        WritableMap conversation = convertConversationToMap(conversationEvent.getConversation());
-        if (conversation != null) {
-            params.putMap(EVENT_MES_PARAM_CONVERSATION, conversation);
-        }
-        sendEvent(EVENT_MES_GET_CONVERSATION, params);
+        sendEvent(EVENT_MES_GET_CONVERSATION, convertConversationEventToMap(conversationEvent));
     }
 
     @Override
     public void onEditConversation(IConversationEvent conversationEvent) {
-
+        sendEvent(EVENT_MES_EDIT_CONVERSATION, convertConversationEventToMap(conversationEvent));
     }
 
     @Override
@@ -400,14 +343,22 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         return messenger;
     }
 
-    private ConversationParticipant convertMapToConversationParticipant(ReadableMap map) {
-        if (map != null && map.hasKey(EVENT_MES_PARAM_USER_ID)
-                && map.hasKey(EVENT_MES_PARAM_CAN_WRITE) && map.hasKey(EVENT_MES_PARAM_CAN_MANAGE_PARTICIPANTS)) {
-            return new ConversationParticipant(map.getString(EVENT_MES_PARAM_USER_ID),
-                    map.getBoolean(EVENT_MES_PARAM_CAN_WRITE), map.getBoolean(EVENT_MES_PARAM_CAN_MANAGE_PARTICIPANTS));
-        } else {
-            return null;
+
+    private List<ConversationParticipant> convertArrayToConversationParticipantList(ReadableArray participantsArray) {
+        List<ConversationParticipant> conversationParticipants = new ArrayList<>();
+        for (int i = 0; i < participantsArray.size(); i++) {
+            ReadableMap participant = participantsArray.getMap(i);
+            ConversationParticipant conversationParticipant = null;
+            if (participant != null && participant.hasKey(EVENT_MES_PARAM_USER_ID)
+                    && participant.hasKey(EVENT_MES_PARAM_CAN_WRITE) && participant.hasKey(EVENT_MES_PARAM_CAN_MANAGE_PARTICIPANTS)) {
+                conversationParticipant = new ConversationParticipant(participant.getString(EVENT_MES_PARAM_USER_ID),
+                        participant.getBoolean(EVENT_MES_PARAM_CAN_WRITE), participant.getBoolean(EVENT_MES_PARAM_CAN_MANAGE_PARTICIPANTS));
+            }
+            if (conversationParticipant != null) {
+                conversationParticipants.add(conversationParticipant);
+            }
         }
+        return conversationParticipants;
     }
 
     private WritableMap convertConversationParticipantToMap(ConversationParticipant participant) {
@@ -421,35 +372,85 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         return map;
     }
 
-    private WritableMap convertConversationToMap(IConversation conversation) {
-        if (conversation == null) {
-            return null;
-        }
-        WritableMap map = Arguments.createMap();
-        if (conversation.getUUID() != null) {
-            map.putString(EVENT_MES_PARAM_UUID, conversation.getUUID());
-        }
-        if (conversation.getTitle() != null) {
-            map.putString(EVENT_MES_PARAM_TITLE, conversation.getTitle());
-        }
-        if (conversation.getCustomData() != null) {
-            map.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(conversation.getCustomData()));
-        }
-        if (conversation.getParticipants() != null) {
-            WritableArray array = Arguments.createArray();
-            for (ConversationParticipant participant : conversation.getParticipants()) {
-                array.pushMap(convertConversationParticipantToMap(participant));
+    private WritableMap convertConversationEventToMap(IConversationEvent conversationEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(conversationEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(conversationEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, conversationEvent.getUserId());
+        params.putDouble(EVENT_MES_PARAM_SEQUENCE, conversationEvent.getSequence());
+        IConversation conversation = conversationEvent.getConversation();
+        if (conversation != null) {
+            WritableMap conversationMap = Arguments.createMap();
+            if (conversation.getUUID() != null) {
+                conversationMap.putString(EVENT_MES_PARAM_UUID, conversation.getUUID());
             }
-            map.putArray(EVENT_MES_PARAM_PARTICIPANTS, array);
+            if (conversation.getTitle() != null) {
+                conversationMap.putString(EVENT_MES_PARAM_TITLE, conversation.getTitle());
+            }
+            if (conversation.getCustomData() != null) {
+                conversationMap.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(conversation.getCustomData()));
+            }
+            if (conversation.getParticipants() != null) {
+                WritableArray array = Arguments.createArray();
+                for (ConversationParticipant participant : conversation.getParticipants()) {
+                    array.pushMap(convertConversationParticipantToMap(participant));
+                }
+                conversationMap.putArray(EVENT_MES_PARAM_PARTICIPANTS, array);
+            }
+            conversationMap.putDouble(EVENT_MES_PARAM_CREATED_AT, conversation.getCreatedTime());
+            conversationMap.putDouble(EVENT_MES_PARAM_LAST_READ, conversation.getLastRead());
+            conversationMap.putDouble(EVENT_MES_PARAM_LAST_SEQ, conversation.getLastSequence());
+            conversationMap.putDouble(EVENT_MES_PARAM_LAST_UPDATE, conversation.getLastUpdateTime());
+            conversationMap.putBoolean(EVENT_MES_PARAM_DISTINCT, conversation.isDistinct());
+            conversationMap.putBoolean(EVENT_MES_PARAM_PUBLIC_JOIN, conversation.isPublicJoin());
+            conversationMap.putBoolean(EVENT_MES_PARAM_IS_UBER, conversation.isUberConversation());
+
+            params.putMap(EVENT_MES_PARAM_CONVERSATION, conversationMap);
         }
-        map.putDouble(EVENT_MES_PARAM_CREATED_AT, conversation.getCreatedTime());
-        map.putDouble(EVENT_MES_PARAM_LAST_READ, conversation.getLastRead());
-        map.putDouble(EVENT_MES_PARAM_LAST_SEQ, conversation.getLastSequence());
-        map.putDouble(EVENT_MES_PARAM_LAST_UPDATE, conversation.getLastUpdateTime());
-        map.putBoolean(EVENT_MES_PARAM_DISTINCT, conversation.isDistinct());
-        map.putBoolean(EVENT_MES_PARAM_PUBLIC_JOIN, conversation.isPublicJoin());
-        map.putBoolean(EVENT_MES_PARAM_IS_UBER, conversation.isUberConversation());
-        return map;
+        return params;
+    }
+
+    private WritableMap convertUserEventToMap(IUserEvent userEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(userEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(userEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, userEvent.getUserId());
+        IUser user = userEvent.getUser();
+        if (user != null) {
+            WritableMap userMap = Arguments.createMap();
+            userMap.putString(EVENT_MES_PARAM_USER_ID, user.getUserId());
+            if (user.getCustomData() != null) {
+                userMap.putMap(EVENT_MES_PARAM_CUSTOM_DATA, Utils.createObjectWritableMap(user.getCustomData()));
+            }
+            if (user.getPrivateCustomData() != null) {
+                userMap.putMap(EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA, Utils.createObjectWritableMap(user.getPrivateCustomData()));
+            }
+            if (user.getConversationsList() != null) {
+                userMap.putArray(EVENT_MES_PARAM_CONVERSATIONS_LIST, Utils.createWritableArray(user.getConversationsList()));
+            }
+            if (user.getMessengerNotifications() != null) {
+                WritableArray notifications = Arguments.createArray();
+                for (MessengerNotifications notification : user.getMessengerNotifications()) {
+                    notifications.pushString(Utils.convertMessengerNotificationsToString(notification));
+                }
+                userMap.putArray(EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS, notifications);
+            }
+            params.putMap(EVENT_MES_PARAM_USER, userMap);
+        }
+        return params;
+    }
+
+    private WritableMap convertSubscriptionEventToMap(ISubscriptionEvent subscriptionEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(subscriptionEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(subscriptionEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, subscriptionEvent.getUserId());
+        List<String> users = subscriptionEvent.getUsers();
+        if (users != null) {
+            WritableArray usersArray = Utils.createWritableArray(users);
+            params.putArray(EVENT_MES_PARAM_USERS, usersArray);
+        }
+        return params;
     }
 
     private void sendEvent(String eventName, @Nullable WritableMap params) {

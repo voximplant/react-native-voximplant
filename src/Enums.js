@@ -170,13 +170,18 @@ export const VideoCodec = {
  * @type {{getUser: string}}
  */
 export const MessengerAction = {
+    addParticipants: 'addParticipants',
     createConversation : 'createConversation',
+    editParticipants: 'editParticipants',
     editUser : 'editUser',
     getConversation : 'getConversation',
     getConversations : 'getConversations',
     getUser : 'getUser',
+    joinConversation: 'joinConversation',
+    leaveConversation: 'leaveConversation',
     manageNotifications : 'manageNotifications',
     removeConversation : 'removeConversation',
+    removeParticipants: 'removeParticipants',
     setStatus : 'setStatus',
     subscribe : 'subscribe',
     unsubscribe : 'unsubscribe'

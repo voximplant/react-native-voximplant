@@ -36,7 +36,8 @@ RCT_EXPORT_MODULE();
              kEventMesUnsubscribe,
              kEventMesGetConversation,
              kEventMesCreateConversation,
-             kEventMesRemoveConversation];
+             kEventMesRemoveConversation,
+             kEventMesEditConversation];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -180,6 +181,17 @@ RCT_EXPORT_MODULE();
     return dictionary;
 }
 
+- (NSMutableArray<VIConversationParticipant *> *)convertDictionaryToParicipants:(NSArray<NSDictionary *> *)participants {
+    NSMutableArray<VIConversationParticipant *> *conversationParticipants = [NSMutableArray new];
+    for (NSDictionary *participant in participants) {
+        VIConversationParticipant * conversationParticipant = [[VIConversationParticipant alloc] initWithUserId:[RCTConvert NSString:participant[@"userId"]]
+                                                                                                       canWrite:[RCTConvert BOOL:participant[@"canWrite"]]
+                                                                                          canManageParticipants:[RCTConvert BOOL:participant[@"canManageParticipants"]]];
+        [conversationParticipants addObject:conversationParticipant];
+    }
+    return conversationParticipants;
+}
+
 RCT_EXPORT_METHOD(getUser:(NSString *)user) {
     VIMessenger *messenger = [self getMessenger];
     if (messenger) {
@@ -245,14 +257,7 @@ RCT_REMAP_METHOD(createConversation, createConversationWithParticipants:(NSArray
                                                                     uber:(BOOL)isUber) {
     VIMessenger *messenger = [self getMessenger];
     if (messenger) {
-        NSMutableArray<VIConversationParticipant *> *conversationParticipants = [NSMutableArray new];
-        for (NSDictionary *participant in participants) {
-            VIConversationParticipant * conversationParticipant = [[VIConversationParticipant alloc] initWithUserId:[RCTConvert NSString:participant[@"userId"]]
-                                                                                                           canWrite:[RCTConvert BOOL:participant[@"canWrite"]]
-                                                                                              canManageParticipants:[RCTConvert BOOL:participant[@"canManageParticipants"]]];
-            [conversationParticipants addObject:conversationParticipant];
-        }
-        [messenger createConversation:conversationParticipants
+        [messenger createConversation:[self convertDictionaryToParicipants:participants]
                            moderators:[NSArray new]
                                 title:title
                              distinct:distinct
@@ -269,10 +274,77 @@ RCT_EXPORT_METHOD(getConversation:(NSString *)uuid) {
     }
 }
 
+RCT_EXPORT_METHOD(getConversations:(NSArray<NSString *> *)conversations) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        [messenger getConversations:conversations];
+    }
+}
+
 RCT_EXPORT_METHOD(removeConversation:(NSString *)uuid) {
     VIMessenger *messenger = [self getMessenger];
     if (messenger) {
         [messenger removeConversation:uuid];
+    }
+}
+
+RCT_REMAP_METHOD(addParticipants, addParticipantsToConversation:(NSString *)uuid
+                                                   participants:(NSArray<NSDictionary *> *)participants) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation addParticipants:[self convertDictionaryToParicipants:participants]];
+    }
+}
+
+RCT_REMAP_METHOD(editParticipants, editParticipnatsInConversation:(NSString *)uuid
+                                                     participants:(NSArray<NSDictionary *> *)participants) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation editParticipants:[self convertDictionaryToParicipants:participants]];
+    }
+}
+
+RCT_REMAP_METHOD(removeParticipants, removeParticipantsFromConversation:(NSString *)uuid
+                                                           participants:(NSArray<NSDictionary *> *)participants) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation removeParticipants:[self convertDictionaryToParicipants:participants]];
     }
 }
 
@@ -281,7 +353,7 @@ RCT_EXPORT_METHOD(removeConversation:(NSString *)uuid) {
 }
 
 - (void)messenger:(VIMessenger *)messenger didEditConversation:(VIConversationEvent *)event {
-
+    [self sendEventWithName:kEventMesEditConversation body:[self convertConversationEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didEditMessage:(VIMessageEvent *)event {
