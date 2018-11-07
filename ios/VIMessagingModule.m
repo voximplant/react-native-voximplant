@@ -11,42 +11,13 @@
 #import "Constants.h"
 #import "Utils.h"
 #import "CallManager.h"
-#import "VIMessengerEvent.h"
 #import "VIUserEvent.h"
+#import "VIUserStatusEvent.h"
+#import "VISubscribeEvent.h"
 #import "VIUser.h"
 
-@implementation RCTConvert (VIMessengerNotification)
-RCT_ENUM_CONVERTER(VIMessengerNotification, (@{
-                                  @"SendMessage" : @(VIMessengerNotificationSendMessage),
-                                  @"EditMessage" : @(VIMessengerNotificationEditMessage),
-                                  }), VIMessengerNotificationSendMessage, integerValue)
-@end
 
-@implementation RCTConvert (VIMessengerEventType)
-RCT_ENUM_CONVERTER(VIMessengerEventType, (@{
-                                            kEventNameMesGetUser : @(VIMessengerEventTypeGetUser),
-                                            kEventNameMesEditUser : @(VIMessengerEventTypeEditUser),
-                                            kEventNameMesSetStatus : @(VIMessengerEventTypeUserStatus),
-                                            kEventNameMesSubscribe : @(VIMessengerEventTypeSubscribe),
-                                            kEventNameMesUnsubscribe : @(VIMessengerEventTypeUnsubscribe),
-                                            
-                                            }), VIMessengerEventTypeUnknown, integerValue)
-@end
-
-
-@implementation RCTConvert (VIMessengerActionType)
-RCT_ENUM_CONVERTER(VIMessengerActionType, (@{
-                                             kEventMesActionGetUser : @(VIMessengerActionTypeGetUser),
-                                             kEventMesActionGetUsers : @(VIMessengerActionTypeGetUsers),
-                                             kEventMesActionEditUser : @(VIMessengerActionTypeEditUser),
-                                             kEventMesActionSetStatus : @(VIMessengerActionTypeSetStatus),
-                                             kEventMesActionSubscribe : @(VIMessengerActionTypeSubscribe),
-                                             kEventMesActionUnsubscribe : @(VIMessengerActionTypeUnsubscribe),
-                                             kEventMesActionManageNotifications : @(VIMessengerActionTypeManageNotifications)
-                                             }), VIMessengerActionTypeUnknown, integerValue);
-@end
-
-
+#import "CocoaLumberjack.h"
 
 @interface VIMessagingModule()
 @property(nonatomic, assign) BOOL listenerAdded;
@@ -78,13 +49,13 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertUserEvent:(VIUserEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:@([RCTConvert VIMessengerEventType:@(event.eventType)]) forKey:kEventMesParamEventType];
-    [dictionary setObject:@([RCTConvert VIMessengerActionType:@(event.incomingAction)]) forKey:kEventMesParamAction];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
     [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
     
     VIUser *user = event.user;
-    NSMutableDictionary *userDictionary = [NSMutableDictionary new];
     if (user) {
+        NSMutableDictionary *userDictionary = [NSMutableDictionary new];
         if (user.conversationList) {
             [userDictionary setObject:user.conversationList forKey:kEventMesParamConversationList];
         }
@@ -99,8 +70,14 @@ RCT_EXPORT_MODULE();
         }
         if (user.notifications) {
             NSMutableArray<NSString *> *notifications = [NSMutableArray new];
+            NSLog(@"YULIA %@", user.notifications);
             for (NSNumber* notification in user.notifications) {
-                [notifications addObject:@([RCTConvert VIMessengerNotification:notification])];
+                NSLog(@"Notification: %@", notification);
+                if ([notification isEqualToNumber:[NSNumber numberWithInteger:VIMessengerNotificationSendMessage]]) {
+                    [notifications addObject:kSendMessage];
+                } else if ([notification isEqualToNumber:[NSNumber numberWithInteger:VIMessengerNotificationEditMessage]]) {
+                    [notifications addObject:kEditMessage];
+                }
             }
             [userDictionary setObject:notifications forKey:kEventMesParamUserMessengerNotifications];
         }
@@ -108,6 +85,34 @@ RCT_EXPORT_MODULE();
             //TODO
         }
         [dictionary setObject:userDictionary forKey:kEventMesParamUser];
+    }
+    
+    return dictionary;
+}
+
+- (NSDictionary *)convertUserStatusEvent:(VIUserStatusEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    
+    NSMutableDictionary *statusDictionary = [NSMutableDictionary new];
+    [statusDictionary setObject:@(event.online) forKey:kEventMesParamOnline];
+    if (event.timestamp) {
+        [statusDictionary setObject:event.timestamp forKey:kEventMesParamUserTimestamp];
+    }
+    [dictionary setObject:statusDictionary forKey:kEventMesParamUserStatus];
+    
+    return dictionary;
+}
+
+- (NSDictionary *)convertSubscriptionEvent:(VISubscribeEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    if (event.users) {
+        [dictionary setObject:event.users forKey:kEventMesParamUsers];
     }
     
     return dictionary;
@@ -155,10 +160,18 @@ RCT_EXPORT_METHOD(unsubscribe:(NSArray<NSString *> *)users) {
     }
 }
 
-RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSNumber *> *)notifications) {
+RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSString *> *)notifications) {
     VIMessenger *messenger = [self getMessenger];
     if (messenger) {
-        [messenger managePushNotifications:notifications];
+        NSMutableArray<NSNumber *> *enumNotifications = [NSMutableArray new];
+        for (NSString *notification in notifications) {
+            if ([notification isEqualToString:kSendMessage]) {
+                [enumNotifications addObject:@(VIMessengerNotificationSendMessage)];
+            } else if ([notification isEqualToString:kEditMessage]){
+                [enumNotifications addObject:@(VIMessengerNotificationEditMessage)];
+            }
+        }
+        [messenger managePushNotifications:enumNotifications];
     }
 }
 
@@ -175,7 +188,7 @@ RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSNumber *> *)notifications) {
 }
 
 - (void)messenger:(VIMessenger *)messenger didEditUser:(VIUserEvent *)event {
-
+    [self sendEventWithName:kEventMesEditUser body:[self convertUserEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didGetConversation:(VIConversationEvent *)event {
@@ -219,15 +232,15 @@ RCT_EXPORT_METHOD(manageNotifications:(NSArray<NSNumber *> *)notifications) {
 }
 
 - (void)messenger:(VIMessenger *)messenger didSetStatus:(VIUserStatusEvent *)event {
-
+    [self sendEventWithName:kEventMesSetStatus body:[self convertUserStatusEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didSubscribe:(VISubscribeEvent *)event {
-
+    [self sendEventWithName:kEventMesSubscribe body:[self convertSubscriptionEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didUnsubscribe:(VISubscribeEvent *)event {
-
+    [self sendEventWithName:kEventMesUnsubscribe body:[self convertSubscriptionEvent:event]];
 }
 
 @end

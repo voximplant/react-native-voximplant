@@ -78,4 +78,114 @@
     }
 }
 
++ (NSString *)convertMessengerEventTypeToString:(VIMessengerEventType)eventType {
+    switch (eventType) {
+        case VIMessengerEventTypeError:
+            return @"";
+        case VIMessengerEventTypeGetUser:
+            return kEventNameMesGetUser;
+        case VIMessengerEventTypeEditUser:
+            return kEventNameMesEditUser;
+        case VIMessengerEventTypeCreateConversation:
+            return kEventNameMesCreateConversation;
+        case VIMessengerEventTypeRemoveConversation:
+            return kEventNameMesRemoveConversation;
+        case VIMessengerEventTypeEditConversation:
+            return @"";
+        case VIMessengerEventTypeGetConversation:
+            return kEventNameMesGetConversation;
+        case VIMessengerEventTypeSubscribe:
+            return kEventNameMesSubscribe;
+        case VIMessengerEventTypeUnsubscribe:
+            return kEventNameMesUnsubscribe;
+        case VIMessengerEventTypeSendMessage:
+            return @"";
+        case VIMessengerEventTypeEditMessage:
+            return @"";
+        case VIMessengerEventTypeRemoveMessage:
+            return @"";
+        case VIMessengerEventTypeTyping:
+            return @"";
+        case VIMessengerEventTypeRead:
+            return @"";
+        case VIMessengerEventTypeDelivered:
+            return @"";
+        case VIMessengerEventTypeUserStatus:
+            return kEventNameMesSetStatus;
+        case VIMessengerEventTypeRetransmit:
+            return @"";
+        case VIMessengerEventTypeUnknown:
+            default:
+            return @"";
+    }
+}
++ (NSString *)convertMessengerEventActionToString:(VIMessengerActionType)action {
+    switch (action) {
+        case VIMessengerActionTypeCreateConversation:
+            return kEventMesActionCreateConversation;
+        case VIMessengerActionTypeRemoveConversation:
+            return kEventMesActionRemoveConversation;
+        case VIMessengerActionTypeJoinConversation:
+            return @"";
+        case VIMessengerActionTypeLeaveConversation:
+            return @"";
+        case VIMessengerActionTypeEditConversation:
+            return @"";
+        case VIMessengerActionTypeGetUser:
+            return kEventMesActionGetUser;
+        case VIMessengerActionTypeGetUsers:
+            return kEventMesActionGetUsers;
+        case VIMessengerActionTypeEditUser:
+            return kEventMesActionEditUser;
+        case VIMessengerActionTypeGetConversation:
+            return kEventMesActionGetConversation;
+        case VIMessengerActionTypeGetConversations:
+            return kEventMesActionGetConversations;
+        case VIMessengerActionTypeAddParticipants:
+            return @"";
+        case VIMessengerActionTypeEditParticipants:
+            return @"";
+        case VIMessengerActionTypeRemoveParticipants:
+            return @"";
+        case VIMessengerActionTypeAddModerators:
+            return @"";
+        case VIMessengerActionTypeRemoveModerators:
+            return @"";
+        case VIMessengerActionTypeMarkAsDelivered:
+            return @"";
+        case VIMessengerActionTypeMarkAsRead:
+            return @"";
+        case VIMessengerActionTypeTyping:
+            return @"";
+        case VIMessengerActionTypeRetransmitEvents:
+            return @"";
+        case VIMessengerActionTypeSubscribe:
+            return kEventMesActionSubscribe;
+        case VIMessengerActionTypeUnsubscribe:
+            return kEventMesActionUnsubscribe;
+        case VIMessengerActionTypeSetStatus:
+            return kEventMesActionSetStatus;
+        case VIMessengerActionTypeSendMessage:
+            return @"";
+        case VIMessengerActionTypeEditMessage:
+            return @"";
+        case VIMessengerActionTypeRemoveMessage:
+            return @"";
+        case VIMessengerActionTypeManageNotifications:
+            return kEventMesActionManageNotifications;
+        case VIMessengerActionTypeUnknown:
+            default:
+            return @"";
+    }
+}
+
++ (NSString *)convertMessengerNotificationToString:(VIMessengerNotification)notification {
+    switch (notification) {
+        case VIMessengerNotificationEditMessage:
+            return kEditMessage;
+        case VIMessengerNotificationSendMessage:
+            return kSendMessage;
+    }
+}
+
 @end
