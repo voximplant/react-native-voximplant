@@ -535,6 +535,44 @@ RCT_REMAP_METHOD(removeMessage, removeMessageFromConversation:(NSString *)conver
     }
 }
 
+RCT_REMAP_METHOD(markAsDelivered, markAsDeliveredForConversation:(NSString *)uuid sequence:(NSNumber *)sequence) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation markAsDelivered:sequence];
+    }
+}
+
+RCT_REMAP_METHOD(markAsRead, markAsReadForConversation:(NSString *)uuid sequqnce:(NSNumber *)sequence) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation markAsRead:sequence];
+    }
+}
+
 - (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
     [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }
@@ -560,15 +598,15 @@ RCT_REMAP_METHOD(removeMessage, removeMessageFromConversation:(NSString *)conver
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveDeliveryConfirmation:(VIConversationServiceEvent *)event {
-
+    [self sendEventWithName:kEventMesDelivered body:[self convertConversationServiceEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveError:(VIErrorEvent *)event {
-
+    
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveReadConfirmation:(VIConversationServiceEvent *)event {
-
+    [self sendEventWithName:kEventMesRead body:[self convertConversationServiceEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveTypingNotification:(VIConversationServiceEvent *)event {

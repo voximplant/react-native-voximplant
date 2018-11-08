@@ -23,6 +23,7 @@ import java.util.Map;
 import static com.voximplant.reactnative.Constants.EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_ADD_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_DELIVERED;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_PARTICIPANTS;
@@ -32,6 +33,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSA
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USERS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_PARTICIPANTS;
@@ -41,11 +43,13 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_DELIVERED;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_READ;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_REMOVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_REMOVE_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SEND_MESSAGE;
@@ -353,7 +357,9 @@ class Utils {
 			case GET_USERS:
 				return EVENT_MES_ACTION_GET_USERS;
 			case IS_DELIVERED:
+				return EVENT_MES_ACTION_DELIVERED;
 			case IS_READ:
+				return EVENT_MES_ACTION_READ;
 			case JOIN_CONVERSATION:
 			case LEAVE_CONVERSATION:
 			    return "";
@@ -388,8 +394,9 @@ class Utils {
 	static String convertMessengerEventToString(MessengerEventType eventType) {
     	switch (eventType) {
 			case IS_DELIVERED:
+				return EVENT_NAME_MES_DELIVERED;
 			case IS_READ:
-			    return "";
+			    return EVENT_NAME_MES_READ;
 			case ON_CREATE_CONVERSATION:
 			    return EVENT_NAME_MES_CREATE_CONVERSATION;
 			case ON_EDIT_CONVERSATION:

@@ -55,6 +55,8 @@ export default class Messenger {
         EventEmitter.addListener('VISendMessage', this._onSendMessage);
         EventEmitter.addListener('VIEditMessage', this._onEditMessage);
         EventEmitter.addListener('VIRemoveMessage', this._onRemoveMessage);
+        EventEmitter.addListener('VIDelivered', this._onDelivered);
+        EventEmitter.addListener('VIRead', this._onRead);
     }
 
     // init() {}
@@ -323,4 +325,12 @@ export default class Messenger {
         this._processMessageEvent(event);
         this._emit(MessengerEventTypes.RemoveMessage, event);
     };
+
+    _onRead = (event) => {
+        this._emit(MessengerEventTypes.Read, event);
+    };
+
+    _onDelivered = (event) => {
+        this._emit(MessengerEventTypes.Delivered, event);
+    }
 }

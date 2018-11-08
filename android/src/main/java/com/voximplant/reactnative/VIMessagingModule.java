@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.voximplant.reactnative.Constants.EVENT_MES_CREATE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_DELIVERED;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_USER;
@@ -79,6 +80,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USERS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_ID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_UUID;
+import static com.voximplant.reactnative.Constants.EVENT_MES_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SEND_MESSAGE;
@@ -297,6 +299,24 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void markAsDelivered(String conversationUuid, Double sequence) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, conversationUuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.markAsDelivered(sequence.longValue());
+        }
+    }
+
+    @ReactMethod
+    public void markAsRead(String conversationUuid, Double sequence) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, conversationUuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.markAsRead(sequence.longValue());
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));
@@ -380,12 +400,12 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void isDelivered(IConversationServiceEvent conversationServiceEvent) {
-
+        sendEvent(EVENT_MES_DELIVERED, convertConversationServiceEventToMap(conversationServiceEvent));
     }
 
     @Override
     public void isRead(IConversationServiceEvent conversationServiceEvent) {
-
+        sendEvent(EVENT_MES_READ, convertConversationServiceEventToMap(conversationServiceEvent));
     }
 
     @Override

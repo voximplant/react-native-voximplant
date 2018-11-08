@@ -9,11 +9,13 @@
  */
 const MessengerEventTypes = {
     CreateConversation : 'CreateConversation',
+    Delivered : 'Delivered',
     EditConversation: 'EditConversation',
     EditMessage: 'EditMessage',
     EditUser : 'EditUser',
     GetConversation : 'GetConversation',
     GetUser : 'GetUser',
+    Read : 'Read',
     RemoveConversation : 'RemoveConversation',
     RemoveMessage : 'RemoveMessage',
     SendMessage : 'SendMessage',

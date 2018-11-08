@@ -244,6 +244,54 @@ describe.only('message', () => {
         message.remove();
     });
 
+    it('mark as delivered', (done) => {
+        messenger.should.be.not.null();
+
+        let conversationServiceEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Delivered);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.delivered);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.conversationUUID);
+            (event.conversationUUID).should.be.eql(conversation.uuid);
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(2);
+            should.exist(event.timestamp);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.Delivered, conversationServiceEvent);
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.Delivered, conversationServiceEvent);
+        conversation.markAsDelivered(2);
+    });
+
+    it('mark as read', (done) => {
+        messenger.should.be.not.null();
+
+        let conversationServiceEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Read);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.read);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.conversationUUID);
+            (event.conversationUUID).should.be.eql(conversation.uuid);
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(2);
+            should.exist(event.timestamp);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.Read, conversationServiceEvent);
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.Read, conversationServiceEvent);
+        conversation.markAsRead(2);
+    });
+
     it('remove conversation', (done) => {
         messenger.should.be.not.null();
 

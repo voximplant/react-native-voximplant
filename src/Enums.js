@@ -172,6 +172,7 @@ export const VideoCodec = {
 export const MessengerAction = {
     addParticipants: 'addParticipants',
     createConversation : 'createConversation',
+    delivered : 'delivered',
     editConversation: 'editConversation',
     editMessage: 'editMessage',
     editParticipants: 'editParticipants',
@@ -182,6 +183,7 @@ export const MessengerAction = {
     joinConversation: 'joinConversation',
     leaveConversation: 'leaveConversation',
     manageNotifications : 'manageNotifications',
+    read: 'read',
     removeConversation : 'removeConversation',
     removeMessage: 'removeMessage',
     removeParticipants: 'removeParticipants',

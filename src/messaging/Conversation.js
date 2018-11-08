@@ -169,4 +169,18 @@ export default class Conversation {
         }
         MessagingModule.sendMessage(this.uuid, message, payload);
     }
+
+    markAsDelivered(sequence) {
+        if (sequence === undefined || sequence === null) {
+            sequence = 0;
+        }
+        MessagingModule.markAsDelivered(this.uuid, sequence);
+    }
+
+    markAsRead(sequence) {
+        if (sequence === undefined || sequence === null) {
+            sequence = 0;
+        }
+        MessagingModule.markAsRead(this.uuid, sequence);
+    }
 }

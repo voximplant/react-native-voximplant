@@ -107,9 +107,9 @@
         case VIMessengerEventTypeTyping:
             return kEventNameMesTyping;
         case VIMessengerEventTypeRead:
-            return @"";
+            return kEventNameMesRead;
         case VIMessengerEventTypeDelivered:
-            return @"";
+            return kEventNameMesDelivered;
         case VIMessengerEventTypeUserStatus:
             return kEventNameMesSetStatus;
         case VIMessengerEventTypeRetransmit:
@@ -152,9 +152,9 @@
         case VIMessengerActionTypeRemoveModerators:
             return @"";
         case VIMessengerActionTypeMarkAsDelivered:
-            return @"";
+            return kEventMesActionDelivered;
         case VIMessengerActionTypeMarkAsRead:
-            return @"";
+            return kEventMesActionRead;
         case VIMessengerActionTypeTyping:
             return kEventMesActionTyping;
         case VIMessengerActionTypeRetransmitEvents:
