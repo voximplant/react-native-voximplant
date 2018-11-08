@@ -218,6 +218,32 @@ describe.only('message', () => {
         message.update();
     });
 
+    it('remove message', (done) => {
+        messenger.should.be.not.null();
+
+        let messageEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.RemoveMessage);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.removeMessage);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(5);
+            should.exist(event.message);
+            (event.message).should.have.properties({
+                conversation: conversation.uuid,
+                uuid: message.uuid
+            });
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.RemoveMessage, messageEvent);
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.RemoveMessage, messageEvent);
+        message.remove();
+    });
+
     it('remove conversation', (done) => {
         messenger.should.be.not.null();
 
@@ -230,7 +256,7 @@ describe.only('message', () => {
             should.exist(event.userId);
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
-            (event.sequence).should.be.eql(5);
+            (event.sequence).should.be.eql(6);
             should.exist(event.conversation);
             (event.conversation).should.have.properties({
                 uuid: conversation.uuid

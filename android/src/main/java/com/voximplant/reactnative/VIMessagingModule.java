@@ -80,6 +80,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_ID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SUBSCRIBE;
@@ -287,6 +288,15 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void removeMessage(String conversationUuid, String uuid) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IMessage message = messenger.recreateMessage(uuid, conversationUuid, null, null, null, 0);
+            message.remove();
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));
@@ -360,7 +370,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onRemoveMessage(IMessageEvent messageEvent) {
-
+        sendEvent(EVENT_MES_REMOVE_MESSAGE, convertMessageEventToMap(messageEvent));
     }
 
     @Override

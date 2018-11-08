@@ -67,5 +67,9 @@ export default class Message {
         MessagingModule.updateMessage(this.conversation, this.uuid, this.text, this.payload);
     }
 
+    remove() {
+        MessagingModule.removeMessage(this.conversation, this.uuid);
+    }
+
 
 }

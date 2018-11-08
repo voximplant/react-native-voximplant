@@ -33,6 +33,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USERS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SET_STATUS;
@@ -46,6 +47,7 @@ import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_REMOVE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_REMOVE_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SUBSCRIBE;
@@ -360,6 +362,7 @@ class Utils {
 			case REMOVE_CONVERSATION:
 			    return EVENT_MES_ACTION_REMOVE_CONVERSATION;
 			case REMOVE_MESSAGE:
+				return EVENT_MES_ACTION_REMOVE_MESSAGE;
 			case REMOVE_MODERATORS:
 				return "";
 			case REMOVE_PARTICIPANTS:
@@ -407,6 +410,7 @@ class Utils {
 			case ON_REMOVE_CONVERSATION:
 			    return EVENT_NAME_MES_REMOVE_CONVERSATION;
 			case ON_REMOVE_MESSAGE:
+				return EVENT_NAME_MES_REMOVE_MESSAGE;
 			case ON_RETRANSMIT_EVENTS:
 				return "";
 			case ON_SEND_MESSAGE:

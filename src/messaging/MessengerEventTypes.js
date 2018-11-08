@@ -15,6 +15,7 @@ const MessengerEventTypes = {
     GetConversation : 'GetConversation',
     GetUser : 'GetUser',
     RemoveConversation : 'RemoveConversation',
+    RemoveMessage : 'RemoveMessage',
     SendMessage : 'SendMessage',
     SetStatus : 'SetStatus',
     Subscribe : 'Subscribe',

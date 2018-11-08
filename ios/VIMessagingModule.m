@@ -522,6 +522,19 @@ RCT_REMAP_METHOD(updateMessage, updateMessageInConversation:(NSString *)conversa
     }
 }
 
+RCT_REMAP_METHOD(removeMessage, removeMessageFromConversation:(NSString *)conversationUuid uuid:(NSString *)uuid) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIMessage *message = [messenger recreateMessage:uuid
+                                           conversation:conversationUuid
+                                                 sender:nil
+                                                   text:nil
+                                                payload:nil
+                                               sequence:nil];
+        [message remove];
+    }
+}
+
 - (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
     [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }
@@ -584,7 +597,7 @@ RCT_REMAP_METHOD(updateMessage, updateMessageInConversation:(NSString *)conversa
 }
 
 - (void)messenger:(VIMessenger *)messenger didRemoveMessage:(VIMessageEvent *)event {
-
+    [self sendEventWithName:kEventMesRemoveMessage body:[self convertMessageEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didRetransmitEvents:(VIRetransmitEvent *)event {

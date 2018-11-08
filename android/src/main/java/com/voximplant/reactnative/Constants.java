@@ -137,6 +137,7 @@ class Constants {
     static final String EVENT_MES_TYPING = "VITyping";
     static final String EVENT_MES_SEND_MESSAGE = "VISendMessage";
     static final String EVENT_MES_EDIT_MESSAGE = "VIEditMessage";
+    static final String EVENT_MES_REMOVE_MESSAGE = "VIRemoveMessage";
 
     static final String EVENT_NAME_MES_GET_USER = "GetUser";
     static final String EVENT_NAME_MES_EDIT_USER = "EditUser";
@@ -150,6 +151,7 @@ class Constants {
     static final String EVENT_NAME_MES_TYPING = "Typing";
     static final String EVENT_NAME_MES_SEND_MESSAGE = "SendMessage";
     static final String EVENT_NAME_MES_EDIT_MESSAGE = "EditMessage";
+    static final String EVENT_NAME_MES_REMOVE_MESSAGE = "RemoveMessage";
 
     static final String EVENT_MES_ACTION_GET_USER = "getUser";
     static final String EVENT_MES_ACTION_GET_USERS = "getUsers";
@@ -169,6 +171,7 @@ class Constants {
     static final String EVENT_MES_ACTION_TYPING = "typing";
     static final String EVENT_MES_ACTION_SEND_MESSAGE = "sendMessage";
     static final String EVENT_MES_ACTION_EDIT_MESSAGE = "editMessage";
+    static final String EVENT_MES_ACTION_REMOVE_MESSAGE = "removeMessage";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";

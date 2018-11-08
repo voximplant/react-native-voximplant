@@ -103,7 +103,7 @@
         case VIMessengerEventTypeEditMessage:
             return kEventNameMesEditMessage;
         case VIMessengerEventTypeRemoveMessage:
-            return @"";
+            return kEventNameMesRemoveMessage;
         case VIMessengerEventTypeTyping:
             return kEventNameMesTyping;
         case VIMessengerEventTypeRead:
@@ -170,7 +170,7 @@
         case VIMessengerActionTypeEditMessage:
             return kEventMesActionEditMessage;
         case VIMessengerActionTypeRemoveMessage:
-            return @"";
+            return kEventMesActionRemoveMessage;
         case VIMessengerActionTypeManageNotifications:
             return kEventMesActionManageNotifications;
         case VIMessengerActionTypeUnknown:
