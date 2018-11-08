@@ -35,6 +35,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_CONVE
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_CREATE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_CONVERSATION;
@@ -44,6 +45,7 @@ import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_REMOVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 
@@ -366,7 +368,7 @@ class Utils {
 			case SUBSCRIBE:
 				return EVENT_MES_ACTION_SUBSCRIBE;
 			case TYPING_MESSAGE:
-				return "";
+				return EVENT_MES_ACTION_TYPING;
 			case UNSUBSCRIBE:
 				return EVENT_MES_ACTION_UNSUBSCRIBE;
 			case ACTION_UNKNOWN:
@@ -408,7 +410,7 @@ class Utils {
 			case ON_SUBSCRIBE:
 				return EVENT_NAME_MES_SUBSCRIBE;
 			case ON_TYPING:
-				return "";
+				return EVENT_NAME_MES_TYPING;
 			case ON_UNSUBSCRIBE:
 				return EVENT_NAME_MES_UNSUBSCRIBE;
 			case EVENT_UNKNOWN:

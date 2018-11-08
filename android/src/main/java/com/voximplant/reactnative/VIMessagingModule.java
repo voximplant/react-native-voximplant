@@ -46,6 +46,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CAN_MANAGE_PA
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CAN_WRITE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATIONS_LIST;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATION_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CREATED_AT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CUSTOM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DISTINCT;
@@ -70,6 +71,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_MES_UNSUBSCRIBE;
 
 public class VIMessagingModule extends ReactContextBaseJavaModule implements IMessengerListener {
@@ -234,15 +236,24 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
     }
 
     @ReactMethod
-    public void updateConversation(String uuid, String title, boolean publicJoin, boolean distinct, ReadableMap customData) {
+    public void updateConversation(String uuid, boolean isUber, String title, boolean publicJoin, boolean distinct, ReadableMap customData) {
         IMessenger messenger = getMessenger();
         if (messenger != null) {
-            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, isUber);
             conversation.setCustomData(Utils.createObjectMap(customData));
             conversation.setDistinct(distinct);
             conversation.setPublicJoin(publicJoin);
             conversation.setTitle(title);
             conversation.update();
+        }
+    }
+
+    @ReactMethod
+    public void typing(String uuid) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, uuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.typing();
         }
     }
 
@@ -324,7 +335,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onTyping(IConversationServiceEvent conversationServiceEvent) {
-
+        sendEvent(EVENT_MES_TYPING, convertConversationServiceEventToMap(conversationServiceEvent));
     }
 
     @Override
@@ -463,6 +474,21 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
             WritableArray usersArray = Utils.createWritableArray(users);
             params.putArray(EVENT_MES_PARAM_USERS, usersArray);
         }
+        return params;
+    }
+
+    private WritableMap convertConversationServiceEventToMap(IConversationServiceEvent conversationServiceEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(conversationServiceEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(conversationServiceEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, conversationServiceEvent.getUserId());
+        if (conversationServiceEvent.getSequence() != 0) {
+            params.putDouble(EVENT_MES_PARAM_SEQUENCE, conversationServiceEvent.getSequence());
+        }
+        if (conversationServiceEvent.getTimestamp() != 0) {
+            params.putDouble(EVENT_MES_PARAM_TIMESTAMP, conversationServiceEvent.getTimestamp());
+        }
+        params.putString(EVENT_MES_PARAM_CONVERSATION_UUID, conversationServiceEvent.getConversationUUID());
         return params;
     }
 

@@ -7,7 +7,7 @@
     "packager-jet-reset-cache": "REACT_DEBUGGER='echo nope' node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "build-ios": "detox build --configuration ios.sim.debug",
     "build-android": "detox build --configuration android.emu.debug",
-    "test-android": "detox test --configuration android.emu.debug",
+    "test-android": "detox test --configuration android.emu.debug --loglevel verbose",
     "test-android-reuse": "detox test --configuration android.emu.debug --reuse",
     "test-android-cover": "nyc detox test --configuration android.emu.debug",
     "test-android-cover-reuse": "nyc detox test --configuration android.emu.debug --reuse",

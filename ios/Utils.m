@@ -105,7 +105,7 @@
         case VIMessengerEventTypeRemoveMessage:
             return @"";
         case VIMessengerEventTypeTyping:
-            return @"";
+            return kEventNameMesTyping;
         case VIMessengerEventTypeRead:
             return @"";
         case VIMessengerEventTypeDelivered:
@@ -156,7 +156,7 @@
         case VIMessengerActionTypeMarkAsRead:
             return @"";
         case VIMessengerActionTypeTyping:
-            return @"";
+            return kEventMesActionTyping;
         case VIMessengerActionTypeRetransmitEvents:
             return @"";
         case VIMessengerActionTypeSubscribe:

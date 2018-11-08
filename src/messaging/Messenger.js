@@ -50,6 +50,7 @@ export default class Messenger {
         EventEmitter.addListener('VICreateConversation', this._onCreateConversation);
         EventEmitter.addListener('VIRemoveConversation', this._onRemoveConversation);
         EventEmitter.addListener('VIEditConversation', this._onEditConversation);
+        EventEmitter.addListener('VITyping', this._onTyping);
     }
 
     // init() {}
@@ -281,4 +282,8 @@ export default class Messenger {
         this._processConversationEvent(event);
         this._emit(MessengerEventTypes.EditConversation, event);
     };
+
+    _onTyping = (event) => {
+        this._emit(MessengerEventTypes.Typing, event);
+    }
 }

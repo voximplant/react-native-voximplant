@@ -149,6 +149,17 @@ export default class Conversation {
      *
      */
     update() {
-        MessagingModule.updateConversation(this.uuid, this.title, this.publicJoin, this.distinct, this.customData);
+        MessagingModule.updateConversation(this.uuid, this.isUber, this.title, this.publicJoin, this.distinct, this.customData);
+    }
+
+    /**
+     *
+     */
+    remove() {
+        MessagingModule.removeConversation(this.uuid);
+    }
+
+    typing() {
+        MessagingModule.typing(this.uuid);
     }
 }

@@ -185,6 +185,7 @@ export const MessengerAction = {
     removeParticipants: 'removeParticipants',
     setStatus : 'setStatus',
     subscribe : 'subscribe',
+    typing : 'typing',
     unsubscribe : 'unsubscribe'
 };
 

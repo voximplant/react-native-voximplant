@@ -359,7 +359,26 @@ describe('conversation', () => {
         conversation.setCustomData(customData);
         conversation.setTitle('New test conversation title');
         conversation.update();
+    });
 
+    it('typing', (done) => {
+        messenger.should.be.not.null();
+
+        let conversationServiceEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Typing);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.typing);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            (event.conversationUUID).should.be.eql(conversation.uuid);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.Typing, conversationServiceEvent);
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.Typing, conversationServiceEvent);
+        conversation.typing();
     });
 
     it('remove conversation', (done) => {

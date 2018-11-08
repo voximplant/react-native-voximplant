@@ -18,6 +18,7 @@
 #import "VIConversationParticipant.h"
 #import "VIConversationEvent.h"
 #import "VIConversation.h"
+#import "VIConversationServiceEvent.h"
 
 #import "CocoaLumberjack.h"
 
@@ -37,7 +38,8 @@ RCT_EXPORT_MODULE();
              kEventMesGetConversation,
              kEventMesCreateConversation,
              kEventMesRemoveConversation,
-             kEventMesEditConversation];
+             kEventMesEditConversation,
+             kEventMesTyping];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -190,6 +192,26 @@ RCT_EXPORT_MODULE();
         [conversationParticipants addObject:conversationParticipant];
     }
     return conversationParticipants;
+}
+
+- (NSDictionary *)convertConversationServiceEvent:(VIConversationServiceEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    if (event.userId) {
+        [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    }
+    if (event.seq) {
+        [dictionary setObject:event.seq forKey:kEventMesParamSequence];
+    }
+    if (event.timestamp) {
+        [dictionary setObject:event.timestamp forKey:kEventMesParamUserTimestamp];
+    }
+    if (event.conversationUUID) {
+        [dictionary setObject:event.conversationUUID forKey:kEventMesParamConversationUuid];
+    }
+    
+    return dictionary;
 }
 
 RCT_EXPORT_METHOD(getUser:(NSString *)user) {
@@ -349,6 +371,7 @@ RCT_REMAP_METHOD(removeParticipants, removeParticipantsFromConversation:(NSStrin
 }
 
 RCT_REMAP_METHOD(updateConversation, updateConversation:(NSString *)uuid
+                                                  isUber:(BOOL)isUber
                                                    title:(NSString *)title
                                               publicJoin:(BOOL)publicJoin
                                                 distinct:(BOOL)distinct
@@ -366,12 +389,31 @@ RCT_REMAP_METHOD(updateConversation, updateConversation:(NSString *)uuid
                                                             lastUpdate:nil
                                                               lastRead:nil
                                                              createdAt:nil
-                                                      uberConversation:false];
+                                                      uberConversation:isUber];
         conversation.title = title;
         conversation.publicJoin = publicJoin;
         conversation.distinct = distinct;
         conversation.customData = customData;
         [conversation update];
+    }
+}
+
+RCT_EXPORT_METHOD(typing:(NSString *)uuid) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation typing];
     }
 }
 
@@ -412,7 +454,7 @@ RCT_REMAP_METHOD(updateConversation, updateConversation:(NSString *)uuid
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveTypingNotification:(VIConversationServiceEvent *)event {
-
+    [self sendEventWithName:kEventMesTyping body:[self convertConversationServiceEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didRemoveConversation:(VIConversationEvent *)event {
