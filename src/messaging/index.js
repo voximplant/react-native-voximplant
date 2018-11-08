@@ -10,6 +10,7 @@
 
 import Messenger from './Messenger';
 import Conversation from './Conversation';
+import Message from './Message';
 import MessengerEventTypes from'./MessengerEventTypes';
 import {MessengerAction, MessengerNotifications} from "../Enums";
 
@@ -17,6 +18,7 @@ import {MessengerAction, MessengerNotifications} from "../Enums";
 export {
     Messenger,
     Conversation,
+    Message,
     MessengerEventTypes,
     MessengerAction,
     MessengerNotifications

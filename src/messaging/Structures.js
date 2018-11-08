@@ -35,3 +35,13 @@ const UserStatus = {
 const ConversationParticipant = {
 
 };
+
+/**
+ * @memberOf Voximplant.Messaging
+ * @property {string} title - Payload fragment unique title. Used to identifier fragment in the list of fragments associated with the message.
+ * @property {string} type - Arbitrary payload type string.
+ * @property {object} data - JavaScript object payload data.
+ */
+const Payload = {
+
+};

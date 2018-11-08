@@ -99,7 +99,7 @@
         case VIMessengerEventTypeUnsubscribe:
             return kEventNameMesUnsubscribe;
         case VIMessengerEventTypeSendMessage:
-            return @"";
+            return kEventNameMesSendMessage;
         case VIMessengerEventTypeEditMessage:
             return @"";
         case VIMessengerEventTypeRemoveMessage:
@@ -166,7 +166,7 @@
         case VIMessengerActionTypeSetStatus:
             return kEventMesActionSetStatus;
         case VIMessengerActionTypeSendMessage:
-            return @"";
+            return kEventMesActionSendMessage;
         case VIMessengerActionTypeEditMessage:
             return @"";
         case VIMessengerActionTypeRemoveMessage:

@@ -162,4 +162,11 @@ export default class Conversation {
     typing() {
         MessagingModule.typing(this.uuid);
     }
+
+    sendMessage(message, payload) {
+        if (payload === undefined || payload === null) {
+            payload = [];
+        }
+        MessagingModule.sendMessage(this.uuid, message, payload);
+    }
 }

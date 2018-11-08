@@ -183,6 +183,7 @@ export const MessengerAction = {
     manageNotifications : 'manageNotifications',
     removeConversation : 'removeConversation',
     removeParticipants: 'removeParticipants',
+    sendMessage : 'sendMessage',
     setStatus : 'setStatus',
     subscribe : 'subscribe',
     typing : 'typing',

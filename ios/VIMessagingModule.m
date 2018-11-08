@@ -19,6 +19,9 @@
 #import "VIConversationEvent.h"
 #import "VIConversation.h"
 #import "VIConversationServiceEvent.h"
+#import "VIPayload.h"
+#import "VIMessageEvent.h"
+#import "VIMessage.h"
 
 #import "CocoaLumberjack.h"
 
@@ -39,7 +42,8 @@ RCT_EXPORT_MODULE();
              kEventMesCreateConversation,
              kEventMesRemoveConversation,
              kEventMesEditConversation,
-             kEventMesTyping];
+             kEventMesTyping,
+             kEventMesSendMessage];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -209,6 +213,72 @@ RCT_EXPORT_MODULE();
     }
     if (event.conversationUUID) {
         [dictionary setObject:event.conversationUUID forKey:kEventMesParamConversationUuid];
+    }
+    
+    return dictionary;
+}
+
+- (NSArray<VIPayload *> *)convertArrayToPayloadsArray:(NSArray<NSDictionary *> *)array {
+    NSMutableArray<VIPayload *> *payloads = [NSMutableArray new];
+    for (NSDictionary *dictionary in array) {
+        VIPayload *payload = [[VIPayload alloc] initWithTitle:[RCTConvert NSString:dictionary[@"title"]]
+                                                         type:[RCTConvert NSString:dictionary[@"type"]]
+                                               dataDictionary:[RCTConvert NSDictionary:dictionary[@"data"]]];
+        [payloads addObject:payload];
+    }
+    return payloads;
+}
+
+- (NSArray<NSDictionary *> *)convertPayloadsArrayToArray:(NSArray<VIPayload *> *)payloads {
+    NSMutableArray<NSDictionary *> *array = [NSMutableArray new];
+    for (VIPayload *payload in payloads) {
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        if (payload.title) {
+            [dictionary setObject:payload.title forKey:kEventMesParamTitle];
+        }
+        if (payload.type) {
+            [dictionary setObject:payload.type forKey:kEventMesParamType];
+        }
+        if (payload.data) {
+            [dictionary setObject:payload.data forKey:kEventMesParamData];
+        }
+        [array addObject:dictionary];
+    }
+    return array;
+}
+
+- (NSDictionary *)convertMessageEvent:(VIMessageEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    if (event.userId) {
+        [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    }
+    if (event.seq) {
+        [dictionary setObject:event.seq forKey:kEventMesParamSequence];
+    }
+    VIMessage *message = event.message;
+    if (message) {
+        NSMutableDictionary *messageDictionary = [NSMutableDictionary new];
+        if (message.conversation) {
+            [messageDictionary setObject:message.conversation forKey:kEventMesParamConversation];
+        }
+        if (message.sender) {
+            [messageDictionary setObject:message.sender forKey:kEventMesParamSender];
+        }
+        if (message.uuid) {
+            [messageDictionary setObject:message.uuid forKey:kEventMesParamUuid];
+        }
+        if (message.seq) {
+            [messageDictionary setObject:message.seq forKey:kEventMesParamSequence];
+        }
+        if (message.text) {
+            [messageDictionary setObject:message.text forKey:kEventMesParamText];
+        }
+        if (message.payload) {
+            [messageDictionary setObject:[self convertPayloadsArrayToArray:message.payload] forKey:kEventMesParamPayload];
+        }
+        [dictionary setObject:messageDictionary forKey:kEventMesParamMessage];
     }
     
     return dictionary;
@@ -417,6 +487,25 @@ RCT_EXPORT_METHOD(typing:(NSString *)uuid) {
     }
 }
 
+RCT_REMAP_METHOD(sendMessage, sendMessageToConversation:(NSString *)uuid message:(NSString *)message payload:(NSArray<NSDictionary *> *)payload) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation sendMessage:message payload:[self convertArrayToPayloadsArray:payload]];
+    }
+}
+
 - (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
     [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }
@@ -487,7 +576,7 @@ RCT_EXPORT_METHOD(typing:(NSString *)uuid) {
 }
 
 - (void)messenger:(VIMessenger *)messenger didSendMessage:(VIMessageEvent *)event {
-
+    [self sendEventWithName:kEventMesSendMessage body:[self convertMessageEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didSetStatus:(VIUserStatusEvent *)event {

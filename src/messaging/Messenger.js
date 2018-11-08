@@ -12,6 +12,7 @@ import {
 import MessagingShared from "./MessagingShared";
 import MessengerEventTypes from "./MessengerEventTypes";
 import Conversation from "./Conversation";
+import Message from "./Message";
 
 const MessagingModule = NativeModules.VIMessagingModule;
 
@@ -51,6 +52,7 @@ export default class Messenger {
         EventEmitter.addListener('VIRemoveConversation', this._onRemoveConversation);
         EventEmitter.addListener('VIEditConversation', this._onEditConversation);
         EventEmitter.addListener('VITyping', this._onTyping);
+        EventEmitter.addListener('VISendMessage', this._onSendMessage);
     }
 
     // init() {}
@@ -223,6 +225,9 @@ export default class Messenger {
         }
     }
 
+    /**
+     * @private
+     */
     _processConversationEvent(event) {
         let conversation = new Conversation();
         conversation.createdAt = event.conversation.createdAt;
@@ -238,6 +243,21 @@ export default class Messenger {
         conversation.title = event.conversation.title;
         delete event.conversation;
         event.conversation = conversation;
+    }
+
+    /**
+     * @private
+     */
+    _processMessageEvent(event) {
+        let message = new Message();
+        message.conversation = event.message.conversation;
+        message.payload = event.message.payload;
+        message.sender = event.message.sender;
+        message.sequence = event.message.sequence;
+        message.text = event.message.text;
+        message.uuid = event.message.uuid;
+        delete event.message;
+        event.message = message;
     }
 
     _onGetUser = (event) => {
@@ -285,5 +305,10 @@ export default class Messenger {
 
     _onTyping = (event) => {
         this._emit(MessengerEventTypes.Typing, event);
-    }
+    };
+
+    _onSendMessage = (event) => {
+        this._processMessageEvent(event);
+        this._emit(MessengerEventTypes.SendMessage, event);
+    };
 }
