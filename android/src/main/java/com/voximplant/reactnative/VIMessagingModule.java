@@ -12,6 +12,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -22,6 +23,7 @@ import com.voximplant.sdk.messaging.IConversation;
 import com.voximplant.sdk.messaging.IConversationEvent;
 import com.voximplant.sdk.messaging.IConversationServiceEvent;
 import com.voximplant.sdk.messaging.IErrorEvent;
+import com.voximplant.sdk.messaging.IMessage;
 import com.voximplant.sdk.messaging.IMessageEvent;
 import com.voximplant.sdk.messaging.IMessenger;
 import com.voximplant.sdk.messaging.IMessengerListener;
@@ -31,8 +33,10 @@ import com.voximplant.sdk.messaging.ISubscriptionEvent;
 import com.voximplant.sdk.messaging.IUser;
 import com.voximplant.sdk.messaging.IUserEvent;
 import com.voximplant.sdk.messaging.MessengerNotifications;
+import com.voximplant.sdk.messaging.Payload;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,26 +53,33 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATIONS
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATION_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CREATED_AT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CUSTOM_DATA;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DISTINCT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENT_TYPE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_IS_UBER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_SEQ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_UPDATE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_MESSENGER_NOTIFICATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ONLINE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PARTICIPANTS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PAYLOAD;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PRIVATE_CUSTOM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_PUBLIC_JOIN;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_SENDER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_SEQUENCE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TEXT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TIMESTAMP;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TITLE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TYPE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USERS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_ID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_TYPING;
@@ -257,6 +268,15 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void sendMessage(String conversationUuid, String text, ReadableArray payloads) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, conversationUuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.sendMessage(text, convertArrayToPayloadsList(payloads));
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));
@@ -325,7 +345,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onSendMessage(IMessageEvent messageEvent) {
-
+        sendEvent(EVENT_MES_SEND_MESSAGE, convertMessageEventToMap(messageEvent));
     }
 
     @Override
@@ -489,6 +509,89 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
             params.putDouble(EVENT_MES_PARAM_TIMESTAMP, conversationServiceEvent.getTimestamp());
         }
         params.putString(EVENT_MES_PARAM_CONVERSATION_UUID, conversationServiceEvent.getConversationUUID());
+        return params;
+    }
+
+    private List<Payload> convertArrayToPayloadsList(ReadableArray array) {
+        if (array == null) {
+            return null;
+        }
+        ArrayList<Payload> payloads = new ArrayList<>();
+        for (int i = 0; i < array.size(); i++) {
+            ReadableType indexType = array.getType(i);
+            if (indexType == ReadableType.Map) {
+                ReadableMap map = array.getMap(i);
+                HashMap<String, Object> payloadMap = map.toHashMap();
+                Payload payload = new Payload(payloadMap.get(EVENT_MES_PARAM_DATA), (String)payloadMap.get(EVENT_MES_PARAM_TITLE), (String)payloadMap.get(EVENT_MES_PARAM_TYPE));
+                payloads.add(payload);
+            }
+        }
+
+        return payloads;
+    }
+
+    //TODO: check type conversion
+    private WritableArray convertPayloadListToArray(List<Payload> payloads) {
+        if (payloads == null) {
+            return null;
+        }
+        WritableArray array = Arguments.createArray();
+        for (Payload payload : payloads) {
+            WritableMap map = Arguments.createMap();
+            map.putString(EVENT_MES_PARAM_TITLE, payload.getTitle());
+            map.putString(EVENT_MES_PARAM_TYPE, payload.getType());
+            Object data = payload.getData();
+            if (data instanceof Integer) {
+                map.putInt(EVENT_MES_PARAM_DATA, (Integer) data);
+            } else if (data instanceof String) {
+                map.putString(EVENT_MES_PARAM_DATA, (String) data);
+            } else if (data instanceof Double || data instanceof Long) {
+                map.putDouble(EVENT_MES_PARAM_DATA, (Double) data);
+            } else if (data instanceof Boolean) {
+                map.putBoolean(EVENT_MES_PARAM_DATA, (Boolean) data);
+            } else if (data instanceof List) {
+                map.putArray(EVENT_MES_PARAM_DATA, Utils.createObjectWritableArray((List<Object>) data));
+            } else if (data instanceof Map) {
+                map.putMap(EVENT_MES_PARAM_DATA, Utils.createObjectWritableMap((Map<Object, Object>) data));
+            }
+            array.pushMap(map);
+        }
+
+        return array;
+    }
+
+    private WritableMap convertMessageEventToMap(IMessageEvent messageEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(messageEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(messageEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, messageEvent.getUserId());
+        if (messageEvent.getSequence() != 0) {
+            params.putDouble(EVENT_MES_PARAM_SEQUENCE, messageEvent.getSequence());
+        }
+        IMessage message = messageEvent.getMessage();
+        if (message != null) {
+            WritableMap messageMap = Arguments.createMap();
+            if (message.getConversation() != null) {
+                messageMap.putString(EVENT_MES_PARAM_CONVERSATION, message.getConversation());
+            }
+            if (message.getSender() != null) {
+                messageMap.putString(EVENT_MES_PARAM_SENDER, message.getSender());
+            }
+            if (message.getText() != null) {
+                messageMap.putString(EVENT_MES_PARAM_TEXT, message.getText());
+            }
+            if (message.getUUID() != null) {
+                messageMap.putString(EVENT_MES_PARAM_UUID, message.getUUID());
+            }
+            if (message.getSequence() != 0) {
+                messageMap.putDouble(EVENT_MES_PARAM_SEQUENCE, message.getSequence());
+            }
+            if (message.getPayload() != null) {
+                messageMap.putArray(EVENT_MES_PARAM_PAYLOAD, convertPayloadListToArray(message.getPayload()));
+            }
+            params.putMap(EVENT_MES_PARAM_MESSAGE, messageMap);
+        }
+
         return params;
     }
 

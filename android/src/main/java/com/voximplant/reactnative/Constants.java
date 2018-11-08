@@ -135,6 +135,7 @@ class Constants {
     static final String EVENT_MES_REMOVE_CONVERSATION = "VIRemoveConversation";
     static final String EVENT_MES_EDIT_CONVERSATION = "VIEditConversation";
     static final String EVENT_MES_TYPING = "VITyping";
+    static final String EVENT_MES_SEND_MESSAGE = "VISendMessage";
 
     static final String EVENT_NAME_MES_GET_USER = "GetUser";
     static final String EVENT_NAME_MES_EDIT_USER = "EditUser";
@@ -146,6 +147,7 @@ class Constants {
     static final String EVENT_NAME_MES_REMOVE_CONVERSATION = "RemoveConversation";
     static final String EVENT_NAME_MES_EDIT_CONVERSATION = "EditConversation";
     static final String EVENT_NAME_MES_TYPING = "Typing";
+    static final String EVENT_NAME_MES_SEND_MESSAGE = "SendMessage";
 
     static final String EVENT_MES_ACTION_GET_USER = "getUser";
     static final String EVENT_MES_ACTION_GET_USERS = "getUsers";
@@ -163,6 +165,7 @@ class Constants {
     static final String EVENT_MES_ACTION_REMOVE_PARTICIPANTS = "removeParticipants";
     static final String EVENT_MES_ACTION_EDIT_CONVERSATION = "editConversation";
     static final String EVENT_MES_ACTION_TYPING = "typing";
+    static final String EVENT_MES_ACTION_SEND_MESSAGE = "sendMessage";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";
@@ -191,6 +194,12 @@ class Constants {
     static final String EVENT_MES_PARAM_IS_UBER = "isUber";
     static final String EVENT_MES_PARAM_CONVERSATION = "conversation";
     static final String EVENT_MES_PARAM_CONVERSATION_UUID = "conversationUUID";
+    static final String EVENT_MES_PARAM_SENDER = "sender";
+    static final String EVENT_MES_PARAM_TEXT = "text";
+    static final String EVENT_MES_PARAM_TYPE = "type";
+    static final String EVENT_MES_PARAM_DATA = "data";
+    static final String EVENT_MES_PARAM_PAYLOAD = "payload";
+    static final String EVENT_MES_PARAM_MESSAGE = "message";
 
     static final String EDIT_MESSAGE = "EditMessage";
     static final String SEND_MESSAGE = "SendMessage";
