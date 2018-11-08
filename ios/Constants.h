@@ -117,6 +117,7 @@ FOUNDATION_EXPORT NSString *const kEventMesRemoveConversation;
 FOUNDATION_EXPORT NSString *const kEventMesEditConversation;
 FOUNDATION_EXPORT NSString *const kEventMesTyping;
 FOUNDATION_EXPORT NSString *const kEventMesSendMessage;
+FOUNDATION_EXPORT NSString *const kEventMesEditMessage;
 
 FOUNDATION_EXPORT NSString *const kEventNameMesGetUser;
 FOUNDATION_EXPORT NSString *const kEventNameMesEditUser;
@@ -129,6 +130,7 @@ FOUNDATION_EXPORT NSString *const kEventNameMesRemoveConversation;
 FOUNDATION_EXPORT NSString *const kEventNameMesEditConversation;
 FOUNDATION_EXPORT NSString *const kEventNameMesTyping;
 FOUNDATION_EXPORT NSString *const kEventNameMesSendMessage;
+FOUNDATION_EXPORT NSString *const kEventNameMesEditMessage;
 
 FOUNDATION_EXPORT NSString *const kEventMesActionGetUser;
 FOUNDATION_EXPORT NSString *const kEventMesActionGetUsers;
@@ -149,6 +151,7 @@ FOUNDATION_EXPORT NSString *const kEventMesActionEditParticipants;
 FOUNDATION_EXPORT NSString *const kEventMesActionRemoveParticipants;
 FOUNDATION_EXPORT NSString *const kEventMesActionTyping;
 FOUNDATION_EXPORT NSString *const kEventMesActionSendMessage;
+FOUNDATION_EXPORT NSString *const kEventMesActionEditMessage;
 
 FOUNDATION_EXPORT NSString *const kEventMesParamEventType;
 FOUNDATION_EXPORT NSString *const kEventMesParamAction;

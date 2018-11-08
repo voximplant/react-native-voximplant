@@ -101,7 +101,7 @@
         case VIMessengerEventTypeSendMessage:
             return kEventNameMesSendMessage;
         case VIMessengerEventTypeEditMessage:
-            return @"";
+            return kEventNameMesEditMessage;
         case VIMessengerEventTypeRemoveMessage:
             return @"";
         case VIMessengerEventTypeTyping:
@@ -168,7 +168,7 @@
         case VIMessengerActionTypeSendMessage:
             return kEventMesActionSendMessage;
         case VIMessengerActionTypeEditMessage:
-            return @"";
+            return kEventMesActionEditMessage;
         case VIMessengerActionTypeRemoveMessage:
             return @"";
         case VIMessengerActionTypeManageNotifications:

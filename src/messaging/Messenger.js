@@ -53,6 +53,7 @@ export default class Messenger {
         EventEmitter.addListener('VIEditConversation', this._onEditConversation);
         EventEmitter.addListener('VITyping', this._onTyping);
         EventEmitter.addListener('VISendMessage', this._onSendMessage);
+        EventEmitter.addListener('VIEditMessage', this._onEditMessage);
     }
 
     // init() {}
@@ -311,4 +312,9 @@ export default class Messenger {
         this._processMessageEvent(event);
         this._emit(MessengerEventTypes.SendMessage, event);
     };
+
+    _onEditMessage = (event) => {
+        this._processMessageEvent(event);
+        this._emit(MessengerEventTypes.EditMessage, event);
+    }
 }

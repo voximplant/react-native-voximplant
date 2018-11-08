@@ -43,7 +43,8 @@ RCT_EXPORT_MODULE();
              kEventMesRemoveConversation,
              kEventMesEditConversation,
              kEventMesTyping,
-             kEventMesSendMessage];
+             kEventMesSendMessage,
+             kEventMesEditMessage];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -506,6 +507,21 @@ RCT_REMAP_METHOD(sendMessage, sendMessageToConversation:(NSString *)uuid message
     }
 }
 
+RCT_REMAP_METHOD(updateMessage, updateMessageInConversation:(NSString *)conversationUuid uuid:(NSString *)uuid text:(NSString *)text payload:(NSArray<NSDictionary *> *) payload) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIMessage *message = [messenger recreateMessage:uuid
+                                           conversation:conversationUuid
+                                                 sender:nil
+                                                   text:nil
+                                                payload:nil
+                                               sequence:nil];
+        message.text = text;
+        message.payload = [self convertArrayToPayloadsArray:payload];
+        [message update];
+    }
+}
+
 - (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
     [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }
@@ -515,7 +531,7 @@ RCT_REMAP_METHOD(sendMessage, sendMessageToConversation:(NSString *)uuid message
 }
 
 - (void)messenger:(VIMessenger *)messenger didEditMessage:(VIMessageEvent *)event {
-
+    [self sendEventWithName:kEventMesEditMessage body:[self convertMessageEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didEditUser:(VIUserEvent *)event {

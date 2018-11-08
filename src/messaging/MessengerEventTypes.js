@@ -9,8 +9,9 @@
  */
 const MessengerEventTypes = {
     CreateConversation : 'CreateConversation',
-    EditUser : 'EditUser',
     EditConversation: 'EditConversation',
+    EditMessage: 'EditMessage',
+    EditUser : 'EditUser',
     GetConversation : 'GetConversation',
     GetUser : 'GetUser',
     RemoveConversation : 'RemoveConversation',

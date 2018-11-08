@@ -55,5 +55,17 @@ export default class Message {
 
     constructor() {}
 
+    setText(text) {
+        this.text = text;
+    }
+
+    setPayload(payload) {
+        this.payload = payload;
+    }
+
+    update() {
+        MessagingModule.updateMessage(this.conversation, this.uuid, this.text, this.payload);
+    }
+
 
 }

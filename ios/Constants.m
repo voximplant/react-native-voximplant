@@ -117,6 +117,7 @@ NSString *const kEventMesRemoveConversation = @"VIRemoveConversation";
 NSString *const kEventMesEditConversation = @"VIEditConversation";
 NSString *const kEventMesTyping = @"VITyping";
 NSString *const kEventMesSendMessage = @"VISendMessage";
+NSString *const kEventMesEditMessage = @"VIEditMessage";
 
 NSString *const kEventNameMesGetUser = @"GetUser";
 NSString *const kEventNameMesEditUser = @"EditUser";
@@ -129,6 +130,7 @@ NSString *const kEventNameMesRemoveConversation = @"RemoveConversation";
 NSString *const kEventNameMesEditConversation = @"EditConversation";
 NSString *const kEventNameMesTyping = @"Typing";
 NSString *const kEventNameMesSendMessage = @"SendMessage";
+NSString *const kEventNameMesEditMessage = @"EditMessage";
 
 NSString *const kEventMesActionGetUser = @"getUser";
 NSString *const kEventMesActionGetUsers = @"getUsers";
@@ -149,6 +151,7 @@ NSString *const kEventMesActionEditParticipants = @"editParticipants";
 NSString *const kEventMesActionRemoveParticipants = @"removeParticipants";
 NSString *const kEventMesActionTyping = @"typing";
 NSString *const kEventMesActionSendMessage = @"sendMessage";
+NSString *const kEventMesActionEditMessage = @"editMessage";
 
 NSString *const kEventMesParamEventType = @"messengerEventType";
 NSString *const kEventMesParamAction = @"messengerAction";

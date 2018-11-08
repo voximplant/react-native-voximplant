@@ -12,6 +12,8 @@ describe.only('message', () => {
 
     let conversation = null;
 
+    let message = null;
+
     before(async() => {
         await device.reloadReactNative();
 
@@ -159,6 +161,8 @@ describe.only('message', () => {
             should.exist(event.message.uuid);
             (event.message.payload).should.containDeep(payload);
 
+            message = event.message;
+
             messenger.off(Voximplant.Messaging.MessengerEventTypes.SendMessage, messageEvent);
             done();
         };
@@ -166,6 +170,53 @@ describe.only('message', () => {
         conversation.sendMessage('Test message 2', payload);
     });
 
+    it('edit message', (done) => {
+        messenger.should.be.not.null();
+
+        let payload = [
+            {
+                title: 'Test payload title - edited',
+                type: 'test - edited',
+                data: {
+                    test1: "test data 1 - edited",
+                    test2: "test data 2 - edited"
+                }
+            }
+        ];
+
+        let messageEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.EditMessage);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.editMessage);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            (event.sequence).should.be.eql(4);
+            should.exist(event.message);
+
+            const me = messenger.getMe();
+            (event.message).should.have.properties({
+                text: 'Test message 2 - edited',
+                sender: me,
+                sequence: 4,
+                conversation: conversation.uuid,
+                uuid: message.uuid
+            });
+            should.exist(event.message.uuid);
+            (event.message.payload).should.containDeep(payload);
+
+            message = event.message;
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.EditMessage, messageEvent);
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.EditMessage, messageEvent);
+        message.setText('Test message 2 - edited');
+        message.setPayload(payload);
+        message.update();
+    });
 
     it('remove conversation', (done) => {
         messenger.should.be.not.null();
@@ -179,7 +230,7 @@ describe.only('message', () => {
             should.exist(event.userId);
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
-            (event.sequence).should.be.eql(4);
+            (event.sequence).should.be.eql(5);
             should.exist(event.conversation);
             (event.conversation).should.have.properties({
                 uuid: conversation.uuid

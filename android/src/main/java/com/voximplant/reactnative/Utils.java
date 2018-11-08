@@ -24,6 +24,7 @@ import static com.voximplant.reactnative.Constants.EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_ADD_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_CREATE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSATION;
@@ -40,6 +41,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_CREATE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
@@ -335,7 +337,7 @@ class Utils {
 			case EDIT_CONVERSATION:
 				return EVENT_MES_ACTION_EDIT_CONVERSATION;
 			case EDIT_MESSAGE:
-				return "";
+				return EVENT_MES_ACTION_EDIT_MESSAGE;
 			case EDIT_PARTICIPANTS:
 				return EVENT_MES_ACTION_EDIT_PARTICIPANTS;
 			case EDIT_USER:
@@ -390,7 +392,7 @@ class Utils {
 			case ON_EDIT_CONVERSATION:
 				return EVENT_NAME_MES_EDIT_CONVERSATION;
 			case ON_EDIT_MESSAGE:
-				return "";
+				return EVENT_NAME_MES_EDIT_MESSAGE;
 			case ON_EDIT_USER:
 				return EVENT_NAME_MES_EDIT_USER;
 			case ON_ERROR:

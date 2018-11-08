@@ -42,6 +42,7 @@ import java.util.Map;
 
 import static com.voximplant.reactnative.Constants.EVENT_MES_CREATE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_USER;
@@ -277,6 +278,15 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void updateMessage(String conversationUuid, String uuid, String text, ReadableArray payload) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IMessage message = messenger.recreateMessage(uuid, conversationUuid, null, null, null, 0);
+            message.update(text, convertArrayToPayloadsList(payload));
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));
@@ -340,7 +350,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onEditMessage(IMessageEvent messageEvent) {
-
+        sendEvent(EVENT_MES_EDIT_MESSAGE, convertMessageEventToMap(messageEvent));
     }
 
     @Override

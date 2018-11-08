@@ -173,6 +173,7 @@ export const MessengerAction = {
     addParticipants: 'addParticipants',
     createConversation : 'createConversation',
     editConversation: 'editConversation',
+    editMessage: 'editMessage',
     editParticipants: 'editParticipants',
     editUser : 'editUser',
     getConversation : 'getConversation',
