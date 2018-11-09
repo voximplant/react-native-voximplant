@@ -140,6 +140,7 @@ class Constants {
     static final String EVENT_MES_REMOVE_MESSAGE = "VIRemoveMessage";
     static final String EVENT_MES_DELIVERED = "VIDelivered";
     static final String EVENT_MES_READ = "VIRead";
+    static final String EVENT_MES_RETRANSMIT_EVENTS = "VIRetransmitEvents";
 
     static final String EVENT_NAME_MES_GET_USER = "GetUser";
     static final String EVENT_NAME_MES_EDIT_USER = "EditUser";
@@ -156,6 +157,7 @@ class Constants {
     static final String EVENT_NAME_MES_REMOVE_MESSAGE = "RemoveMessage";
     static final String EVENT_NAME_MES_DELIVERED = "Delivered";
     static final String EVENT_NAME_MES_READ = "Read";
+    static final String EVENT_NAME_MES_RETRANSMIT_EVENTS = "RetransmitEvents";
 
     static final String EVENT_MES_ACTION_GET_USER = "getUser";
     static final String EVENT_MES_ACTION_GET_USERS = "getUsers";
@@ -178,6 +180,7 @@ class Constants {
     static final String EVENT_MES_ACTION_REMOVE_MESSAGE = "removeMessage";
     static final String EVENT_MES_ACTION_DELIVERED = "delivered";
     static final String EVENT_MES_ACTION_READ = "read";
+    static final String EVENT_MES_ACTION_RETRANSMIT_EVENTS = "retransmitEvents";
 
     static final String EVENT_MES_PARAM_EVENT_TYPE = "messengerEventType";
     static final String EVENT_MES_PARAM_ACTION = "messengerAction";
@@ -212,6 +215,9 @@ class Constants {
     static final String EVENT_MES_PARAM_DATA = "data";
     static final String EVENT_MES_PARAM_PAYLOAD = "payload";
     static final String EVENT_MES_PARAM_MESSAGE = "message";
+    static final String EVENT_MES_PARAM_FROM_SEQUENCE = "fromSequence";
+    static final String EVENT_MES_PARAM_TO_SEQUENCE = "toSequence";
+    static final String EVENT_MES_PARAM_EVENTS = "events";
 
     static final String EDIT_MESSAGE = "EditMessage";
     static final String SEND_MESSAGE = "SendMessage";

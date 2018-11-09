@@ -26,6 +26,7 @@ import com.voximplant.sdk.messaging.IErrorEvent;
 import com.voximplant.sdk.messaging.IMessage;
 import com.voximplant.sdk.messaging.IMessageEvent;
 import com.voximplant.sdk.messaging.IMessenger;
+import com.voximplant.sdk.messaging.IMessengerEvent;
 import com.voximplant.sdk.messaging.IMessengerListener;
 import com.voximplant.sdk.messaging.IRetransmitEvent;
 import com.voximplant.sdk.messaging.IStatusEvent;
@@ -57,7 +58,9 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CREATED_AT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CUSTOM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DISTINCT;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENT_TYPE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_FROM_SEQUENCE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_IS_UBER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_LAST_SEQ;
@@ -74,6 +77,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_SEQUENCE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TEXT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TIMESTAMP;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TITLE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TO_SEQUENCE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_TYPE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_USERS;
@@ -83,6 +87,7 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_REMOVE_MESSAGE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_RETRANSMIT_EVENTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_SUBSCRIBE;
@@ -317,6 +322,15 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         }
     }
 
+    @ReactMethod
+    public void retransmitEvents(String conversationUuid, Double from, Double to) {
+        IMessenger messenger = getMessenger();
+        if (messenger != null) {
+            IConversation conversation = messenger.recreateConversation(null, conversationUuid, null, 0, false, null, 0, 0, false, null, 0, false);
+            conversation.retransmitEvents(from.longValue(), to.longValue());
+        }
+    }
+
     @Override
     public void onGetUser(IUserEvent userEvent) {
         sendEvent(EVENT_MES_GET_USER, convertUserEventToMap(userEvent));
@@ -415,7 +429,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onRetransmitEvents(IRetransmitEvent retransmitEvent) {
-
+        sendEvent(EVENT_MES_RETRANSMIT_EVENTS, convertRetransmitEventToMap(retransmitEvent));
     }
 
     private IMessenger getMessenger() {
@@ -630,6 +644,29 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
                 messageMap.putArray(EVENT_MES_PARAM_PAYLOAD, convertPayloadListToArray(message.getPayload()));
             }
             params.putMap(EVENT_MES_PARAM_MESSAGE, messageMap);
+        }
+
+        return params;
+    }
+
+    private WritableMap convertRetransmitEventToMap(IRetransmitEvent retransmitEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(retransmitEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(retransmitEvent.getMessengerAction()));
+        params.putString(EVENT_MES_PARAM_USER_ID, retransmitEvent.getUserId());
+        params.putDouble(EVENT_MES_PARAM_FROM_SEQUENCE, retransmitEvent.getFromSequence());
+        params.putDouble(EVENT_MES_PARAM_TO_SEQUENCE, retransmitEvent.getToSequence());
+        if (retransmitEvent.getEvents() != null) {
+            WritableArray eventsArray = Arguments.createArray();
+            for (IMessengerEvent event : retransmitEvent.getEvents()) {
+                if (event instanceof IConversationEvent) {
+                    eventsArray.pushMap(convertConversationEventToMap((IConversationEvent) event));
+                }
+                if (event instanceof IMessageEvent) {
+                    eventsArray.pushMap(convertMessageEventToMap((IMessageEvent) event));
+                }
+            }
+            params.putArray(EVENT_MES_PARAM_EVENTS, eventsArray);
         }
 
         return params;

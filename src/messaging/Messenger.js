@@ -57,6 +57,7 @@ export default class Messenger {
         EventEmitter.addListener('VIRemoveMessage', this._onRemoveMessage);
         EventEmitter.addListener('VIDelivered', this._onDelivered);
         EventEmitter.addListener('VIRead', this._onRead);
+        EventEmitter.addListener('VIRetransmitEvents', this._onRetransmitEvents);
     }
 
     // init() {}
@@ -332,5 +333,19 @@ export default class Messenger {
 
     _onDelivered = (event) => {
         this._emit(MessengerEventTypes.Delivered, event);
-    }
+    };
+
+    _onRetransmitEvents = (event) => {
+        if (event.events !== undefined) {
+            for (let retransmitEvent in event.events) {
+                if (retransmitEvent.hasOwnProperty('conversation')) {
+                    this._processConversationEvent(retransmitEvent);
+                }
+                if (retransmitEvent.hasOwnProperty('message')) {
+                    this._processMessageEvent(retransmitEvent);
+                }
+            }
+        }
+        this._emit(MessengerEventTypes.RetransmitEvents, event);
+    };
 }

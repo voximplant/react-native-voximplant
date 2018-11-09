@@ -113,7 +113,7 @@
         case VIMessengerEventTypeUserStatus:
             return kEventNameMesSetStatus;
         case VIMessengerEventTypeRetransmit:
-            return @"";
+            return kEventNameMesRetransmitEvents;
         case VIMessengerEventTypeUnknown:
             default:
             return @"";
@@ -158,7 +158,7 @@
         case VIMessengerActionTypeTyping:
             return kEventMesActionTyping;
         case VIMessengerActionTypeRetransmitEvents:
-            return @"";
+            return kEventMesActionRetransmitEvents;
         case VIMessengerActionTypeSubscribe:
             return kEventMesActionSubscribe;
         case VIMessengerActionTypeUnsubscribe:

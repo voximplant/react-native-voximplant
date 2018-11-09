@@ -183,4 +183,14 @@ export default class Conversation {
         }
         MessagingModule.markAsRead(this.uuid, sequence);
     }
+
+    retransmitEvents(eventsFrom, eventsTo) {
+        // if (eventsFrom === undefined || eventsFrom === null) {
+        //     eventsFrom = 0;
+        // }
+        // if (eventsTo === undefined || eventsTo === null) {
+        //     eventsTo = 0;
+        // }
+        MessagingModule.retransmitEvents(this.uuid, eventsFrom, eventsTo);
+    }
 }

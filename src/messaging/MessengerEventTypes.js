@@ -18,6 +18,7 @@ const MessengerEventTypes = {
     Read : 'Read',
     RemoveConversation : 'RemoveConversation',
     RemoveMessage : 'RemoveMessage',
+    RetransmitEvents : 'RetransmitEvents',
     SendMessage : 'SendMessage',
     SetStatus : 'SetStatus',
     Subscribe : 'Subscribe',

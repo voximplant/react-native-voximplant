@@ -5,7 +5,7 @@ const { TEST_LOGIN,
     TEST_USER_3 } = TestHelpers.credentials;
 
 
-describe.only('message', () => {
+describe('message', () => {
 
     let client = null;
     let messenger = null;
@@ -290,6 +290,41 @@ describe.only('message', () => {
         };
         messenger.on(Voximplant.Messaging.MessengerEventTypes.Read, conversationServiceEvent);
         conversation.markAsRead(2);
+    });
+
+    it('retransmit events', (done) => {
+        messenger.should.be.not.null();
+
+        let retransmitEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.RetransmitEvents);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.retransmitEvents);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.events);
+            console.log(JSON.stringify(event.events));
+            event.events.forEach(retransmitEvent => {
+                console.log(JSON.stringify(retransmitEvent));
+                if (retransmitEvent.conversation !== undefined) {
+                    (retransmitEvent.conversation.uuid).should.be.eql(conversation.uuid);
+                    (retransmitEvent.conversation).should.have.keys('title', 'distinct', 'publicJoin', 'participants',
+                        'lastSeq', 'createdAt', 'isUber', 'lastRead');
+                } else if (retransmitEvent.message !== undefined) {
+                    (retransmitEvent.message.conversation).should.be.eql(conversation.uuid);
+                    (retransmitEvent.message).should.have.keys('uuid', 'text', 'sender', 'sequence', 'payload');
+                } else {
+                    console.log('Event is not complete');
+                }
+            });
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.RetransmitEvents, retransmitEvent);
+            done();
+        };
+
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.RetransmitEvents, retransmitEvent);
+        conversation.retransmitEvents(1, conversation.lastSeq);
     });
 
     it('remove conversation', (done) => {

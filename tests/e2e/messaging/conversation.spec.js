@@ -381,6 +381,36 @@ describe('conversation', () => {
         conversation.typing();
     });
 
+    it('retransmit events', (done) => {
+        messenger.should.be.not.null();
+
+        let retransmitEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.RetransmitEvents);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.retransmitEvents);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.events);
+            console.log(JSON.stringify(event.events));
+            event.events.forEach(retransmitEvent => {
+                console.log(JSON.stringify(retransmitEvent));
+                should.exist(retransmitEvent.conversation);
+                (retransmitEvent.conversation.uuid).should.be.eql(conversation.uuid);
+                (retransmitEvent.conversation).should.have.keys('title', 'distinct', 'publicJoin', 'participants',
+                    'lastSeq', 'createdAt', 'isUber', 'lastRead');
+            });
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.RetransmitEvents, retransmitEvent);
+            done();
+        };
+
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.RetransmitEvents, retransmitEvent);
+        conversation.retransmitEvents(1, conversation.lastSeq);
+
+    });
+
     it('remove conversation', (done) => {
         messenger.should.be.not.null();
 

@@ -22,6 +22,7 @@
 #import "VIPayload.h"
 #import "VIMessageEvent.h"
 #import "VIMessage.h"
+#import "VIRetransmitEvent.h"
 
 #import "CocoaLumberjack.h"
 
@@ -44,7 +45,11 @@ RCT_EXPORT_MODULE();
              kEventMesEditConversation,
              kEventMesTyping,
              kEventMesSendMessage,
-             kEventMesEditMessage];
+             kEventMesEditMessage,
+             kEventMesRemoveMessage,
+             kEventMesDelivered,
+             kEventMesRead,
+             kEventMesRetransmitEvents];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -280,6 +285,37 @@ RCT_EXPORT_MODULE();
             [messageDictionary setObject:[self convertPayloadsArrayToArray:message.payload] forKey:kEventMesParamPayload];
         }
         [dictionary setObject:messageDictionary forKey:kEventMesParamMessage];
+    }
+    
+    return dictionary;
+}
+
+- (NSDictionary *)convertRetrasmitEvent:(VIRetransmitEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    if (event.userId) {
+        [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    }
+    if (event.fromSequence) {
+        [dictionary setObject:event.fromSequence forKey:kEventMesParamFromSequence];
+    }
+    if (event.toSequence) {
+        [dictionary setObject:event.toSequence forKey:kEventMesParamToSequence];
+    }
+    if (event.events) {
+        NSMutableArray *eventsArray = [NSMutableArray new];
+        for (VIMessengerEvent *messengerEvent in event.events) {
+            if ([messengerEvent isKindOfClass:[VIConversationEvent class]]) {
+                NSDictionary *conversationEvent = [self convertConversationEvent:(VIConversationEvent *)messengerEvent];
+                [eventsArray addObject:conversationEvent];
+            }
+            if ([messengerEvent isKindOfClass:[VIMessageEvent class]]) {
+                NSDictionary *messageEvent = [self convertMessageEvent:(VIMessageEvent *)messengerEvent];
+                [eventsArray addObject:messageEvent];
+            }
+        }
+        [dictionary setObject:eventsArray forKey:kEventMesParamEvents];
     }
     
     return dictionary;
@@ -573,6 +609,25 @@ RCT_REMAP_METHOD(markAsRead, markAsReadForConversation:(NSString *)uuid sequqnce
     }
 }
 
+RCT_REMAP_METHOD(retransmitEvents, retransmitEventsForConversation:(NSString *)uuid from:(nonnull NSNumber *)from to:(nonnull NSNumber *)to) {
+    VIMessenger *messenger = [self getMessenger];
+    if (messenger) {
+        VIConversation *conversation = [messenger recreateConversation:nil
+                                                                 title:nil
+                                                              distinct:false
+                                                      enablePublicJoin:false
+                                                            customData:nil
+                                                                  uuid:uuid
+                                                              sequence:nil
+                                                            moderators:nil
+                                                            lastUpdate:nil
+                                                              lastRead:nil
+                                                             createdAt:nil
+                                                      uberConversation:false];
+        [conversation retransmitEventsFrom:from to:to];
+    }
+}
+
 - (void)messenger:(VIMessenger *)messenger didCreateConversation:(VIConversationEvent *)event {
     [self sendEventWithName:kEventMesCreateConversation body:[self convertConversationEvent:event]];
 }
@@ -639,7 +694,7 @@ RCT_REMAP_METHOD(markAsRead, markAsReadForConversation:(NSString *)uuid sequqnce
 }
 
 - (void)messenger:(VIMessenger *)messenger didRetransmitEvents:(VIRetransmitEvent *)event {
-
+    [self sendEventWithName:kEventMesRetransmitEvents body:[self convertRetrasmitEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didSendMessage:(VIMessageEvent *)event {

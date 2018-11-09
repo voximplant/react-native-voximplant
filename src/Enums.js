@@ -187,6 +187,7 @@ export const MessengerAction = {
     removeConversation : 'removeConversation',
     removeMessage: 'removeMessage',
     removeParticipants: 'removeParticipants',
+    retransmitEvents : 'retransmitEvents',
     sendMessage : 'sendMessage',
     setStatus : 'setStatus',
     subscribe : 'subscribe',
