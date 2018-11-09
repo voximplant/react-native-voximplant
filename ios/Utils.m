@@ -81,7 +81,7 @@
 + (NSString *)convertMessengerEventTypeToString:(VIMessengerEventType)eventType {
     switch (eventType) {
         case VIMessengerEventTypeError:
-            return @"";
+            return kEventNameMesError;
         case VIMessengerEventTypeGetUser:
             return kEventNameMesGetUser;
         case VIMessengerEventTypeEditUser:
@@ -116,7 +116,7 @@
             return kEventNameMesRetransmitEvents;
         case VIMessengerEventTypeUnknown:
             default:
-            return @"";
+            return kEventNameMesUnknown;
     }
 }
 + (NSString *)convertMessengerEventActionToString:(VIMessengerActionType)action {
@@ -147,10 +147,6 @@
             return kEventMesActionEditParticipants;
         case VIMessengerActionTypeRemoveParticipants:
             return kEventMesActionRemoveParticipants;
-        case VIMessengerActionTypeAddModerators:
-            return @"";
-        case VIMessengerActionTypeRemoveModerators:
-            return @"";
         case VIMessengerActionTypeMarkAsDelivered:
             return kEventMesActionDelivered;
         case VIMessengerActionTypeMarkAsRead:
@@ -174,8 +170,10 @@
         case VIMessengerActionTypeManageNotifications:
             return kEventMesActionManageNotifications;
         case VIMessengerActionTypeUnknown:
+        case VIMessengerActionTypeAddModerators:
+        case VIMessengerActionTypeRemoveModerators:
             default:
-            return @"";
+            return kEventMesActionUnknown;
     }
 }
 

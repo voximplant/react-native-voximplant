@@ -122,6 +122,7 @@ FOUNDATION_EXPORT NSString *const kEventMesRemoveMessage;
 FOUNDATION_EXPORT NSString *const kEventMesDelivered;
 FOUNDATION_EXPORT NSString *const kEventMesRead;
 FOUNDATION_EXPORT NSString *const kEventMesRetransmitEvents;
+FOUNDATION_EXPORT NSString *const kEventMesError;
 
 FOUNDATION_EXPORT NSString *const kEventNameMesGetUser;
 FOUNDATION_EXPORT NSString *const kEventNameMesEditUser;
@@ -139,6 +140,8 @@ FOUNDATION_EXPORT NSString *const kEventNameMesRemoveMessage;
 FOUNDATION_EXPORT NSString *const kEventNameMesDelivered;
 FOUNDATION_EXPORT NSString *const kEventNameMesRead;
 FOUNDATION_EXPORT NSString *const kEventNameMesRetransmitEvents;
+FOUNDATION_EXPORT NSString *const kEventNameMesError;
+FOUNDATION_EXPORT NSString *const kEventNameMesUnknown;
 
 FOUNDATION_EXPORT NSString *const kEventMesActionGetUser;
 FOUNDATION_EXPORT NSString *const kEventMesActionGetUsers;
@@ -164,6 +167,7 @@ FOUNDATION_EXPORT NSString *const kEventMesActionRemoveMessage;
 FOUNDATION_EXPORT NSString *const kEventMesActionDelivered;
 FOUNDATION_EXPORT NSString *const kEventMesActionRead;
 FOUNDATION_EXPORT NSString *const kEventMesActionRetransmitEvents;
+FOUNDATION_EXPORT NSString *const kEventMesActionUnknown;
 
 FOUNDATION_EXPORT NSString *const kEventMesParamEventType;
 FOUNDATION_EXPORT NSString *const kEventMesParamAction;
@@ -201,6 +205,8 @@ FOUNDATION_EXPORT NSString *const kEventMesParamMessage;
 FOUNDATION_EXPORT NSString *const kEventMesParamFromSequence;
 FOUNDATION_EXPORT NSString *const kEventMesParamToSequence;
 FOUNDATION_EXPORT NSString *const kEventMesParamEvents;
+FOUNDATION_EXPORT NSString *const kEventMesParamDescription;
+FOUNDATION_EXPORT NSString *const kEventMesParamCode;
 
 FOUNDATION_EXPORT NSString *const kEditMessage;
 FOUNDATION_EXPORT NSString *const kSendMessage;

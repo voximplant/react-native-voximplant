@@ -12,6 +12,7 @@ import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
 import com.voximplant.sdk.hardware.AudioDevice;
 import com.voximplant.sdk.messaging.MessengerAction;
+import com.voximplant.sdk.messaging.MessengerError;
 import com.voximplant.sdk.messaging.MessengerEventType;
 import com.voximplant.sdk.messaging.MessengerNotifications;
 
@@ -32,6 +33,8 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSA
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_CONVERSATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_GET_USERS;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_JOIN_CONVERSATION;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_LEAVE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_READ;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_REMOVE_CONVERSATION;
@@ -42,12 +45,14 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SEND_MESSAGE
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_SUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_TYPING;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNKNOWN;
 import static com.voximplant.reactnative.Constants.EVENT_MES_ACTION_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_CREATE_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_DELIVERED;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_EDIT_USER;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_ERROR;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_READ;
@@ -58,6 +63,7 @@ import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SET_STATUS;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_TYPING;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNKNOWN;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 
@@ -336,8 +342,6 @@ class Utils {
 
 	static String convertMessengerActionToString(MessengerAction action) {
     	switch (action) {
-			case ADD_MODERATORS:
-				return "";
 			case ADD_PARTICIPANTS:
 			    return EVENT_MES_ACTION_ADD_PARTICIPANTS;
 			case CREATE_CONVERSATION:
@@ -363,16 +367,15 @@ class Utils {
 			case IS_READ:
 				return EVENT_MES_ACTION_READ;
 			case JOIN_CONVERSATION:
+				return EVENT_MES_ACTION_JOIN_CONVERSATION;
 			case LEAVE_CONVERSATION:
-			    return "";
+			    return EVENT_MES_ACTION_LEAVE_CONVERSATION;
 			case MANAGE_NOTIFICATIONS:
 			    return EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 			case REMOVE_CONVERSATION:
 			    return EVENT_MES_ACTION_REMOVE_CONVERSATION;
 			case REMOVE_MESSAGE:
 				return EVENT_MES_ACTION_REMOVE_MESSAGE;
-			case REMOVE_MODERATORS:
-				return "";
 			case REMOVE_PARTICIPANTS:
 				return EVENT_MES_ACTION_REMOVE_PARTICIPANTS;
 			case RETRANSMIT_EVENTS:
@@ -388,8 +391,10 @@ class Utils {
 			case UNSUBSCRIBE:
 				return EVENT_MES_ACTION_UNSUBSCRIBE;
 			case ACTION_UNKNOWN:
+			case REMOVE_MODERATORS:
+			case ADD_MODERATORS:
 				default:
-				return "";
+				return EVENT_MES_ACTION_UNKNOWN;
 		}
 	}
 
@@ -408,7 +413,7 @@ class Utils {
 			case ON_EDIT_USER:
 				return EVENT_NAME_MES_EDIT_USER;
 			case ON_ERROR:
-			    return "";
+			    return EVENT_NAME_MES_ERROR;
 			case ON_GET_CONVERSATION:
 				return EVENT_NAME_MES_GET_CONVERSATION;
 			case ON_GET_USER:
@@ -434,7 +439,67 @@ class Utils {
 				return EVENT_NAME_MES_UNSUBSCRIBE;
 			case EVENT_UNKNOWN:
 				default:
-				return "";
+				return EVENT_NAME_MES_UNKNOWN;
+		}
+	}
+
+	static int convertMessengerErrorToInt(MessengerError error) {
+		switch (error) {
+			case ERROR_1:
+				return 1;
+			case ERROR_2:
+				return 2;
+			case ERROR_3:
+				return 3;
+			case ERROR_4:
+				return 4;
+			case ERROR_5:
+				return 5;
+			case ERROR_6:
+				return 6;
+			case ERROR_7:
+				return 7;
+			case ERROR_8:
+				return 8;
+			case ERROR_9:
+				return 9;
+			case ERROR_10:
+				return 10;
+			case ERROR_11:
+				return 11;
+			case ERROR_12:
+				return 12;
+			case ERROR_13:
+				return 13;
+			case ERROR_14:
+				return 14;
+			case ERROR_15:
+				return 15;
+			case ERROR_16:
+				return 16;
+			case ERROR_17:
+				return 17;
+			case ERROR_18:
+				return 18;
+			case ERROR_19:
+				return 19;
+			case ERROR_20:
+				return 20;
+			case ERROR_21:
+				return 21;
+			case ERROR_22:
+				return 22;
+			case ERROR_23:
+				return 23;
+			case ERROR_24:
+				return 24;
+			case ERROR_30:
+				return 30;
+			case ERROR_500:
+				return 500;
+			case ERROR_777:
+				default:
+				return 777;
 		}
 	}
 }

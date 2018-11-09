@@ -122,6 +122,7 @@ NSString *const kEventMesRemoveMessage = @"VIRemoveMessage";
 NSString *const kEventMesDelivered = @"VIDelivered";
 NSString *const kEventMesRead = @"VIRead";
 NSString *const kEventMesRetransmitEvents = @"VIRetransmitEvents";
+NSString *const kEventMesError = @"VIError";
 
 NSString *const kEventNameMesGetUser = @"GetUser";
 NSString *const kEventNameMesEditUser = @"EditUser";
@@ -139,6 +140,8 @@ NSString *const kEventNameMesRemoveMessage = @"RemoveMessage";
 NSString *const kEventNameMesDelivered = @"Delivered";
 NSString *const kEventNameMesRead = @"Read";
 NSString *const kEventNameMesRetransmitEvents = @"RetransmitEvents";
+NSString *const kEventNameMesError = @"Error";
+NSString *const kEventNameMesUnknown = @"Unknown";
 
 NSString *const kEventMesActionGetUser = @"getUser";
 NSString *const kEventMesActionGetUsers = @"getUsers";
@@ -164,6 +167,7 @@ NSString *const kEventMesActionRemoveMessage = @"removeMessage";
 NSString *const kEventMesActionDelivered = @"delivered";
 NSString *const kEventMesActionRead = @"read";
 NSString *const kEventMesActionRetransmitEvents = @"retransmitEvents";
+NSString *const kEventMesActionUnknown = @"unknown";
 
 NSString *const kEventMesParamEventType = @"messengerEventType";
 NSString *const kEventMesParamAction = @"messengerAction";
@@ -201,6 +205,8 @@ NSString *const kEventMesParamMessage = @"message";
 NSString *const kEventMesParamFromSequence = @"fromSequence";
 NSString *const kEventMesParamToSequence = @"toSequence";
 NSString *const kEventMesParamEvents = @"events";
+NSString *const kEventMesParamDescription = @"description";
+NSString *const kEventMesParamCode = @"code";
 
 NSString *const kEditMessage = @"EditMessage";
 NSString *const kSendMessage = @"SendMessage";

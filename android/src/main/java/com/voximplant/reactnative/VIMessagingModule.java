@@ -46,17 +46,20 @@ import static com.voximplant.reactnative.Constants.EVENT_MES_DELIVERED;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_EDIT_USER;
+import static com.voximplant.reactnative.Constants.EVENT_MES_ERROR;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_GET_USER;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_ACTION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CAN_MANAGE_PARTICIPANTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CAN_WRITE;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CODE;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATIONS_LIST;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CONVERSATION_UUID;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CREATED_AT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_CUSTOM_DATA;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DATA;
+import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DESCRIPTION;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_DISTINCT;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENTS;
 import static com.voximplant.reactnative.Constants.EVENT_MES_PARAM_EVENT_TYPE;
@@ -424,7 +427,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
 
     @Override
     public void onError(IErrorEvent errorEvent) {
-
+        sendEvent(EVENT_MES_ERROR, convertErrorEventToMap(errorEvent));
     }
 
     @Override
@@ -669,6 +672,22 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
             params.putArray(EVENT_MES_PARAM_EVENTS, eventsArray);
         }
 
+        return params;
+    }
+
+    private WritableMap convertErrorEventToMap(IErrorEvent errorEvent) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_MES_PARAM_EVENT_TYPE, Utils.convertMessengerEventToString(errorEvent.getMessengerEventType()));
+        params.putString(EVENT_MES_PARAM_ACTION, Utils.convertMessengerActionToString(errorEvent.getMessengerAction()));
+        if (errorEvent.getUserId() != null) {
+            params.putString(EVENT_MES_PARAM_USER_ID, errorEvent.getUserId());
+        }
+        if (errorEvent.getMessengerException() != null) {
+            params.putInt(EVENT_MES_PARAM_CODE, Utils.convertMessengerErrorToInt(errorEvent.getMessengerException().getErrorCode()));
+            if (errorEvent.getMessengerException().getMessage() != null) {
+                params.putString(EVENT_MES_PARAM_DESCRIPTION, errorEvent.getMessengerException().getMessage());
+            }
+        }
         return params;
     }
 

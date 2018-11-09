@@ -13,6 +13,7 @@ const MessengerEventTypes = {
     EditConversation: 'EditConversation',
     EditMessage: 'EditMessage',
     EditUser : 'EditUser',
+    Error : 'Error',
     GetConversation : 'GetConversation',
     GetUser : 'GetUser',
     Read : 'Read',

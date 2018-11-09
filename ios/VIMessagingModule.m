@@ -23,6 +23,7 @@
 #import "VIMessageEvent.h"
 #import "VIMessage.h"
 #import "VIRetransmitEvent.h"
+#import "VIErrorEvent.h"
 
 #import "CocoaLumberjack.h"
 
@@ -49,7 +50,8 @@ RCT_EXPORT_MODULE();
              kEventMesRemoveMessage,
              kEventMesDelivered,
              kEventMesRead,
-             kEventMesRetransmitEvents];
+             kEventMesRetransmitEvents,
+             kEventMesError];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -317,6 +319,21 @@ RCT_EXPORT_MODULE();
         }
         [dictionary setObject:eventsArray forKey:kEventMesParamEvents];
     }
+    
+    return dictionary;
+}
+
+- (NSDictionary *)convertErrorEvent:(VIErrorEvent *)event {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[Utils convertMessengerEventActionToString:event.incomingAction] forKey:kEventMesParamAction];
+    if (event.userId) {
+        [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
+    }
+    if (event.descr) {
+        [dictionary setObject:event.descr forKey:kEventMesParamDescription];
+    }
+    [dictionary setObject:[NSNumber numberWithInteger:event.code] forKey:kEventMesParamCode];
     
     return dictionary;
 }
@@ -657,7 +674,7 @@ RCT_REMAP_METHOD(retransmitEvents, retransmitEventsForConversation:(NSString *)u
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveError:(VIErrorEvent *)event {
-    
+    [self sendEventWithName:kEventMesError body:[self convertErrorEvent:event]];
 }
 
 - (void)messenger:(VIMessenger *)messenger didReceiveReadConfirmation:(VIConversationServiceEvent *)event {

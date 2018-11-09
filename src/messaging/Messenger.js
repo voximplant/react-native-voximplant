@@ -58,6 +58,7 @@ export default class Messenger {
         EventEmitter.addListener('VIDelivered', this._onDelivered);
         EventEmitter.addListener('VIRead', this._onRead);
         EventEmitter.addListener('VIRetransmitEvents', this._onRetransmitEvents);
+        EventEmitter.addListener('VIError', this._onError);
     }
 
     // init() {}
@@ -348,4 +349,8 @@ export default class Messenger {
         }
         this._emit(MessengerEventTypes.RetransmitEvents, event);
     };
+
+    _onError = (event) => {
+        this._emit(MessengerEventTypes.Error, event);
+    }
 }
