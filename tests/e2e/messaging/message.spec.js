@@ -304,7 +304,6 @@ describe('message', () => {
             should.exist(event.userId);
             should.equal(event.userId, messenger.getMe());
             should.exist(event.events);
-            console.log(JSON.stringify(event.events));
             event.events.forEach(retransmitEvent => {
                 console.log(JSON.stringify(retransmitEvent));
                 if (retransmitEvent.conversation !== undefined) {

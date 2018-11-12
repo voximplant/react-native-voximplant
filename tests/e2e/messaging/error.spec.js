@@ -4,7 +4,7 @@ const { TEST_LOGIN,
     TEST_USER_2,
     TEST_USER_3 } = TestHelpers.credentials;
 
-describe.only('error', () => {
+describe('error', () => {
     let client = null;
     let messenger = null;
     let conversation = null;
