@@ -18,12 +18,14 @@ You can get the demo app from [http://github.com/voximplant/react-native-demo](h
     ```
     pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
         'Core',
+        'CxxBridge',
         'RCTImage',
         'RCTNetwork',
         'RCTText',
         'RCTWebSocket',
         'DevSupport',
-        'BatchedBridge'
+        'RCTAnimation',
+        'RCTLinkingIOS'
         # Add any other subspecs you want to use in your project
     ]
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
