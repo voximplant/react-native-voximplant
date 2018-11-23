@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.3.0
+### 1.3.1
 - Update native Android and iOS modules to use Voximplant Andorid SDK 2.8.0 and Voximplant iOS SDK 2.17.0
 - Introduce ClientConfig.requestAudioFocusMode option to specify when audio focus request should be performed by SDK 
   on Android
