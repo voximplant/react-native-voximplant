@@ -52,21 +52,47 @@ export default class Message {
      */
     uuid;
 
-
+    /**
+     * @ignore
+     */
     constructor() {}
 
+    /**
+     * New text of this message.
+     *
+     * @param {number} text
+     *
+     * @memberOf Voximplant.Messaging.Message
+     */
     setText(text) {
         this.text = text;
     }
 
+    /**
+     * New payload of the message
+     *
+     * @param {Array<Voximplant.Messaging.Payload>} payload
+     *
+     * @memberOf Voximplant.Messaging.Message
+     */
     setPayload(payload) {
         this.payload = payload;
     }
 
+    /**
+     * Sends text and payload changes to the server.
+     *
+     * @memberOf Voximplant.Messaging.Message
+     */
     update() {
         MessagingModule.updateMessage(this.conversation, this.uuid, this.text, this.payload);
     }
 
+    /**
+     * Remove the message. Triggers the MessengerEvents.RemoveMessage event for all messenger objects on all clients, including this one.
+     *
+     * @memberOf Voximplant.Messaging.Message
+     */
     remove() {
         MessagingModule.removeMessage(this.conversation, this.uuid);
     }

@@ -124,6 +124,9 @@ class Constants {
     static final String SPEAKER = "Speaker";
     static final String WIRED_HEADSET = "WiredHeadset";
 
+    static final String REQUEST_ON_CALL_START = "REQUEST_ON_CALL_START";
+    static final String REQUEST_ON_CALL_CONNECTED = "REQUEST_ON_CALL_CONNECTED";
+
     //Messenger
     static final String EVENT_MES_GET_USER = "VIGetUser";
     static final String EVENT_MES_EDIT_USER = "VIEditUser";

@@ -12,13 +12,13 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - Jet (0.1.0):
+  - Jet (0.2.0):
     - React
   - React (0.57.1):
     - React/Core (= 0.57.1)
-  - react-native-voximplant (1.2.0):
+  - react-native-voximplant (1.3.1):
     - React
-    - VoxImplantSDK (= 2.16.0)
+    - VoxImplantSDK (= 2.17.0)
   - React/Core (0.57.1):
     - yoga (= 0.57.1.React)
   - React/CxxBridge (0.57.1):
@@ -52,11 +52,11 @@ PODS:
     - React/fishhook
     - React/RCTBlob
   - SocketRocket (0.5.1)
-  - VoxImplantSDK (2.16.0):
+  - VoxImplantSDK (2.17.0):
     - CocoaLumberjack (~> 3.4.0)
     - SocketRocket (~> 0.5.1)
-    - VoxImplantWebRTC (~> 66.0.1)
-  - VoxImplantWebRTC (66.0.1)
+    - VoxImplantWebRTC (~> 66.0.3)
+  - VoxImplantWebRTC (66.0.3)
   - yoga (0.57.1.React)
 
 DEPENDENCIES:
@@ -106,10 +106,10 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   Jet: 5748d9e6ccc47b646859282fc25d1b063540e981
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-voximplant: f420d802b2775a859f184d8b62c875cb679208be
+  react-native-voximplant: 3fbab8fc740fd54d227baea5d4fdebea828483f0
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  VoxImplantSDK: ee7ad6190665d60f9c3461bb23af9094063458d2
-  VoxImplantWebRTC: 903542182c6f80f74617cb318d6ecb9425230fcd
+  VoxImplantSDK: c40282f6d27af259b2d0100ebec3333c9be99d32
+  VoxImplantWebRTC: 25b4d834b77e42285b11822b5d885431c3411a2b
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
 PODFILE CHECKSUM: a5056eb18a83a37da820ef43024ba1d08fe4995f

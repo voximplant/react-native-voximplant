@@ -10,9 +10,9 @@ import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
+import com.voximplant.sdk.client.RequestAudioFocusMode;
 import com.voximplant.sdk.hardware.AudioDevice;
 import com.voximplant.sdk.messaging.MessengerAction;
-import com.voximplant.sdk.messaging.MessengerError;
 import com.voximplant.sdk.messaging.MessengerEventType;
 import com.voximplant.sdk.messaging.MessengerNotifications;
 
@@ -66,6 +66,9 @@ import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNKNOWN;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNSUBSCRIBE;
 import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
+
+import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
+import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
 
 class Utils {
 
@@ -330,6 +333,16 @@ class Utils {
 		}
 	}
 
+	static RequestAudioFocusMode convertStringToRequestAudioFocusMode(String requestAudioFocusMode) {
+		switch (requestAudioFocusMode) {
+			case REQUEST_ON_CALL_CONNECTED:
+				return RequestAudioFocusMode.REQUEST_ON_CALL_CONNECTED;
+			case REQUEST_ON_CALL_START:
+			default:
+				return RequestAudioFocusMode.REQUEST_ON_CALL_START;
+		}
+	}
+
 	static String convertMessengerNotificationsToString(MessengerNotifications notification) {
     	switch (notification) {
 			case ON_EDIT_MESSAGE:
@@ -440,66 +453,6 @@ class Utils {
 			case EVENT_UNKNOWN:
 				default:
 				return EVENT_NAME_MES_UNKNOWN;
-		}
-	}
-
-	static int convertMessengerErrorToInt(MessengerError error) {
-		switch (error) {
-			case ERROR_1:
-				return 1;
-			case ERROR_2:
-				return 2;
-			case ERROR_3:
-				return 3;
-			case ERROR_4:
-				return 4;
-			case ERROR_5:
-				return 5;
-			case ERROR_6:
-				return 6;
-			case ERROR_7:
-				return 7;
-			case ERROR_8:
-				return 8;
-			case ERROR_9:
-				return 9;
-			case ERROR_10:
-				return 10;
-			case ERROR_11:
-				return 11;
-			case ERROR_12:
-				return 12;
-			case ERROR_13:
-				return 13;
-			case ERROR_14:
-				return 14;
-			case ERROR_15:
-				return 15;
-			case ERROR_16:
-				return 16;
-			case ERROR_17:
-				return 17;
-			case ERROR_18:
-				return 18;
-			case ERROR_19:
-				return 19;
-			case ERROR_20:
-				return 20;
-			case ERROR_21:
-				return 21;
-			case ERROR_22:
-				return 22;
-			case ERROR_23:
-				return 23;
-			case ERROR_24:
-				return 24;
-			case ERROR_30:
-				return 30;
-			case ERROR_500:
-				return 500;
-			case ERROR_777:
-				default:
-				return 777;
 		}
 	}
 }

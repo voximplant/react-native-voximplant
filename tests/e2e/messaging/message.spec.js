@@ -78,7 +78,8 @@ describe('message', () => {
                 lastSeq: 1,
                 isUber: false
             });
-            (event.conversation.participants).should.deepEqual(expectedParticipants);
+            (event.conversation.participants).sort((a, b) => a.userId.localeCompare(b.userId))
+                .should.deepEqual(expectedParticipants.sort((a, b) => a.userId.localeCompare(b.userId)));
             should.exist(event.conversation.createdAt);
             should.exist(event.conversation.lastRead);
             should.exist(event.conversation.lastUpdate);

@@ -683,7 +683,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
             params.putString(EVENT_MES_PARAM_USER_ID, errorEvent.getUserId());
         }
         if (errorEvent.getMessengerException() != null) {
-            params.putInt(EVENT_MES_PARAM_CODE, Utils.convertMessengerErrorToInt(errorEvent.getMessengerException().getErrorCode()));
+            params.putInt(EVENT_MES_PARAM_CODE, errorEvent.getMessengerException().getErrorCode());
             if (errorEvent.getMessengerException().getMessage() != null) {
                 params.putString(EVENT_MES_PARAM_DESCRIPTION, errorEvent.getMessengerException().getMessage());
             }

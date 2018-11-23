@@ -34,6 +34,7 @@ export const LogLevel = {
     VERBOSE: "verbose",
     /**
      * Log verbosity level to include all types of messages
+     * @deprecated
      */
     MAX: "max"
 };
@@ -163,6 +164,26 @@ export const VideoCodec = {
      * @memberOf Voximplant.VideoCodec
      */
     AUTO : 'AUTO'
+};
+
+/**
+ * Request audio focus modes.
+ * @name RequestAudioFocusMode
+ * @memberOf Voximplant
+ * @enum {string}
+ * @type {{REQUEST_ON_CALL_START: string, REQUEST_ON_CALL_CONNECTED: string}}
+ */
+export const RequestAudioFocusMode = {
+    /**
+     * Request of audio focus is performed when a call is started.
+     * @memberOf Voximplant.RequestAudioFocusMode
+     */
+    REQUEST_ON_CALL_START     : 'REQUEST_ON_CALL_START',
+    /**
+     * Request of audio focus is performed when a call is established.
+     * @memberOf Voximplant.RequestAudioFocusMode
+     */
+    REQUEST_ON_CALL_CONNECTED : 'REQUEST_ON_CALL_CONNECTED'
 };
 
 /**

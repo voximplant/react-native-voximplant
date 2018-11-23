@@ -61,8 +61,6 @@ export default class Messenger {
         EventEmitter.addListener('VIError', this._onError);
     }
 
-    // init() {}
-
     /**
      *  @ignore
      */
@@ -74,9 +72,13 @@ export default class Messenger {
     }
 
     /**
+     * Register handler for specified messenger event.
+     * Use {@link Voximplant.Messaging.Messenger.off} method to delete a handler.
      *
-     * @param eventType
-     * @param event
+     * @param {Voximplant.Messaging.MessengerEventTypes} eventType
+     * @param {function} event
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     on(eventType, event) {
         if (!listeners[eventType]) {
@@ -86,9 +88,12 @@ export default class Messenger {
     }
 
     /**
+     * Remove handler for specified event
      *
-     * @param eventType
-     * @param event
+     * @param {Voximplant.Messaging.MessengerEventTypes} eventType
+     * @param {function} event
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     off(eventType, event) {
         if (listeners[eventType]) {
@@ -98,7 +103,9 @@ export default class Messenger {
 
     /**
      * Get the full Voximplant user identifier, for example 'username@appname.accname', for the current user
+     *
      * @return string
+     *
      * @memberOf Voximplant.Messaging.Messenger
      */
     getMe() {
@@ -106,66 +113,99 @@ export default class Messenger {
     }
 
     /**
+     * Get user information for the user specified by the full Voximplant user identifier, ex 'username@appname.accname'
      *
-     * @param userId
+     * @param {string} userId - User identifier
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     getUser(userId) {
         MessagingModule.getUser(userId);
     }
 
     /**
+     * Get user information for the users specified by the array of the full Voximplant user identifiers, ex 'username@appname.accname'
      *
-     * @param users
+     * @param {Array<string>} users - List of user identifiers
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     getUsers(users) {
         MessagingModule.getUsers(users);
     }
 
+    /**
+     * Edit current user information.
+     *
+     * @param {object} customData - New custom data.
+     * @param {object} privateCustomData - New private custom data.
+     *
+     * @memberOf Voximplant.Messaging.Messenger
+     */
     editUser(customData, privateCustomData) {
         MessagingModule.editUser(customData, privateCustomData);
     }
 
     /**
+     * Set user presence status. Triggers the MessengerEvents.SetStatus event for all messenger objects on all connected
+     * clients which are subscribed for notifications about this user.
      *
-     * @param online
+     * @param {boolean} online - true if user is available for messaging
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     setStatus(online) {
         MessagingModule.setStatus(online);
     }
 
     /**
+     * Subscribe for user information change and presence status change. On change, the 'MessengerEvents.Subscribe' event will be triggered.
      *
-     * @param users
+     * @param {Array<string>} users - List of full Voximplant user identifiers, ex 'username@appname.accname'
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     subscribe(users) {
         MessagingModule.subscribe(users)
     }
 
     /**
+     * Unsubscribe for user information change and presence status change.
      *
-     * @param users
+     * @param {Array<string>} users - List of full Voximplant user identifiers, ex 'username@appname.accname'
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     unsubscribe(users) {
         MessagingModule.unsubscribe(users);
     }
 
     /**
+     * Manage messenger push notification subscriptions.
      *
-     * @param notifications
+     * @param {Array<Voximplant.Messaging.MessengerNotifications>} notifications - List of MessengerNotifications
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     managePushNotifications(notifications) {
         MessagingModule.manageNotifications(notifications);
     }
 
     /**
+     * Create a new conversation. Triggers the MessengerEvents.ErrorCreateConversation event on all connected clients
+     * that are mentioned in the 'participants' array.
      *
-     * @param participants
-     * @param title
-     * @param distinct
-     * @param publicJoin
-     * @param customData
-     * @param moderators
-     * @param isUber
+     * @param {Array<ConversationParticipant>} participants - Array of participants alongside with access rights params
+     * @param {string} title - Conversation title
+     * @param {boolean} [distinct] - If two conversations are created with same set of users and moderators and both have 'distinct' flag,
+     *                             second creation of conversation (with the same participants) will fail with the UUID of conversation already created.
+     *                             Note that changing users or moderators list will clear 'distinct' flag.
+     * @param {boolean} [publicJoin] - If set to 'true', anyone can join conversation by uuid
+     * @param {object} [customData] - JavaScript object with custom data, up to 5kb. Note that setting this property does not send changes to the server.
+     *                                Use the 'update' to send all changes at once or 'setCustomData' to update and set the custom data.
+     * @param {boolean} [isUber] - Specify if the conversation is uber conversation
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     createConversation(participants, title, distinct, publicJoin, customData, isUber) {
         if (title === undefined || title === null) {
@@ -187,8 +227,11 @@ export default class Messenger {
     }
 
     /**
+     * Get conversation by it's UUID.
      *
-     * @param uuid
+     * @param {string} uuid
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     getConversation(uuid) {
        if (uuid === undefined) {
@@ -198,8 +241,10 @@ export default class Messenger {
     }
 
     /**
+     * Get multiple conversations by array of UUIDs. Maximum 30 conversations.
+     * Note that calling this method will result in multiple IMessengerListener.onGetConversation(IConversationEvent) events.
      *
-     * @param conversations
+     * @param {Array<string>} conversations - Array of UUIDs
      */
     getConversations(conversations) {
         if (conversations === undefined) {
@@ -209,8 +254,11 @@ export default class Messenger {
     }
 
     /**
+     * Remove the conversation specified by the UUID
      *
-     * @param uuid
+     * @param {string} uuid - Universally Unique Identifier of the conversation
+     *
+     * @memberOf Voximplant.Messaging.Messenger
      */
     removeConversation(uuid) {
         if (uuid === undefined) {
@@ -266,36 +314,60 @@ export default class Messenger {
         event.message = message;
     }
 
+    /**
+     * @private
+     */
     _onGetUser = (event) => {
         this._emit(MessengerEventTypes.GetUser, event);
     };
 
+    /**
+     * @private
+     */
     _onSetStatus = (event) => {
         this._emit(MessengerEventTypes.SetStatus, event);
     };
 
+    /**
+     * @private
+     */
     _onSubscribe = (event) => {
         this._emit(MessengerEventTypes.Subscribe, event);
     };
 
+    /**
+     * @private
+     */
     _onUnsubscribe = (event) => {
         this._emit(MessengerEventTypes.Unsubscribe, event);
     };
 
+    /**
+     * @private
+     */
     _onEditUser = (event) => {
         this._emit(MessengerEventTypes.EditUser, event);
     };
 
+    /**
+     * @private
+     */
     _onCreateConversation = (event) => {
         this._processConversationEvent(event);
         this._emit(MessengerEventTypes.CreateConversation, event);
     };
 
+    /**
+     * @private
+     */
     onGetConversation = (event) => {
         this._processConversationEvent(event);
         this._emit(MessengerEventTypes.GetConversation, event);
     };
 
+    /**
+     * @private
+     */
     _onRemoveConversation = (event) => {
         let conversation = new Conversation();
         conversation.uuid = event.conversation.uuid;
@@ -304,38 +376,62 @@ export default class Messenger {
         this._emit(MessengerEventTypes.RemoveConversation, event);
     };
 
+    /**
+     * @private
+     */
     _onEditConversation = (event) => {
         this._processConversationEvent(event);
         this._emit(MessengerEventTypes.EditConversation, event);
     };
 
+    /**
+     * @private
+     */
     _onTyping = (event) => {
         this._emit(MessengerEventTypes.Typing, event);
     };
 
+    /**
+     * @private
+     */
     _onSendMessage = (event) => {
         this._processMessageEvent(event);
         this._emit(MessengerEventTypes.SendMessage, event);
     };
 
+    /**
+     * @private
+     */
     _onEditMessage = (event) => {
         this._processMessageEvent(event);
         this._emit(MessengerEventTypes.EditMessage, event);
     };
 
+    /**
+     * @private
+     */
     _onRemoveMessage = (event) => {
         this._processMessageEvent(event);
         this._emit(MessengerEventTypes.RemoveMessage, event);
     };
 
-    _onRead = (event) => {
+
+    /**
+     * @private
+     */   _onRead = (event) => {
         this._emit(MessengerEventTypes.Read, event);
     };
 
+    /**
+     * @private
+     */
     _onDelivered = (event) => {
         this._emit(MessengerEventTypes.Delivered, event);
     };
 
+    /**
+     * @private
+     */
     _onRetransmitEvents = (event) => {
         if (event.events !== undefined) {
             for (let retransmitEvent in event.events) {
@@ -350,6 +446,9 @@ export default class Messenger {
         this._emit(MessengerEventTypes.RetransmitEvents, event);
     };
 
+    /**
+     * @private
+     */
     _onError = (event) => {
         this._emit(MessengerEventTypes.Error, event);
     }

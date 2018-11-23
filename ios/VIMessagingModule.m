@@ -330,8 +330,8 @@ RCT_EXPORT_MODULE();
     if (event.userId) {
         [dictionary setObject:event.userId forKey:kEventMesParamEventUserId];
     }
-    if (event.descr) {
-        [dictionary setObject:event.descr forKey:kEventMesParamDescription];
+    if (event.errorDescription) {
+        [dictionary setObject:event.errorDescription forKey:kEventMesParamDescription];
     }
     [dictionary setObject:[NSNumber numberWithInteger:event.code] forKey:kEventMesParamCode];
     

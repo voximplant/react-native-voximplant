@@ -74,7 +74,8 @@ describe('conversation', () => {
                 lastSeq: 1,
                 isUber: false
             });
-            (event.conversation.participants).should.deepEqual(expectedParticipants);
+            (event.conversation.participants).sort((a, b) => a.userId.localeCompare(b.userId))
+                .should.deepEqual(expectedParticipants.sort((a, b) => a.userId.localeCompare(b.userId)));
             should.exist(event.conversation.createdAt);
             should.exist(event.conversation.lastRead);
             should.exist(event.conversation.lastUpdate);
@@ -110,13 +111,14 @@ describe('conversation', () => {
                 publicJoin: conversation.publicJoin,
                 lastSeq: conversation.lastSeq,
                 isUber: conversation.isUber,
-                participants: conversation.participants,
                 createdAt: conversation.createdAt,
                 lastRead: conversation.lastRead,
                 lastUpdate: conversation.lastUpdate,
                 uuid: conversation.uuid
             });
 
+            (event.conversation.participants).sort((a, b) => a.userId.localeCompare(b.userId))
+                .should.deepEqual(conversation.participants.sort((a, b) => a.userId.localeCompare(b.userId)));
             messenger.off(Voximplant.Messaging.MessengerEventTypes.GetConversation, conversationEvent);
             done();
         };

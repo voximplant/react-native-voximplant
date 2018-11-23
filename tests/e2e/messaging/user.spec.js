@@ -29,75 +29,93 @@ describe('user', () => {
 
     it('get user', (done) => {
         messenger.should.be.not.null();
-        messenger.on(Voximplant.Messaging.MessengerEventTypes.GetUser, (userEvent) => {
-            console.log(JSON.stringify(userEvent));
-            should.exist(userEvent.messengerEventType);
-            should.equal(userEvent.messengerEventType, Voximplant.Messaging.MessengerEventTypes.GetUser);
-            should.exist(userEvent.messengerAction);
-            should.equal(userEvent.messengerAction, Voximplant.Messaging.MessengerAction.getUser);
-            should.exist(userEvent.userId);
-            should.equal(userEvent.userId, messenger.getMe());
-            should.exist(userEvent.user);
-            should.equal(userEvent.user.userId, TEST_USER_2);
-            should.exist(userEvent.user.conversationsList);
+
+        let userEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.GetUser);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.getUser);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.user);
+            should.equal(event.user.userId, TEST_USER_2);
+            should.exist(event.user.conversationsList);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.GetUser, userEvent);
             done();
-        });
+        };
+
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.GetUser, userEvent);
         messenger.getUser(TEST_USER_2);
     });
 
     it('set status', (done) => {
         messenger.should.be.not.null();
-        messenger.on(Voximplant.Messaging.MessengerEventTypes.SetStatus, (statusEvent) => {
-            console.log(JSON.stringify(statusEvent));
-            should.exist(statusEvent.messengerEventType);
-            should.equal(statusEvent.messengerEventType, Voximplant.Messaging.MessengerEventTypes.SetStatus);
-            should.exist(statusEvent.messengerAction);
-            should.equal(statusEvent.messengerAction, Voximplant.Messaging.MessengerAction.setStatus);
-            should.exist(statusEvent.userId);
-            should.equal(statusEvent.userId, messenger.getMe());
-            should.exist(statusEvent.userStatus);
-            should.exist(statusEvent.userStatus.online);
-            (statusEvent.userStatus.online).should.be.true();
-            should.exist(statusEvent.userStatus.timestamp);
+
+        let statusEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.SetStatus);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.setStatus);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.userStatus);
+            should.exist(event.userStatus.online);
+            (event.userStatus.online).should.be.true();
+            should.exist(event.userStatus.timestamp);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.SetStatus, statusEvent);
             done();
-        });
+        };
+
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.SetStatus, statusEvent);
         messenger.setStatus(true);
     });
 
     it('subscribe to user2 and user3', (done) => {
         messenger.should.be.not.null();
-        messenger.on(Voximplant.Messaging.MessengerEventTypes.Subscribe, (subscriptionEvent) => {
-            console.log(JSON.stringify(subscriptionEvent));
-            should.exist(subscriptionEvent.messengerEventType);
-            should.equal(subscriptionEvent.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Subscribe);
-            should.exist(subscriptionEvent.messengerAction);
-            should.equal(subscriptionEvent.messengerAction, Voximplant.Messaging.MessengerAction.subscribe);
-            should.exist(subscriptionEvent.userId);
-            should.equal(subscriptionEvent.userId, messenger.getMe());
-            should.exist(subscriptionEvent.users);
-            //TODO: fix it
-            // (subscriptionEvent.users).should.eql([TEST_USER_2, TEST_USER_3]);
+
+        let subscriptionEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Subscribe);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.subscribe);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.users);
+            (event.users).should.eql([TEST_USER_2, TEST_USER_3]);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.Subscribe, subscriptionEvent);
             done();
-        });
+        };
+
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.Subscribe, subscriptionEvent);
         messenger.subscribe([TEST_USER_2, TEST_USER_3]);
     });
 
     it('unsubscribe from user2', (done) => {
        messenger.should.not.be.null();
-       messenger.on(Voximplant.Messaging.MessengerEventTypes.Unsubscribe, (subscriptionEvent) => {
-           console.log(JSON.stringify(subscriptionEvent));
-           should.exist(subscriptionEvent.messengerEventType);
-           should.equal(subscriptionEvent.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Unsubscribe);
-           should.exist(subscriptionEvent.messengerAction);
-           should.equal(subscriptionEvent.messengerAction, Voximplant.Messaging.MessengerAction.unsubscribe);
-           should.exist(subscriptionEvent.userId);
-           should.equal(subscriptionEvent.userId, messenger.getMe());
-           should.exist(subscriptionEvent.users);
-           //TODO: fix it
-           // (subscriptionEvent.users).should.eql([TEST_USER_3]);
-           done();
-       });
-       messenger.unsubscribe([TEST_USER_2]);
+
+        let subscriptionEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Unsubscribe);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.unsubscribe);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.users);
+            (event.users).should.eql([TEST_USER_3]);
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.Subscribe, subscriptionEvent);
+            done();
+        };
+        
+       messenger.on(Voximplant.Messaging.MessengerEventTypes.Unsubscribe, subscriptionEvent);
+       messenger.unsubscribe([TEST_USER_3]);
     });
 
     it('edit user custom data with string', (done) => {
@@ -270,7 +288,9 @@ describe('user', () => {
             should.exist(userEvent.userId);
             should.equal(userEvent.userId, messenger.getMe());
             should.exist(userEvent.user);
-            (userEvent.user.messengerNotifications).should.eql(notifications);
+
+            should.notEqual((userEvent.user.messengerNotifications).indexOf(Voximplant.Messaging.MessengerNotifications.SendMessage), -1);
+            should.notEqual((userEvent.user.messengerNotifications).indexOf(Voximplant.Messaging.MessengerNotifications.EditMessage), -1);
 
             messenger.off(Voximplant.Messaging.MessengerEventTypes.EditUser, userEditEvent);
             done();

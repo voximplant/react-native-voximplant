@@ -32,7 +32,7 @@
     "should-sinon": "0.0.6",
     "sinon": "^6.2.0",
     "detox": "^9.0.4",
-    "jet": "^0.1.0",
+    "jet": "^0.2.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^9.0.0",
