@@ -10,7 +10,7 @@ import {
 	NativeEventEmitter,
 	DeviceEventEmitter,
 } from 'react-native';
-import {LogLevel, VideoCodec} from './../Enums';
+import {LogLevel, RequestAudioFocusMode, VideoCodec} from './../Enums';
 import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
 import Endpoint from './../call/Endpoint';
@@ -53,6 +53,7 @@ export default class Client {
             if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
             if (clientConfig.preferredVideoCodec === undefined) clientConfig.preferredVideoCodec = VideoCodec.VP8;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
+            if (clientConfig.requestAudioFocusMode === undefined) clientConfig.requestAudioFocusMode = RequestAudioFocusMode.REQUEST_ON_CALL_START;
             if (clientConfig.saveLogsToFile !== undefined) console.log('saveLogsToFile is iOS only option');
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
             ClientModule.init(clientConfig.enableVideo,
@@ -62,7 +63,8 @@ export default class Client {
                 clientConfig.enableCameraMirroring,
                 clientConfig.enableLogcatLogging,
                 clientConfig.preferredVideoCodec,
-                clientConfig.bundleId);
+                clientConfig.bundleId,
+                clientConfig.requestAudioFocusMode);
         }
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
@@ -75,6 +77,7 @@ export default class Client {
             if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
             if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
+            if (clientConfig.requestAudioFocusMode !== undefined) console.log('requestAudioFocusMode is Android only option');
             ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile, clientConfig.bundleId);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);

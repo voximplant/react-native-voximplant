@@ -57,7 +57,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableHWAcceleration, boolean provideLocalFramesInByteBuffers,
 					 boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
-					 String videoCodec, String packageName) {
+					 String videoCodec, String packageName, String requestAudioFocusMode) {
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableHWAccelerationForDecoding = enableHWAcceleration;
@@ -68,6 +68,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		config.enableLogcatLogging = enableLogcatLogging;
 		config.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
 		config.packageName = packageName;
+		config.requestAudioFocusMode = Utils.convertStringToRequestAudioFocusMode(requestAudioFocusMode);
 		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
 		mClient.setClientIncomingCallListener(this);
 		mClient.setClientLoginListener(this);

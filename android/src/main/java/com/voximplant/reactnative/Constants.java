@@ -123,4 +123,7 @@ class Constants {
     static final String NONE = "None";
     static final String SPEAKER = "Speaker";
     static final String WIRED_HEADSET = "WiredHeadset";
+
+    static final String REQUEST_ON_CALL_START = "REQUEST_ON_CALL_START";
+    static final String REQUEST_ON_CALL_CONNECTED = "REQUEST_ON_CALL_CONNECTED";
 }

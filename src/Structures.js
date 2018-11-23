@@ -23,6 +23,21 @@
  * @property {string} [bundleId] - Application bundle id/package name for iOS/Android respectively.
  *                                 You need to set this only if you are going to send push notifications across several mobile apps on a specific platform (Android or iOS)
  *                                 using a single Voximplant application.
+ * @property {Voximplant.RequestAudioFocusMode} [requestAudioFocusMode] - Specifies when the audio focus request is performed: when a call is started or established.
+ *                                 {@link Voximplant.RequestAudioFocusMode.REQUEST_ON_CALL_START} by default.
+ *
+ *                                 In case of {@link Voximplant.RequestAudioFocusMode.REQUEST_ON_CALL_CONNECTED}, SDK requests audio focus and sets audio mode to
+ *                                 [MODE_IN_COMMUNICATION](https://developer.android.com/reference/android/media/AudioManager#MODE_IN_COMMUNICATION),
+ *                                 when a call is established, i.e. {@link Voximplant.CallEvents.Connected} is invoked.
+ *
+ *                                 In case of {@link Voximplant.RequestAudioFocusMode.REQUEST_ON_CALL_START}, SDK requests audio focus when the call is started,
+ *                                 i.e. {@link Voximplant.Client.call()} or {@link Voximplant.Call.answer()} are called.
+ *
+ *                                 If the application plays some audio, it may result in audio interruptions. To avoid this behaviour,
+ *                                 this option should be set to {@link Voximplant.RequestAudioFocusMode.REQUEST_ON_CALL_CONNECTED}
+ *                                 and application's audio should be stopped/paused on {@link Voximplant.CallEvents.ProgressToneStop}.
+ *
+ *                                 ANDROID ONLY
  */
 const ClientConfig = {
 

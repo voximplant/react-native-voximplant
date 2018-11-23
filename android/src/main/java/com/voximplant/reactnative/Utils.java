@@ -9,12 +9,16 @@ import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LoginError;
+import com.voximplant.sdk.client.RequestAudioFocusMode;
 import com.voximplant.sdk.hardware.AudioDevice;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+
+import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
+import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
 
 class Utils {
 
@@ -141,6 +145,16 @@ class Utils {
 			case "AUTO":
 			default:
 				return VideoCodec.AUTO;
+		}
+	}
+
+	static RequestAudioFocusMode convertStringToRequestAudioFocusMode(String requestAudioFocusMode) {
+		switch (requestAudioFocusMode) {
+			case REQUEST_ON_CALL_CONNECTED:
+				return RequestAudioFocusMode.REQUEST_ON_CALL_CONNECTED;
+			case REQUEST_ON_CALL_START:
+			default:
+				return RequestAudioFocusMode.REQUEST_ON_CALL_START;
 		}
 	}
 }
