@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.4.0
+- Update native Android and iOS modules to use Voximplant Andorid SDK 2.8.1 and Voximplant iOS SDK 2.18.0
+- Fix to receive EndpointEvents after subscription in CallEvents.EndpointAdded event in case of incoming call
+- Remove unused imports
+
 ### 1.3.1
 - Update native Android and iOS modules to use Voximplant Andorid SDK 2.8.0 and Voximplant iOS SDK 2.17.0
 - Introduce ClientConfig.requestAudioFocusMode option to specify when audio focus request should be performed by SDK 
