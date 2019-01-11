@@ -49,6 +49,9 @@ export default class CallManager {
         if (this.endpoints.get(callId) === undefined) {
             this.endpoints.set(callId, new Set());
         }
+        if (Array.from(this.endpoints.get(callId).values()).some(_ => _.id === endpoint.id)) {
+            return;
+        }
         this.endpoints.get(callId).add(endpoint);
     }
 
