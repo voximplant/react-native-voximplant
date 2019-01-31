@@ -49,6 +49,10 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
         mVideoViewRenderer.setScalingType(mScaleType.equals(SCALE_TYPE_FILL) ? RendererCommon.ScalingType.SCALE_ASPECT_FILL : RendererCommon.ScalingType.SCALE_ASPECT_FIT);
     }
 
+    public void setShowOnTop(boolean showOnTop) {
+        mVideoViewRenderer.setZOrderMediaOverlay(showOnTop);
+    }
+
     private void applyProperties(String videoStreamId) {
         if (mVideoStreamId == null || mVideoStreamId.isEmpty()) {
             mVideoStreamId = videoStreamId;

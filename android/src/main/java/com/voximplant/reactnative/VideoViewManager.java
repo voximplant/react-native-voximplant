@@ -29,5 +29,10 @@ public class VideoViewManager extends SimpleViewManager<VideoView> {
         view.setScaleType(scaleType);
     }
 
+    @ReactProp(name = "showOnTop")
+    public void setShowOnTop(VideoView view, boolean showOnTop) {
+        view.setShowOnTop(showOnTop);
+    }
+
 
 }
