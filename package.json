@@ -24,6 +24,9 @@
   "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
   "license": "MIT",
   "homepage": "https://voximplant.com",
+  "peerDependencies": {
+    "react-native": ">= 0.47.0"
+  },
   "devDependencies": {
     "jsdoc": "^3.5.5",
     "jsdoc-cli": "^1.0.1"
