@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.5.0
+- Introduce VideoView showOnTop prop for Android to indicate that the video view should be displayed on top of others.
+  Fix for [#57](https://github.com/voximplant/react-native-voximplant/issues/57)
+- Provide error description for Client.call promise rejection
+- Specify RN supported versions in peerDependencies (RN >= 0.47.0)
+
 ### 1.4.0
 - Update native Android and iOS modules to use Voximplant Andorid SDK 2.8.1 and Voximplant iOS SDK 2.18.0
 - Fix to receive EndpointEvents after subscription in CallEvents.EndpointAdded event in case of incoming call
