@@ -177,13 +177,15 @@ public class VIClientModule extends ReactContextBaseJavaModule
 				try {
 					CallManager.getInstance().addCall(call);
 					call.start();
-					callback.invoke(call.getCallId());
+					callback.invoke(call.getCallId(), null);
 				} catch (CallException e) {
-					callback.invoke((Object)null);
+					callback.invoke(null, e.getErrorCode().toString());
 				}
 			} else {
-				callback.invoke((Object)null);
+				callback.invoke(null, "NOT_LOGGED_IN");
 			}
+		} else {
+			callback.invoke(null, "NOT_LOGGED_IN");
 		}
 	}
 
@@ -200,13 +202,15 @@ public class VIClientModule extends ReactContextBaseJavaModule
 				try {
 					CallManager.getInstance().addCall(call);
 					call.start();
-					callback.invoke(call.getCallId());
+					callback.invoke(call.getCallId(), null);
 				} catch (CallException e) {
-					callback.invoke((Object)null);
+					callback.invoke(null, e.getErrorCode().toString());
 				}
 			} else {
-				callback.invoke((Object)null);
+				callback.invoke(null, "NOT_LOGGED_IN");
 			}
+		} else {
+			callback.invoke(null, "NOT_LOGGED_IN");
 		}
 	}
 	//endregion

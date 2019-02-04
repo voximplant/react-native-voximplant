@@ -87,12 +87,14 @@ export const CallError = {
     FUNCTIONALITY_IS_DISABLED : 'FUNCTIONALITY_IS_DISABLED',
     /** Operation is incorrect, for example reject outgoing call */
     INCORRECT_OPERATION       : 'INCORRECT_OPERATION',
-    /** Internal error occured */
+    /** Internal error occurred */
     INTERNAL_ERROR            : 'INTERNAL_ERROR',
     /** Operation can't be performed due to the call is on hold. Unhold the call and repeat the operation */
     MEDIA_IS_ON_HOLD          : 'MEDIA_IS_ON_HOLD',
     /** Operation can't be performed due to missing permission */
     MISSING_PERMISSION        : 'MISSING_PERMISSION',
+    /** Operation can't be performed due to the client is not logged in */
+    NOT_LOGGED_IN             : 'NOT_LOGGED_IN',
     /** Operation is rejected */
     REJECTED                  : 'REJECTED',
     /** Operation is not completed in time */
