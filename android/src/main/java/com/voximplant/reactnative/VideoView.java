@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
 package com.voximplant.reactnative;
@@ -47,6 +47,10 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
     public void setScaleType(String scaleType) {
         mScaleType = scaleType;
         mVideoViewRenderer.setScalingType(mScaleType.equals(SCALE_TYPE_FILL) ? RendererCommon.ScalingType.SCALE_ASPECT_FILL : RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+    }
+
+    public void setShowOnTop(boolean showOnTop) {
+        mVideoViewRenderer.setZOrderMediaOverlay(showOnTop);
     }
 
     private void applyProperties(String videoStreamId) {

@@ -70,6 +70,9 @@ import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
 
+import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
+import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
+
 class Utils {
 
 	static List<String> createArrayList(ReadableArray readableArray) {

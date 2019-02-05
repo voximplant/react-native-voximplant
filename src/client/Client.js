@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
 'use strict';
-import React, { Component } from 'react';
 import {
     Platform,
     NativeModules,
@@ -361,23 +360,23 @@ export default class Client {
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
                 ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, (callId) => {
+                    callSettings.extraHeaders, (callId, errorDescription) => {
                     if (callId) {
                         let call = new Call(callId);
                         resolve(call);
                     } else {
-                        reject();
+                        reject(errorDescription);
                     }
                 });
             }
             if (Platform.OS === 'ios') {
                 ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
+                    callSettings.extraHeaders, callSettings.setupCallKit, (callId, errorDescription) => {
                     if (callId) {
                         let call = new Call(callId);
                         resolve(call);
                     } else {
-                        reject();
+                        reject(errorDescription);
                     }
                 });
             }
@@ -422,23 +421,23 @@ export default class Client {
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
                 ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, (callId) => {
+                    callSettings.extraHeaders, (callId, errorDescription) => {
                         if (callId) {
                             let call = new Call(callId);
                             resolve(call);
                         } else {
-                            reject();
+                            reject(errorDescription);
                         }
                     });
             }
             if (Platform.OS === 'ios') {
                 ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, callSettings.setupCallKit, (callId) => {
+                    callSettings.extraHeaders, callSettings.setupCallKit, (callId, errorDescription) => {
                         if (callId) {
                             let call = new Call(callId);
                             resolve(call);
                         } else {
-                            reject();
+                            reject(errorDescription);
                         }
                     });
             }

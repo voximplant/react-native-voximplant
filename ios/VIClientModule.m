@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
 #import <Foundation/Foundation.h>
@@ -257,12 +257,12 @@ RCT_REMAP_METHOD(createAndStartCall,
             }
             [CallManager addCall:call];
             [call start];
-            callback(@[call.callId]);
+            callback(@[call.callId, [NSNull null]]);
         } else {
-            callback(@[[NSNull null]]);
+            callback(@[[NSNull null], @"NOT_LOGGED_IN"]);
         }
     } else {
-        callback(@[[NSNull null]]);
+        callback(@[[NSNull null], @"NOT_LOGGED_IN"]);
     }
 }
 
@@ -287,12 +287,12 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
             }
             [CallManager addCall:call];
             [call start];
-            callback(@[call.callId]);
+            callback(@[call.callId, [NSNull null]]);
         } else {
-            callback(@[[NSNull null]]);
+            callback(@[[NSNull null], @"NOT_LOGGED_IN"]);
         }
     } else {
-        callback(@[[NSNull null]]);
+        callback(@[[NSNull null], @"NOT_LOGGED_IN"]);
     }
 }
 

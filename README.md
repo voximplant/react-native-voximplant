@@ -5,6 +5,9 @@ Voximplant Mobile SDK module for React Native. It lets developers embed realtime
 ## Example
 You can get the demo app from [http://github.com/voximplant/react-native-demo](http://github.com/voximplant/react-native-demo)
 
+## Supported React Native Versions
+React Native >= 0.47.0
+
 ## Getting started
 
 ### iOS

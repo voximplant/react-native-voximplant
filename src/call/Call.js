@@ -1,10 +1,9 @@
 /*
- * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
 'use strict';
 
-import React, { Component } from 'react';
 import {
     Platform,
     NativeModules,
@@ -261,8 +260,11 @@ export default class Call {
     _VICallEndpointAddedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
-            let endpoint = new Endpoint(event.endpointId, event.displayName, event.sipUri, event.endpointName);
-            CallManager.getInstance().addEndpoint(this.callId, endpoint);
+            let endpoint = CallManager.getInstance().getEndpointById(event.endpointId);
+            if (!endpoint) {
+                endpoint = new Endpoint(event.endpointId, event.displayName, event.sipUri, event.endpointName);
+                CallManager.getInstance().addEndpoint(this.callId, endpoint);
+            }
             event.endpoint = endpoint;
             this._emit(CallEvents.EndpointAdded, event);
         }

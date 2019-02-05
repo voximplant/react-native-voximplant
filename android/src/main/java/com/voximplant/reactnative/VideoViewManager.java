@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
 package com.voximplant.reactnative;
@@ -27,6 +27,11 @@ public class VideoViewManager extends SimpleViewManager<VideoView> {
     @ReactProp(name = "scaleType")
     public void setScaleType(VideoView view, String scaleType) {
         view.setScaleType(scaleType);
+    }
+
+    @ReactProp(name = "showOnTop")
+    public void setShowOnTop(VideoView view, boolean showOnTop) {
+        view.setShowOnTop(showOnTop);
     }
 
 
