@@ -89,7 +89,6 @@ RCT_EXPORT_MODULE();
         }
         if (user.notifications) {
             NSMutableArray<NSString *> *notifications = [NSMutableArray new];
-            NSLog(@"YULIA %@", user.notifications);
             for (NSNumber* notification in user.notifications) {
                 NSLog(@"Notification: %@", notification);
                 if ([notification isEqualToNumber:[NSNumber numberWithInteger:VIMessengerNotificationSendMessage]]) {

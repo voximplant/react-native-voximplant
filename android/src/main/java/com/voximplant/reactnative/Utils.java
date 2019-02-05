@@ -434,9 +434,6 @@ class Utils {
 				return EVENT_NAME_MES_GET_CONVERSATION;
 			case ON_GET_USER:
 				return EVENT_NAME_MES_GET_USER;
-			case ON_JOIN_CONVERSATION:
-			case ON_LEAVE_CONVERSATION:
-			    return "";
 			case ON_REMOVE_CONVERSATION:
 			    return EVENT_NAME_MES_REMOVE_CONVERSATION;
 			case ON_REMOVE_MESSAGE:
