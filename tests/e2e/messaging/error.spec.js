@@ -68,7 +68,7 @@ describe('error', () => {
             should.exist(event.conversation);
             (event.conversation).should.have.properties({
                 title: 'Test conversation 1',
-                distinct: true,
+                distinct: false,
                 publicJoin: true,
                 lastSeq: 1,
                 isUber: false
@@ -87,21 +87,15 @@ describe('error', () => {
             done();
         };
         messenger.on(Voximplant.Messaging.MessengerEventTypes.CreateConversation, conversationEvent);
-        messenger.createConversation(participants, 'Test conversation 1', true, true, null);
+        messenger.createConversation(participants, 'Test conversation 1', false, true, null);
     });
 
-    it('conversation already exist', (done) => {
-        const me = messenger.getMe();
+    it('user is already in participants list', (done) => {
         let participants = [
             {
                 userId: TEST_USER_2,
                 canWrite: true,
                 canManageParticipants: false
-            },
-            {
-                userId: TEST_USER_3,
-                canWrite: true,
-                canManageParticipants: true
             }
         ];
 
@@ -110,16 +104,16 @@ describe('error', () => {
             should.exist(event.messengerEventType);
             should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.Error);
             should.exist(event.messengerAction);
-            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.createConversation);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.addParticipants);
             should.exist(event.code);
-            (event.code).should.be.eql(20);
+            (event.code).should.be.eql(13);
             should.exist(event.description);
-            (event.description).should.be.eql('Conversation already exists and it`s distinct');
+            (event.description).should.be.eql('User is already in the participants list.');
 
             done();
         };
         messenger.on(Voximplant.Messaging.MessengerEventTypes.Error, errorEvent);
-        messenger.createConversation(participants, 'Test conversation 1', true, true, null);
+        conversation.addParticipants(participants);
     });
 
     it('remove conversation', (done) => {

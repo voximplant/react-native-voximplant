@@ -37,6 +37,7 @@ export default class Conversation {
      *                              Note that setting this property does not send changes to the server.
      *                              Use the 'update' to send all changes at once or 'setDistinct' to update and set the distinct flag.
      * @memberOf Voximplant.Messaging.Conversation
+     * @deprecated
      */
     distinct;
 
