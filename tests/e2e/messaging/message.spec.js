@@ -108,6 +108,7 @@ describe('message', () => {
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
             (event.sequence).should.be.eql(2);
+            should.exist(event.timestamp);
             should.exist(event.message);
 
             const me = messenger.getMe();
@@ -150,6 +151,7 @@ describe('message', () => {
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
             (event.sequence).should.be.eql(3);
+            should.exist(event.timestamp);
             should.exist(event.message);
 
             const me = messenger.getMe();
@@ -195,6 +197,7 @@ describe('message', () => {
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
             (event.sequence).should.be.eql(4);
+            should.exist(event.timestamp);
             should.exist(event.message);
 
             const me = messenger.getMe();
@@ -232,6 +235,7 @@ describe('message', () => {
             should.equal(event.userId, messenger.getMe());
             should.exist(event.sequence);
             (event.sequence).should.be.eql(5);
+            should.exist(event.timestamp);
             should.exist(event.message);
             (event.message).should.have.properties({
                 conversation: conversation.uuid,
@@ -293,6 +297,40 @@ describe('message', () => {
         conversation.markAsRead(2);
     });
 
+    it('get conversation', (done) => {
+        messenger.should.be.not.null();
+
+        let conversationEvent = (event) => {
+            console.log(JSON.stringify(event));
+            should.exist(event.messengerEventType);
+            should.equal(event.messengerEventType, Voximplant.Messaging.MessengerEventTypes.GetConversation);
+            should.exist(event.messengerAction);
+            should.equal(event.messengerAction, Voximplant.Messaging.MessengerAction.getConversation);
+            should.exist(event.userId);
+            should.equal(event.userId, messenger.getMe());
+            should.exist(event.sequence);
+            should.exist(event.conversation);
+            (event.conversation).should.have.properties({
+                title: conversation.title,
+                distinct: conversation.distinct,
+                publicJoin: conversation.publicJoin,
+                isUber: conversation.isUber,
+                createdAt: conversation.createdAt,
+                uuid: conversation.uuid
+            });
+
+            (event.conversation.participants).sort((a, b) => a.userId.localeCompare(b.userId))
+                .should.deepEqual(conversation.participants.sort((a, b) => a.userId.localeCompare(b.userId)));
+
+            conversation = event.conversation;
+
+            messenger.off(Voximplant.Messaging.MessengerEventTypes.GetConversation, conversationEvent);
+            done();
+        };
+        messenger.on(Voximplant.Messaging.MessengerEventTypes.GetConversation, conversationEvent);
+        messenger.getConversation(conversation.uuid);
+    });
+
     it('retransmit events', (done) => {
         messenger.should.be.not.null();
 
@@ -308,12 +346,23 @@ describe('message', () => {
             event.events.forEach(retransmitEvent => {
                 console.log(JSON.stringify(retransmitEvent));
                 if (retransmitEvent.conversation !== undefined) {
-                    (retransmitEvent.conversation.uuid).should.be.eql(conversation.uuid);
-                    (retransmitEvent.conversation).should.have.keys('title', 'distinct', 'publicJoin', 'participants',
-                        'lastSeq', 'createdAt', 'isUber', 'lastRead');
+                    if (jet.rn.Platform.OS === 'android' && retransmitEvent.messengerAction !== Voximplant.Messaging.MessengerAction.removeMessage) {
+                        // TODO: remove message in retransmit events are not processed correctly in Voximplant Android SDK.
+                        // Test will treat remove message retransmitted event as a conversation event
+                        // the issue is fixed in the latest version of Voximplant Android SDK
+                        (retransmitEvent.conversation.uuid).should.be.eql(conversation.uuid);
+                        (retransmitEvent.conversation).should.have.keys('title', 'distinct', 'publicJoin', 'participants',
+                            'lastSeq', 'createdAt', 'isUber', 'lastRead');
+                    }
                 } else if (retransmitEvent.message !== undefined) {
+                    should.exist(retransmitEvent.timestamp);
                     (retransmitEvent.message.conversation).should.be.eql(conversation.uuid);
-                    (retransmitEvent.message).should.have.keys('uuid', 'text', 'sender', 'sequence', 'payload');
+                    // remove message event does not contain 'text' and 'sender'
+                    if (retransmitEvent.messengerAction === 'removeMessage') {
+                        (retransmitEvent.message).should.have.keys('uuid', 'sequence', 'payload');
+                    } else {
+                        (retransmitEvent.message).should.have.keys('uuid', 'text', 'sender', 'sequence', 'payload');
+                    }
                 } else {
                     console.log('Event is not complete');
                 }

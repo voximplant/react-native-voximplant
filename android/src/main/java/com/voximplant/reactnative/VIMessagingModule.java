@@ -625,6 +625,9 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
         if (messageEvent.getSequence() != 0) {
             params.putDouble(EVENT_MES_PARAM_SEQUENCE, messageEvent.getSequence());
         }
+        if (messageEvent.getTimestamp() != 0) {
+            params.putDouble(EVENT_MES_PARAM_TIMESTAMP, messageEvent.getTimestamp());
+        }
         IMessage message = messageEvent.getMessage();
         if (message != null) {
             WritableMap messageMap = Arguments.createMap();

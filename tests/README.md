@@ -15,8 +15,6 @@
 
 ## Run on iOS
 1. Launch `iPhone 7` simulator
-2. Open `node_modules/jet/ios/Jet.podspec` and replace the path to the source files with `'*.{h,m}'`
-   See https://github.com/invertase/jet/issues/6 for details
-3. In terminal go to `tests/ios` directory and run `pod install`
-4. From `tests` directory run `yarn run build-ios`
-5. From `tests` directory run `yarn run test-ios` 
+2. In terminal go to `tests/ios` directory and run `pod install`
+3. From `tests` directory run `yarn run build-ios`
+4. From `tests` directory run `yarn run test-ios` 

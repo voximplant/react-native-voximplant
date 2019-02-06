@@ -264,6 +264,9 @@ RCT_EXPORT_MODULE();
     if (event.seq) {
         [dictionary setObject:event.seq forKey:kEventMesParamSequence];
     }
+    if (event.timestamp) {
+        [dictionary setObject:event.timestamp forKey:kEventMesParamUserTimestamp];
+    }
     VIMessage *message = event.message;
     if (message) {
         NSMutableDictionary *messageDictionary = [NSMutableDictionary new];
