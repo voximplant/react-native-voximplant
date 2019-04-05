@@ -97,8 +97,3 @@ Official guides:
 - [Using React Native SDK guide](https://voximplant.com/blog/using-react-native-sdk)
 - [Migration guide](https://voximplant.com/blog/migration-guide-for-react-native-sdk)
 
-
-## Todo
-These are some features I think would be important/beneficial to have included with this module. Pull requests welcome!
-
-- [ ] Add InstantMessaging/Presence support
