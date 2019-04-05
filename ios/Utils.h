@@ -4,13 +4,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VIVideoRendererView.h"
-#import "VIAudioDevice.h"
+#import <VoxImplant/VoxImplant.h>
 
-@interface Utils :NSObject
+@interface Utils : NSObject
 + (NSData *)dataFromHexString:(NSString *)string;
 + (NSString *)convertIntToCallError:(NSInteger)code;
 + (VIVideoResizeMode)convertStringToVideoResizeMode:(NSString *)mode;
 + (VIAudioDevice *)convertStringToAudioDevice:(NSString *)device;
 + (NSString *)convertAudioDeviceToString:(VIAudioDevice *)device;
++ (NSString *)convertMessengerEventTypeToString:(VIMessengerEventType)eventType;
++ (NSString *)convertMessengerEventActionToString:(VIMessengerAction)action;
++ (NSString *)convertMessengerNotificationToString:(VIMessengerNotification)notification;
 @end

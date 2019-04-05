@@ -5,9 +5,7 @@
 #import "VIAudioDeviceModule.h"
 #import "RCTBridgeModule.h"
 #import "Constants.h"
-#import "VIAudioManager.h"
 #import "Utils.h"
-
 
 @interface VIAudioDeviceModule()
 

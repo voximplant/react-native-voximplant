@@ -4,8 +4,7 @@
  */
 
 #import "VideoView.h"
-#import "VIVideoStream.h"
-#import "VIVideoRendererView.h"
+#import <VoxImplant/VoxImplant.h>
 #import "CallManager.h"
 #import "Utils.h"
 

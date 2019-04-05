@@ -19,7 +19,6 @@
  *                                  Set to false by default. If set to false, video frames from camera will be provided in I420 format with textures. ANDROID ONLY
  * @property {boolean} [enableDebugLogging] - Enable debug logging. Set to false by default. ANDROID ONLY
  * @property {Voximplant.LogLevel} [logLevel] - Log levels. IOS ONLY
- * @property {boolean} [saveLogsToFile] -  Enable saving of the logs to file. Log files are located at: Library/Caches/Logs. False by default. IOS ONLY
  * @property {string} [bundleId] - Application bundle id/package name for iOS/Android respectively.
  *                                 You need to set this only if you are going to send push notifications across several mobile apps on a specific platform (Android or iOS)
  *                                 using a single Voximplant application.

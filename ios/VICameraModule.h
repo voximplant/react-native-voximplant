@@ -4,7 +4,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "VICameraManager.h"
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
 

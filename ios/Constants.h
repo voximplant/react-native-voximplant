@@ -104,3 +104,134 @@ FOUNDATION_EXPORT NSString *const kAudioDeviceNone;
 
 FOUNDATION_EXPORT NSString *const kCameraTypeBack;
 FOUNDATION_EXPORT NSString *const kCameraTypeFront;
+
+
+FOUNDATION_EXPORT NSString *const kEventMesEditUser;
+FOUNDATION_EXPORT NSString *const kEventMesSetStatus;
+FOUNDATION_EXPORT NSString *const kEventMesSubscribe;
+FOUNDATION_EXPORT NSString *const kEventMesUnsubscribe;
+FOUNDATION_EXPORT NSString *const kEventMesCreateConversation;
+FOUNDATION_EXPORT NSString *const kEventMesRemoveConversation;
+FOUNDATION_EXPORT NSString *const kEventMesEditConversation;
+FOUNDATION_EXPORT NSString *const kEventMesTyping;
+FOUNDATION_EXPORT NSString *const kEventMesSendMessage;
+FOUNDATION_EXPORT NSString *const kEventMesEditMessage;
+FOUNDATION_EXPORT NSString *const kEventMesRemoveMessage;
+FOUNDATION_EXPORT NSString *const kEventMesRead;
+
+FOUNDATION_EXPORT NSString *const kEventNameMesGetUser;
+FOUNDATION_EXPORT NSString *const kEventNameMesEditUser;
+FOUNDATION_EXPORT NSString *const kEventNameMesSetStatus;
+FOUNDATION_EXPORT NSString *const kEventNameMesSubscribe;
+FOUNDATION_EXPORT NSString *const kEventNameMesUnsubscribe;
+FOUNDATION_EXPORT NSString *const kEventNameMesCreateConversation;
+FOUNDATION_EXPORT NSString *const kEventNameMesGetConversation;
+FOUNDATION_EXPORT NSString *const kEventNameMesRemoveConversation;
+FOUNDATION_EXPORT NSString *const kEventNameMesEditConversation;
+FOUNDATION_EXPORT NSString *const kEventNameMesTyping;
+FOUNDATION_EXPORT NSString *const kEventNameMesSendMessage;
+FOUNDATION_EXPORT NSString *const kEventNameMesEditMessage;
+FOUNDATION_EXPORT NSString *const kEventNameMesRemoveMessage;
+FOUNDATION_EXPORT NSString *const kEventNameMesDelivered;
+FOUNDATION_EXPORT NSString *const kEventNameMesRead;
+FOUNDATION_EXPORT NSString *const kEventNameMesRetransmitEvents;
+FOUNDATION_EXPORT NSString *const kEventNameMesError;
+FOUNDATION_EXPORT NSString *const kEventNameMesUnknown;
+FOUNDATION_EXPORT NSString *const kEventNameMesGetSubscriptionList;
+FOUNDATION_EXPORT NSString *const kEventNameMesGetPublicConversations;
+
+FOUNDATION_EXPORT NSString *const kEventMesActionGetUser;
+FOUNDATION_EXPORT NSString *const kEventMesActionGetUsers;
+FOUNDATION_EXPORT NSString *const kEventMesActionEditUser;
+FOUNDATION_EXPORT NSString *const kEventMesActionSetStatus;
+FOUNDATION_EXPORT NSString *const kEventMesActionSubscribe;
+FOUNDATION_EXPORT NSString *const kEventMesActionUnsubscribe;
+FOUNDATION_EXPORT NSString *const kEventMesActionManageNotifications;
+FOUNDATION_EXPORT NSString *const kEventMesActionCreateConversation;
+FOUNDATION_EXPORT NSString *const kEventMesActionGetConversation;
+FOUNDATION_EXPORT NSString *const kEventMesActionGetConversations;
+FOUNDATION_EXPORT NSString *const kEventMesActionRemoveConversation;
+FOUNDATION_EXPORT NSString *const kEventMesActionEditConversation;
+FOUNDATION_EXPORT NSString *const kEventMesActionJoinConversation;
+FOUNDATION_EXPORT NSString *const kEventMesActionLeaveConversation;
+FOUNDATION_EXPORT NSString *const kEventMesActionAddParticipants;
+FOUNDATION_EXPORT NSString *const kEventMesActionEditParticipants;
+FOUNDATION_EXPORT NSString *const kEventMesActionRemoveParticipants;
+FOUNDATION_EXPORT NSString *const kEventMesActionTyping;
+FOUNDATION_EXPORT NSString *const kEventMesActionSendMessage;
+FOUNDATION_EXPORT NSString *const kEventMesActionEditMessage;
+FOUNDATION_EXPORT NSString *const kEventMesActionRemoveMessage;
+FOUNDATION_EXPORT NSString *const kEventMesActionDelivered;
+FOUNDATION_EXPORT NSString *const kEventMesActionRead;
+FOUNDATION_EXPORT NSString *const kEventMesActionRetransmitEvents;
+FOUNDATION_EXPORT NSString *const kEventMesActionUnknown;
+FOUNDATION_EXPORT NSString *const kEventMesActionGetSubscriptionList;
+FOUNDATION_EXPORT NSString *const kEventMesActionGetPublicConversations;
+
+// Base event
+FOUNDATION_EXPORT NSString *const kEventMesParamEventType;
+FOUNDATION_EXPORT NSString *const kEventMesParamAction;
+FOUNDATION_EXPORT NSString *const kEventMesParamEventIMUserId;
+
+// User
+FOUNDATION_EXPORT NSString *const kEventMesParamUser;
+FOUNDATION_EXPORT NSString *const kEventMesParamIMId;
+FOUNDATION_EXPORT NSString *const kEventMesParamName;
+FOUNDATION_EXPORT NSString *const kEventMesParamDisplayName;
+FOUNDATION_EXPORT NSString *const kEventMesParamConversationList;
+FOUNDATION_EXPORT NSString *const kEventMesParamCustomData;
+FOUNDATION_EXPORT NSString *const kEventMesParamPrivateCustomData;
+FOUNDATION_EXPORT NSString *const kEventMesParamUserNotifications;
+FOUNDATION_EXPORT NSString *const kEventMesParamLeaveConversationList;
+FOUNDATION_EXPORT NSString *const kEventMesParamIsDeleted;
+
+// Status
+FOUNDATION_EXPORT NSString *const kEventMesParamOnline;
+
+//???
+FOUNDATION_EXPORT NSString *const kEventMesParamTimestamp;
+
+// Subscription
+FOUNDATION_EXPORT NSString *const kEventMesParamUsers;
+
+// Conversation Participant
+FOUNDATION_EXPORT NSString *const kEventMesParamCanWrite;
+FOUNDATION_EXPORT NSString *const kEventMesParamCanManageParticipants;
+FOUNDATION_EXPORT NSString *const kEventMesParamCanEditMessages;
+FOUNDATION_EXPORT NSString *const kEventMesParamCanEditAllMessages;
+FOUNDATION_EXPORT NSString *const kEventMesParamCanRemoveMessages;
+FOUNDATION_EXPORT NSString *const kEventMesParamCanRemoveAllMessages;
+FOUNDATION_EXPORT NSString *const kEventMesParamOwner;
+FOUNDATION_EXPORT NSString *const kEventMesParamLastRead;
+
+// Conversation
+FOUNDATION_EXPORT NSString *const kEventMesParamSequence;
+FOUNDATION_EXPORT NSString *const kEventMesParamUuid;
+FOUNDATION_EXPORT NSString *const kEventMesParamTitle;
+FOUNDATION_EXPORT NSString *const kEventMesParamCreatedTime;
+FOUNDATION_EXPORT NSString *const kEventMesParamDirect;
+FOUNDATION_EXPORT NSString *const kEventMesParamLastSequence;
+FOUNDATION_EXPORT NSString *const kEventMesParamLastUpdateTime;
+FOUNDATION_EXPORT NSString *const kEventMesParamParticipants;
+FOUNDATION_EXPORT NSString *const kEventMesParamPublicJoin;
+FOUNDATION_EXPORT NSString *const kEventMesParamUber;
+FOUNDATION_EXPORT NSString *const kEventMesParamConversation;
+
+
+FOUNDATION_EXPORT NSString *const kEventMesParamConversationUuid;
+FOUNDATION_EXPORT NSString *const kEventMesParamSender;
+FOUNDATION_EXPORT NSString *const kEventMesParamText;
+FOUNDATION_EXPORT NSString *const kEventMesParamType;
+FOUNDATION_EXPORT NSString *const kEventMesParamData;
+FOUNDATION_EXPORT NSString *const kEventMesParamPayload;
+FOUNDATION_EXPORT NSString *const kEventMesParamMessage;
+FOUNDATION_EXPORT NSString *const kEventMesParamFromSequence;
+FOUNDATION_EXPORT NSString *const kEventMesParamToSequence;
+FOUNDATION_EXPORT NSString *const kEventMesParamEvents;
+FOUNDATION_EXPORT NSString *const kEventMesParamDescription;
+FOUNDATION_EXPORT NSString *const kEventMesParamCode;
+
+FOUNDATION_EXPORT NSString *const kEditMessage;
+FOUNDATION_EXPORT NSString *const kSendMessage;
+
+FOUNDATION_EXPORT NSString *const kInvalidArguments;

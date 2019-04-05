@@ -5,7 +5,7 @@
 #import "VICameraModule.h"
 #import "RCTBridgeModule.h"
 #import "Constants.h"
-
+#import <Voximplant/VoxImplant.h>
 
 @interface VICameraModule()
 @end

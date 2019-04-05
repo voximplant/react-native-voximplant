@@ -12,18 +12,16 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ReadableMapKeySetIterator;
+
 import android.hardware.Camera;
 import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 import com.zingaya.voximplant.VoxImplantCallback;
 import com.zingaya.voximplant.VoxImplantClient;
@@ -60,7 +58,7 @@ public class VoxImplantModule extends ReactContextBaseJavaModule implements VoxI
 	public void connect(boolean connectivityCheck, ReadableArray servers) {
 		List<String> serversList;
 		try {
-			serversList = Utils.createArrayList(servers);
+			serversList = Utils.createStringArrayList(servers);
 		} catch (IllegalArgumentException e) {
 			serversList = null;
 		}

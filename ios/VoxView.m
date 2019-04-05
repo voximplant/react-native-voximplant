@@ -3,7 +3,7 @@
  */
 
 #import "VoxView.h"
-#import "VoxImplant.h"
+#import <VoxImplant/VoxImplant.h>
 //@import GLKit;
 
 @interface VoxImplantRendererView ()

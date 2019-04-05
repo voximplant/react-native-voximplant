@@ -241,3 +241,144 @@ const CameraSwitchDone = {
 const CameraSwitchError = {
 
 };
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {Voximplant.Messaging.User} user - Object with user information
+ */
+const UserEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {boolean} online - The user status.
+ */
+const StatusEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {Array<number>} users - Array of the IM user identifiers of the current (un)subscription.
+ */
+const SubscriptionEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {Voximplant.Messaging.Conversation} conversation - Object with conversation information
+ * @property {number} sequence - Sequence number of this event
+ * @property {number} timestamp - UNIX timestamp (seconds) that specifies the time the conversation event was provoked
+ */
+const ConversationEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {Array<string>} conversationList - Array of conversations UUIDs.
+ */
+const ConversationListEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {string} conversationUUID - The conversation UUID associated with this event.
+ * @property {number} sequence - The sequence number of the event that was marked as read by the user initiated this event.
+ * Only available for {@link Voximplant.Messaging.MessengerEventTypes.Read}.
+ */
+const ConversationServiceEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {Voximplant.Messaging.Message} message - Message object.
+ * @property {number} sequence - The sequence number for this event.
+ * @property {number} timestamp - The UNIX timestamp (seconds) that specifies the time the message event was provoked.
+ */
+const MessageEvent = {
+
+};
+
+/**
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} imUserId - The IM id for the user that initiated the event.
+ * @property {number} from - The event sequence number from which the events were retransmitted.
+ * @property {number} to - The event sequence number to which the events were retransmitted.
+ * @property {Array<object>} events - The array of the event objects that were retransmitted ({@link EventHandlers.ConversationEvent}
+ * or {@link EventHandlers.MessageEvent}).
+ */
+const RetransmitEvent = {
+
+};
+
+/**
+ * Interface that represents error messenger events.
+ *
+ * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
+ * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
+ * @property {number} code - Error code
+ *
+ * Error codes and their descriptions:
+ * - 0 - Something went wrong. Please check your input or required parameters.
+ * - 1 - Transport message structure is wrong.
+ * - 2 - Event name is unknown.
+ * - 3 - User is not authorized.
+ * - 8 - Conversation does not exist
+ * - 10 - Message with this UUID does not exist in the conversation.
+ * - 11 - Message with this UUID is deleted from the conversation.
+ * - 12 - ACL error.
+ * - 13 - User is already in the participants list.
+ * - 15 - Public join is not available for this conversation.
+ * - 16 - Conversation with this UUID is deleted.
+ * - 18 - User validation error.
+ * - 19 - User is not in the participants list.
+ * - 21 - Number of requested objects is 0 or larger than allowed by the service.
+ * - 22 - Number of requested objects is larger than allowed by the service.
+ * - 23 - Message size exceeds the limit of 5000 symbols.
+ * - 24 - The 'seq' parameter value is greater than currently possible.
+ * - 25 - User is not found.
+ * - 26 - The notification event is incorrect.
+ * - 28 - The 'from' field value is greater than the 'to' field value.
+ * - 30 - IM service is not available. Try again later.
+ * - 32 - N messages per second limit reached. Please try again later.
+ * - 33 - N messages per minute limit reached. Please try again later.
+ * - 34 - Direct conversation cannot be public or uber.
+ * - 35 - Direct conversation is allowed between two users only.
+ * - 36 - Passing the 'eventsFrom', 'eventsTo' and 'count' parameters simultaneously is not allowed. You should use only two of these parameters.
+ * - 37 - Adding participant to direct conversation is not allowed.
+ * - 38 - Removing participant from direct conversation is not allowed.
+ * - 39 - Joining direct conversation is not allowed.
+ * - 40 - Leaving direct conversation is not allowed.
+ * - 41 - Specify at least two parameters: eventsFrom, eventsTo, count.
+ * - 500 - Internal error.
+ * - 10000 - Method calls within 10s interval from the last call are discarded.
+ * - 10001 - Invalid argument(s). | Message text exceeds the length limit.
+ * - 10002 - Response timeout.
+ * - 10003 - Client is not logged in.
+ * - 10004 - Failed to process response.
+ *
+ * @property {string} description - Error description
+ */
+const ErrorEvent = {
+
+};

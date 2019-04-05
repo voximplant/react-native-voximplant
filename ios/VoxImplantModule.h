@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 #import "RCTBridgeModule.h"
-#import "VoxImplant.h"
+#import <VoxImplant/VoxImplant.h>
 
 @interface VoxImplantModule : NSObject <RCTBridgeModule, VoxImplantDelegate>
 

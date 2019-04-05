@@ -14,6 +14,7 @@ import ClientEvents from './ClientEvents';
 import Call from './../call/Call';
 import Endpoint from './../call/Endpoint';
 import CallManager from "../call/CallManager";
+import MessagingShared from "../messaging/MessagingShared";
 
 const ClientModule = NativeModules.VIClientModule;
 
@@ -67,7 +68,6 @@ export default class Client {
         }
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
-            if (clientConfig.saveLogsToFile === undefined) clientConfig.saveLogsToFile = false;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.enableVideo !== undefined) console.log('enableVideo is Android only option');
             if (clientConfig.enableHWAcceleration !== undefined) console.log('enableHWAcceleration is Android only option');
@@ -77,7 +77,8 @@ export default class Client {
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
             if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
             if (clientConfig.requestAudioFocusMode !== undefined) console.log('requestAudioFocusMode is Android only option');
-            ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.saveLogsToFile, clientConfig.bundleId);
+            if (clientConfig.saveLogsToFile !== undefined) console.warn('saveLogsToFile config is no more available ')
+            ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.bundleId);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
         EventEmitter.addListener('VIConnectionClosed', this._onConnectionClosed);
@@ -190,6 +191,7 @@ export default class Client {
         return new Promise((resolve, reject) => {
             let loginResult = (event) => {
                 if (event.result) {
+                    MessagingShared.getInstance().setCurrentUser(username);
                     resolve(event);
                 } else {
                     reject(event);
@@ -215,6 +217,7 @@ export default class Client {
         return new Promise((resolve, reject) => {
             let loginResult = (event) => {
                 if (event.result) {
+                    MessagingShared.getInstance().setCurrentUser(username);
                     resolve(event);
                 } else {
                     reject(event);
@@ -237,6 +240,7 @@ export default class Client {
         return new Promise((resolve, reject) => {
             let loginResult = (event) => {
                 if (event.result) {
+                    MessagingShared.getInstance().setCurrentUser(username);
                     resolve(event);
                 } else {
                     reject(event);
@@ -292,12 +296,35 @@ export default class Client {
     }
 
     /**
-     * Register for push notifications. Application will receive push notifications from the Voximplant Server after first log in
+     * Register for VoIP push notifications. Only PushKit VoIP tokens are acceptable.
+     *
+     * Application will receive push notifications from the Voximplant Server after the first login.
      * @param {string} token - Push registration token
      * @memberOf Voximplant.Client
      */
     registerPushNotificationsToken(token) {
         ClientModule.registerPushNotificationsToken(token);
+    }
+
+    /**
+     * Register Apple Push Notifications token for IM push notifications.
+     *
+     * See [React Native PushNotificationIOS](https://facebook.github.io/react-native/docs/pushnotificationios#addeventlistener)
+     * for more details.
+     *
+     * IM push notification token for Android is the same as VoIP push notification token and should be registered once via
+     * {@link Voximplant.Client#registerPushNotificationsToken}
+     * IOS ONLY.
+     *
+     * @param {string} token - The APNS token for IM push notifications.
+     * @memberOf Voximplant.Client
+     */
+    registerIMPushNotificationsTokenIOS(token) {
+        if (Platform.OS === 'ios') {
+            ClientModule.registerIMPushNotificationsTokenIOS(token);
+        } else {
+            console.warn('Client.registerIMPushNotificationTokenIOS is available only on ios. Please check the docs');
+        }
     }
 
     /**
@@ -470,6 +497,7 @@ export default class Client {
      * @private
      */
     _onConnectionClosed = (event) => {
+        MessagingShared.getInstance().setCurrentUser(null);
         this._emit(ClientEvents.ConnectionClosed, event);
     };
 

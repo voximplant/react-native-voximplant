@@ -7,8 +7,6 @@
 #import "RCTConvert.h"
 #import "Constants.h"
 #import "CallManager.h"
-#import "VICall.h"
-#import "VICallSettings.h"
 #import "Utils.h"
 
 @implementation RCTConvert (VIVideoCodec)

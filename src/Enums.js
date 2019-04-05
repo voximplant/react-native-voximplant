@@ -31,12 +31,7 @@ export const LogLevel = {
     /**
      * Log verbosity level to include verbose messages
      */
-    VERBOSE: "verbose",
-    /**
-     * Log verbosity level to include all types of messages
-     * @deprecated
-     */
-    MAX: "max"
+    VERBOSE: "verbose"
 };
 
 /**
@@ -186,4 +181,132 @@ export const RequestAudioFocusMode = {
      * @memberOf Voximplant.RequestAudioFocusMode
      */
     REQUEST_ON_CALL_CONNECTED : 'REQUEST_ON_CALL_CONNECTED'
+};
+
+/**
+ * Enum that represents actions that trigger messenger events. Each action is the reason for every triggered event.
+ * @name MessengerAction
+ * @memberOf Voximplant.Messaging
+ * @enum {string}
+ * @type {{createConversation: string, getUser: string, editUser: string, getPublicConversations: string, removeMessage: string, manageNotifications: string, getSubscriptions: string, unsubscribe: string, getUsers: string, addParticipants: string, read: string, subscribe: string, getConversations: string, removeConversation: string, editParticipants: string, getConversation: string, sendMessage: string, editConversation: string, setStatus: string, retransmitEvents: string, editMessage: string, leaveConversation: string, removeParticipants: string, typing: string, joinConversation: string}}
+ */
+export const MessengerAction = {
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    addParticipants: 'addParticipants',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    createConversation : 'createConversation',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    editConversation: 'editConversation',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    editMessage: 'editMessage',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    editParticipants: 'editParticipants',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    editUser : 'editUser',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    getConversation : 'getConversation',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    getConversations : 'getConversations',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    getPublicConversations : 'getPublicConversations',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    getSubscriptions : 'getSubscriptions',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    getUser : 'getUser',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    getUsers : 'getUsers',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    joinConversation: 'joinConversation',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    leaveConversation: 'leaveConversation',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    manageNotifications : 'manageNotifications',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    read: 'read',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    removeConversation : 'removeConversation',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    removeMessage: 'removeMessage',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    removeParticipants: 'removeParticipants',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    retransmitEvents : 'retransmitEvents',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    sendMessage : 'sendMessage',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    setStatus : 'setStatus',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    subscribe : 'subscribe',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    typing : 'typing',
+    /**
+     * @memberOf Messaging.MessengerAction
+     */
+    unsubscribe : 'unsubscribe'
+};
+
+/**
+ * Enum that represents events available for push notification subscriptions.
+ * @name MessengerNotification
+ * @memberOf Voximplant.Messaging
+ * @type {{EditMessage: string, SendMessage: string}}
+ * @enum {string}
+ */
+export const MessengerNotification = {
+    /**
+     * @memberOf Messaging.MessengerNotification
+     */
+    EditMessage : 'EditMessage',
+    /**
+     * @memberOf Messaging.MessengerNotification
+     */
+    SendMessage : 'SendMessage'
 };

@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "VIAudioManager.h"
+#import <VoxImplant/VoxImplant.h>
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
 

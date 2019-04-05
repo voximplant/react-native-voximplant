@@ -34,7 +34,9 @@ React Native >= 0.47.0
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
     pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
     ```
-5. Add `use_frameworks!` at the top of your target configuration
+5. Add `use_frameworks!` at the top of your target configuration.
+
+   Note: since the version 1.6.0, `use_frameworks!` is no longer mandatory.
 6. Run `pod install` from <your_project>/ios/
 7. Start XCode and open generated <your_project>.xcworkspace
 8. Check if there is no `*.xcodeproj` in the project navigation (see the  `Libraries` section). In case of any please remove them. 

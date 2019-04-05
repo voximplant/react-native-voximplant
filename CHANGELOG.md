@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.6.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.11.1 and Voximplant iOS SDK 2.20.0
+- Introduce Messaging API
+- `use_frameworks!` is no more required for Voximplant React Native SDK installation on iOS
+- Remove deprecated LogLevel.MAX
+- Remove ClientConfig.saveLogsToFile option for iOS
+
 ### 1.5.0
 - Introduce VideoView showOnTop prop for Android to indicate that the video view should be displayed on top of others.
   Fix for [#57](https://github.com/voximplant/react-native-voximplant/issues/57)

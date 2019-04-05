@@ -1,0 +1,82 @@
+{
+  "name": "TestingProject",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "packager-jet": "REACT_DEBUGGER='echo nope' node node_modules/react-native/local-cli/cli.js start",
+    "packager-jet-reset-cache": "REACT_DEBUGGER='echo nope' node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "build-ios": "detox build --configuration ios.sim.debug",
+    "build-android": "detox build --configuration android.emu.debug",
+    "test-android": "detox test --configuration android.emu.debug --loglevel verbose",
+    "test-android-reuse": "detox test --configuration android.emu.debug --reuse",
+    "test-android-cover": "nyc detox test --configuration android.emu.debug",
+    "test-android-cover-reuse": "nyc detox test --configuration android.emu.debug --reuse",
+    "test-ios": "detox test --configuration ios.sim.debug --loglevel verbose",
+    "test-ios-reuse": "detox test --configuration ios.sim.debug --reuse --loglevel warn",
+    "test-ios-cover": "nyc detox test --configuration ios.sim.debug",
+    "test-ios-cover-reuse": "nyc detox test --configuration ios.sim.debug --reuse --loglevel warn"
+  },
+  "dependencies": {
+    "react": "16.5.0",
+    "react-native": "0.57.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.48.1",
+    "react-test-renderer": "16.5.0",
+    "should": "^13.2.1",
+    "should-sinon": "0.0.6",
+    "sinon": "^6.2.0",
+    "detox": "^12.1.1",
+    "jet": "^0.3.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "babel-eslint": "^9.0.0",
+    "babel-plugin-istanbul": "^5.1.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-flowtype": "^2.46.3",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "flow-bin": "^0.78.0",
+    "nyc": "^13.1.0"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/TestingProject.app",
+        "build": "xcodebuild -workspace ios/TestingProject.xcworkspace -scheme TestingProject -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build | xcpretty",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      },
+      "android.emu.debug": {
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+        "build": "pushd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && popd",
+        "type": "android.emulator",
+        "name": "TestingAVD"
+      }
+    },
+    "test-runner": "mocha"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "include": [
+      "src/**",
+      "index.js"
+    ],
+    "cwd": "..",
+    "all": true,
+    "sourceMap": false,
+    "instrument": false,
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  }
+}

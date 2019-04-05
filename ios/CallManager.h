@@ -2,10 +2,7 @@
  * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
-#import "VIClient.h"
-#import "VICall.h"
-#import "VIEndpoint.h"
-#import "VIVideoStream.h"
+#import <VoxImplant/VoxImplant.h>
 
 @interface CallManager : NSObject
 

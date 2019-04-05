@@ -5,15 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "RCTBridgeModule.h"
 #import "RCTConvert.h"
-#import "VIClientModule.h"
 #import "Constants.h"
 #import "Utils.h"
-#import "VICall.h"
 #import "CallManager.h"
-#import "VIAudioManager.h"
-#import "VICallSettings.h"
+#import "VIClientModule.h"
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -34,8 +30,7 @@ RCT_ENUM_CONVERTER(VILogLevel, (@{
                                   @"warning" : @(VILogLevelWarning),
                                   @"info"    : @(VILogLevelInfo),
                                   @"debug"   : @(VILogLevelDebug),
-                                  @"verbose" : @(VILogLevelVerbose),
-                                  @"max"     : @(VILogLevelMax)
+                                  @"verbose" : @(VILogLevelVerbose)
                                   }), VILogLevelInfo, integerValue)
 @end
 
@@ -57,6 +52,10 @@ RCT_ENUM_CONVERTER(VIVideoCodec, (@{
                                      }), VIVideoCodecAuto, integerValue)
 @end
 
+@interface VIClient (Version)
++ (void)setVersionExtension:(NSString *)version;
+@end
+
 @interface VIClientModule()
 @property(nonatomic, weak) VIClient* client;
 @end
@@ -73,10 +72,8 @@ RCT_EXPORT_MODULE();
              kEventIncomingCall];
 }
 
-RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel saveLogsToFile:(BOOL)enable bundleId:(NSString *)bundleId) {
-    if (enable) {
-        [VIClient saveLogToFileEnable];
-    }
+RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId) {
+    [VIClient setVersionExtension:@"react-1.6.0"];
     [VIClient setLogLevel:logLevel];
     if (bundleId) {
         _client = [CallManager getClientWithBundleId:bundleId];
@@ -232,6 +229,12 @@ RCT_EXPORT_METHOD(unregisterPushNotificationsToken:(NSString *)token) {
 RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
     if (_client) {
         [_client handlePushNotification:notification];
+    }
+}
+
+RCT_EXPORT_METHOD(registerIMPushNotificationsTokenIOS:(NSString *)token) {
+    if (_client) {
+        [_client registerPushNotificationsToken:nil imToken:[Utils dataFromHexString:token]];
     }
 }
 

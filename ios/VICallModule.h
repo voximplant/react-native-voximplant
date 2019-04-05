@@ -7,8 +7,7 @@
 
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
-#import "VICall.h"
-#import "VIEndpoint.h"
+#import <VoxImplant/VoxImplant.h>
 
 
 @interface VICallModule : RCTEventEmitter <RCTBridgeModule, VICallDelegate, VIEndpointDelegate>

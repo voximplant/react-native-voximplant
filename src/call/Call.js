@@ -26,7 +26,7 @@ const EventEmitter = Platform.select({
 /**
  * @memberOf Voximplant
  * @class Call
- * @classdesc CLass that may be used for call operations like answer, reject, hang up abd mid-call operations like hold, start/stop video and others.
+ * @classdesc Class that may be used for call operations like answer, reject, hang up abd mid-call operations like hold, start/stop video and others.
  */
 export default class Call {
     /**
