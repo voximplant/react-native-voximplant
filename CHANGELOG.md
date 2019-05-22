@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.7.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.11.2 and Voximplant iOS SDK 2.20.3
+
 ### 1.6.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.11.1 and Voximplant iOS SDK 2.20.0
 - Introduce Messaging API
