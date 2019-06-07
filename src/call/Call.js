@@ -30,7 +30,7 @@ const EventEmitter = Platform.select({
  */
 export default class Call {
     /**
-     * @member {string} id - The call id
+     * @member {string} callId - The call id
      * @memberOf Voximplant.Call
      */
     callId;
