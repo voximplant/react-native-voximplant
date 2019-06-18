@@ -57,6 +57,14 @@ export default class Call {
      * @memberOf Voximplant.Call
      */
     on(event, handler) {
+        if (!handler || !(handler instanceof Function)) {
+            console.warn(`Call: on: handler is not a Function`);
+            return;
+        }
+        if (Object.values(CallEvents).indexOf(event) === -1) {
+            console.warn(`Call: on: CallEvents does not contain ${event} event`);
+            return;
+        }
         if (!this.listeners[event]) {
             this.listeners[event] = new Set();
         }
@@ -66,12 +74,21 @@ export default class Call {
     /**
      * Remove a handler for the specified call event.
      * @param {Voximplant.CallEvents} event
-     * @param {function} handler -  Handler function
+     * @param {function} handler - Handler function. If not specified, all handlers for the event will be removed.
      * @memberOf Voximplant.Call
      */
     off(event, handler) {
-        if (this.listeners[event]) {
+        if (!this.listeners[event]) {
+            return;
+        }
+        if (Object.values(CallEvents).indexOf(event) === -1) {
+            console.warn(`Call: off: CallEvents does not contain ${event} event`);
+            return;
+        }
+        if (handler && handler instanceof Function) {
             this.listeners[event].delete(handler);
+        } else {
+            this.listeners[event] = new Set();
         }
     }
 

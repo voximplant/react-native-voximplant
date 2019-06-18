@@ -106,6 +106,14 @@ export default class Client {
      * @memberOf Voximplant.Client
      */
     on(event, handler) {
+        if (!handler || !(handler instanceof Function)) {
+            console.warn(`Client: on: handler is not a Function`);
+            return;
+        }
+        if (Object.values(ClientEvents).indexOf(event) === -1) {
+            console.warn(`Client: on: ClientEvents does not contain ${event} event`);
+            return;
+        }
         if (!listeners[event]) {
             listeners[event] = new Set();
         }
@@ -115,12 +123,21 @@ export default class Client {
     /**
      * Remove handler for specified event
      * @param {Voximplant.ClientEvents} event
-     * @param {function} handler - Handler function
+     * @param {function} handler - Handler function. If not specified, all handlers for the event will be removed.
      * @memberOf Voximplant.Client
      */
     off(event, handler) {
-        if (listeners[event]) {
+        if (!listeners[event]) {
+            return;
+        }
+        if (Object.values(ClientEvents).indexOf(event) === -1) {
+            console.warn(`Client: off: ClientEvents does not contain ${event} event`);
+            return;
+        }
+        if (handler && handler instanceof Function) {
             listeners[event].delete(handler);
+        } else {
+            listeners[event] = new Set();
         }
     }
 

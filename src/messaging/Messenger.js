@@ -76,6 +76,14 @@ export default class Messenger {
      * @memberOf Voximplant.Messaging.Messenger
      */
     on(eventType, event) {
+        if (!event || !(event instanceof Function)) {
+            console.warn(`Messenger: on: handler is not a Function`);
+            return;
+        }
+        if (Object.values(MessengerEventTypes).indexOf(eventType) === -1) {
+            console.warn(`Messenger: on: MessengerEventTypes does not contain ${eventType} event`);
+            return;
+        }
         if (!listeners[eventType]) {
             listeners[eventType] = new Set();
         }
@@ -86,13 +94,22 @@ export default class Messenger {
      * Remove handler for specified event
      *
      * @param {Voximplant.Messaging.MessengerEventTypes} eventType
-     * @param {function} event
+     * @param {function} event - Handler function. If not specified, all handlers for the event type will be removed.
      *
      * @memberOf Voximplant.Messaging.Messenger
      */
     off(eventType, event) {
-        if (listeners[eventType]) {
+        if (!listeners[eventType]) {
+            return;
+        }
+        if (Object.values(MessengerEventTypes).indexOf(eventType) === -1) {
+            console.warn(`Messenger: off: MessengerEventTypes does not contain ${eventType} event`);
+            return;
+        }
+        if (event && event instanceof Function) {
             listeners[eventType].delete(event);
+        } else {
+            listeners[eventType] = new Set();
         }
     }
 

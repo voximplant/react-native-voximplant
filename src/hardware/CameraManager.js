@@ -84,6 +84,14 @@ export default class CameraManager {
      * @memberOf Voximplant.Hardware.CameraManager
      */
     on(event, handler) {
+        if (!handler || !(handler instanceof Function)) {
+            console.warn(`CameraManager: on: handler is not a Function`);
+            return;
+        }
+        if (Object.values(CameraEvents).indexOf(event) === -1) {
+            console.warn(`CameraManager: on: CameraEvents does not contain ${event} event`);
+            return;
+        }
         if (!this.listeners[event]) {
             this.listeners[event] = new Set();
         }
@@ -93,12 +101,21 @@ export default class CameraManager {
     /**
      * Remove a handler for the specified camera event. ANDROID ONLY.
      * @param {Voximplant.Hardware.CameraEvents} event
-     * @param {function} handler
+     * @param {function} handler - Handler function. If not specified, all handlers for the event will be removed.
      * @memberOf Voximplant.Hardware.CameraManager
      */
     off(event, handler) {
-        if (this.listeners[event]) {
+        if (!this.listeners[event]) {
+            return;
+        }
+        if (Object.values(CameraEvents).indexOf(event) === -1) {
+            console.warn(`CameraManager: off: CameraEvents does not contain ${event} event`);
+            return;
+        }
+        if (handler && handler instanceof Function) {
             this.listeners[event].delete(handler);
+        } else {
+            this.listeners[event] = new Set();
         }
     }
 

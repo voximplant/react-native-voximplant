@@ -62,6 +62,14 @@ export default class AudioDeviceManager {
      * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     on(event, handler) {
+        if (!handler || !(handler instanceof Function)) {
+            console.warn(`AudioDeviceManager: on: handler is not a Function`);
+            return;
+        }
+        if (Object.values(AudioDeviceEvents).indexOf(event) === -1) {
+            console.warn(`AudioDeviceManager: on: AudioDeviceEvents does not contain ${event} event`);
+            return;
+        }
         if (!this.listeners[event]) {
             this.listeners[event] = new Set();
         }
@@ -71,12 +79,21 @@ export default class AudioDeviceManager {
     /**
      * Remove a handler for the specified AudioDeviceManager event.
      * @param {Voximplant.Hardware.AudioDeviceEvents} event
-     * @param {function} handler
+     * @param {function} handler - Handler function. If not specified, all handlers for the event will be removed.
      * @memberof Voximplant.Hardware.AudioDeviceManager
      */
     off(event, handler) {
-        if (this.listeners[event]) {
+        if (!this.listeners[event]) {
+            return;
+        }
+        if (Object.values(AudioDeviceEvents).indexOf(event) === -1) {
+            console.warn(`AudioDeviceManager: off: AudioDeviceEvents does not contain ${event} event`);
+            return;
+        }
+        if (handler && handler instanceof Function) {
             this.listeners[event].delete(handler);
+        } else {
+            this.listeners[event] = new Set();
         }
     }
 

@@ -74,6 +74,14 @@ export default class Endpoint {
      * @memberOf Voximplant.Endpoint
      */
     on(event, handler) {
+        if (!handler || !(handler instanceof Function)) {
+            console.warn(`Endpoint: on: handler is not a Function`);
+            return;
+        }
+        if (Object.values(EndpointEvents).indexOf(event) === -1) {
+            console.warn(`Endpoint: on: EndpointEvents does not contain ${event} event`);
+            return;
+        }
         if (!this.listeners[event]) {
             this.listeners[event] = new Set();
         }
@@ -83,12 +91,21 @@ export default class Endpoint {
     /**
      * Remove a handler for the specified endpoint event.
      * @param {Voximplant.EndpointEvents} event
-     * @param {function} handler
+     * @param {function} handler - Handler function. If not specified, all handlers for the event will be removed.
      * @memberOf Voximplant.Endpoint
      */
     off(event, handler) {
-        if (this.listeners[event]) {
+        if (!this.listeners[event]) {
+            return;
+        }
+        if (Object.values(EndpointEvents).indexOf(event) === -1) {
+            console.warn(`Endpoint: off: EndpointEvents does not contain ${event} event`);
+            return;
+        }
+        if (handler && handler instanceof Function) {
             this.listeners[event].delete(handler);
+        } else {
+            this.listeners[event] = new Set();
         }
     }
 
