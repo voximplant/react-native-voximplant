@@ -16,7 +16,6 @@ NSString *const LOG_LEVEL_WARNING = @"warning";
 NSString *const LOG_LEVEL_INFO = @"info";
 NSString *const LOG_LEVEL_DEBUG = @"debug";
 NSString *const LOG_LEVEL_VERBOSE = @"verbose";
-NSString *const LOG_LEVEL_MAX = @"max";
 
 NSString *const CLIENT_STATE_DISCONNECTED = @"disconnected";
 NSString *const CLIENT_STATE_CONNECTING = @"connecting";
@@ -107,85 +106,96 @@ RCT_REMAP_METHOD(getClientState,
 
 RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString *)password) {
     if (_client) {
+        __weak VIClientModule *weakself = self;
         [_client loginWithUser:user
                       password:password
                        success:^(NSString *displayName, NSDictionary *authParams) {
-                           [self sendEventWithName:kEventAuthResult body:@{kEventParamName        : kEventNameAuthResult,
-                                                                           kEventParamResult      : @(true),
-                                                                           kEventParamDisplayName : displayName ? displayName : [NSNull null],
-                                                                           kEventParamTokens      : authParams
-                                                                          }];
+                           __strong VIClientModule *strongSelf = weakself;
+                           [strongSelf sendEventWithName:kEventAuthResult body:@{kEventParamName        : kEventNameAuthResult,
+                                                                                 kEventParamResult      : @(true),
+                                                                                 kEventParamDisplayName : displayName ? displayName : [NSNull null],
+                                                                                 kEventParamTokens      : authParams
+                                                                                 }];
                        }
                        failure:^(NSError *error) {
-                           [self sendEventWithName:kEventAuthResult body:@{
-                                                                           kEventParamName   : kEventNameAuthResult,
-                                                                           kEventParamResult : @(false),
-                                                                           kEventParamCode   : @(error.code)
-                                                                          }];
+                           __strong VIClientModule *strongSelf = weakself;
+                           [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                 kEventParamName   : kEventNameAuthResult,
+                                                                                 kEventParamResult : @(false),
+                                                                                 kEventParamCode   : @(error.code)
+                                                                                 }];
                        }];
     }
 }
 
 RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneTimeKey:(NSString *)hash) {
     if (_client) {
+        __weak VIClientModule *weakself = self;
         [_client loginWithUser:user
                     oneTimeKey:hash
                        success:^(NSString *displayName, NSDictionary *authParams) {
-                           [self sendEventWithName:kEventAuthResult body:@{
-                                                                           kEventParamName        : kEventNameAuthResult,
-                                                                           kEventParamResult      : @(true),
-                                                                           kEventParamDisplayName : displayName ? displayName : [NSNull null],
-                                                                           kEventParamTokens      : authParams
-                                                                          }];
+                           __strong VIClientModule *strongSelf = weakself;
+                           [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                 kEventParamName        : kEventNameAuthResult,
+                                                                                 kEventParamResult      : @(true),
+                                                                                 kEventParamDisplayName : displayName ? displayName : [NSNull null],
+                                                                                 kEventParamTokens      : authParams
+                                                                                 }];
                        }
                        failure:^(NSError *error) {
-                           [self sendEventWithName:kEventAuthResult body:@{
-                                                                           kEventParamName   : kEventNameAuthResult,
-                                                                           kEventParamResult : @(false),
-                                                                           kEventParamCode   : @(error.code)
-                                                                          }];
+                           __strong VIClientModule *strongSelf = weakself;
+                           [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                 kEventParamName   : kEventNameAuthResult,
+                                                                                 kEventParamResult : @(false),
+                                                                                 kEventParamCode   : @(error.code)
+                                                                                 }];
                        }];
     }
 }
 
 RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NSString *)token) {
     if (_client) {
+        __weak VIClientModule *weakself = self;
         [_client loginWithUser:user
                          token:token
                        success:^(NSString *displayName, NSDictionary *authParams) {
-                           [self sendEventWithName:kEventAuthResult body:@{
-                                                                          kEventParamName        : kEventNameAuthResult,
-                                                                          kEventParamResult      : @(true),
-                                                                          kEventParamDisplayName : displayName ? displayName : [NSNull null],
-                                                                          kEventParamTokens      : authParams
-                                                                          }];
+                           __strong VIClientModule *strongSelf = weakself;
+                           [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                 kEventParamName        : kEventNameAuthResult,
+                                                                                 kEventParamResult      : @(true),
+                                                                                 kEventParamDisplayName : displayName ? displayName : [NSNull null],
+                                                                                 kEventParamTokens      : authParams
+                                                                                 }];
                        } failure:^(NSError *error) {
-                           [self sendEventWithName:kEventAuthResult body:@{
-                                                                           kEventParamName   : kEventNameAuthResult,
-                                                                           kEventParamResult : @(false),
-                                                                           kEventParamCode   : @(error.code)
-                                                                          }];
+                           __strong VIClientModule *strongSelf = weakself;
+                           [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                 kEventParamName   : kEventNameAuthResult,
+                                                                                 kEventParamResult : @(false),
+                                                                                 kEventParamCode   : @(error.code)
+                                                                                 }];
                        }];
     }
 }
 
 RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
     if (_client) {
+        __weak VIClientModule *weakself = self;
         [_client requestOneTimeKeyWithUser:user
                                     result:^(NSString *oneTimeKey, NSError *error) {
+                                        __strong VIClientModule *strongSelf = weakself;
                                         if (error) {
-                                            [self sendEventWithName:kEventAuthResult body:@{
-                                                                                            kEventParamName   : kEventNameAuthResult,
-                                                                                            kEventParamResult : @(false),
-                                                                                            kEventParamCode   : @(error.code)
+                                            [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                                  kEventParamName   : kEventNameAuthResult,
+                                                                                                  kEventParamResult : @(false),
+                                                                                                  kEventParamCode   : @(error.code)
                                                                                             }];
                                         } else {
-                                            [self sendEventWithName:kEventAuthResult body:@{
-                                                                                            kEventParamName   : kEventNameAuthResult,
-                                                                                            kEventParamResult : @(false),
-                                                                                            kEventParamCode   : @(302),
-                                                                                            kEventParamKey    : oneTimeKey ? oneTimeKey : [NSNull null]
-                                                                                           }];
+                                            [strongSelf sendEventWithName:kEventAuthResult body:@{
+                                                                                                  kEventParamName   : kEventNameAuthResult,
+                                                                                                  kEventParamResult : @(false),
+                                                                                                  kEventParamCode   : @(302),
+                                                                                                  kEventParamKey    : oneTimeKey ? oneTimeKey : [NSNull null]
+                                                                                                  }];
                                         }
                                     }];
     }
@@ -193,21 +203,23 @@ RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
 
 RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSString *)token) {
     if (_client) {
+        __weak VIClientModule *weakself = self;
         [_client refreshTokenWithUser:user
                                 token:token
                                result:^(NSDictionary *authParams, NSError *error) {
+                                   __strong VIClientModule *strongSelf = weakself;
                                    if (error) {
-                                       [self sendEventWithName:kEventNameAuthTokenResult body:@{
-                                                                                                kEventParamName   : kEventNameAuthTokenResult,
-                                                                                                kEventParamResult : @(false),
-                                                                                                kEventParamCode   : @(error.code)
-                                                                                                }];
+                                       [strongSelf sendEventWithName:kEventNameAuthTokenResult body:@{
+                                                                                                      kEventParamName   : kEventNameAuthTokenResult,
+                                                                                                      kEventParamResult : @(false),
+                                                                                                      kEventParamCode   : @(error.code)
+                                                                                                      }];
                                    } else {
-                                       [self sendEventWithName:kEventNameAuthTokenResult body:@{
-                                                                                                kEventParamName   : kEventNameAuthTokenResult,
-                                                                                                kEventParamResult : @(true),
-                                                                                                kEventParamTokens : authParams
-                                                                                                }];
+                                       [strongSelf sendEventWithName:kEventNameAuthTokenResult body:@{
+                                                                                                      kEventParamName   : kEventNameAuthTokenResult,
+                                                                                                      kEventParamResult : @(true),
+                                                                                                      kEventParamTokens : authParams
+                                                                                                      }];
                                    }
 
                                }];
