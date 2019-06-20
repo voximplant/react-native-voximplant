@@ -33,6 +33,11 @@
         _videoStream = nil;
         _videoRenderer = nil;
     } else if (videoStreamId) {
+        if (_videoStream && ![_videoStream.streamId isEqualToString:videoStreamId]) {
+            [_videoStream removeRenderer:_videoRenderer];
+            _videoStream = nil;
+            _videoRenderer = nil;
+        }
         _videoStreamId = videoStreamId;
         _videoStream = [CallManager getVideoStreamById:_videoStreamId];
         if (_videoStream) {
