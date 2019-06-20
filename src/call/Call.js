@@ -232,7 +232,11 @@ export default class Call {
      * @memberOf Voximplant.Call
      */
     getEndpoints() {
-        return [...CallManager.getInstance().getCallEndpoints(this.callId)];
+        let endpoints = CallManager.getInstance().getCallEndpoints(this.callId);
+        if (endpoints) {
+            return [...endpoints];
+        }
+        return [];
     }
 
     /**
