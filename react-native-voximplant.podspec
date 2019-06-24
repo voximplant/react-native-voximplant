@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
     s.source       = {:path => './ios/'}
     s.summary      = 'RN voximplant'
     s.version      = '1.7.0'
-    s.dependency   'VoxImplantSDK', '2.20.3'
+    s.dependency   'VoxImplantSDK', '2.20.6'
     s.dependency   'React'
 end
