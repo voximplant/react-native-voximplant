@@ -15,4 +15,6 @@
 + (NSString *)convertMessengerEventTypeToString:(VIMessengerEventType)eventType;
 + (NSString *)convertMessengerEventActionToString:(VIMessengerAction)action;
 + (NSString *)convertMessengerNotificationToString:(VIMessengerNotification)notification;
++ (NSString *)convertLogSeverity:(VILogSeverity)severity;
+
 @end

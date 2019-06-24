@@ -184,4 +184,21 @@
     }
 }
 
++ (NSString *)convertLogSeverity:(VILogSeverity)severity {
+    switch (severity) {
+        case VILogSeverityError:
+            return kEventParamLogLevelError;
+        case VILogSeverityWarning:
+            return kEventParamLogLevelWarning;
+        case VILogSeverityInfo:
+            return kEventParamLogLevelInfo;
+        case VILogSeverityDebug:
+            return kEventParamLogLevelDebug;
+        case VILogSeverityVerbose:
+            return kEventParamLogLevelVerbose;
+        default:
+            return kEventParamLogLevelInfo;
+    }
+}
+
 @end

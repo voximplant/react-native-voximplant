@@ -26,6 +26,8 @@ import com.voximplant.sdk.client.IClient;
 import com.voximplant.sdk.client.IClientIncomingCallListener;
 import com.voximplant.sdk.client.IClientLoginListener;
 import com.voximplant.sdk.client.IClientSessionListener;
+import com.voximplant.sdk.client.ILogListener;
+import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
 
 import java.util.List;
@@ -40,6 +42,7 @@ import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_CLOSED;
 import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_ESTABLISHED;
 import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_FAILED;
 import static com.voximplant.reactnative.Constants.EVENT_INCOMING_CALL;
+import static com.voximplant.reactnative.Constants.EVENT_LOG_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_AUTH_RESULT;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_AUTH_TOKEN_RESULT;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_CLOSED;
@@ -57,6 +60,8 @@ import static com.voximplant.reactnative.Constants.EVENT_PARAM_ENDPOINT_SIP_URI;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_HEADERS;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_INCOMING_VIDEO;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_KEY;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_MESSAGE;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_NAME;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_REFRESH_EXPIRE;
@@ -65,7 +70,7 @@ import static com.voximplant.reactnative.Constants.EVENT_PARAM_RESULT;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_TOKENS;
 
 public class VIClientModule extends ReactContextBaseJavaModule
-		implements IClientSessionListener, IClientLoginListener, IClientIncomingCallListener{
+		implements IClientSessionListener, IClientLoginListener, IClientIncomingCallListener, ILogListener {
 	private IClient mClient = null;
 	private ReactApplicationContext mReactContext;
 
@@ -100,6 +105,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		mClient.setClientIncomingCallListener(this);
 		mClient.setClientLoginListener(this);
 		mClient.setClientSessionListener(this);
+		Voximplant.setLogListener(this);
 	}
 
 	@ReactMethod
@@ -342,9 +348,19 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_CONNECTION_CLOSED);
 		sendEvent(EVENT_CONNECTION_CLOSED, params);
 	}
+
+
+	@Override
+	public void onLogMessage(LogLevel logLevel, String message) {
+		WritableMap params = Arguments.createMap();
+		params.putString(EVENT_PARAM_LOG_LEVEL, Utils.convertLogLevel(logLevel));
+		params.putString(EVENT_PARAM_LOG_MESSAGE, message);
+		sendEvent(EVENT_LOG_MESSAGE, params);
+	}
 	//endregion
 
 	private void sendEvent(String eventName, @Nullable WritableMap params) {
 		mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
 	}
+
 }

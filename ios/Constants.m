@@ -10,6 +10,7 @@ NSString *const kEventConnectionFailed = @"VIConnectionFailed";
 NSString *const kEventAuthResult = @"VIAuthResult";
 NSString *const kEventAuthTokenResult = @"VIAuthTokenResult";
 NSString *const kEventIncomingCall = @"VIIncomingCall";
+NSString *const kEventLogMessage = @"VILogMessage";
 
 NSString *const kEventCallConnected = @"VICallConnected";
 NSString *const kEventCallDisconnected = @"VICallDisconnected";
@@ -73,6 +74,14 @@ NSString *const kEventParamKey = @"key";
 NSString *const kEventParamCode = @"code";
 NSString *const kEventParamMessage = @"message";
 NSString *const kEventParamIncomingVideo = @"video";
+
+NSString *const kEventParamLogLevel = @"level";
+NSString *const kEventParamLogMessage = @"message";
+NSString *const kEventParamLogLevelError = @"error";
+NSString *const kEventParamLogLevelWarning = @"warning";
+NSString *const kEventParamLogLevelInfo = @"info";
+NSString *const kEventParamLogLevelDebug = @"debug";
+NSString *const kEventParamLogLevelVerbose = @"verbose";
 
 NSString *const kEventParamCallId = @"callId";
 NSString *const kEventParamHeaders = @"headers";

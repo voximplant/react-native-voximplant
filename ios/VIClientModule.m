@@ -57,6 +57,7 @@ RCT_ENUM_CONVERTER(VIVideoCodec, (@{
 
 @interface VIClientModule()
 @property(nonatomic, weak) VIClient* client;
+@property(nonatomic, assign) BOOL hasListerners;
 @end
 
 @implementation VIClientModule
@@ -68,7 +69,16 @@ RCT_EXPORT_MODULE();
              kEventConnectionClosed,
              kEventAuthResult,
              kEventAuthTokenResult,
-             kEventIncomingCall];
+             kEventIncomingCall,
+             kEventLogMessage];
+}
+
+- (void)startObserving {
+    _hasListerners = YES;
+}
+
+- (void)stopObserving {
+    _hasListerners = NO;
 }
 
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId) {
@@ -81,6 +91,8 @@ RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *
     }
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
+
+    [VIClient setLogDelegate:self];
 }
 
 RCT_EXPORT_METHOD(disconnect) {
@@ -361,6 +373,15 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
                                                       kEventParamEndpointSipUri : endpoint && endpoint.sipURI ? endpoint.sipURI : [NSNull null],
                                                       kEventParamDisplayName    : endpoint && endpoint.userDisplayName ? endpoint.userDisplayName : [NSNull null]
                                                       }];
+}
+
+- (void)didReceiveLogMessage:(nonnull NSString *)message severity:(VILogSeverity)severity {
+    if (_hasListerners) {
+        [self sendEventWithName:kEventLogMessage body:@{
+                                                        kEventParamLogLevel   : [Utils convertLogSeverity:severity],
+                                                        kEventParamLogMessage : message
+                                                        }];
+    }
 }
 
 @end

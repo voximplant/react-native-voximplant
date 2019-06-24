@@ -6,8 +6,8 @@
 import {
     Platform,
     NativeModules,
-	NativeEventEmitter,
-	DeviceEventEmitter,
+    NativeEventEmitter,
+    DeviceEventEmitter,
 } from 'react-native';
 import {LogLevel, RequestAudioFocusMode, VideoCodec} from './../Enums';
 import ClientEvents from './ClientEvents';
@@ -21,8 +21,8 @@ const ClientModule = NativeModules.VIClientModule;
 const listeners = {};
 
 const EventEmitter = Platform.select({
-	ios: new NativeEventEmitter(ClientModule),
-	android: DeviceEventEmitter,
+    ios: new NativeEventEmitter(ClientModule),
+    android: DeviceEventEmitter,
 });
 
 /**
@@ -35,6 +35,7 @@ export default class Client {
      * @private
      */
     static _clientInstance = null;
+    _loggerCallback = null;
 
     /**
      * @ignore
@@ -96,6 +97,22 @@ export default class Client {
             this._clientInstance = new Client(clientConfig);
         }
         return this._clientInstance;
+    }
+
+    /**
+     * Set outer logging callback. The method allows integrating logging pipeline of the Voximplant React Native SDK into
+     * your own logger i.e. the method call sends all events to your function.
+     * @param {function} callback - Callback function with two arguments: level and message
+     * @memberOf Voximplant.Client
+     */
+    setLoggerCallback(callback) {
+        if (!callback || !(callback instanceof Function)) {
+            console.warn('Client: setLoggerCallback: callback is not a Function');
+            EventEmitter.removeListener('VILogMessage', this._onLogMessage);
+            return;
+        }
+        EventEmitter.addListener('VILogMessage', this._onLogMessage);
+        this._loggerCallback = callback;
     }
 
     /**
@@ -401,24 +418,24 @@ export default class Client {
             if (Platform.OS === 'android') {
                 ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
                     callSettings.extraHeaders, (callId, errorDescription) => {
-                    if (callId) {
-                        let call = new Call(callId);
-                        resolve(call);
-                    } else {
-                        reject(errorDescription);
-                    }
-                });
+                        if (callId) {
+                            let call = new Call(callId);
+                            resolve(call);
+                        } else {
+                            reject(errorDescription);
+                        }
+                    });
             }
             if (Platform.OS === 'ios') {
                 ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
                     callSettings.extraHeaders, callSettings.setupCallKit, (callId, errorDescription) => {
-                    if (callId) {
-                        let call = new Call(callId);
-                        resolve(call);
-                    } else {
-                        reject(errorDescription);
-                    }
-                });
+                        if (callId) {
+                            let call = new Call(callId);
+                            resolve(call);
+                        } else {
+                            reject(errorDescription);
+                        }
+                    });
             }
         });
     }
@@ -546,4 +563,13 @@ export default class Client {
         delete event.callId;
         this._emit(ClientEvents.IncomingCall, event);
     };
+
+    /**
+     * @private
+     */
+    _onLogMessage = (event) => {
+        if (this._loggerCallback) {
+            this._loggerCallback(event.level, event.message);
+        }
+    }
 }

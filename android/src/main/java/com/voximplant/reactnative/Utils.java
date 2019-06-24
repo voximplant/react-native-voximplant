@@ -9,6 +9,7 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.client.ClientState;
+import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
 import com.voximplant.sdk.client.RequestAudioFocusMode;
 import com.voximplant.sdk.hardware.AudioDevice;
@@ -67,6 +68,11 @@ import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_SUBSCRIBE;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_TYPING;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNKNOWN;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_MES_UNSUBSCRIBE;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_DEBUG;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_ERROR;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_INFO;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_VERBOSE;
+import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_WARNING;
 import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
@@ -110,7 +116,7 @@ class Utils {
 		return list;
 	}
 
-    static List<Object> createObjectArrayList(ReadableArray readableArray) {
+	static List<Object> createObjectArrayList(ReadableArray readableArray) {
 		if (readableArray == null) {
 			return null;
 		}
@@ -142,12 +148,12 @@ class Utils {
 	}
 
 	static WritableArray createWritableArray(List<String> list) {
-    	if (list == null) {
-    		return null;
+		if (list == null) {
+			return null;
 		}
 		WritableArray array = Arguments.createArray();
-    	for (String item : list) {
-    		array.pushString(item);
+		for (String item : list) {
+			array.pushString(item);
 		}
 		return array;
 	}
@@ -165,45 +171,45 @@ class Utils {
 
 	static WritableArray createObjectWritableArray(List<Object> list) {
 		if (list == null) {
-		    return null;
-        }
-        WritableArray array = Arguments.createArray();
+			return null;
+		}
+		WritableArray array = Arguments.createArray();
 		for (Object item : list) {
-		    if (item == null) {
-		        array.pushNull();
-            } else if (item instanceof String) {
-		        array.pushString((String) item);
-            } else if (item instanceof Double || item instanceof Long) {
-		        array.pushDouble((Double) item);
-            } else if (item instanceof Integer) {
-		        array.pushInt((Integer) item);
-            } else if (item instanceof Boolean) {
-		        array.pushBoolean((Boolean) item);
-            } else if (item instanceof List) {
-		        array.pushArray(createObjectWritableArray((List) item));
-            } else if (item instanceof Map) {
-		        array.pushMap(createObjectWritableMap((Map) item));
-            }
-        }
-        return array;
+			if (item == null) {
+				array.pushNull();
+			} else if (item instanceof String) {
+				array.pushString((String) item);
+			} else if (item instanceof Double || item instanceof Long) {
+				array.pushDouble((Double) item);
+			} else if (item instanceof Integer) {
+				array.pushInt((Integer) item);
+			} else if (item instanceof Boolean) {
+				array.pushBoolean((Boolean) item);
+			} else if (item instanceof List) {
+				array.pushArray(createObjectWritableArray((List) item));
+			} else if (item instanceof Map) {
+				array.pushMap(createObjectWritableMap((Map) item));
+			}
+		}
+		return array;
 	}
 
-    static Map<String, String> createHashMap(ReadableMap v) {
-        if (v == null) {
-            return null;
-        }
-        Map<String, String> map = new HashMap<>();
-        ReadableMapKeySetIterator it = v.keySetIterator();
-        while (it.hasNextKey()) {
-            String key = it.nextKey();
-            map.put(key, v.getString(key));
-        }
-        return map;
-    }
+	static Map<String, String> createHashMap(ReadableMap v) {
+		if (v == null) {
+			return null;
+		}
+		Map<String, String> map = new HashMap<>();
+		ReadableMapKeySetIterator it = v.keySetIterator();
+		while (it.hasNextKey()) {
+			String key = it.nextKey();
+			map.put(key, v.getString(key));
+		}
+		return map;
+	}
 
-    static Map<String, Object> createObjectMap(ReadableMap map) {
-    	if (map == null) {
-    		return null;
+	static Map<String, Object> createObjectMap(ReadableMap map) {
+		if (map == null) {
+			return null;
 		}
 		HashMap<String, Object> resultMap = new HashMap<>();
 		ReadableMapKeySetIterator it = map.keySetIterator();
@@ -271,38 +277,38 @@ class Utils {
 		return array;
 	}
 
-    static WritableMap createWritableMap(Map<String, String> v) {
-        WritableMap map = Arguments.createMap();
-        for (Map.Entry<String, String> entry : v.entrySet()) {
-            map.putString(entry.getKey(), entry.getValue());
-        }
-        return map;
-    }
+	static WritableMap createWritableMap(Map<String, String> v) {
+		WritableMap map = Arguments.createMap();
+		for (Map.Entry<String, String> entry : v.entrySet()) {
+			map.putString(entry.getKey(), entry.getValue());
+		}
+		return map;
+	}
 
-    static WritableMap createObjectWritableMap(Map<String, Object> map) {
-        if (map == null) {
-            return null;
-        }
-        WritableMap resultMap = Arguments.createMap();
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (entry.getValue() == null) {
-                resultMap.putNull(entry.getKey());
-            } else if (entry.getValue() instanceof String) {
-                resultMap.putString(entry.getKey(), (String) entry.getValue());
-            } else if (entry.getValue() instanceof Long || entry.getValue() instanceof Double) {
-                resultMap.putDouble(entry.getKey(), (Double) entry.getValue());
-            } else if (entry.getValue() instanceof Integer) {
-                resultMap.putInt(entry.getKey(), (Integer) entry.getValue());
-            } else if (entry.getValue() instanceof Boolean) {
-                resultMap.putBoolean(entry.getKey(), (Boolean) entry.getValue());
-            } else if (entry.getValue() instanceof List) {
-                resultMap.putArray(entry.getKey(), createObjectWritableArray((List) entry.getValue()));
-            } else if (entry.getValue() instanceof Map) {
-                resultMap.putMap(entry.getKey(), createObjectWritableMap((Map) entry.getValue()));
-            }
-        }
-        return resultMap;
-    }
+	static WritableMap createObjectWritableMap(Map<String, Object> map) {
+		if (map == null) {
+			return null;
+		}
+		WritableMap resultMap = Arguments.createMap();
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			if (entry.getValue() == null) {
+				resultMap.putNull(entry.getKey());
+			} else if (entry.getValue() instanceof String) {
+				resultMap.putString(entry.getKey(), (String) entry.getValue());
+			} else if (entry.getValue() instanceof Long || entry.getValue() instanceof Double) {
+				resultMap.putDouble(entry.getKey(), (Double) entry.getValue());
+			} else if (entry.getValue() instanceof Integer) {
+				resultMap.putInt(entry.getKey(), (Integer) entry.getValue());
+			} else if (entry.getValue() instanceof Boolean) {
+				resultMap.putBoolean(entry.getKey(), (Boolean) entry.getValue());
+			} else if (entry.getValue() instanceof List) {
+				resultMap.putArray(entry.getKey(), createObjectWritableArray((List) entry.getValue()));
+			} else if (entry.getValue() instanceof Map) {
+				resultMap.putMap(entry.getKey(), createObjectWritableMap((Map) entry.getValue()));
+			}
+		}
+		return resultMap;
+	}
 
 	static String convertClientStateToString(ClientState state) {
 		switch (state) {
@@ -322,7 +328,7 @@ class Utils {
 	}
 
 	static int convertLoginErrorToInt(LoginError error) {
-    	switch (error) {
+		switch (error) {
 			case INVALID_PASSWORD:
 				return 401;
 			case ACCOUNT_FROZEN:
@@ -338,7 +344,7 @@ class Utils {
 			case TOKEN_EXPIRED:
 				return 701;
 			case INTERNAL_ERROR:
-				default:
+			default:
 				return 500;
 		}
 	}
@@ -435,11 +441,11 @@ class Utils {
 	}
 
 	static String convertMessengerActionToString(MessengerAction action) {
-    	switch (action) {
+		switch (action) {
 			case ADD_PARTICIPANTS:
-			    return EVENT_MES_ACTION_ADD_PARTICIPANTS;
+				return EVENT_MES_ACTION_ADD_PARTICIPANTS;
 			case CREATE_CONVERSATION:
-			    return EVENT_MES_ACTION_CREATE_CONVERSATION;
+				return EVENT_MES_ACTION_CREATE_CONVERSATION;
 			case EDIT_CONVERSATION:
 				return EVENT_MES_ACTION_EDIT_CONVERSATION;
 			case EDIT_MESSAGE:
@@ -449,7 +455,7 @@ class Utils {
 			case EDIT_USER:
 				return EVENT_MES_ACTION_EDIT_USER;
 			case GET_CONVERSATION:
-			    return EVENT_MES_ACTION_GET_CONVERSATION;
+				return EVENT_MES_ACTION_GET_CONVERSATION;
 			case GET_CONVERSATIONS:
 				return EVENT_MES_ACTION_GET_CONVERSATIONS;
 			case GET_USER:
@@ -461,11 +467,11 @@ class Utils {
 			case JOIN_CONVERSATION:
 				return EVENT_MES_ACTION_JOIN_CONVERSATION;
 			case LEAVE_CONVERSATION:
-			    return EVENT_MES_ACTION_LEAVE_CONVERSATION;
+				return EVENT_MES_ACTION_LEAVE_CONVERSATION;
 			case MANAGE_NOTIFICATIONS:
-			    return EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
+				return EVENT_MES_ACTION_MANAGE_NOTIFICATIONS;
 			case REMOVE_CONVERSATION:
-			    return EVENT_MES_ACTION_REMOVE_CONVERSATION;
+				return EVENT_MES_ACTION_REMOVE_CONVERSATION;
 			case REMOVE_MESSAGE:
 				return EVENT_MES_ACTION_REMOVE_MESSAGE;
 			case REMOVE_PARTICIPANTS:
@@ -487,17 +493,17 @@ class Utils {
 			case GET_PUBLIC_CONVERSATIONS:
 				return EVENT_MES_ACTION_GET_PUBLIC_CONVERSATIONS;
 			case ACTION_UNKNOWN:
-				default:
+			default:
 				return EVENT_MES_ACTION_UNKNOWN;
 		}
 	}
 
 	static String convertMessengerEventToString(MessengerEventType eventType) {
-    	switch (eventType) {
+		switch (eventType) {
 			case IS_READ:
-			    return EVENT_NAME_MES_READ;
+				return EVENT_NAME_MES_READ;
 			case ON_CREATE_CONVERSATION:
-			    return EVENT_NAME_MES_CREATE_CONVERSATION;
+				return EVENT_NAME_MES_CREATE_CONVERSATION;
 			case ON_EDIT_CONVERSATION:
 				return EVENT_NAME_MES_EDIT_CONVERSATION;
 			case ON_EDIT_MESSAGE:
@@ -505,13 +511,13 @@ class Utils {
 			case ON_EDIT_USER:
 				return EVENT_NAME_MES_EDIT_USER;
 			case ON_ERROR:
-			    return EVENT_NAME_MES_ERROR;
+				return EVENT_NAME_MES_ERROR;
 			case ON_GET_CONVERSATION:
 				return EVENT_NAME_MES_GET_CONVERSATION;
 			case ON_GET_USER:
 				return EVENT_NAME_MES_GET_USER;
 			case ON_REMOVE_CONVERSATION:
-			    return EVENT_NAME_MES_REMOVE_CONVERSATION;
+				return EVENT_NAME_MES_REMOVE_CONVERSATION;
 			case ON_REMOVE_MESSAGE:
 				return EVENT_NAME_MES_REMOVE_MESSAGE;
 			case ON_RETRANSMIT_EVENTS:
@@ -531,8 +537,26 @@ class Utils {
 			case ON_GET_PUBLIC_CONVERSATIONS:
 				return EVENT_NAME_MES_GET_PUBLIC_CONVERSATIONS;
 			case EVENT_UNKNOWN:
-				default:
+			default:
 				return EVENT_NAME_MES_UNKNOWN;
+		}
+	}
+
+	static String convertLogLevel(LogLevel logLevel) {
+		switch (logLevel) {
+			case ERROR:
+				return EVENT_PARAM_LOG_LEVEL_ERROR;
+			case WARNING:
+				return EVENT_PARAM_LOG_LEVEL_WARNING;
+			case INFO:
+				return EVENT_PARAM_LOG_LEVEL_INFO;
+			case DEBUG:
+				return EVENT_PARAM_LOG_LEVEL_DEBUG;
+			case VERBOSE:
+				return EVENT_PARAM_LOG_LEVEL_VERBOSE;
+			default:
+				return EVENT_PARAM_LOG_LEVEL_INFO;
+
 		}
 	}
 }
