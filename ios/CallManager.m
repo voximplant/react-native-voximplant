@@ -36,14 +36,14 @@
 
 + (VIClient *)getClient {
     if (![CallManager getInstance].client) {
-        [CallManager getInstance].client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue()];
+        [CallManager getInstance].client = [[VIClient alloc] initWithDelegateQueue:dispatch_queue_create("com.voximplant.rn", DISPATCH_QUEUE_SERIAL)];
     }
     return [CallManager getInstance].client;
 }
 
 + (VIClient *)getClientWithBundleId:(NSString *)bundleId {
     if (![CallManager getInstance].client) {
-        [CallManager getInstance].client = [[VIClient alloc] initWithDelegateQueue:dispatch_get_main_queue() bundleId:bundleId];
+        [CallManager getInstance].client = [[VIClient alloc] initWithDelegateQueue:dispatch_queue_create("com.voximplant.rn", DISPATCH_QUEUE_SERIAL) bundleId:bundleId];
     }
     return [CallManager getInstance].client;
 }
