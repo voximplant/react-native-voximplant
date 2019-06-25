@@ -1,5 +1,16 @@
 # Changelog
 
+### 1.8.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.11.3 and Voximplant iOS SDK 2.20.6
+- Introduce Client.setLoggerCallback API
+- Fix for [#74](https://github.com/voximplant/react-native-voximplant/issues/74): add ability to remove anonymous 
+  functions as event handlers
+- Fix for error on getting endpoints after a call was ended
+- Bugfix and improvements for iOS native implementation:
+  - avoid retain cycles
+  - use serial queue as the delegate queue for Voximplant iOS SDK instead of main queue
+  - remove old video renderer from VideoView before creating a new one on videoStreamId property change
+
 ### 1.7.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.11.2 and Voximplant iOS SDK 2.20.3
 
