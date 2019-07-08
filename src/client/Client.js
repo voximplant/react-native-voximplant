@@ -325,7 +325,7 @@ export default class Client {
                 EventEmitter.removeListener('VIAuthTokenResult', refreshResult);
             };
             EventEmitter.addListener('VIAuthTokenResult', refreshResult);
-            CLientModule.refreshToken(username, refreshToken);
+            ClientModule.refreshToken(username, refreshToken);
         });
     }
 

@@ -221,13 +221,13 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
                                result:^(NSDictionary *authParams, NSError *error) {
                                    __strong VIClientModule *strongSelf = weakself;
                                    if (error) {
-                                       [strongSelf sendEventWithName:kEventNameAuthTokenResult body:@{
+                                       [strongSelf sendEventWithName:kEventAuthTokenResult body:@{
                                                                                                       kEventParamName   : kEventNameAuthTokenResult,
                                                                                                       kEventParamResult : @(false),
                                                                                                       kEventParamCode   : @(error.code)
                                                                                                       }];
                                    } else {
-                                       [strongSelf sendEventWithName:kEventNameAuthTokenResult body:@{
+                                       [strongSelf sendEventWithName:kEventAuthTokenResult body:@{
                                                                                                       kEventParamName   : kEventNameAuthTokenResult,
                                                                                                       kEventParamResult : @(true),
                                                                                                       kEventParamTokens : authParams
