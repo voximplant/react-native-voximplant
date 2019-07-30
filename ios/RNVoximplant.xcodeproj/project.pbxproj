@@ -1,0 +1,394 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B26F1CFD22EB10CB00535E6F /* CallManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD822EB106D00535E6F /* CallManager.h */; };
+		B26F1CFE22EB10CB00535E6F /* CallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCC22EB106D00535E6F /* CallManager.m */; };
+		B26F1CFF22EB10CB00535E6F /* Constants.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCE22EB106D00535E6F /* Constants.h */; };
+		B26F1D0022EB10CB00535E6F /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCA22EB106D00535E6F /* Constants.m */; };
+		B26F1D0122EB10CB00535E6F /* Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD122EB106D00535E6F /* Utils.h */; };
+		B26F1D0222EB10CB00535E6F /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDB22EB106D00535E6F /* Utils.m */; };
+		B26F1D0322EB10CB00535E6F /* VIAudioDeviceModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */; };
+		B26F1D0422EB10CB00535E6F /* VIAudioDeviceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */; };
+		B26F1D0522EB10CB00535E6F /* VICallModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD522EB106D00535E6F /* VICallModule.h */; };
+		B26F1D0622EB10CB00535E6F /* VICallModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDC22EB106D00535E6F /* VICallModule.m */; };
+		B26F1D0722EB10CB00535E6F /* VICameraModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDA22EB106D00535E6F /* VICameraModule.h */; };
+		B26F1D0822EB10CB00535E6F /* VICameraModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDE22EB106D00535E6F /* VICameraModule.m */; };
+		B26F1D0922EB10CB00535E6F /* VIClientModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCD22EB106D00535E6F /* VIClientModule.h */; };
+		B26F1D0A22EB10CB00535E6F /* VIClientModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD322EB106D00535E6F /* VIClientModule.m */; };
+		B26F1D0B22EB10CB00535E6F /* VideoView.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD622EB106D00535E6F /* VideoView.h */; };
+		B26F1D0C22EB10CB00535E6F /* VideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD022EB106D00535E6F /* VideoView.m */; };
+		B26F1D0D22EB10CB00535E6F /* VideoViewManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD722EB106D00535E6F /* VideoViewManager.h */; };
+		B26F1D0E22EB10CB00535E6F /* VideoViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD422EB106D00535E6F /* VideoViewManager.m */; };
+		B26F1D0F22EB10CB00535E6F /* VIMessagingModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */; };
+		B26F1D1022EB10CB00535E6F /* VIMessagingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD922EB106D00535E6F /* VIMessagingModule.m */; };
+		B26F1D1122EB10CB00535E6F /* VoxImplantModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDD22EB106D00535E6F /* VoxImplantModule.h */; };
+		B26F1D1222EB10CB00535E6F /* VoxImplantModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE122EB106D00535E6F /* VoxImplantModule.m */; };
+		B26F1D1322EB10CB00535E6F /* VoxView.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCB22EB106D00535E6F /* VoxView.h */; };
+		B26F1D1422EB10CB00535E6F /* VoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CC922EB106C00535E6F /* VoxView.m */; };
+		B26F1D1522EB10CB00535E6F /* VoxViewManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE022EB106D00535E6F /* VoxViewManager.h */; };
+		B26F1D1622EB10CB00535E6F /* VoxViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDF22EB106D00535E6F /* VoxViewManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B26F1CF222EB109A00535E6F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B26F1CC922EB106C00535E6F /* VoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoxView.m; sourceTree = "<group>"; };
+		B26F1CCA22EB106D00535E6F /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		B26F1CCB22EB106D00535E6F /* VoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoxView.h; sourceTree = "<group>"; };
+		B26F1CCC22EB106D00535E6F /* CallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallManager.m; sourceTree = "<group>"; };
+		B26F1CCD22EB106D00535E6F /* VIClientModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIClientModule.h; sourceTree = "<group>"; };
+		B26F1CCE22EB106D00535E6F /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIMessagingModule.h; sourceTree = "<group>"; };
+		B26F1CD022EB106D00535E6F /* VideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoView.m; sourceTree = "<group>"; };
+		B26F1CD122EB106D00535E6F /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIAudioDeviceModule.h; sourceTree = "<group>"; };
+		B26F1CD322EB106D00535E6F /* VIClientModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIClientModule.m; sourceTree = "<group>"; };
+		B26F1CD422EB106D00535E6F /* VideoViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewManager.m; sourceTree = "<group>"; };
+		B26F1CD522EB106D00535E6F /* VICallModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICallModule.h; sourceTree = "<group>"; };
+		B26F1CD622EB106D00535E6F /* VideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoView.h; sourceTree = "<group>"; };
+		B26F1CD722EB106D00535E6F /* VideoViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewManager.h; sourceTree = "<group>"; };
+		B26F1CD822EB106D00535E6F /* CallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallManager.h; sourceTree = "<group>"; };
+		B26F1CD922EB106D00535E6F /* VIMessagingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIMessagingModule.m; sourceTree = "<group>"; };
+		B26F1CDA22EB106D00535E6F /* VICameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICameraModule.h; sourceTree = "<group>"; };
+		B26F1CDB22EB106D00535E6F /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		B26F1CDC22EB106D00535E6F /* VICallModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICallModule.m; sourceTree = "<group>"; };
+		B26F1CDD22EB106D00535E6F /* VoxImplantModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoxImplantModule.h; sourceTree = "<group>"; };
+		B26F1CDE22EB106D00535E6F /* VICameraModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICameraModule.m; sourceTree = "<group>"; };
+		B26F1CDF22EB106D00535E6F /* VoxViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoxViewManager.m; sourceTree = "<group>"; };
+		B26F1CE022EB106D00535E6F /* VoxViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoxViewManager.h; sourceTree = "<group>"; };
+		B26F1CE122EB106D00535E6F /* VoxImplantModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoxImplantModule.m; sourceTree = "<group>"; };
+		B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIAudioDeviceModule.m; sourceTree = "<group>"; };
+		B26F1CF422EB109A00535E6F /* libRNVoximplant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNVoximplant.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B26F1CF122EB109A00535E6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		134814211AA4EA7D00B7C361 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58B511D21A9E6C8500147676 = {
+			isa = PBXGroup;
+			children = (
+				B26F1CD822EB106D00535E6F /* CallManager.h */,
+				B26F1CCC22EB106D00535E6F /* CallManager.m */,
+				B26F1CCE22EB106D00535E6F /* Constants.h */,
+				B26F1CCA22EB106D00535E6F /* Constants.m */,
+				B26F1CD122EB106D00535E6F /* Utils.h */,
+				B26F1CDB22EB106D00535E6F /* Utils.m */,
+				B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */,
+				B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */,
+				B26F1CD522EB106D00535E6F /* VICallModule.h */,
+				B26F1CDC22EB106D00535E6F /* VICallModule.m */,
+				B26F1CDA22EB106D00535E6F /* VICameraModule.h */,
+				B26F1CDE22EB106D00535E6F /* VICameraModule.m */,
+				B26F1CCD22EB106D00535E6F /* VIClientModule.h */,
+				B26F1CD322EB106D00535E6F /* VIClientModule.m */,
+				B26F1CD622EB106D00535E6F /* VideoView.h */,
+				B26F1CD022EB106D00535E6F /* VideoView.m */,
+				B26F1CD722EB106D00535E6F /* VideoViewManager.h */,
+				B26F1CD422EB106D00535E6F /* VideoViewManager.m */,
+				B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */,
+				B26F1CD922EB106D00535E6F /* VIMessagingModule.m */,
+				B26F1CDD22EB106D00535E6F /* VoxImplantModule.h */,
+				B26F1CE122EB106D00535E6F /* VoxImplantModule.m */,
+				B26F1CCB22EB106D00535E6F /* VoxView.h */,
+				B26F1CC922EB106C00535E6F /* VoxView.m */,
+				B26F1CE022EB106D00535E6F /* VoxViewManager.h */,
+				B26F1CDF22EB106D00535E6F /* VoxViewManager.m */,
+				134814211AA4EA7D00B7C361 /* Products */,
+				B26F1CF422EB109A00535E6F /* libRNVoximplant.a */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B26F1CF322EB109A00535E6F /* RNVoximplant */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B26F1CFA22EB109A00535E6F /* Build configuration list for PBXNativeTarget "RNVoximplant" */;
+			buildPhases = (
+				B26F1CF022EB109A00535E6F /* Sources */,
+				B26F1CF122EB109A00535E6F /* Frameworks */,
+				B26F1CF222EB109A00535E6F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RNVoximplant;
+			productName = RNVoximplant;
+			productReference = B26F1CF422EB109A00535E6F /* libRNVoximplant.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		58B511D31A9E6C8500147676 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					B26F1CF322EB109A00535E6F = {
+						CreatedOnToolsVersion = 10.3;
+						DevelopmentTeam = 25S6X4YD96;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "RNVoximplant" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+			);
+			mainGroup = 58B511D21A9E6C8500147676;
+			productRefGroup = 58B511D21A9E6C8500147676;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B26F1CF322EB109A00535E6F /* RNVoximplant */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B26F1CF022EB109A00535E6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B26F1CFD22EB10CB00535E6F /* CallManager.h in Sources */,
+				B26F1CFE22EB10CB00535E6F /* CallManager.m in Sources */,
+				B26F1CFF22EB10CB00535E6F /* Constants.h in Sources */,
+				B26F1D0022EB10CB00535E6F /* Constants.m in Sources */,
+				B26F1D0122EB10CB00535E6F /* Utils.h in Sources */,
+				B26F1D0222EB10CB00535E6F /* Utils.m in Sources */,
+				B26F1D0322EB10CB00535E6F /* VIAudioDeviceModule.h in Sources */,
+				B26F1D0422EB10CB00535E6F /* VIAudioDeviceModule.m in Sources */,
+				B26F1D0522EB10CB00535E6F /* VICallModule.h in Sources */,
+				B26F1D0622EB10CB00535E6F /* VICallModule.m in Sources */,
+				B26F1D0722EB10CB00535E6F /* VICameraModule.h in Sources */,
+				B26F1D0822EB10CB00535E6F /* VICameraModule.m in Sources */,
+				B26F1D0922EB10CB00535E6F /* VIClientModule.h in Sources */,
+				B26F1D0A22EB10CB00535E6F /* VIClientModule.m in Sources */,
+				B26F1D0B22EB10CB00535E6F /* VideoView.h in Sources */,
+				B26F1D0C22EB10CB00535E6F /* VideoView.m in Sources */,
+				B26F1D0D22EB10CB00535E6F /* VideoViewManager.h in Sources */,
+				B26F1D0E22EB10CB00535E6F /* VideoViewManager.m in Sources */,
+				B26F1D0F22EB10CB00535E6F /* VIMessagingModule.h in Sources */,
+				B26F1D1022EB10CB00535E6F /* VIMessagingModule.m in Sources */,
+				B26F1D1122EB10CB00535E6F /* VoxImplantModule.h in Sources */,
+				B26F1D1222EB10CB00535E6F /* VoxImplantModule.m in Sources */,
+				B26F1D1322EB10CB00535E6F /* VoxView.h in Sources */,
+				B26F1D1422EB10CB00535E6F /* VoxView.m in Sources */,
+				B26F1D1522EB10CB00535E6F /* VoxViewManager.h in Sources */,
+				B26F1D1622EB10CB00535E6F /* VoxViewManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		58B511ED1A9E6C8500147676 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		58B511EE1A9E6C8500147676 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B26F1CFB22EB109A00535E6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 25S6X4YD96;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B26F1CFC22EB109A00535E6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 25S6X4YD96;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "RNVoximplant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58B511ED1A9E6C8500147676 /* Debug */,
+				58B511EE1A9E6C8500147676 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B26F1CFA22EB109A00535E6F /* Build configuration list for PBXNativeTarget "RNVoximplant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B26F1CFB22EB109A00535E6F /* Debug */,
+				B26F1CFC22EB109A00535E6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 58B511D31A9E6C8500147676 /* Project object */;
+}
