@@ -10,47 +10,63 @@ React Native >= 0.47.0
 
 ## Getting started
 
+`npm install react-native-voximplant@latest --save`
+
 ### iOS
 
-#### Manual install
+#### Automatic installation 
+- React Native 0.60+
+
+  CLI autolink feature links the module while building the app.
+
+#### Manual install (React Native <= 0.59)
 
 1. Make sure you have "React Native" project created with `react-native init`
-2. `cd` into a project directory where `package.json` file is located.
-3. Run `npm install react-native-voximplant@latest --save`.
-4. Open or create ios/Podfile and add the following dependencies. Please use demo project Podfile ad a reference.
+2. Open or create ios/Podfile and add the following dependencies. Please use demo project Podfile ad a reference.
     ```
-    pod 'React', :path => ‘../node_modules/react-native', :subspecs => [
-        'Core',
-        'CxxBridge',
-        'RCTImage',
-        'RCTNetwork',
-        'RCTText',
-        'RCTWebSocket',
-        'DevSupport',
-        'RCTAnimation',
-        'RCTLinkingIOS'
-        # Add any other subspecs you want to use in your project
-    ]
+    pod 'React', :path => '../node_modules/react-native', :subspecs => [
+         'Core',
+         'CxxBridge',
+         'RCTImage',
+         'RCTNetwork',
+         'RCTText',
+         'RCTWebSocket',
+         'DevSupport',
+         'RCTAnimation',
+         'RCTLinkingIOS'
+         # Add any other subspecs you want to use in your project
+         ]
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
+
+    pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+    pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
+    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
     ```
-5. Add `use_frameworks!` at the top of your target configuration.
+3. Add `use_frameworks!` at the top of your target configuration.
 
    Note: since the version 1.6.0, `use_frameworks!` is no longer mandatory.
-6. Run `pod install` from <your_project>/ios/
-7. Start XCode and open generated <your_project>.xcworkspace
-8. Check if there is no `*.xcodeproj` in the project navigation (see the  `Libraries` section). In case of any please remove them. 
+4. Run `pod install` from <your_project>/ios/
+5. Start XCode and open generated <your_project>.xcworkspace
+6. Check if there is no `*.xcodeproj` in the project navigation (see the  `Libraries` section). In case of any please remove them. 
    Since React dependencies are added via Podfile, double integration of its modules may lead to unpredictable/incorrect behavior of an application.
-9. Run your project (`Cmd+R`)
+7. Run your project (`Cmd+R`)
 
 ### Android
 
+#### Automatic installation 
+- React Native 0.60+
+
+  CLI autolink feature links the module while building the app.
+
+- React Native <= 0.59
+
+  Run `react-native link react-native-voximplant`
+
 #### Manual install
 
 1. Make sure you have "React Native" project created with `react-native init`
-2. `cd` into a project directory where `package.json` file is located.
-3. Run `npm install react-native-voximplant@latest --save`
-4. It is required to add Java 8 support. 
+2. It is required to add Java 8 support. 
     - Open `android/app/build.gradle` file and add the following lines to ‘android’ section: 
         ```
         compileOptions {
@@ -71,7 +87,7 @@ React Native >= 0.47.0
         ```
         distributionUrl=https\://services.gradle.org/distributions/gradle-4.4-all.zip
         ```
-5. Run the `react-native link` command to link react-native-voximplant Android dependency OR perform the following steps: 
+3. Run the `react-native link` command to link react-native-voximplant Android dependency OR perform the following steps: 
     - Open up `android/app/main/java/[...]/MainApplication.java`
     - Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
       

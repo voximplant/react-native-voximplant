@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.9.1
+- Support React Native 0.60 autolinking
+
 ### 1.9.0
 - Update native iOS module to use Voximplant iOS SDK 2.20.7
 - Fix Client.tokenRefresh implementation
