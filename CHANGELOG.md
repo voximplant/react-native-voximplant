@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.9.2 
+- Android: get compileSdkVersion and targetSdkVersion from the root project or use the version 28 as default
+
 ### 1.9.1
 - Support React Native 0.60 autolinking
 
