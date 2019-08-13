@@ -35,13 +35,10 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
         mVideoViewRenderer = new SurfaceViewRenderer(context);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mVideoViewRenderer.setLayoutParams(layoutParams);
-        addView(mVideoViewRenderer);
     }
 
     public void setVideoStreamId(String videoStreamId) {
-        if (videoStreamId != null) {
-            applyProperties(videoStreamId);
-        }
+        applyProperties(videoStreamId);
     }
 
     public void setScaleType(String scaleType) {
@@ -57,16 +54,18 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
         if (mVideoStreamId == null || mVideoStreamId.isEmpty()) {
             mVideoStreamId = videoStreamId;
         }
-        if (!mVideoStreamId.equals(videoStreamId)) {
+        if (mVideoStreamId != null && !mVideoStreamId.equals(videoStreamId)) {
             IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
             if (videoStream != null) {
                 videoStream.removeVideoRenderer(mVideoViewRenderer);
             }
+            removeView(mVideoViewRenderer);
             mVideoStreamId = videoStreamId;
         }
         if (mVideoStreamId != null && !mVideoStreamId.isEmpty()) {
             IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
             if (videoStream != null) {
+                addView(mVideoViewRenderer);
                 videoStream.addVideoRenderer(mVideoViewRenderer,
                         mScaleType.equals(SCALE_TYPE_FILL) ? RenderScaleType.SCALE_FILL : RenderScaleType.SCALE_FIT,
                         this);
@@ -80,6 +79,7 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
         IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
         if (videoStream != null) {
             videoStream.removeVideoRenderer(mVideoViewRenderer);
+            removeView(mVideoViewRenderer);
         }
     }
 
