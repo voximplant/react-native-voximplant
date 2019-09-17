@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.11.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.13.0 and Voximplant iOS SDK 2.22.0
+- Fix: build issue with Android Gradle Plugin 3.5.0
+
 ### 1.10.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.12.2 and Voximplant iOS SDK 2.21.3
 - Improvements for VideoView component on Android: add/remove SurfaceViewRenderer to/from the parent ViewGroup on 
