@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class VoxImplantReactPackage implements ReactPackage {
 	@Override
 	public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-		return Arrays.<NativeModule>asList(new VoxImplantModule(reactContext),
+		return Arrays.<NativeModule>asList(
 				new VIClientModule(reactContext),
 				new VICallModule(reactContext),
 				new VIAudioDeviceModule(reactContext),
@@ -25,6 +25,6 @@ public class VoxImplantReactPackage implements ReactPackage {
 
 	@Override
 	public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-		return Arrays.<ViewManager>asList(new VoxImplantViewManager(), new VideoViewManager());
+		return Arrays.<ViewManager>asList(new VideoViewManager());
 	}
 }

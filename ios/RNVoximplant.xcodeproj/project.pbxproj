@@ -27,12 +27,6 @@
 		B26F1D0E22EB10CB00535E6F /* VideoViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD422EB106D00535E6F /* VideoViewManager.m */; };
 		B26F1D0F22EB10CB00535E6F /* VIMessagingModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */; };
 		B26F1D1022EB10CB00535E6F /* VIMessagingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD922EB106D00535E6F /* VIMessagingModule.m */; };
-		B26F1D1122EB10CB00535E6F /* VoxImplantModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDD22EB106D00535E6F /* VoxImplantModule.h */; };
-		B26F1D1222EB10CB00535E6F /* VoxImplantModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE122EB106D00535E6F /* VoxImplantModule.m */; };
-		B26F1D1322EB10CB00535E6F /* VoxView.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCB22EB106D00535E6F /* VoxView.h */; };
-		B26F1D1422EB10CB00535E6F /* VoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CC922EB106C00535E6F /* VoxView.m */; };
-		B26F1D1522EB10CB00535E6F /* VoxViewManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE022EB106D00535E6F /* VoxViewManager.h */; };
-		B26F1D1622EB10CB00535E6F /* VoxViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDF22EB106D00535E6F /* VoxViewManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,9 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B26F1CC922EB106C00535E6F /* VoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoxView.m; sourceTree = "<group>"; };
 		B26F1CCA22EB106D00535E6F /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		B26F1CCB22EB106D00535E6F /* VoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoxView.h; sourceTree = "<group>"; };
 		B26F1CCC22EB106D00535E6F /* CallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallManager.m; sourceTree = "<group>"; };
 		B26F1CCD22EB106D00535E6F /* VIClientModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIClientModule.h; sourceTree = "<group>"; };
 		B26F1CCE22EB106D00535E6F /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -68,11 +60,7 @@
 		B26F1CDA22EB106D00535E6F /* VICameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICameraModule.h; sourceTree = "<group>"; };
 		B26F1CDB22EB106D00535E6F /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		B26F1CDC22EB106D00535E6F /* VICallModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICallModule.m; sourceTree = "<group>"; };
-		B26F1CDD22EB106D00535E6F /* VoxImplantModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoxImplantModule.h; sourceTree = "<group>"; };
 		B26F1CDE22EB106D00535E6F /* VICameraModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICameraModule.m; sourceTree = "<group>"; };
-		B26F1CDF22EB106D00535E6F /* VoxViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoxViewManager.m; sourceTree = "<group>"; };
-		B26F1CE022EB106D00535E6F /* VoxViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoxViewManager.h; sourceTree = "<group>"; };
-		B26F1CE122EB106D00535E6F /* VoxImplantModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoxImplantModule.m; sourceTree = "<group>"; };
 		B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIAudioDeviceModule.m; sourceTree = "<group>"; };
 		B26F1CF422EB109A00535E6F /* libRNVoximplant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNVoximplant.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -118,12 +106,6 @@
 				B26F1CD422EB106D00535E6F /* VideoViewManager.m */,
 				B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */,
 				B26F1CD922EB106D00535E6F /* VIMessagingModule.m */,
-				B26F1CDD22EB106D00535E6F /* VoxImplantModule.h */,
-				B26F1CE122EB106D00535E6F /* VoxImplantModule.m */,
-				B26F1CCB22EB106D00535E6F /* VoxView.h */,
-				B26F1CC922EB106C00535E6F /* VoxView.m */,
-				B26F1CE022EB106D00535E6F /* VoxViewManager.h */,
-				B26F1CDF22EB106D00535E6F /* VoxViewManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 				B26F1CF422EB109A00535E6F /* libRNVoximplant.a */,
 			);
@@ -208,12 +190,6 @@
 				B26F1D0E22EB10CB00535E6F /* VideoViewManager.m in Sources */,
 				B26F1D0F22EB10CB00535E6F /* VIMessagingModule.h in Sources */,
 				B26F1D1022EB10CB00535E6F /* VIMessagingModule.m in Sources */,
-				B26F1D1122EB10CB00535E6F /* VoxImplantModule.h in Sources */,
-				B26F1D1222EB10CB00535E6F /* VoxImplantModule.m in Sources */,
-				B26F1D1322EB10CB00535E6F /* VoxView.h in Sources */,
-				B26F1D1422EB10CB00535E6F /* VoxView.m in Sources */,
-				B26F1D1522EB10CB00535E6F /* VoxViewManager.h in Sources */,
-				B26F1D1622EB10CB00535E6F /* VoxViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
