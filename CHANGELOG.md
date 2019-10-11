@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.13.0
+- Update native Android module to use Voximplant Android SDK 2.14.1
+
 ### 1.12.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.14.0 and Voximplant iOS SDK 2.23.0
 - Legacy API removal
