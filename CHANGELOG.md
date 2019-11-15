@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.14.0
+- Update native iOS module to use Voximplant iOS SDK 2.25.0
+- Min supported iOS version is changed to 9.0. iOS 8.0 is no more supported.
+
 ### 1.13.0
 - Update native Android module to use Voximplant Android SDK 2.14.1
 

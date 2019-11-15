@@ -89,7 +89,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	public void init(boolean enableVideo, boolean enableHWAcceleration, boolean provideLocalFramesInByteBuffers,
 					 boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
 					 String videoCodec, String packageName, String requestAudioFocusMode) {
-		Voximplant.subVersion = "react-1.13.0";
+		Voximplant.subVersion = "react-1.14.0";
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableHWAccelerationForDecoding = enableHWAcceleration;
