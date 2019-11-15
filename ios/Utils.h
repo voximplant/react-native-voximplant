@@ -16,5 +16,6 @@
 + (NSString *)convertMessengerEventActionToString:(VIMessengerAction)action;
 + (NSString *)convertMessengerNotificationToString:(VIMessengerNotification)notification;
 + (NSString *)convertLogSeverity:(VILogSeverity)severity;
++ (NSDictionary *)convertAuthParamsToDictionary:(VIAuthParams *)authParams;
 
 @end
