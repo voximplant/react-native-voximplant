@@ -13,10 +13,6 @@
  * @property {Voximplant.VideoCodec} [preferredVideoCodec] - Preferred video codec for all video calls.
  *                                  {@link Voximplant.VideoCodec.VP8} by default.
  *                                  Can be overridden for a particular call via {@link Voximplant.CallSettings.preferredVideoCodec}. ANDROID ONLY
- * @property {boolean} [enableHWAcceleration] - Enable hardware video acceleration. Set to true by default.
- *                                  Should be set to false, if provideLocalFramesInByteBuffers is set to true. ANDROID ONLY
- * @property {boolean} [provideLocalFramesInByteBuffers] - Request video frames from camera in I420 format with byte buffers.
- *                                  Set to false by default. If set to false, video frames from camera will be provided in I420 format with textures. ANDROID ONLY
  * @property {boolean} [enableDebugLogging] - Enable debug logging. Set to false by default. ANDROID ONLY
  * @property {Voximplant.LogLevel} [logLevel] - Log levels. IOS ONLY
  * @property {string} [bundleId] - Application bundle id/package name for iOS/Android respectively.

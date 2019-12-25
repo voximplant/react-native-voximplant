@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.15.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.15.0 and Voximplant iOS SDK 2.25.2
+- Add VideoStream.type property to identify the video source type: video or screen sharing
+- Remove deprecated properties for Android:
+  * ClientConfig.enableHWAcceleration
+  * ClientConfig.provideLocalFramesInByteBuffer
+
 ### 1.14.0
 - Update native iOS module to use Voximplant iOS SDK 2.25.0
 - Min supported iOS version is changed to 9.0. iOS 8.0 is no more supported.

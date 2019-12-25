@@ -82,7 +82,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId) {
-    [VIClient setVersionExtension:@"react-1.14.0"];
+    [VIClient setVersionExtension:@"react-1.15.0"];
     [VIClient setLogLevel:logLevel];
     if (bundleId) {
         _client = [CallManager getClientWithBundleId:bundleId];

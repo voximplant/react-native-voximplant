@@ -47,19 +47,14 @@ export default class Client {
         if (!clientConfig) clientConfig = {};
         if (Platform.OS === 'android') {
             if (clientConfig.enableVideo === undefined) clientConfig.enableVideo = true;
-            if (clientConfig.enableHWAcceleration === undefined) clientConfig.enableHWAcceleration = true;
-            if (clientConfig.provideLocalFramesInByteBuffer === undefined) clientConfig.provideLocalFramesInByteBuffer = false;
             if (clientConfig.enableDebugLogging === undefined) clientConfig.enableDebugLogging = false;
             if (clientConfig.enableCameraMirroring === undefined) clientConfig.enableCameraMirroring = true;
             if (clientConfig.enableLogcatLogging === undefined) clientConfig.enableLogcatLogging = true;
             if (clientConfig.preferredVideoCodec === undefined) clientConfig.preferredVideoCodec = VideoCodec.VP8;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.requestAudioFocusMode === undefined) clientConfig.requestAudioFocusMode = RequestAudioFocusMode.REQUEST_ON_CALL_START;
-            if (clientConfig.saveLogsToFile !== undefined) console.log('saveLogsToFile is iOS only option');
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
             ClientModule.init(clientConfig.enableVideo,
-                clientConfig.enableHWAcceleration,
-                clientConfig.provideLocalFramesInByteBuffer,
                 clientConfig.enableDebugLogging,
                 clientConfig.enableCameraMirroring,
                 clientConfig.enableLogcatLogging,
@@ -71,14 +66,11 @@ export default class Client {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.enableVideo !== undefined) console.log('enableVideo is Android only option');
-            if (clientConfig.enableHWAcceleration !== undefined) console.log('enableHWAcceleration is Android only option');
-            if (clientConfig.provideLocalFramesInByteBuffer !== undefined) console.log('provideLocalFramesInByteBuffer is Android only option');
             if (clientConfig.enableDebugLogging !== undefined) console.log('enableDebugLogging is Android only option');
             if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
             if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
             if (clientConfig.requestAudioFocusMode !== undefined) console.log('requestAudioFocusMode is Android only option');
-            if (clientConfig.saveLogsToFile !== undefined) console.warn('saveLogsToFile config is no more available ')
             ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.bundleId);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
@@ -102,7 +94,7 @@ export default class Client {
     /**
      * Set outer logging callback. The method allows integrating logging pipeline of the Voximplant React Native SDK into
      * your own logger i.e. the method call sends all events to your function.
-     * @param {function} callback - Callback function with two arguments: level and message
+     * @param {function} callback - Callback function with two arguments: {@link Voximplant.LogLevel} and message
      * @memberOf Voximplant.Client
      */
     setLoggerCallback(callback) {
