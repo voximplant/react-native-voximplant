@@ -96,6 +96,10 @@ NSString *const kEventParamEndpointSipUri = @"sipUri";
 NSString *const kEventParamVideoStreamId = @"videoStreamId";
 NSString *const kEventParamCurrentAudioDevice = @"currentDevice";
 NSString *const kEventParamDeviceList = @"newDeviceList";
+NSString *const kEventParamVideoStreamType = @"videoStreamType";
+
+NSString *const kVideoStreamTypeVideo = @"Video";
+NSString *const kVideoStreamTypeScreenSharing = @"ScreenSharing";
 
 NSString *const kScaleTypeFit = @"fit";
 NSString *const kScaleTypeFill = @"fill";

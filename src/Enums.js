@@ -184,6 +184,26 @@ export const RequestAudioFocusMode = {
 };
 
 /**
+ * Types of video stream
+ * @name VideoStreamType
+ * @memberOf Voximplant
+ * @enum {string}
+ * @type {{VIDEO: string, SCREEN_SHARING: string}}
+ */
+export const VideoStreamType = {
+    /**
+     * Indicates that video stream source is camera
+     * @memberOf Voximplant.VideoStreamType
+     */
+    VIDEO : 'Video',
+    /**
+     * Indicates that video stream source is screen sharing
+     * @memberOf Voximplant.VideoStreamType
+     */
+    SCREEN_SHARING : 'ScreenSharing'
+};
+
+/**
  * Enum that represents actions that trigger messenger events. Each action is the reason for every triggered event.
  * @name MessengerAction
  * @memberOf Voximplant.Messaging

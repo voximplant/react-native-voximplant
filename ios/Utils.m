@@ -210,4 +210,14 @@
     return dictionary;
 }
 
++ (NSString *)convertVideoStreamTypeToString:(VIVideoStreamType)videoStreamType {
+    switch (videoStreamType) {
+        case VIVideoStreamTypeScreenSharing:
+            return kVideoStreamTypeScreenSharing;
+        case VIVideoStreamTypeVideo:
+        default:
+            return kVideoStreamTypeVideo;
+    }
+}
+
 @end

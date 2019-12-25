@@ -237,9 +237,10 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 - (void)call:(VICall *)call didAddLocalVideoStream:(VIVideoStream *)videoStream {
     [CallManager addVideoStream:videoStream];
     [self sendEventWithName:kEventCallLocalVideoStreamAdded body:@{
-                                                                   kEventParamName          : kEventNameCallLocalVideoStreamAdded,
-                                                                   kEventParamCallId        : call.callId,
-                                                                   kEventParamVideoStreamId : videoStream.streamId
+                                                                   kEventParamName            : kEventNameCallLocalVideoStreamAdded,
+                                                                   kEventParamCallId          : call.callId,
+                                                                   kEventParamVideoStreamId   : videoStream.streamId,
+                                                                   kEventParamVideoStreamType : [Utils convertVideoStreamTypeToString:videoStream.type]
                                                                    }];
 }
 
@@ -269,10 +270,11 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
     [CallManager addVideoStream:videoStream];
     NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
-                                                                   kEventParamName          : kEventNameEndpointRemoteStreamAdded,
-                                                                   kEventParamCallId        : callId ? callId : [NSNull null],
-                                                                   kEventParamEndpointId    : endpoint.endpointId,
-                                                                   kEventParamVideoStreamId : videoStream.streamId
+                                                                   kEventParamName            : kEventNameEndpointRemoteStreamAdded,
+                                                                   kEventParamCallId          : callId ? callId : [NSNull null],
+                                                                   kEventParamEndpointId      : endpoint.endpointId,
+                                                                   kEventParamVideoStreamId   : videoStream.streamId,
+                                                                   kEventParamVideoStreamType : [Utils convertVideoStreamTypeToString:videoStream.type]
                                                                    }];
 }
 

@@ -369,9 +369,10 @@ export default class Call {
     _VICallLocalVideoStreamAddedCallback = (event) => {
         if (event.callId === this.callId) {
             this._replaceCallIdWithCallInEvent(event);
-            let videoStream = new VideoStream(event.videoStreamId, true);
+            let videoStream = new VideoStream(event.videoStreamId, true, event.videoStreamType);
             CallManager.getInstance().addVideoStream(this.callId, videoStream);
             delete event.videoStreamId;
+            delete event.videoStreamType;
             event.videoStream = videoStream;
             this._emit(CallEvents.LocalVideoStreamAdded, event);
         }

@@ -95,6 +95,10 @@ FOUNDATION_EXPORT NSString *const kEventParamEndpointSipUri;
 FOUNDATION_EXPORT NSString *const kEventParamVideoStreamId;
 FOUNDATION_EXPORT NSString *const kEventParamCurrentAudioDevice;
 FOUNDATION_EXPORT NSString *const kEventParamDeviceList;
+FOUNDATION_EXPORT NSString *const kEventParamVideoStreamType;
+
+FOUNDATION_EXPORT NSString *const kVideoStreamTypeVideo;
+FOUNDATION_EXPORT NSString *const kVideoStreamTypeScreenSharing;
 
 FOUNDATION_EXPORT NSString *const kScaleTypeFit;
 FOUNDATION_EXPORT NSString *const kScaleTypeFill;

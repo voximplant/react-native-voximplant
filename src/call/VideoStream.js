@@ -11,7 +11,7 @@
  */
 export default class VideoStream {
     /**
-     * @member {string} id - The video stream id.
+     * @member {string} id - Video stream id.
      * @memberOf Voximplant.VideoStream
      */
     id;
@@ -22,10 +22,17 @@ export default class VideoStream {
     isLocal;
 
     /**
+     * @member {Voximplant.VideoStreamType} type - Video stream type
+     * @memberOf Voximplant.VideoStream
+     */
+    type;
+
+    /**
      * @ignore
      */
-    constructor(id, isLocal) {
+    constructor(id, isLocal, type) {
         this.id = id;
         this.isLocal = isLocal;
+        this.type = type;
     }
 }

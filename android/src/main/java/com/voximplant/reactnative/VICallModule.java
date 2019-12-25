@@ -265,6 +265,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
         params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_TYPE, Utils.convertVideoStreamType(videoStream.getVideoStreamType()));
         sendEvent(EVENT_CALL_LOCAL_VIDEO_STREAM_ADDED, params);
     }
 
@@ -345,6 +346,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
         params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
         params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_TYPE, Utils.convertVideoStreamType(videoStream.getVideoStreamType()));
         sendEvent(EVENT_ENDPOINT_REMOTE_STREAM_ADDED, params);
     }
 

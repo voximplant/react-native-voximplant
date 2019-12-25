@@ -7,8 +7,8 @@
 import {
     Platform,
     NativeModules,
-	NativeEventEmitter,
-	DeviceEventEmitter,
+    NativeEventEmitter,
+    DeviceEventEmitter,
 } from 'react-native';
 
 import EndpointEvents from './EndpointEvents';
@@ -18,8 +18,8 @@ import VideoStream from './VideoStream';
 const CallModule = NativeModules.VICallModule;
 
 const EventEmitter = Platform.select({
-	ios: new NativeEventEmitter(CallModule),
-	android: DeviceEventEmitter,
+    ios: new NativeEventEmitter(CallModule),
+    android: DeviceEventEmitter,
 });
 
 /**
@@ -167,9 +167,10 @@ export default class Endpoint {
     _VIEndpointRemoteVideoStreamAdded = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
-            let videoStream = new VideoStream(event.videoStreamId, false);
+            let videoStream = new VideoStream(event.videoStreamId, false, event.videoStreamType);
             CallManager.getInstance().addVideoStream(CallManager.getInstance().getCallIdByEndpointId(this.id), videoStream);
             delete event.videoStreamId;
+            delete event.videoStreamType;
             event.videoStream = videoStream;
             this._emit(EndpointEvents.RemoteVideoStreamAdded, event);
         }

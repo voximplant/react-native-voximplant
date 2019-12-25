@@ -17,5 +17,6 @@
 + (NSString *)convertMessengerNotificationToString:(VIMessengerNotification)notification;
 + (NSString *)convertLogSeverity:(VILogSeverity)severity;
 + (NSDictionary *)convertAuthParamsToDictionary:(VIAuthParams *)authParams;
++ (NSString *)convertVideoStreamTypeToString:(VIVideoStreamType)videoStreamType;
 
 @end

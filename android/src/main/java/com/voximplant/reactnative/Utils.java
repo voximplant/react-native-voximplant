@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.call.VideoCodec;
+import com.voximplant.sdk.call.VideoStreamType;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
@@ -77,6 +78,8 @@ import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
+import static com.voximplant.reactnative.Constants.VIDEO_STREAM_TYPE_SCREEN_SHARING;
+import static com.voximplant.reactnative.Constants.VIDEO_STREAM_TYPE_VIDEO;
 
 class Utils {
 
@@ -557,6 +560,16 @@ class Utils {
 			default:
 				return EVENT_PARAM_LOG_LEVEL_INFO;
 
+		}
+	}
+
+	static String convertVideoStreamType(VideoStreamType videoStreamType) {
+		switch (videoStreamType) {
+			case SCREEN_SHARING:
+				return VIDEO_STREAM_TYPE_SCREEN_SHARING;
+			case VIDEO:
+			default:
+				return VIDEO_STREAM_TYPE_VIDEO;
 		}
 	}
 }
