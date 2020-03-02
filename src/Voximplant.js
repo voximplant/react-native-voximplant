@@ -16,7 +16,7 @@ import VideoStream from './call/VideoStream';
 import VideoView from './call/VideoView';
 import EndpointEvents from './call/EndpointEvents';
 import ClientEvents from './client/ClientEvents';
-import {ClientState, CameraType, RenderScaleType, LogLevel, CallError, VideoCodec, RequestAudioFocusMode} from "./Enums";
+import {ClientState, CameraType, RenderScaleType, LogLevel, CallError, VideoCodec, RequestAudioFocusMode, VideoStreamType} from "./Enums";
 import * as Hardware from './hardware';
 import * as Messaging from './messaging';
 
@@ -57,6 +57,7 @@ export {
     LogLevel,
     VideoCodec,
     RequestAudioFocusMode,
+    VideoStreamType,
     Hardware,
     Messaging
 };
