@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.17.0
+- Update native iOS module to use Voximplant iOS SDK 2.28.0
+
 ### 1.16.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.16.0 and Voximplant iOS SDK 2.27.0
 - Fix for [#106](https://github.com/voximplant/react-native-voximplant/issues/106)
