@@ -33,6 +33,8 @@
  * and application's audio should be stopped/paused on {@link Voximplant.CallEvents.ProgressToneStop}.
  *
  * ANDROID ONLY
+ *
+ * @property {boolean} [h264RecoveryMode] - Enable experimental packet recovery mode to decode broken h264 streams. iOS ONLY
  */
 const ClientConfig = {
 

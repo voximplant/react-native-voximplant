@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "CallManager.h"
 #import "VIClientModule.h"
+#import <WebRTC/WebRTC.h>
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -81,9 +82,14 @@ RCT_EXPORT_MODULE();
     _hasListerners = NO;
 }
 
-RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId) {
+RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId h264RecoveryMode:(BOOL)h264RecoveryMode) {
     [VIClient setVersionExtension:@"react-1.17.0"];
     [VIClient setLogLevel:logLevel];
+    if (h264RecoveryMode) {
+      RTCInitFieldTrialDictionary(@{
+        kRTCFieldTrialVoximplantH264RecoveryModeKey: kRTCFieldTrialEnabledValue
+      });
+    }
     if (bundleId) {
         _client = [CallManager getClientWithBundleId:bundleId];
     } else {
