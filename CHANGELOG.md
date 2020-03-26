@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.18.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.16.1 and Voximplant iOS SDK 2.29.0
+- Introduce ClientConfig.h264RecoveryMode option that enables experimental packet recovery mode to decode broken h264 streams
+
 ### 1.17.0
 - Update native iOS module to use Voximplant iOS SDK 2.28.0
 
