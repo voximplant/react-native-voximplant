@@ -10,7 +10,7 @@ React Native >= 0.47.0
 
 ## Getting started
 
-`npm install react-native-voximplant@latest --save`
+`yarn add react-native-voximplant`
 
 ### iOS
 
@@ -24,24 +24,7 @@ React Native >= 0.47.0
 1. Make sure you have "React Native" project created with `react-native init`
 2. Open or create ios/Podfile and add the following dependencies. Please use demo project Podfile ad a reference.
     ```
-    pod 'React', :path => '../node_modules/react-native', :subspecs => [
-         'Core',
-         'CxxBridge',
-         'RCTImage',
-         'RCTNetwork',
-         'RCTText',
-         'RCTWebSocket',
-         'DevSupport',
-         'RCTAnimation',
-         'RCTLinkingIOS'
-         # Add any other subspecs you want to use in your project
-         ]
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-
-    pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
-    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-    pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
-    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
     ```
 3. Add `use_frameworks!` at the top of your target configuration.
 
@@ -111,5 +94,10 @@ Learn more at [quick start](https://voximplant.com/docs/references/articles/quic
 
 Official guides:
 - [Using React Native SDK guide](https://voximplant.com/blog/using-react-native-sdk)
-- [Migration guide](https://voximplant.com/blog/migration-guide-for-react-native-sdk)
+
+## Have a question
+
+- contact us via `support@voximplant.com`
+- create an issue
+- join our developer [community](https://discord.gg/sfCbT5u)
 
