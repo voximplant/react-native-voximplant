@@ -502,8 +502,11 @@ export default class Client {
         const handlers = listeners[event];
         if (handlers) {
             for (const handler of handlers) {
+                console.log(`Client: emit event ${event}`);
                 handler(...args);
             }
+        } else {
+            console.log(`Client: emit: no handlers for event: ${event}`);
         }
     }
 

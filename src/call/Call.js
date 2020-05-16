@@ -36,11 +36,18 @@ export default class Call {
     callId;
 
     /**
+     * @member {VideoStream[]} localVideoStreams - Local video streams
+     * @memberOf Voximplant.Call
+     */
+    localVideoStreams;
+
+    /**
      * @ignore
      */
     constructor(callId) {
         this.callId = callId;
         this.listeners = {};
+        this.localVideoStreams = [];
 
         this._addEventListeners();
         CallModule.internalSetup(this.callId);
@@ -246,8 +253,11 @@ export default class Call {
         const handlers = this.listeners[event];
         if (handlers) {
             for (const handler of handlers) {
+                console.log(`Call: emit event ${event}`);
                 handler(...args);
             }
+        } else {
+            console.log(`Call: emit: no handlers for event: ${event}`);
         }
     }
 
@@ -371,6 +381,7 @@ export default class Call {
             this._replaceCallIdWithCallInEvent(event);
             let videoStream = new VideoStream(event.videoStreamId, true, event.videoStreamType);
             CallManager.getInstance().addVideoStream(this.callId, videoStream);
+            this.localVideoStreams.push(videoStream);
             delete event.videoStreamId;
             delete event.videoStreamType;
             event.videoStream = videoStream;
@@ -388,6 +399,13 @@ export default class Call {
             CallManager.getInstance().removeVideoStream(this.callId, videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
+            let videoStreamPos;
+            this.localVideoStreams.forEach(function (item, index) {
+                if (item.id === videoStream.id) {
+                    videoStreamPos = index;
+                }
+            });
+            this.localVideoStreams.splice(videoStreamPos, 1);
             this._emit(CallEvents.LocalVideoStreamRemoved, event);
         }
     };

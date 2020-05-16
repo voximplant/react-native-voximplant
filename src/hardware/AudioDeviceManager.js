@@ -6,16 +6,16 @@
 import {
     Platform,
     NativeModules,
-	NativeEventEmitter,
-	DeviceEventEmitter,
+    NativeEventEmitter,
+    DeviceEventEmitter,
 } from 'react-native';
 
 import AudioDeviceEvents from './AudioDeviceEvents';
 
 const AudioDeviceModule = NativeModules.VIAudioDeviceModule;
 const EventEmitter = Platform.select({
-	ios: new NativeEventEmitter(AudioDeviceModule),
-	android: DeviceEventEmitter,
+    ios: new NativeEventEmitter(AudioDeviceModule),
+    android: DeviceEventEmitter,
 });
 
 /**
@@ -104,8 +104,11 @@ export default class AudioDeviceManager {
         const handlers = this.listeners[event];
         if (handlers) {
             for (const handler of handlers) {
+                console.log(`AudioDeviceManager: emit event ${event}`);
                 handler(...args);
             }
+        } else {
+            console.log(`AudioDeviceManager: emit: no handlers for event: ${event}`);
         }
     }
 

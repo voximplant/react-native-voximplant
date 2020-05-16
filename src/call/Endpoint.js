@@ -53,6 +53,12 @@ export default class Endpoint {
     userName;
 
     /**
+     * @member {VideoStream[]} videoStreams - Video streams of the endpoint.
+     * @memberOf Voximplant.Endpoint
+     */
+    videoStreams;
+
+    /**
      * @ignore
      */
     constructor(id, displayName, sipUri, userName) {
@@ -61,6 +67,7 @@ export default class Endpoint {
         this.sipUri = sipUri;
         this.userName = userName;
         this.listeners = {};
+        this.videoStreams = [];
 
         this._addEventListeners();
     }
@@ -116,8 +123,11 @@ export default class Endpoint {
         const handlers = this.listeners[event];
         if (handlers) {
             for (const handler of handlers) {
+                console.log(`Endpoint: emit event ${event}`);
                 handler(...args);
             }
+        } else {
+            console.log(`Endpoint: emit: no handlers for event: ${event}`);
         }
     }
 
@@ -172,6 +182,7 @@ export default class Endpoint {
             delete event.videoStreamId;
             delete event.videoStreamType;
             event.videoStream = videoStream;
+            this.videoStreams.push(videoStream);
             this._emit(EndpointEvents.RemoteVideoStreamAdded, event);
         }
     };
@@ -186,6 +197,13 @@ export default class Endpoint {
             CallManager.getInstance().removeVideoStream(CallManager.getInstance().getCallIdByEndpointId(this.id), videoStream);
             delete event.videoStreamId;
             event.videoStream = videoStream;
+            let videoStreamPos;
+            this.videoStreams.forEach(function (item, index) {
+                if (item.id === videoStream.id) {
+                    videoStreamPos = index;
+                }
+            });
+            this.videoStreams.splice(videoStreamPos, 1);
             this._emit(EndpointEvents.RemoteVideoStreamRemoved, event);
         }
     };
