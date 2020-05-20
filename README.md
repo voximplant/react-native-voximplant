@@ -90,10 +90,10 @@ React Native >= 0.47.0
 
 ## Usage
 You will need free Voximplant developer account setup for making and receiving calls using the SDK. 
-Learn more at [quick start](https://voximplant.com/docs/references/articles/quickstart).
+Learn more at the [Getting started](https://voximplant.com/docs/introduction) page.
 
 Official guides:
-- [Using React Native SDK guide](https://voximplant.com/blog/using-react-native-sdk)
+- [Adding Voximplant SDKs to Your App](https://voximplant.com/docs/introduction/integration/adding_sdks)
 
 ## Have a question
 
