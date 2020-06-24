@@ -88,7 +88,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
 					 String videoCodec, String packageName, String requestAudioFocusMode) {
-		Voximplant.subVersion = "react-1.19.0";
+		Voximplant.subVersion = "react-1.20.0";
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableDebugLogging = enableDebugLogging;

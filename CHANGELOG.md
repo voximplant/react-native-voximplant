@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.20.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.19.0 and Voximplant iOS SDK 2.32.1
+- Introduce AudioFile API to play audio files
+
 ### 1.19.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.17.0 and Voximplant iOS SDK 2.31.0
 - Add Call.localVideoStreams and Endpoint.videoStreams properties to access video streams
