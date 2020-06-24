@@ -220,4 +220,24 @@
     }
 }
 
++ (NSString *)convertAudioFileErrorToString:(VIAudioFileErrorCode)audioFileError {
+    switch (audioFileError) {
+        case VIAudioFileErrorCodeDestroyed:
+            return kAudioFileErrorDestroyed;
+        case VIAudioFileErrorCodeInterrupted:
+            return kAudioFileErrorInterrupted;
+        case VIAudioFileErrorCodeAlreadyPlaying:
+            return kAudioFileErrorAlreadyPlaying;
+        case VIAudioFileErrorCodeCallKitActivated:
+            return kAudioFileErrorCallKitActivated;
+        case VIAudioFileErrorCodeCallKitDeactivated:
+            return kAudioFileErrorCallKitDeactivated;
+        case VIAudioFileErrorCodeFailedToConfigureAudioSession:
+            return kAudioFileErrorFailedToConfigureAudioSession;
+        case VIAudioFileErrorCodeInternal:
+        default:
+            return kAudioFileErrorInternal;
+    }
+}
+
 @end

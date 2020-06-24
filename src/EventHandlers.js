@@ -243,6 +243,26 @@ const CameraSwitchError = {
 };
 
 /**
+ * @property {string} name - Name of the event
+ * @property {Voximplant.Hardware.AudioFile} audioFile - Audio file that triggered the event
+ * @property {boolean} result - True if the audio file has started successfully
+ * @property {number} error - Error code on iOS if the audio file failed to start
+ */
+const AudioFileStarted = {
+
+};
+
+/**
+ * @property {string} name - Name of the event
+ * @property {Voximplant.Hardware.AudioFile} audioFile - Audio file that triggered the event
+ * @property {boolean} result - True if the audio file has stopped successfully
+ * @property {number} error - Error code on iOS if the audio file failed to stop
+ */
+const AudioFileStopped = {
+
+};
+
+/**
  * @property {Voximplant.Messaging.MessengerAction} action - Action that triggered this event.
  * @property {Voximplant.Messaging.MessengerEventTypes} eventType - Messenger event type.
  * @property {number} imUserId - The IM id for the user that initiated the event.

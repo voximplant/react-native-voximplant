@@ -44,6 +44,8 @@ class Constants {
     static final String EVENT_CAMERA_SWITCH_DONE = "VICameraSwitchDone";
     static final String EVENT_CAMERA_SWITCH_ERROR = "VICameraSwitchError";
 
+    static final String EVENT_AUDIO_FILE_STARTED = "VIAudioFileStarted";
+    static final String EVENT_AUDIO_FILE_STOPPED = "VIAudioFileStopped";
 
     static final String EVENT_NAME_CONNECTION_ESTABLISHED = "ConnectionEstablished";
     static final String EVENT_NAME_CONNECTION_FAILED = "ConnectionFailed";
@@ -77,6 +79,8 @@ class Constants {
     static final String EVENT_NAME_CAMERA_SWITCH_DONE = "CameraSwitchDone";
     static final String EVENT_NAME_CAMERA_SWITCH_ERROR = "CameraSwitchError";
 
+    static final String EVENT_NAME_AUDIO_FILE_STARTED = "Started";
+    static final String EVENT_NAME_AUDIO_FILE_STOPPED = "Stopped";
 
     static final String EVENT_PARAM_NAME = "name";
     static final String EVENT_PARAM_RESULT = "result";
@@ -113,6 +117,8 @@ class Constants {
     static final String EVENT_PARAM_IS_LOCAL = "isLocal";
     static final String EVENT_PARAM_VIDEO_STREAM_TYPE = "videoStreamType";
 
+    static final String EVENT_PARAM_AUDIO_FILE_ID = "fileId";
+
     static final String EVENT_PARAM_CURRENT_AUDIO_DEVICE = "currentDevice";
     static final String EVENT_PARAM_AUDIO_DEVICE_LIST = "newDeviceList";
 
@@ -127,6 +133,11 @@ class Constants {
 
     static final String SCALE_TYPE_FIT = "fit";
     static final String SCALE_TYPE_FILL = "fill";
+
+    static final String IN_CALL = "incall";
+    static final String NOTIFICATION = "notification";
+    static final String RINGTONE = "ringtone";
+    static final String UNKNOWN = "unknown";
 
     static final String VIDEO_STREAM_TYPE_VIDEO = "Video";
     static final String VIDEO_STREAM_TYPE_SCREEN_SHARING = "ScreenSharing";

@@ -32,6 +32,8 @@ FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceChanged;
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceListChanged;
 
+FOUNDATION_EXPORT NSString *const kEventAudioFileStarted;
+FOUNDATION_EXPORT NSString *const kEventAudioFileStopped;
 
 FOUNDATION_EXPORT NSString *const kEventNameConnectionEstablished;
 FOUNDATION_EXPORT NSString *const kEventNameConnectionFailed;
@@ -60,6 +62,8 @@ FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceChanged;
 FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceListChanged;
 
+FOUNDATION_EXPORT NSString *const kEventNameAudioFileStarted;
+FOUNDATION_EXPORT NSString *const kEventNameAudioFileStopped;
 
 FOUNDATION_EXPORT NSString *const kEventParamName;
 FOUNDATION_EXPORT NSString *const kEventParamResult;
@@ -97,6 +101,9 @@ FOUNDATION_EXPORT NSString *const kEventParamCurrentAudioDevice;
 FOUNDATION_EXPORT NSString *const kEventParamDeviceList;
 FOUNDATION_EXPORT NSString *const kEventParamVideoStreamType;
 
+FOUNDATION_EXPORT NSString *const kEventParamAudioFileId;
+FOUNDATION_EXPORT NSString *const kEventParamError;
+
 FOUNDATION_EXPORT NSString *const kVideoStreamTypeVideo;
 FOUNDATION_EXPORT NSString *const kVideoStreamTypeScreenSharing;
 
@@ -108,6 +115,14 @@ FOUNDATION_EXPORT NSString *const kCallErrorTimeout;
 FOUNDATION_EXPORT NSString *const kCallErrorAlreadyInThisState;
 FOUNDATION_EXPORT NSString *const kCallErrorMediaIsOnHold;
 FOUNDATION_EXPORT NSString *const kCallErrorInternal;
+
+FOUNDATION_EXPORT NSString *const kAudioFileErrorInternal;
+FOUNDATION_EXPORT NSString *const kAudioFileErrorInterrupted;
+FOUNDATION_EXPORT NSString *const kAudioFileErrorDestroyed;
+FOUNDATION_EXPORT NSString *const kAudioFileErrorAlreadyPlaying;
+FOUNDATION_EXPORT NSString *const kAudioFileErrorCallKitActivated;
+FOUNDATION_EXPORT NSString *const kAudioFileErrorCallKitDeactivated;
+FOUNDATION_EXPORT NSString *const kAudioFileErrorFailedToConfigureAudioSession;
 
 FOUNDATION_EXPORT NSString *const kAudioDeviceEarpiece;
 FOUNDATION_EXPORT NSString *const kAudioDeviceSpeaker;

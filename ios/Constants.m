@@ -32,6 +32,9 @@ NSString *const kEventEndpointRemoved = @"VIEndpointRemoved";
 NSString *const kEventAudioDeviceChanged = @"VIAudioDeviceChanged";
 NSString *const kEventAudioDeviceListChanged = @"VIAudioDeviceListChanged";
 
+NSString *const kEventAudioFileStarted = @"VIAudioFileStarted";
+NSString *const kEventAudioFileStopped = @"VIAudioFileStopped";
+
 
 NSString *const kEventNameConnectionEstablished = @"ConnectionEstablished";
 NSString *const kEventNameConnectionFailed = @"ConnectionFailed";
@@ -61,6 +64,8 @@ NSString *const kEventNameEndpointRemoved = @"Removed";
 NSString *const kEventNameAudioDeviceChanged = @"DeviceChanged";
 NSString *const kEventNameAudioDeviceListChanged = @"DeviceListChanged";
 
+NSString *const kEventNameAudioFileStarted = @"Started";
+NSString *const kEventNameAudioFileStopped = @"Stopped";
 
 NSString *const kEventParamName = @"name";
 NSString *const kEventParamResult = @"result";
@@ -98,6 +103,9 @@ NSString *const kEventParamCurrentAudioDevice = @"currentDevice";
 NSString *const kEventParamDeviceList = @"newDeviceList";
 NSString *const kEventParamVideoStreamType = @"videoStreamType";
 
+NSString *const kEventParamAudioFileId = @"fileId";
+NSString *const kEventParamError = @"error";
+
 NSString *const kVideoStreamTypeVideo = @"Video";
 NSString *const kVideoStreamTypeScreenSharing = @"ScreenSharing";
 
@@ -109,6 +117,14 @@ NSString *const kCallErrorTimeout = @"TIMEOUT";
 NSString *const kCallErrorAlreadyInThisState = @"ALREADY_IN_THIS_STATE";
 NSString *const kCallErrorMediaIsOnHold = @"MEDIA_IS_ON_HOLD";
 NSString *const kCallErrorInternal = @"INTERNAL_ERROR";
+
+NSString *const kAudioFileErrorInternal = @"INTERNAL_ERROR";
+NSString *const kAudioFileErrorInterrupted = @"INTERRUPTED";
+NSString *const kAudioFileErrorDestroyed = @"DESTROYED";
+NSString *const kAudioFileErrorAlreadyPlaying = @"ALREADY_PLAYING";
+NSString *const kAudioFileErrorCallKitActivated = @"CALLKIT_ACTIVATED";
+NSString *const kAudioFileErrorCallKitDeactivated = @"CALLKIT_DEACTIVATED";
+NSString *const kAudioFileErrorFailedToConfigureAudioSession = @"FAILED_TO_CONFIGURE_AUDIO_SESSION";
 
 NSString *const kAudioDeviceEarpiece = @"Earpiece";
 NSString *const kAudioDeviceSpeaker = @"Speaker";

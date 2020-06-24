@@ -330,3 +330,10 @@ export const MessengerNotification = {
      */
     SendMessage : 'SendMessage'
 };
+
+export const AudioFileUsage = {
+    IN_CALL: "incall",
+    NOTIFICATION: "notification",
+    RINGTONE: "ringtone",
+    UNKNOWN: "unknown"
+}

@@ -14,6 +14,7 @@ import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
 import com.voximplant.sdk.client.RequestAudioFocusMode;
 import com.voximplant.sdk.hardware.AudioDevice;
+import com.voximplant.sdk.hardware.AudioFileUsage;
 import com.voximplant.sdk.messaging.MessengerAction;
 import com.voximplant.sdk.messaging.MessengerEventType;
 import com.voximplant.sdk.messaging.MessengerNotification;
@@ -74,10 +75,14 @@ import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_ERROR;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_INFO;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_VERBOSE;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_LOG_LEVEL_WARNING;
+import static com.voximplant.reactnative.Constants.IN_CALL;
+import static com.voximplant.reactnative.Constants.NOTIFICATION;
+import static com.voximplant.reactnative.Constants.RINGTONE;
 import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
+import static com.voximplant.reactnative.Constants.UNKNOWN;
 import static com.voximplant.reactnative.Constants.VIDEO_STREAM_TYPE_SCREEN_SHARING;
 import static com.voximplant.reactnative.Constants.VIDEO_STREAM_TYPE_VIDEO;
 
@@ -570,6 +575,23 @@ class Utils {
 			case VIDEO:
 			default:
 				return VIDEO_STREAM_TYPE_VIDEO;
+		}
+	}
+
+	static AudioFileUsage convertStringToAudioFileUsage(String usage) {
+		if (usage == null) {
+			return AudioFileUsage.UNKNOWN;
+		}
+		switch (usage) {
+			case IN_CALL:
+				return AudioFileUsage.IN_CALL;
+			case NOTIFICATION:
+				return AudioFileUsage.NOTIFICATION;
+			case RINGTONE:
+				return AudioFileUsage.RINGTONE;
+			case UNKNOWN:
+			default:
+				return AudioFileUsage.UNKNOWN;
 		}
 	}
 }

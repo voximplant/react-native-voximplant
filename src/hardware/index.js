@@ -12,13 +12,18 @@ import AudioDeviceManager from './AudioDeviceManager';
 import AudioDeviceEvents from './AudioDeviceEvents';
 import CameraManager from './CameraManager';
 import CameraEvents from './CameraEvents';
-import {AudioDevice, CameraType} from "../Enums";
+import AudioFile from "./AudioFile";
+import AudioFileEventTypes from "./AudioFileEventTypes";
+import {AudioDevice, CameraType, AudioFileUsage} from "../Enums";
 
 export {
     AudioDeviceManager,
     AudioDeviceEvents,
     CameraManager,
     CameraEvents,
+    AudioFile,
+    AudioFileEventTypes,
     AudioDevice,
-    CameraType
+    CameraType,
+    AudioFileUsage
 }

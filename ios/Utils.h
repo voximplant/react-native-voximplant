@@ -18,5 +18,6 @@
 + (NSString *)convertLogSeverity:(VILogSeverity)severity;
 + (NSDictionary *)convertAuthParamsToDictionary:(VIAuthParams *)authParams;
 + (NSString *)convertVideoStreamTypeToString:(VIVideoStreamType)videoStreamType;
++ (NSString *)convertAudioFileErrorToString:(VIAudioFileErrorCode)audioFileError;
 
 @end
