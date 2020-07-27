@@ -77,6 +77,7 @@ FOUNDATION_EXPORT NSString *const kEventParamKey;
 FOUNDATION_EXPORT NSString *const kEventParamCode;
 FOUNDATION_EXPORT NSString *const kEventParamMessage;
 FOUNDATION_EXPORT NSString *const kEventParamIncomingVideo;
+FOUNDATION_EXPORT NSString *const kEventParamCallKitUUID;
 
 FOUNDATION_EXPORT NSString *const kEventParamLogLevel;
 FOUNDATION_EXPORT NSString *const kEventParamLogMessage;

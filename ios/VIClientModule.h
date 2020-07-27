@@ -5,9 +5,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "RCTBridgeModule.h"
-#import "RCTEventEmitter.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 #import <VoxImplant/VoxImplant.h>
 
 @interface VIClientModule : RCTEventEmitter <RCTBridgeModule, VIClientSessionDelegate, VIClientCallManagerDelegate, VILogDelegate>
++ (NSUUID *)uuidForPushNotification:(NSDictionary *)notification;
 @end

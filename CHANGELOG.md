@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.21.0
+- Add new API to improve CallKit integration on iOS:
+  - Call.callKitUUID - JS API
+  - [VIClientModule uuidForPushNotification] - Native iOS API
+
 ### 1.20.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.19.0 and Voximplant iOS SDK 2.32.1
 - Introduce AudioFile API to play audio files

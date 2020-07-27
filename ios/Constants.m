@@ -79,6 +79,7 @@ NSString *const kEventParamKey = @"key";
 NSString *const kEventParamCode = @"code";
 NSString *const kEventParamMessage = @"message";
 NSString *const kEventParamIncomingVideo = @"video";
+NSString *const kEventParamCallKitUUID = @"callKitUUID";
 
 NSString *const kEventParamLogLevel = @"level";
 NSString *const kEventParamLogMessage = @"message";

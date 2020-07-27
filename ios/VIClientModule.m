@@ -56,6 +56,10 @@ RCT_ENUM_CONVERTER(VIVideoCodec, (@{
 + (void)setVersionExtension:(NSString *)version;
 @end
 
+@interface VIClient (Utils)
++ (NSUUID *)uuidForPushNotification:(NSDictionary *)notification;
+@end
+
 @interface VIClientModule()
 @property(nonatomic, weak) VIClient* client;
 @property(nonatomic, assign) BOOL hasListerners;
@@ -63,6 +67,10 @@ RCT_ENUM_CONVERTER(VIVideoCodec, (@{
 
 @implementation VIClientModule
 RCT_EXPORT_MODULE();
+
++ (NSUUID *)uuidForPushNotification:(NSDictionary *)notification {
+    return [VIClient uuidForPushNotification:notification];
+}
 
 - (NSArray<NSString *> *)supportedEvents {
     return @[kEventConnectionEstablished,
@@ -83,7 +91,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId h264RecoveryMode:(BOOL)h264RecoveryMode) {
-    [VIClient setVersionExtension:@"react-1.20.0"];
+    [VIClient setVersionExtension:@"react-1.21.0"];
     [VIClient setLogLevel:logLevel];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
@@ -377,6 +385,7 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
                                                       kEventParamName           : kEventNameIncomingCall,
                                                       kEventParamCallId         : call.callId,
                                                       kEventParamIncomingVideo  : @(video),
+                                                      kEventParamCallKitUUID    : call.callKitUUID ? call.callKitUUID.UUIDString  : [NSNull null],
                                                       kEventParamHeaders        : headers,
                                                       kEventParamEndpointId     : endpoint && endpoint.endpointId ? endpoint.endpointId : [NSNull null],
                                                       kEventParamEndpointName   : endpoint && endpoint.user ? endpoint.user : [NSNull null],

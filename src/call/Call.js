@@ -42,10 +42,20 @@ export default class Call {
     localVideoStreams;
 
     /**
+     * @memberOf {string} callKitUUID - The CallKit UUID that may be used to match an incoming call with a push notification received before
+     *                                  Always nil for outgoing calls on Call instance creation.
+     *                                  For outgoing calls it is recommended to set CXStartCallAction.callUUID value to this property on
+     *                                  handling CXStartCallAction
+     * @memberOf Voximplant.Call
+     */
+    callKitUUID;
+
+    /**
      * @ignore
      */
     constructor(callId) {
         this.callId = callId;
+        this.callKitUUID = null;
         this.listeners = {};
         this.localVideoStreams = [];
 

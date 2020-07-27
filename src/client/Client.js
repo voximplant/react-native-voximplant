@@ -553,6 +553,8 @@ export default class Client {
         event.call = new Call(event.callId);
         let endpoint = new Endpoint(event.endpointId, event.displayName, event.sipUri, event.endpointName);
         CallManager.getInstance().addEndpoint(event.callId, endpoint);
+        event.call.callKitUUID = event.callKitUUID;
+        delete event.callKitUUID;
         delete event.endpointId;
         delete event.sipUri;
         delete event.displayName;
