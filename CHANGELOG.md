@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.22.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.20.2 and Voximplant iOS SDK 2.34.1
+- Fix for: [#120](https://github.com/voximplant/react-native-voximplant/issues/120)
+
 ### 1.21.0
 - Add new API to improve CallKit integration on iOS:
   - Call.callKitUUID - JS API

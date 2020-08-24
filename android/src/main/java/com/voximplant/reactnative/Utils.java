@@ -339,6 +339,8 @@ class Utils {
 		switch (error) {
 			case INVALID_PASSWORD:
 				return 401;
+			case MAU_ACCESS_DENIED:
+				return 402;
 			case ACCOUNT_FROZEN:
 				return 403;
 			case INVALID_USERNAME:
