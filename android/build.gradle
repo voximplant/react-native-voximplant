@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 def getExtOrIntegerDefault(name) {
-    return rootProject.ext.has(name) ? rootProject.ext.get(name) : 28
+    return rootProject.ext.has(name) ? rootProject.ext.get(name) : 29
 }
 
 android {
@@ -36,5 +36,5 @@ repositories {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"
-    implementation "com.voximplant:voximplant-sdk:2.20.2"
+    implementation "com.voximplant:voximplant-sdk:2.20.3"
 }
