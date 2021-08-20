@@ -258,13 +258,13 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
 
 RCT_EXPORT_METHOD(registerPushNotificationsToken:(NSString *)token) {
     if(_client) {
-        [_client registerPushNotificationsToken:[Utils dataFromHexString:token] imToken:nil];
+        [_client registerVoIPPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
     }
 }
 
 RCT_EXPORT_METHOD(unregisterPushNotificationsToken:(NSString *)token) {
     if (_client) {
-        [_client unregisterPushNotificationsToken:[Utils dataFromHexString:token] imToken:nil];
+        [_client unregisterVoIPPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
     }
 }
 
@@ -276,7 +276,13 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 
 RCT_EXPORT_METHOD(registerIMPushNotificationsTokenIOS:(NSString *)token) {
     if (_client) {
-        [_client registerPushNotificationsToken:nil imToken:[Utils dataFromHexString:token]];
+        [_client registerIMPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
+    }
+}
+
+RCT_EXPORT_METHOD(unregisterIMPushNotificationsTokenIOS:(NSString *)token) {
+    if (_client) {
+        [_client unregisterIMPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
     }
 }
 

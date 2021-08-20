@@ -357,11 +357,23 @@ export default class Client {
 
     /**
      * Unregister from push notifications. Application will no longer receive push notifications from the Voximplant server
-     * @param {string} token - Push registration token
+     * @param {string} token - Push registration token for VoIP calls
      * @memberOf Voximplant.Client
      */
     unregisterPushNotificationsToken(token) {
         ClientModule.unregisterPushNotificationsToken(token);
+    }
+
+    /**
+     * Unregister from IM push notifications. Application will no longer receive IM push notifications from the Voximplant server
+     *
+     * IOS ONLY.
+     *
+     * @param {string} token - Push registration token for IM
+     * @memberOf Voximplant.Client
+     */
+    unregisterIMPushNotificationsTokenIOS(token) {
+        ClientModule.unregisterIMPushNotificationsTokenIOS(token);
     }
 
     /**
