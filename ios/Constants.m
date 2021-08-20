@@ -118,6 +118,7 @@ NSString *const kCallErrorTimeout = @"TIMEOUT";
 NSString *const kCallErrorAlreadyInThisState = @"ALREADY_IN_THIS_STATE";
 NSString *const kCallErrorMediaIsOnHold = @"MEDIA_IS_ON_HOLD";
 NSString *const kCallErrorInternal = @"INTERNAL_ERROR";
+NSString *const kCallErrorIncorrectOperation = @"INCORRECT_OPERATION";
 
 NSString *const kAudioFileErrorInternal = @"INTERNAL_ERROR";
 NSString *const kAudioFileErrorInterrupted = @"INTERRUPTED";

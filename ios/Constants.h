@@ -116,6 +116,7 @@ FOUNDATION_EXPORT NSString *const kCallErrorTimeout;
 FOUNDATION_EXPORT NSString *const kCallErrorAlreadyInThisState;
 FOUNDATION_EXPORT NSString *const kCallErrorMediaIsOnHold;
 FOUNDATION_EXPORT NSString *const kCallErrorInternal;
+FOUNDATION_EXPORT NSString *const kCallErrorIncorrectOperation;
 
 FOUNDATION_EXPORT NSString *const kAudioFileErrorInternal;
 FOUNDATION_EXPORT NSString *const kAudioFileErrorInterrupted;

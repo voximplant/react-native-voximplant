@@ -31,6 +31,8 @@
             return kCallErrorMediaIsOnHold;
         case 10008:
             return kCallErrorAlreadyInThisState;
+        case 10009:
+            return kCallErrorIncorrectOperation;
         default:
             return kCallErrorInternal;
     }
