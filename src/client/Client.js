@@ -369,11 +369,15 @@ export default class Client {
      *
      * IOS ONLY.
      *
-     * @param {string} token - Push registration token for IM
+     * @param {string} token - The APNS token for IM push notifications.
      * @memberOf Voximplant.Client
      */
     unregisterIMPushNotificationsTokenIOS(token) {
-        ClientModule.unregisterIMPushNotificationsTokenIOS(token);
+        if (Platform.OS === 'ios') {
+            ClientModule.unregisterIMPushNotificationsTokenIOS(token);
+        } else {
+            console.warn('Client.unregisterIMPushNotificationsTokenIOS is available only on ios. Please check the docs');
+        }
     }
 
     /**
