@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.25.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.26.0 and Voximplant iOS SDK 2.43.0
+- Introduce Client.unregisterIMPushNotificationsTokenIOS API to unregister APNs push notification token for IM messages
+- Fix (iOS): Client.sendVideo API is rejected with CallError.INCORRECT_OPERATION if video is enabled before the call is connected
+
 ### 1.24.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.21.2 and Voximplant iOS SDK 2.36.0
 
