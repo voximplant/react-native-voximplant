@@ -21,7 +21,8 @@ import com.voximplant.sdk.call.ICallCompletionHandler;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IEndpointListener;
-import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.ILocalVideoStream;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
 
@@ -259,7 +260,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @Override
-    public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamAdded(ICall call, ILocalVideoStream videoStream) {
         CallManager.getInstance().addVideoStream(call.getCallId(), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED);
@@ -270,7 +271,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @Override
-    public void onLocalVideoStreamRemoved(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamRemoved(ICall call, ILocalVideoStream videoStream) {
         CallManager.getInstance().removeVideoStream(videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_REMOVED);
@@ -339,7 +340,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @Override
-    public void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
+    public void onRemoteVideoStreamAdded(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         CallManager.getInstance().addVideoStream(CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED);
@@ -351,7 +352,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @Override
-    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
+    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         CallManager.getInstance().removeVideoStream(videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED);
