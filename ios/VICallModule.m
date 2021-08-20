@@ -234,7 +234,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                               }];
 }
 
-- (void)call:(VICall *)call didAddLocalVideoStream:(VIVideoStream *)videoStream {
+- (void)call:(VICall *)call didAddLocalVideoStream:(VILocalVideoStream *)videoStream {
     [CallManager addVideoStream:videoStream];
     [self sendEventWithName:kEventCallLocalVideoStreamAdded body:@{
                                                                    kEventParamName            : kEventNameCallLocalVideoStreamAdded,
@@ -244,7 +244,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                                    }];
 }
 
-- (void)call:(VICall *)call didRemoveLocalVideoStream:(VIVideoStream *)videoStream {
+- (void)call:(VICall *)call didRemoveLocalVideoStream:(VILocalVideoStream *)videoStream {
     [self sendEventWithName:kEventCallLocalVideoStreamRemoved body:@{
                                                                      kEventParamName          : kEventNameCallLocalVideoStreamRemoved,
                                                                      kEventParamCallId        : call.callId,
@@ -266,7 +266,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                            }];
 }
 
-- (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIVideoStream *)videoStream {
+- (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
     [CallManager addVideoStream:videoStream];
     NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
@@ -278,7 +278,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                                    }];
 }
 
-- (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIVideoStream *)videoStream {
+- (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
     NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamRemoved body:@{
                                                                    kEventParamName          : kEventEndpointRemoteStreamRemoved,
