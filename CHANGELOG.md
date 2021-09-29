@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.26.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.27.0 and Voximplant iOS SDK 2.44.0
+
 ### 1.25.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.26.0 and Voximplant iOS SDK 2.43.0
 - Introduce Client.unregisterIMPushNotificationsTokenIOS API to unregister APNs push notification token for IM messages
