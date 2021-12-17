@@ -88,7 +88,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
   public void removeListeners(Integer count) {
     // Keep: Required for RN built in Event Emitter Calls.
   }
-    
+
 	@Override
 	public String getName() {
 		return "VIClientModule";
@@ -98,7 +98,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
 					 String videoCodec, String packageName, String requestAudioFocusMode) {
-		Voximplant.subVersion = "react-1.26.0";
+		Voximplant.subVersion = "react-1.27.0";
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableDebugLogging = enableDebugLogging;
