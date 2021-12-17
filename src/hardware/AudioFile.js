@@ -4,18 +4,13 @@
 
 'use strict';
 import {
-    Platform,
     NativeModules,
     NativeEventEmitter,
-    DeviceEventEmitter,
 } from 'react-native';
 import AudioFileEventTypes from "./AudioFileEventTypes";
 
 const AudioFileModule = NativeModules.VIAudioFileModule;
-const EventEmitter = Platform.select({
-    ios: new NativeEventEmitter(AudioFileModule),
-    android: DeviceEventEmitter,
-});
+const EventEmitter = new NativeEventEmitter(AudioFileModule);
 
 /**
  * @memberof Voximplant.Hardware
@@ -45,8 +40,8 @@ export default class AudioFile {
     constructor() {
         this.listeners = {};
         this.fileId = null;
-        EventEmitter.addListener('VIAudioFileStarted', this._VIAudioFileStarted);
-        EventEmitter.addListener('VIAudioFileStopped', this._VIAudioFileStopped);
+        this._audioFileStartedSubscriber = EventEmitter.addListener('VIAudioFileStarted', this._VIAudioFileStarted);
+        this._audioFileStoppedSubscriber = EventEmitter.addListener('VIAudioFileStopped', this._VIAudioFileStopped);
     }
 
     /**
@@ -156,8 +151,8 @@ export default class AudioFile {
      * @memberof Voximplant.Hardware.AudioFile
      */
     releaseResources() {
-        EventEmitter.removeListener('VIAudioFileStarted', this._VIAudioFileStarted);
-        EventEmitter.removeListener('VIAudioFileStopped', this._VIAudioFileStopped);
+        this._audioFileStartedSubscriber.remove();
+        this._audioFileStoppedSubscriber.remove();
         AudioFileModule.releaseResources(this.fileId);
     }
 

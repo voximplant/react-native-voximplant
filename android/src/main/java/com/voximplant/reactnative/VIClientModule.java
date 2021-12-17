@@ -79,6 +79,16 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		mReactContext = reactContext;
 	}
 
+  @ReactMethod
+  public void addListener(String eventName) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
+  @ReactMethod
+  public void removeListeners(Integer count) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+    
 	@Override
 	public String getName() {
 		return "VIClientModule";

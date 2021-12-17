@@ -7,16 +7,12 @@ import {
     Platform,
     NativeModules,
     NativeEventEmitter,
-    DeviceEventEmitter,
 } from 'react-native';
 
 import AudioDeviceEvents from './AudioDeviceEvents';
 
 const AudioDeviceModule = NativeModules.VIAudioDeviceModule;
-const EventEmitter = Platform.select({
-    ios: new NativeEventEmitter(AudioDeviceModule),
-    android: DeviceEventEmitter,
-});
+const EventEmitter = new NativeEventEmitter(AudioDeviceModule);
 
 /**
  * @memberof Voximplant.Hardware

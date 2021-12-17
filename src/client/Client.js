@@ -7,7 +7,6 @@ import {
     Platform,
     NativeModules,
     NativeEventEmitter,
-    DeviceEventEmitter,
 } from 'react-native';
 import {LogLevel, RequestAudioFocusMode, VideoCodec} from './../Enums';
 import ClientEvents from './ClientEvents';
@@ -20,10 +19,7 @@ const ClientModule = NativeModules.VIClientModule;
 
 const listeners = {};
 
-const EventEmitter = Platform.select({
-    ios: new NativeEventEmitter(ClientModule),
-    android: DeviceEventEmitter,
-});
+const EventEmitter = new NativeEventEmitter(ClientModule);
 
 /**
  * @memberOf Voximplant
@@ -102,10 +98,13 @@ export default class Client {
     setLoggerCallback(callback) {
         if (!callback || !(callback instanceof Function)) {
             console.warn('Client: setLoggerCallback: callback is not a Function');
-            EventEmitter.removeListener('VILogMessage', this._onLogMessage);
+            if (this._logMessageSubscriber) {
+                this._loggerCallback = null;
+                this._logMessageSubscriber.remove();
+            }
             return;
         }
-        EventEmitter.addListener('VILogMessage', this._onLogMessage);
+        this._logMessageSubscriber = EventEmitter.addListener('VILogMessage', this._onLogMessage);
         this._loggerCallback = callback;
     }
 
@@ -165,18 +164,20 @@ export default class Client {
             if (options.servers === undefined) options.servers = [];
             let connected = (event) => {
                 resolve(event);
-                EventEmitter.removeListener('VIConnectionEstablished', connected);
+                this._connectionEstablishedSubscriber.remove();
+                this._connectionFailedSubscriber.remove();
             };
             let failed = (event) => {
                 reject(event);
-                EventEmitter.removeListener('VIConnectionFailed', failed);
+                this._connectionFailedSubscriber.remove();
+                this._connectionEstablishedSubscriber.remove();
             };
-            EventEmitter.addListener('VIConnectionEstablished', connected);
-            EventEmitter.addListener('VIConnectionFailed', failed);
+            this._connectionEstablishedSubscriber = EventEmitter.addListener('VIConnectionEstablished', connected);
+            this._connectionFailedSubscriber = EventEmitter.addListener('VIConnectionFailed', failed);
             ClientModule.connect(options.connectivityCheck, options.servers, (isValidState) => {
                 if (!isValidState) {
-                    EventEmitter.removeListener('VIConnectionEstablished', connected);
-                    EventEmitter.removeListener('VIConnectionFailed', failed);
+                    this._connectionEstablishedSubscriber.remove();
+                    this._connectionFailedSubscriber.remove();
                     reject({'name': ClientEvents.ConnectionFailed, 'message': 'ALREADY_CONNECTED_TO_VOXIMPLANT'});
                 }
             });
@@ -192,9 +193,9 @@ export default class Client {
         return new Promise((resolve, reject) => {
             let disconnected = (event) => {
                 resolve(event);
-                EventEmitter.removeListener('VIConnectionClosed', disconnected);
+                this._connectionClosedSubscriber.remove();
             };
-            EventEmitter.addListener('VIConnectionClosed', disconnected);
+            this._connectionClosedSubscriber = EventEmitter.addListener('VIConnectionClosed', disconnected);
             ClientModule.disconnect();
         });
     }
@@ -224,9 +225,9 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                EventEmitter.removeListener('VIAuthResult', loginResult);
+                this._authResultSubscriber.remove();
             };
-            EventEmitter.addListener('VIAuthResult', loginResult);
+            this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.login(username, password);
         });
     }
@@ -250,9 +251,9 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                EventEmitter.removeListener('VIAuthResult', loginResult);
+                this._authResultSubscriber.remove();
             };
-            EventEmitter.addListener('VIAuthResult', loginResult);
+            this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.loginWithOneTimeKey(username, hash);
         });
     }
@@ -273,9 +274,9 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                EventEmitter.removeListener('VIAuthResult', loginResult);
+                this._authResultSubscriber.remove();
             };
-            EventEmitter.addListener('VIAuthResult', loginResult);
+            this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.loginWithToken(username, token);
         });
     }
@@ -294,9 +295,9 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                EventEmitter.removeListener('VIAuthResult', requestResult);
+                this._authResultSubscriber.remove();
             };
-            EventEmitter.addListener('VIAuthResult', requestResult);
+            this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', requestResult);
             ClientModule.requestOneTimeLoginKey(username);
         });
     }
@@ -316,9 +317,9 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                EventEmitter.removeListener('VIAuthTokenResult', refreshResult);
+                this._authTokenResultSubscriber.remove();
             };
-            EventEmitter.addListener('VIAuthTokenResult', refreshResult);
+            this._authTokenResultSubscriber = EventEmitter.addListener('VIAuthTokenResult', refreshResult);
             ClientModule.refreshToken(username, refreshToken);
         });
     }

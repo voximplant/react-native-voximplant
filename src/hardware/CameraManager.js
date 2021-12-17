@@ -7,15 +7,12 @@ import {
     Platform,
     NativeModules,
 	NativeEventEmitter,
-	DeviceEventEmitter,
 } from 'react-native';
 
 import CameraEvents from './CameraEvents';
 
 const CameraModule = NativeModules.VICameraModule;
-const EventEmitter = Platform.select({
-	android: DeviceEventEmitter,
-});
+const EventEmitter = new NativeEventEmitter(CameraModule);
 
 /**
  * @memberOf Voximplant.Hardware

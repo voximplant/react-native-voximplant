@@ -4,10 +4,8 @@
 
 'use strict';
 import {
-    Platform,
     NativeModules,
     NativeEventEmitter,
-    DeviceEventEmitter,
 } from 'react-native';
 import MessagingShared from "./MessagingShared";
 import MessengerEventTypes from "./MessengerEventTypes";
@@ -18,10 +16,7 @@ const MessagingModule = NativeModules.VIMessagingModule;
 
 const listeners = {};
 
-const EventEmitter = Platform.select({
-    ios: new NativeEventEmitter(MessagingModule),
-    android: DeviceEventEmitter,
-});
+const EventEmitter = new NativeEventEmitter(MessagingModule);
 
 /**
  * @memberOf Voximplant.Messaging

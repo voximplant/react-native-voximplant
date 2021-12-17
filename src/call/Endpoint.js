@@ -5,10 +5,8 @@
 'use strict';
 
 import {
-    Platform,
     NativeModules,
     NativeEventEmitter,
-    DeviceEventEmitter,
 } from 'react-native';
 
 import EndpointEvents from './EndpointEvents';
@@ -17,10 +15,7 @@ import VideoStream from './VideoStream';
 
 const CallModule = NativeModules.VICallModule;
 
-const EventEmitter = Platform.select({
-    ios: new NativeEventEmitter(CallModule),
-    android: DeviceEventEmitter,
-});
+const EventEmitter = new NativeEventEmitter(CallModule);
 
 /**
  * @memberOf Voximplant
@@ -221,7 +216,7 @@ export default class Endpoint {
      */
     _addEventListeners() {
         this._events.forEach((item) => {
-            EventEmitter.addListener(item, this[`_${item}`]);
+          this[`_${item}Subscriber`] = EventEmitter.addListener(item, this[`_${item}`]);
         });
     }
 
@@ -230,7 +225,7 @@ export default class Endpoint {
      */
     _removeEventListeners() {
         this._events.forEach((item) => {
-            EventEmitter.removeListener(item, this[`_${item}`]);
+          this[`_${item}Subscriber`].remove();
         });
     }
 }
