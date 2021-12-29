@@ -101,6 +101,7 @@ export default class Client {
             if (this._logMessageSubscriber) {
                 this._loggerCallback = null;
                 this._logMessageSubscriber.remove();
+                delete this._logMessageSubscriber;
             }
             return;
         }
@@ -164,20 +165,38 @@ export default class Client {
             if (options.servers === undefined) options.servers = [];
             let connected = (event) => {
                 resolve(event);
-                this._connectionEstablishedSubscriber.remove();
-                this._connectionFailedSubscriber.remove();
+                if (this._connectionEstablishedSubscriber) {
+                    this._connectionEstablishedSubscriber.remove();
+                    delete this._connectionEstablishedSubscriber;
+                }
+                if (this._connectionFailedSubscriber) {
+                    this._connectionFailedSubscriber.remove();
+                    delete this._connectionFailedSubscriber;
+                }
             };
             let failed = (event) => {
                 reject(event);
-                this._connectionFailedSubscriber.remove();
-                this._connectionEstablishedSubscriber.remove();
+                if (this._connectionEstablishedSubscriber) {
+                    this._connectionEstablishedSubscriber.remove();
+                    delete this._connectionEstablishedSubscriber;
+                }
+                if (this._connectionFailedSubscriber) {
+                    this._connectionFailedSubscriber.remove();
+                    delete this._connectionFailedSubscriber;
+                }
             };
             this._connectionEstablishedSubscriber = EventEmitter.addListener('VIConnectionEstablished', connected);
             this._connectionFailedSubscriber = EventEmitter.addListener('VIConnectionFailed', failed);
             ClientModule.connect(options.connectivityCheck, options.servers, (isValidState) => {
                 if (!isValidState) {
-                    this._connectionEstablishedSubscriber.remove();
-                    this._connectionFailedSubscriber.remove();
+                    if (this._connectionEstablishedSubscriber) {
+                        this._connectionEstablishedSubscriber.remove();
+                        delete this._connectionEstablishedSubscriber;
+                    }
+                    if (this._connectionFailedSubscriber) {
+                        this._connectionFailedSubscriber.remove();
+                        delete this._connectionFailedSubscriber;
+                    }
                     reject({'name': ClientEvents.ConnectionFailed, 'message': 'ALREADY_CONNECTED_TO_VOXIMPLANT'});
                 }
             });
@@ -193,7 +212,10 @@ export default class Client {
         return new Promise((resolve, reject) => {
             let disconnected = (event) => {
                 resolve(event);
-                this._connectionClosedSubscriber.remove();
+                if (this._connectionClosedSubscriber) {
+                    this._connectionClosedSubscriber.remove();
+                    delete this._connectionClosedSubscriber;
+                }
             };
             this._connectionClosedSubscriber = EventEmitter.addListener('VIConnectionClosed', disconnected);
             ClientModule.disconnect();
@@ -225,7 +247,10 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                this._authResultSubscriber.remove();
+                if (this._authResultSubscriber) {
+                    this._authResultSubscriber.remove();
+                    delete this._authResultSubscriber;
+                }
             };
             this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.login(username, password);
@@ -251,7 +276,10 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                this._authResultSubscriber.remove();
+                if (this._authResultSubscriber) {
+                    this._authResultSubscriber.remove();
+                    delete this._authResultSubscriber;
+                }
             };
             this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.loginWithOneTimeKey(username, hash);
@@ -274,7 +302,10 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                this._authResultSubscriber.remove();
+                if (this._authResultSubscriber) {
+                    this._authResultSubscriber.remove();
+                    delete this._authResultSubscriber;
+                }
             };
             this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', loginResult);
             ClientModule.loginWithToken(username, token);
@@ -295,7 +326,10 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                this._authResultSubscriber.remove();
+                if (this._authResultSubscriber) {
+                    this._authResultSubscriber.remove();
+                    delete this._authResultSubscriber;
+                }
             };
             this._authResultSubscriber = EventEmitter.addListener('VIAuthResult', requestResult);
             ClientModule.requestOneTimeLoginKey(username);
@@ -317,7 +351,10 @@ export default class Client {
                 } else {
                     reject(event);
                 }
-                this._authTokenResultSubscriber.remove();
+                if (this._authTokenResultSubscriber) {
+                    this._authTokenResultSubscriber.remove();
+                    delete this._authTokenResultSubscriber;
+                }
             };
             this._authTokenResultSubscriber = EventEmitter.addListener('VIAuthTokenResult', refreshResult);
             ClientModule.refreshToken(username, refreshToken);

@@ -225,7 +225,10 @@ export default class Endpoint {
      */
     _removeEventListeners() {
         this._events.forEach((item) => {
-          this[`_${item}Subscriber`].remove();
+            if(this[`_${item}Subscriber`]) {
+                this[`_${item}Subscriber`].remove();
+                delete this[`_${item}Subscriber`];
+            }
         });
     }
 }

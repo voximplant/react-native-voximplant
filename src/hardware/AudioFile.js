@@ -151,8 +151,14 @@ export default class AudioFile {
      * @memberof Voximplant.Hardware.AudioFile
      */
     releaseResources() {
-        this._audioFileStartedSubscriber.remove();
-        this._audioFileStoppedSubscriber.remove();
+        if (this._audioFileStartedSubscriber) {
+            this._audioFileStartedSubscriber.remove();
+            delete this._audioFileStartedSubscriber;
+        }
+        if (this._audioFileStoppedSubscriber) {
+            this._audioFileStoppedSubscriber.remove();
+            delete this._audioFileStoppedSubscriber;
+        }
         AudioFileModule.releaseResources(this.fileId);
     }
 
