@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.27.1
+- Fix: "attempted to remove more listeners than added" error on RN 0.64 or below 
+
 ### 1.27.0
 - Fix for [#132](https://github.com/voximplant/react-native-voximplant/issues/132)
 
