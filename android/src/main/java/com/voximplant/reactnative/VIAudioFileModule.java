@@ -18,7 +18,7 @@ import com.voximplant.sdk.hardware.IAudioFileListener;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.EVENT_AUDIO_FILE_STARTED;
 import static com.voximplant.reactnative.Constants.EVENT_AUDIO_FILE_STOPPED;

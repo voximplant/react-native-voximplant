@@ -28,7 +28,7 @@ import com.voximplant.sdk.call.VideoFlags;
 
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 

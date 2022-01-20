@@ -24,7 +24,7 @@ import static com.voximplant.reactnative.Constants.*;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class VICameraModule extends ReactContextBaseJavaModule implements ICameraEventsListener {
     private ReactApplicationContext mReactContext;

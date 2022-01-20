@@ -24,7 +24,7 @@ import com.voximplant.sdk.hardware.IAudioDeviceEventsListener;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 

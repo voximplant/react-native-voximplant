@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.EVENT_AUTH_RESULT;
 import static com.voximplant.reactnative.Constants.EVENT_AUTH_TOKEN_RESULT;
