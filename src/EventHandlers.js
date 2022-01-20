@@ -55,6 +55,20 @@ const ConnectionClosed = {
 
 /**
  * @property {string} name - Name of the event
+ */
+ const Reconnecting = {
+
+};
+
+/**
+ * @property {string} name - Name of the event
+ */
+ const Reconnected = {
+
+};
+
+/**
+ * @property {string} name - Name of the event
  * @property {Voximplant.Call} call - Incoming call instance. See {@link Call} methods for details
  * @property {object} headers - Optional SIP headers received with the event
  * @property {boolean} video - True if the caller initiated video call

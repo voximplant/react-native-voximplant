@@ -10,7 +10,7 @@
  *
  * @memberOf Voximplant
  * @enum {string}
- * @type {{Connected: string, Disconnected: string, EndpointAdded: string, Failed: string, ICECompleted: string, ICETimeout: string, InfoReceived: string, LocalVideoStreamAdded: string, LocalVideoStreamRemoved: string, MessageReceived: string, ProgressToneStart: string, ProgressToneStop: string}}
+ * @type {{Connected: string, Disconnected: string, EndpointAdded: string, Failed: string, ICECompleted: string, ICETimeout: string, InfoReceived: string, LocalVideoStreamAdded: string, LocalVideoStreamRemoved: string, MessageReceived: string, ProgressToneStart: string, ProgressToneStop: string, CallReconnecting: string, CallReconnected: string}}
  */
 const CallEvents = {
     /**
@@ -73,7 +73,21 @@ const CallEvents = {
      * Event is triggered when a progress tone playback stops.
      * Handler function receives {@link EventHandlers.CallEvent} object as an argument.
      */
-    ProgressToneStop        : 'ProgressToneStop'
+    ProgressToneStop        : 'ProgressToneStop',
+    /**
+     * Event is triggered when the connection to the Voximplant Cloud is lost due to a network issue and media streams may be interrupted in the call.
+     * Until {@link CallReconnected} event is invoked, the following API calls will fail with {@link CallError#RECONNECTING} error:
+     * {@link Voximplant.Call#sendVideo}
+     * {@link Voximplant.Call#receiveVideo}
+     * {@link Voximplant.Call#hold}
+     * Handler function receives {@link EventHandlers.CallEvent} object as an argument.
+     */
+    CallReconnecting        : 'CallReconnecting',
+    /**
+     * Event is triggered when the connection to the Voximplant Cloud is restored and media stream are active in the call.
+     * Handler function receives {@link EventHandlers.CallEvent} object as an argument.
+     */
+    CallReconnected         : 'CallReconnected'
 };
 
 export default CallEvents;

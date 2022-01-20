@@ -11,6 +11,8 @@ NSString *const kEventAuthResult = @"VIAuthResult";
 NSString *const kEventAuthTokenResult = @"VIAuthTokenResult";
 NSString *const kEventIncomingCall = @"VIIncomingCall";
 NSString *const kEventLogMessage = @"VILogMessage";
+NSString *const kEventReconnecting = @"VIReconnecting";
+NSString *const kEventReconnected = @"VIReconnected";
 
 NSString *const kEventCallConnected = @"VICallConnected";
 NSString *const kEventCallDisconnected = @"VICallDisconnected";
@@ -28,6 +30,8 @@ NSString *const kEventEndpointInfoUpdate = @"VIEndpointInfoUpdated";
 NSString *const kEventEndpointRemoteStreamAdded = @"VIEndpointRemoteVideoStreamAdded";
 NSString *const kEventEndpointRemoteStreamRemoved = @"VIEndpointRemoteVideoStreamRemoved";
 NSString *const kEventEndpointRemoved = @"VIEndpointRemoved";
+NSString *const kEventCallReconnecting = @"VICallReconnecting";
+NSString *const kEventCallReconnected = @"VICallReconnected";
 
 NSString *const kEventAudioDeviceChanged = @"VIAudioDeviceChanged";
 NSString *const kEventAudioDeviceListChanged = @"VIAudioDeviceListChanged";
@@ -42,6 +46,8 @@ NSString *const kEventNameConnectionClosed = @"ConnectionClosed";
 NSString *const kEventNameAuthResult = @"AuthResult";
 NSString *const kEventNameAuthTokenResult = @"AuthTokenResult";
 NSString *const kEventNameIncomingCall = @"IncomingCall";
+NSString *const kEventNameReconnecting = @"Reconnecting";
+NSString *const kEventNameReconnected = @"Reconnected";
 
 NSString *const kEventNameCallConnected = @"Connected";
 NSString *const kEventNameCallDisconnected = @"Disconnected";
@@ -55,6 +61,8 @@ NSString *const kEventNameCallLocalVideoStreamRemoved = @"LocalVideoStreamRemove
 NSString *const kEventNameCallMessageReceived = @"MessageReceived";
 NSString *const kEventNameCallProgressToneStart = @"ProgressToneStart";
 NSString *const kEventNameCallProgressToneStop = @"ProgressToneStop";
+NSString *const kEventNameCallReconnecting = @"CallReconnecting";
+NSString *const kEventNameCallReconnected = @"CallReconnected";
 
 NSString *const kEventNameEndpointInfoUpdate = @"InfoUpdated";
 NSString *const kEventNameEndpointRemoteStreamAdded = @"RemoteVideoStreamAdded";
@@ -119,6 +127,7 @@ NSString *const kCallErrorAlreadyInThisState = @"ALREADY_IN_THIS_STATE";
 NSString *const kCallErrorMediaIsOnHold = @"MEDIA_IS_ON_HOLD";
 NSString *const kCallErrorInternal = @"INTERNAL_ERROR";
 NSString *const kCallErrorIncorrectOperation = @"INCORRECT_OPERATION";
+NSString *const kCallErrorReconnecting = @"RECONNECTING";
 
 NSString *const kAudioFileErrorInternal = @"INTERNAL_ERROR";
 NSString *const kAudioFileErrorInterrupted = @"INTERRUPTED";

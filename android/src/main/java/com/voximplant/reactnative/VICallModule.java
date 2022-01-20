@@ -313,6 +313,22 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @Override
+    public void onCallReconnecting(ICall call) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_RECONNECTING);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        sendEvent(EVENT_CALL_RECONNECTING, params);
+    }
+
+    @Override
+    public void onCallReconnected(ICall call) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_RECONNECTED);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        sendEvent(EVENT_CALL_RECONNECTED, params);
+    }
+
+    @Override
     public void onEndpointAdded(ICall call, IEndpoint endpoint) {
         endpoint.setEndpointListener(this);
         CallManager.getInstance().addEndpoint(endpoint, call.getCallId());

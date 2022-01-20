@@ -418,6 +418,26 @@ export default class Call {
     /**
      * @private
      */
+    _VICallReconnectingCallback = (event) => {
+        if (event.callId === this.callId) {
+            this._replaceCallIdWithCallInEvent(event);
+            this._emit(CallEvents.CallReconnecting, event);
+        }
+    }
+
+    /**
+     * @private
+     */
+    _VICallReconnectedCallback = (event) => {
+        if (event.callId === this.callId) {
+            this._replaceCallIdWithCallInEvent(event);
+            this._emit(CallEvents.CallReconnected, event);
+        }
+    }
+
+    /**
+     * @private
+     */
     _replaceCallIdWithCallInEvent(event) {
         delete event.callId;
         event.call = this;
@@ -426,7 +446,8 @@ export default class Call {
     /**
      * @private
      */
-    _events = ['VICallConnected',
+    _events = [
+        'VICallConnected',
         'VICallDisconnected',
         'VICallEndpointAdded',
         'VICallFailed',
@@ -437,7 +458,10 @@ export default class Call {
         'VICallProgressToneStart',
         'VICallProgressToneStop',
         'VICallLocalVideoStreamAdded',
-        'VICallLocalVideoStreamRemoved'];
+        'VICallLocalVideoStreamRemoved',
+        'VICallReconnecting',
+        'VICallReconnected'
+    ];
 
     /**
      * @private

@@ -330,6 +330,8 @@ class Utils {
 				return Constants.LOGGING_IN;
 			case LOGGED_IN:
 				return Constants.LOGGED_IN;
+			case RECONNECTING:
+				return Constants.RECONNECTING;
 			default:
 				return Constants.DISCONNECTED;
 		}

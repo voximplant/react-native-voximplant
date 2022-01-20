@@ -77,6 +77,8 @@ export default class Client {
         EventEmitter.addListener('VIAuthResult', this._onAuthResult);
         EventEmitter.addListener('VIAuthTokenResult', this._onAuthTokenResult);
         EventEmitter.addListener('VIIncomingCall', this._onIncomingCall);
+        EventEmitter.addListener('VIReconnecting', this._onReconnecting);
+        EventEmitter.addListener('VIReconnected', this._onReconnected);
     }
 
     /**
@@ -585,6 +587,22 @@ export default class Client {
         MessagingShared.getInstance().setCurrentUser(null);
         this._emit(ClientEvents.ConnectionClosed, event);
     };
+
+    /**
+     * 
+     * @private
+     */
+     _onReconnecting = (event) => {
+        this._emit(ClientEvents.Reconnecting, event);
+     };
+
+    /**
+     * 
+     * @private 
+     */
+     _onReconnected = (event) => {
+         this._emit(ClientEvents.Reconnected, event);
+     };
 
     /**
      * @private

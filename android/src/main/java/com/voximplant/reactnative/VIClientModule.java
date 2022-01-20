@@ -43,11 +43,15 @@ import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_ESTABLISHED;
 import static com.voximplant.reactnative.Constants.EVENT_CONNECTION_FAILED;
 import static com.voximplant.reactnative.Constants.EVENT_INCOMING_CALL;
 import static com.voximplant.reactnative.Constants.EVENT_LOG_MESSAGE;
+import static com.voximplant.reactnative.Constants.EVENT_RECONNECTING;
+import static com.voximplant.reactnative.Constants.EVENT_RECONNECTED;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_AUTH_RESULT;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_AUTH_TOKEN_RESULT;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_CLOSED;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_ESTABLISHED;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_CONNECTION_FAILED;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_RECONNECTING;
+import static com.voximplant.reactnative.Constants.EVENT_NAME_RECONNECTED;
 import static com.voximplant.reactnative.Constants.EVENT_NAME_INCOMING_CALL;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_ACCESS_EXPIRE;
 import static com.voximplant.reactnative.Constants.EVENT_PARAM_ACCESS_TOKEN;
@@ -353,6 +357,20 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		WritableMap params = Arguments.createMap();
 		params.putString(EVENT_PARAM_NAME, EVENT_NAME_CONNECTION_CLOSED);
 		sendEvent(EVENT_CONNECTION_CLOSED, params);
+	}
+
+	@Override
+	public void onReconnecting() {
+		WritableMap params = Arguments.createMap();
+		params.putString(EVENT_PARAM_NAME, EVENT_NAME_RECONNECTING);
+		sendEvent(EVENT_RECONNECTING, params);
+	}
+
+	@Override
+	public void onReconnected() {
+		WritableMap params = Arguments.createMap();
+		params.putString(EVENT_PARAM_NAME, EVENT_NAME_RECONNECTED);
+		sendEvent(EVENT_RECONNECTED, params);
 	}
 
 

@@ -33,6 +33,8 @@
             return kCallErrorAlreadyInThisState;
         case 10009:
             return kCallErrorIncorrectOperation;
+        case 10013:
+            return kCallErrorReconnecting;
         default:
             return kCallErrorInternal;
     }

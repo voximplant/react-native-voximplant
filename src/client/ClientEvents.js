@@ -8,12 +8,12 @@
  * The events that are triggered by Client instance. See {@link Voximplant#getInstance}.
  * @memberOf Voximplant
  * @enum {string}
- * @type {{ConnectionEstablished: string, ConnectionFailed: string, ConnectionClosed: string, AuthResult: string, RefreshTokenResult: string, IncomingCall: string}}
+ * @type {{ConnectionEstablished: string, ConnectionFailed: string, ConnectionClosed: string, AuthResult: string, RefreshTokenResult: string, IncomingCall: string, Reconnecting: string, Reconnected: string}}
  */
 const ClientEvents = {
     /**
      * The event is triggered after connection to the Voximplant Cloud was established successfully. See {@link Client#connect} method.
-     * Handler function receives no arguments.
+     * Handler function receives {@link EventHandlers.ConnectionEstablished} object as an argument.
      */
     ConnectionEstablished : 'ConnectionEstablished',
     /**
@@ -23,7 +23,7 @@ const ClientEvents = {
     ConnectionFailed      : 'ConnectionFailed',
     /**
      * The event is triggered if a connection to the Voximplant Cloud was closed because of network problems. See {@link Client#connect} method.
-     * Handler function receives no arguments.
+     * Handler function receives {@link EventHandlers.ConnectionClosed} object as an argument.
      */
     ConnectionClosed      : 'ConnectionClosed',
     /**
@@ -41,7 +41,18 @@ const ClientEvents = {
      * The event is triggered when there is a new incoming call to current user.
      * Handler function receives {@link EventHandlers.IncomingCall} object as an argument.
      */
-    IncomingCall          : 'IncomingCall'
+    IncomingCall          : 'IncomingCall',
+    /**
+     * The event is triggered when the connection to the Voximplant Cloud is lost during a call and the client tries to restore it
+     * Handler function receives {@link EventHandlers.Reconnecting} object as an argument.
+     */
+    Reconnecting          : 'Reconnecting',
+    /**
+     * The event is triggered when the the connection to the Voximplant Cloud is restored.
+     * After the client is reconnected, state is changed from {@link ClientState#RECONNECTING} to {@link ClientState#LOGGED_IN}.
+     * Handler function receives {@link EventHandlers.Reconnected} object as an argument.
+     */
+    Reconnected           : 'Reconnected'
 };
 
 export default ClientEvents;

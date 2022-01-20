@@ -39,7 +39,7 @@ export const LogLevel = {
  * @name ClientState
  * @memberOf Voximplant
  * @enum {string}
- * @type {{DISCONNECTED: string, CONNECTING: string, CONNECTED: string, LOGGING_IN: string, LOGGED_IN: string}}
+ * @type {{DISCONNECTED: string, CONNECTING: string, CONNECTED: string, LOGGING_IN: string, LOGGED_IN: string, RECONNECTING: string}}
  */
 export const ClientState = {
     /** The client is currently disconnected */
@@ -51,7 +51,9 @@ export const ClientState = {
     /** The client is currently logging in */
     LOGGING_IN   : "logging_in",
     /** The client is currently logged in */
-    LOGGED_IN    : "logged_in"
+    LOGGED_IN    : "logged_in",
+    /** The client is currently reconnecting */
+    RECONNECTING: "reconnecting"
 };
 
 /**
@@ -73,7 +75,7 @@ export const RenderScaleType = {
  * @name CallError
  * @memberOf Voximplant
  * @enum {string}
- * @type {{ALREADY_IN_THIS_STATE: string, FUNCTIONALITY_IS_DISABLED: string, INCORRECT_OPERATION: string, INTERNAL_ERROR: string, MEDIA_IS_ON_HOLD: string, MISSING_PERMISSION: string, REJECTED: string, TIMEOUT: string}}
+ * @type {{ALREADY_IN_THIS_STATE: string, FUNCTIONALITY_IS_DISABLED: string, INCORRECT_OPERATION: string, INTERNAL_ERROR: string, MEDIA_IS_ON_HOLD: string, MISSING_PERMISSION: string, REJECTED: string, TIMEOUT: string, RECONNECTING: string}}
  */
 export const CallError = {
     /** The call is already in requested state */
@@ -93,7 +95,9 @@ export const CallError = {
     /** Operation is rejected */
     REJECTED                  : 'REJECTED',
     /** Operation is not completed in time */
-    TIMEOUT                   : 'TIMEOUT'
+    TIMEOUT                   : 'TIMEOUT',
+    /** Operation cannot be performed due to the call is reconnecting. */
+    RECONNECTING              : 'RECONNECTING'
 };
 
 /**

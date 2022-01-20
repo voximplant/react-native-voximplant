@@ -10,6 +10,7 @@ class Constants {
     static final String CONNECTED = "connected";
     static final String LOGGING_IN = "logging_in";
     static final String LOGGED_IN = "logged_in";
+    static final String RECONNECTING = "reconnecting";
 
     static final String EVENT_CONNECTION_ESTABLISHED = "VIConnectionEstablished";
     static final String EVENT_CONNECTION_CLOSED = "VIConnectionClosed";
@@ -18,9 +19,13 @@ class Constants {
     static final String EVENT_AUTH_TOKEN_RESULT = "VIAuthTokenResult";
     static final String EVENT_INCOMING_CALL = "VIIncomingCall";
     static final String EVENT_LOG_MESSAGE = "VILogMessage";
+    static final String EVENT_RECONNECTING = "VIReconnecting";
+    static final String EVENT_RECONNECTED = "VIReconnected";
 
     static final String EVENT_CALL_CONNECTED = "VICallConnected";
     static final String EVENT_CALL_DISCONNECTED = "VICallDisconnected";
+    static final String EVENT_CALL_RECONNECTING = "VICallReconnecting";
+    static final String EVENT_CALL_RECONNECTED = "VICallReconnected";
     static final String EVENT_CALL_ENDPOINT_ADDED = "VICallEndpointAdded";
     static final String EVENT_CALL_FAILED = "VICallFailed";
     static final String EVENT_CALL_ICECOMPLETED = "VICallICECompleted";
@@ -50,12 +55,16 @@ class Constants {
     static final String EVENT_NAME_CONNECTION_ESTABLISHED = "ConnectionEstablished";
     static final String EVENT_NAME_CONNECTION_FAILED = "ConnectionFailed";
     static final String EVENT_NAME_CONNECTION_CLOSED = "ConnectionClosed";
+    static final String EVENT_NAME_RECONNECTING = "Reconnecting";
+    static final String EVENT_NAME_RECONNECTED = "Reconnected";
     static final String EVENT_NAME_AUTH_RESULT = "AuthResult";
     static final String EVENT_NAME_AUTH_TOKEN_RESULT = "AuthTokenResult";
     static final String EVENT_NAME_INCOMING_CALL = "IncomingCall";
 
     static final String EVENT_NAME_CALL_CONNECTED = "Connected";
     static final String EVENT_NAME_CALL_DISCONNECTED = "Disconnected";
+    static final String EVENT_NAME_CALL_RECONNECTING = "CallReconnecting";
+    static final String EVENT_NAME_CALL_RECONNECTED = "CallReconnected";
     static final String EVENT_NAME_CALL_ENDPOINT_ADDED = "EndpointAdded";
     static final String EVENT_NAME_CALL_FAILED = "Failed";
     static final String EVENT_NAME_CALL_ICECOMPLETED = "ICECompleted";

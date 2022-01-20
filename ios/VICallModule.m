@@ -40,7 +40,9 @@ RCT_EXPORT_MODULE();
              kEventEndpointInfoUpdate,
              kEventEndpointRemoved,
              kEventEndpointRemoteStreamAdded,
-             kEventEndpointRemoteStreamRemoved];
+             kEventEndpointRemoteStreamRemoved,
+             kEventCallReconnecting,
+             kEventCallReconnected];
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
@@ -297,6 +299,20 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                          kEventParamEndpointId     : endpoint.endpointId
                                                          }];
     [CallManager removeEndpointById:endpoint.endpointId];
+}
+
+- (void)callDidStartReconnecting: (VICall *)call {
+    [self sendEventWithName:kEventCallReconnecting body:@{
+                                                          kEventParamName         : kEventCallReconnecting,
+                                                          kEventParamCallId       : call.callId,
+                                                          }];
+}
+
+- (void)callDidReconnect: (VICall *)call {
+    [self sendEventWithName:kEventCallReconnected body:@{
+                                                         kEventParamName         : kEventCallReconnected,
+                                                         kEventParamCallId       : call.callId,
+                                                         }];
 }
 
 - (void)endpointInfoDidUpdate:(VIEndpoint *)endpoint {

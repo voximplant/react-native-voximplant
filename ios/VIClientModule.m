@@ -23,6 +23,7 @@ NSString *const CLIENT_STATE_CONNECTING = @"connecting";
 NSString *const CLIENT_STATE_CONNECTED = @"connected";
 NSString *const CLIENT_STATE_LOGGING_IN = @"logging_in";
 NSString *const CLIENT_STATE_LOGGED_IN = @"logged_in";
+NSString *const CLIENT_STATE_RECONNECTING = @"reconnecting";
 
 @implementation RCTConvert (VILogLevel)
 RCT_ENUM_CONVERTER(VILogLevel, (@{
@@ -41,6 +42,7 @@ RCT_ENUM_CONVERTER(VIClientState, (@{
                                      @"connected"    : @(VIClientStateConnected),
                                      @"logging_in"   : @(VIClientStateLoggingIn),
                                      @"logged_in"    : @(VIClientStateLoggedIn),
+                                     @"reconnecting" : @(VIClientStateReconnecting),
                                      }), VIClientStateDisconnected, integerValue)
 @end
 
@@ -79,7 +81,9 @@ RCT_EXPORT_MODULE();
              kEventAuthResult,
              kEventAuthTokenResult,
              kEventIncomingCall,
-             kEventLogMessage];
+             kEventLogMessage,
+             kEventReconnecting,
+             kEventReconnected];
 }
 
 - (void)startObserving {
@@ -359,6 +363,8 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
             return CLIENT_STATE_LOGGING_IN;
         case VIClientStateLoggedIn:
             return CLIENT_STATE_LOGGED_IN;
+        case VIClientStateReconnecting:
+            return CLIENT_STATE_RECONNECTING;
     }
 }
 
@@ -379,6 +385,19 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
     [self sendEventWithName:kEventConnectionClosed body:@{
                                                           kEventParamName : kEventNameConnectionClosed
                                                           }];
+}
+
+
+- (void)clientSessionDidStartReconnecting:(VIClient *)client {
+    [self sendEventWithName:kEventReconnecting body:@{
+                                                      kEventParamName : kEventNameReconnecting
+                                                      }];
+}
+
+- (void)clientSessionDidReconnect:(VIClient *)client {
+    [self sendEventWithName:kEventReconnected body:@{
+                                                     kEventParamName : kEventNameReconnected
+                                                     }];
 }
 
 - (void)client:(VIClient *)client didReceiveIncomingCall:(VICall *)call withIncomingVideo:(BOOL)video headers:(NSDictionary *)headers {

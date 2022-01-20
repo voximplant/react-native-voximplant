@@ -11,6 +11,8 @@ FOUNDATION_EXPORT NSString *const kEventAuthResult;
 FOUNDATION_EXPORT NSString *const kEventAuthTokenResult;
 FOUNDATION_EXPORT NSString *const kEventIncomingCall;
 FOUNDATION_EXPORT NSString *const kEventLogMessage;
+FOUNDATION_EXPORT NSString *const kEventReconnecting;
+FOUNDATION_EXPORT NSString *const kEventReconnected;
 
 FOUNDATION_EXPORT NSString *const kEventCallConnected;
 FOUNDATION_EXPORT NSString *const kEventCallDisconnected;
@@ -28,6 +30,8 @@ FOUNDATION_EXPORT NSString *const kEventEndpointInfoUpdate;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamAdded;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
+FOUNDATION_EXPORT NSString *const kEventCallReconnecting;
+FOUNDATION_EXPORT NSString *const kEventCallReconnected;
 
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceChanged;
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceListChanged;
@@ -41,6 +45,8 @@ FOUNDATION_EXPORT NSString *const kEventNameConnectionClosed;
 FOUNDATION_EXPORT NSString *const kEventNameAuthResult;
 FOUNDATION_EXPORT NSString *const kEventNameAuthTokenResult;
 FOUNDATION_EXPORT NSString *const kEventNameIncomingCall;
+FOUNDATION_EXPORT NSString *const kEventNameReconnecting;
+FOUNDATION_EXPORT NSString *const kEventNameReconnected;
 
 FOUNDATION_EXPORT NSString *const kEventNameCallConnected;
 FOUNDATION_EXPORT NSString *const kEventNameCallDisconnected;
@@ -58,6 +64,8 @@ FOUNDATION_EXPORT NSString *const kEventNameEndpointInfoUpdate;
 FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoteStreamAdded;
 FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoteStreanRemoved;
 FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoved;
+FOUNDATION_EXPORT NSString *const kEventNameCallReconnecting;
+FOUNDATION_EXPORT NSString *const kEventNameCallReconnected;
 
 FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceChanged;
 FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceListChanged;
@@ -117,6 +125,7 @@ FOUNDATION_EXPORT NSString *const kCallErrorAlreadyInThisState;
 FOUNDATION_EXPORT NSString *const kCallErrorMediaIsOnHold;
 FOUNDATION_EXPORT NSString *const kCallErrorInternal;
 FOUNDATION_EXPORT NSString *const kCallErrorIncorrectOperation;
+FOUNDATION_EXPORT NSString *const kCallErrorReconnecting;
 
 FOUNDATION_EXPORT NSString *const kAudioFileErrorInternal;
 FOUNDATION_EXPORT NSString *const kAudioFileErrorInterrupted;
