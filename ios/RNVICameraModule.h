@@ -7,6 +7,6 @@
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
 
-@interface VICameraModule : RCTEventEmitter <RCTBridgeModule>
+@interface RNVICameraModule : RCTEventEmitter <RCTBridgeModule>
 @end
 

@@ -6,10 +6,10 @@
 #import <UIKit/UIKit.h>
 
 #import "RCTConvert.h"
-#import "Constants.h"
-#import "Utils.h"
-#import "CallManager.h"
-#import "VIClientModule.h"
+#import "RNVIConstants.h"
+#import "RNVIUtils.h"
+#import "RNVICallManager.h"
+#import "RNVIClientModule.h"
 #import <WebRTC/WebRTC.h>
 
 NSString *const LOG_LEVEL_ERROR = @"error";
@@ -58,16 +58,16 @@ RCT_ENUM_CONVERTER(VIVideoCodec, (@{
 + (void)setVersionExtension:(NSString *)version;
 @end
 
-@interface VIClient (Utils)
+@interface VIClient (RNVIUtils)
 + (NSUUID *)uuidForPushNotification:(NSDictionary *)notification;
 @end
 
-@interface VIClientModule()
+@interface RNVIClientModule()
 @property(nonatomic, weak) VIClient* client;
 @property(nonatomic, assign) BOOL hasListerners;
 @end
 
-@implementation VIClientModule
+@implementation RNVIClientModule
 RCT_EXPORT_MODULE();
 
 + (NSUUID *)uuidForPushNotification:(NSDictionary *)notification {
@@ -103,9 +103,9 @@ RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *
       });
     }
     if (bundleId) {
-        _client = [CallManager getClientWithBundleId:bundleId];
+        _client = [RNVICallManager getClientWithBundleId:bundleId];
     } else {
-        _client = [CallManager getClient];
+        _client = [RNVICallManager getClient];
     }
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
@@ -136,12 +136,12 @@ RCT_REMAP_METHOD(getClientState,
 
 RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString *)password) {
     if (_client) {
-        __weak VIClientModule *weakself = self;
+        __weak RNVIClientModule *weakself = self;
         [_client loginWithUser:user
                       password:password
                        success:^(NSString *displayName, VIAuthParams *authParams) {
-                           __strong VIClientModule *strongSelf = weakself;
-                           NSDictionary *params = [Utils convertAuthParamsToDictionary:authParams];
+                           __strong RNVIClientModule *strongSelf = weakself;
+                           NSDictionary *params = [RNVIUtils convertAuthParamsToDictionary:authParams];
                            [strongSelf sendEventWithName:kEventAuthResult body:@{kEventParamName        : kEventNameAuthResult,
                                                                                  kEventParamResult      : @(true),
                                                                                  kEventParamDisplayName : displayName ? displayName : [NSNull null],
@@ -149,7 +149,7 @@ RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString
                                                                                  }];
                        }
                        failure:^(NSError *error) {
-                           __strong VIClientModule *strongSelf = weakself;
+                           __strong RNVIClientModule *strongSelf = weakself;
                            [strongSelf sendEventWithName:kEventAuthResult body:@{
                                                                                  kEventParamName   : kEventNameAuthResult,
                                                                                  kEventParamResult : @(false),
@@ -161,12 +161,12 @@ RCT_REMAP_METHOD(login, loginWithUsername:(NSString *)user andPassword:(NSString
 
 RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneTimeKey:(NSString *)hash) {
     if (_client) {
-        __weak VIClientModule *weakself = self;
+        __weak RNVIClientModule *weakself = self;
         [_client loginWithUser:user
                     oneTimeKey:hash
                        success:^(NSString *displayName, VIAuthParams *authParams) {
-                           __strong VIClientModule *strongSelf = weakself;
-                           NSDictionary *params = [Utils convertAuthParamsToDictionary:authParams];
+                           __strong RNVIClientModule *strongSelf = weakself;
+                           NSDictionary *params = [RNVIUtils convertAuthParamsToDictionary:authParams];
                            [strongSelf sendEventWithName:kEventAuthResult body:@{
                                                                                  kEventParamName        : kEventNameAuthResult,
                                                                                  kEventParamResult      : @(true),
@@ -175,7 +175,7 @@ RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneT
                                                                                  }];
                        }
                        failure:^(NSError *error) {
-                           __strong VIClientModule *strongSelf = weakself;
+                           __strong RNVIClientModule *strongSelf = weakself;
                            [strongSelf sendEventWithName:kEventAuthResult body:@{
                                                                                  kEventParamName   : kEventNameAuthResult,
                                                                                  kEventParamResult : @(false),
@@ -187,12 +187,12 @@ RCT_REMAP_METHOD(loginWithOneTimeKey, loginWithUsername:(NSString *)user andOneT
 
 RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NSString *)token) {
     if (_client) {
-        __weak VIClientModule *weakself = self;
+        __weak RNVIClientModule *weakself = self;
         [_client loginWithUser:user
                          token:token
                        success:^(NSString *displayName, VIAuthParams *authParams) {
-                           __strong VIClientModule *strongSelf = weakself;
-                           NSDictionary *params = [Utils convertAuthParamsToDictionary:authParams];
+                           __strong RNVIClientModule *strongSelf = weakself;
+                           NSDictionary *params = [RNVIUtils convertAuthParamsToDictionary:authParams];
                            [strongSelf sendEventWithName:kEventAuthResult body:@{
                                                                                  kEventParamName        : kEventNameAuthResult,
                                                                                  kEventParamResult      : @(true),
@@ -200,7 +200,7 @@ RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NS
                                                                                  kEventParamTokens      : params
                                                                                  }];
                        } failure:^(NSError *error) {
-                           __strong VIClientModule *strongSelf = weakself;
+                           __strong RNVIClientModule *strongSelf = weakself;
                            [strongSelf sendEventWithName:kEventAuthResult body:@{
                                                                                  kEventParamName   : kEventNameAuthResult,
                                                                                  kEventParamResult : @(false),
@@ -212,10 +212,10 @@ RCT_REMAP_METHOD(loginWithToken, loginWithUserName:(NSString *)user andToken:(NS
 
 RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
     if (_client) {
-        __weak VIClientModule *weakself = self;
+        __weak RNVIClientModule *weakself = self;
         [_client requestOneTimeKeyWithUser:user
                                     result:^(NSString *oneTimeKey, NSError *error) {
-                                        __strong VIClientModule *strongSelf = weakself;
+                                        __strong RNVIClientModule *strongSelf = weakself;
                                         if (error) {
                                             [strongSelf sendEventWithName:kEventAuthResult body:@{
                                                                                                   kEventParamName   : kEventNameAuthResult,
@@ -236,12 +236,12 @@ RCT_EXPORT_METHOD(requestOneTimeLoginKey:(NSString *)user) {
 
 RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSString *)token) {
     if (_client) {
-        __weak VIClientModule *weakself = self;
+        __weak RNVIClientModule *weakself = self;
         [_client refreshTokenWithUser:user
                                 token:token
                                result:^(VIAuthParams *authParams, NSError *error) {
-                                   __strong VIClientModule *strongSelf = weakself;
-                                   NSDictionary *params = [Utils convertAuthParamsToDictionary:authParams];
+                                   __strong RNVIClientModule *strongSelf = weakself;
+                                   NSDictionary *params = [RNVIUtils convertAuthParamsToDictionary:authParams];
                                    if (error) {
                                        [strongSelf sendEventWithName:kEventAuthTokenResult body:@{
                                                                                                       kEventParamName   : kEventNameAuthTokenResult,
@@ -262,13 +262,13 @@ RCT_REMAP_METHOD(refreshToken, refreshTokenWithUser:(NSString *)user token:(NSSt
 
 RCT_EXPORT_METHOD(registerPushNotificationsToken:(NSString *)token) {
     if(_client) {
-        [_client registerVoIPPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
+        [_client registerVoIPPushNotificationsToken:[RNVIUtils dataFromHexString:token] completion:nil];
     }
 }
 
 RCT_EXPORT_METHOD(unregisterPushNotificationsToken:(NSString *)token) {
     if (_client) {
-        [_client unregisterVoIPPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
+        [_client unregisterVoIPPushNotificationsToken:[RNVIUtils dataFromHexString:token] completion:nil];
     }
 }
 
@@ -280,13 +280,13 @@ RCT_EXPORT_METHOD(handlePushNotification:(NSDictionary *)notification) {
 
 RCT_EXPORT_METHOD(registerIMPushNotificationsTokenIOS:(NSString *)token) {
     if (_client) {
-        [_client registerIMPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
+        [_client registerIMPushNotificationsToken:[RNVIUtils dataFromHexString:token] completion:nil];
     }
 }
 
 RCT_EXPORT_METHOD(unregisterIMPushNotificationsTokenIOS:(NSString *)token) {
     if (_client) {
-        [_client unregisterIMPushNotificationsToken:[Utils dataFromHexString:token] completion:nil];
+        [_client unregisterIMPushNotificationsToken:[RNVIUtils dataFromHexString:token] completion:nil];
     }
 }
 
@@ -310,7 +310,7 @@ RCT_REMAP_METHOD(createAndStartCall,
             if (setupCallKit) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
-            [CallManager addCall:call];
+            [RNVICallManager addCall:call];
             [call start];
             callback(@[call.callId, [NSNull null]]);
         } else {
@@ -340,7 +340,7 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
             if (setupCallKit) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
-            [CallManager addCall:call];
+            [RNVICallManager addCall:call];
             [call start];
             callback(@[call.callId, [NSNull null]]);
         } else {
@@ -401,10 +401,10 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
 }
 
 - (void)client:(VIClient *)client didReceiveIncomingCall:(VICall *)call withIncomingVideo:(BOOL)video headers:(NSDictionary *)headers {
-    [CallManager addCall:call];
+    [RNVICallManager addCall:call];
     VIEndpoint *endpoint = call.endpoints.firstObject;
     if (endpoint) {
-        [CallManager addEndpoint:endpoint forCall:call.callId];
+        [RNVICallManager addEndpoint:endpoint forCall:call.callId];
     }
     [self sendEventWithName:kEventIncomingCall body:@{
                                                       kEventParamName           : kEventNameIncomingCall,
@@ -422,7 +422,7 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
 - (void)didReceiveLogMessage:(nonnull NSString *)message severity:(VILogSeverity)severity {
     if (_hasListerners) {
         [self sendEventWithName:kEventLogMessage body:@{
-                                                        kEventParamLogLevel   : [Utils convertLogSeverity:severity],
+                                                        kEventParamLogLevel   : [RNVIUtils convertLogSeverity:severity],
                                                         kEventParamLogMessage : message
                                                         }];
     }

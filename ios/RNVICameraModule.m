@@ -2,16 +2,16 @@
  * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
-#import "VICameraModule.h"
+#import "RNVICameraModule.h"
 #import "RCTBridgeModule.h"
-#import "Constants.h"
+#import "RNVIConstants.h"
 #import <Voximplant/VoxImplant.h>
 
-@interface VICameraModule()
+@interface RNVICameraModule()
 @end
 
 
-@implementation VICameraModule
+@implementation RNVICameraModule
 
 RCT_EXPORT_MODULE();
 

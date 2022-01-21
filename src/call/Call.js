@@ -14,7 +14,7 @@ import Endpoint from './Endpoint';
 import VideoStream from './VideoStream';
 import {VideoCodec} from "../Enums";
 
-const CallModule = NativeModules.VICallModule;
+const CallModule = NativeModules.RNVICallModule;
 
 const EventEmitter = new NativeEventEmitter(CallModule);
 

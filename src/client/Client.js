@@ -15,7 +15,7 @@ import Endpoint from './../call/Endpoint';
 import CallManager from "../call/CallManager";
 import MessagingShared from "../messaging/MessagingShared";
 
-const ClientModule = NativeModules.VIClientModule;
+const ClientModule = NativeModules.RNVIClientModule;
 
 const listeners = {};
 

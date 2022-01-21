@@ -11,7 +11,7 @@ import {
 
 import CameraEvents from './CameraEvents';
 
-const CameraModule = NativeModules.VICameraModule;
+const CameraModule = NativeModules.RNVICameraModule;
 const EventEmitter = new NativeEventEmitter(CameraModule);
 
 /**

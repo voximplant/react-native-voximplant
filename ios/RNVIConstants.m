@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
-#import "Constants.h"
+#import "RNVIConstants.h"
 
 NSString *const kEventConnectionEstablished = @"VIConnectionEstablished";
 NSString *const kEventConnectionClosed = @"VIConnectionClosed";

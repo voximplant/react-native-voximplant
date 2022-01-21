@@ -49,7 +49,7 @@ public class VIAudioFileModule extends ReactContextBaseJavaModule implements IAu
     
     @Override
     public String getName() {
-        return "VIAudioFileModule";
+        return "RNVIAudioFileModule";
     }
 
     @ReactMethod

@@ -13,7 +13,7 @@ import EndpointEvents from './EndpointEvents';
 import CallManager from './CallManager';
 import VideoStream from './VideoStream';
 
-const CallModule = NativeModules.VICallModule;
+const CallModule = NativeModules.RNVICallModule;
 
 const EventEmitter = new NativeEventEmitter(CallModule);
 

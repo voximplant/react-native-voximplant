@@ -10,7 +10,7 @@ import {
 import Message from './Message';
 import MessagingShared from "./MessagingShared";
 import MessengerEventTypes from "./MessengerEventTypes";
-const MessagingModule = NativeModules.VIMessagingModule;
+const MessagingModule = NativeModules.RNVIMessagingModule;
 
 /**
  * @memberOf Voximplant.Messaging

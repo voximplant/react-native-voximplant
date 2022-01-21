@@ -3,19 +3,19 @@
  * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
-#import "VideoView.h"
+#import "RNVIVideoView.h"
 #import <VoxImplant/VoxImplant.h>
-#import "CallManager.h"
-#import "Utils.h"
+#import "RNVICallManager.h"
+#import "RNVIUtils.h"
 
-@interface VideoView ()
+@interface RNVIVideoView ()
 @property(nonatomic, assign) NSString *videoStreamId;
 @property(nonatomic, assign) NSString *scaleType;
 @property(nonatomic, strong) VIVideoRendererView *videoRenderer;
 @property(nonatomic, strong) VIVideoStream *videoStream;
 @end
 
-@implementation VideoView
+@implementation RNVIVideoView
 
 - (id)init {
     self = [super init];
@@ -39,12 +39,12 @@
             _videoRenderer = nil;
         }
         _videoStreamId = videoStreamId;
-        _videoStream = [CallManager getVideoStreamById:_videoStreamId];
+        _videoStream = [RNVICallManager getVideoStreamById:_videoStreamId];
         if (_videoStream) {
             _videoRenderer = [[VIVideoRendererView alloc] initWithContainerView:self];
             [_videoStream addRenderer:_videoRenderer];
             if (_scaleType) {
-                [_videoRenderer setResizeMode:[Utils convertStringToVideoResizeMode:_scaleType]];
+                [_videoRenderer setResizeMode:[RNVIUtils convertStringToVideoResizeMode:_scaleType]];
             }
         }
     }
@@ -53,7 +53,7 @@
 - (void)setScaleType:(NSString *)scaleType {
     _scaleType = scaleType;
     if (_videoStream && _videoRenderer) {
-        [_videoRenderer setResizeMode:[Utils convertStringToVideoResizeMode:scaleType]];
+        [_videoRenderer setResizeMode:[RNVIUtils convertStringToVideoResizeMode:scaleType]];
     }
 }
 

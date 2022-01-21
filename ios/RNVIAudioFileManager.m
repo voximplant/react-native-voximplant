@@ -2,20 +2,20 @@
 * Copyright (c) 2011-2020, Zingaya, Inc. All rights reserved.
 */
 
-#import "VIAudioFileManager.h"
+#import "RNVIAudioFileManager.h"
 
 
-@interface VIAudioFileManager()
+@interface RNVIAudioFileManager()
 @property(nonatomic, strong) NSMutableDictionary<NSString *, VIAudioFile *> *audioFiles;
 @end
 
-@implementation VIAudioFileManager
+@implementation RNVIAudioFileManager
 
-+ (VIAudioFileManager *)getInstance {
++ (RNVIAudioFileManager *)getInstance {
     static dispatch_once_t onceToken;
-    static VIAudioFileManager *audioFileManager;
+    static RNVIAudioFileManager *audioFileManager;
     dispatch_once(&onceToken, ^{
-        audioFileManager = [VIAudioFileManager new];
+        audioFileManager = [RNVIAudioFileManager new];
     });
     return audioFileManager;
 }
@@ -29,18 +29,18 @@
 }
 
 + (void)addAudioFile:(VIAudioFile *)audioFile fileId:(NSString *)fileId {
-    [[VIAudioFileManager getInstance].audioFiles setObject:audioFile forKey:fileId];
+    [[RNVIAudioFileManager getInstance].audioFiles setObject:audioFile forKey:fileId];
 }
 
 + (VIAudioFile *)getAudioFileById:(NSString *)fileId {
     if (fileId) {
-        return [[VIAudioFileManager getInstance].audioFiles objectForKey:fileId];
+        return [[RNVIAudioFileManager getInstance].audioFiles objectForKey:fileId];
     }
     return nil;
 }
 
 + (NSString *)fileIdForAudioFile:(VIAudioFile *)audioFile {
-    NSArray<NSString *> *fileId = [[VIAudioFileManager getInstance].audioFiles allKeysForObject:audioFile];
+    NSArray<NSString *> *fileId = [[RNVIAudioFileManager getInstance].audioFiles allKeysForObject:audioFile];
     if (fileId.count != 1) {
         return nil;
     }
@@ -49,9 +49,9 @@
 
 + (void)removeAudioFile:(NSString *)fileId {
     if (fileId) {
-        VIAudioFile *audioFile = [[VIAudioFileManager getInstance].audioFiles objectForKey:fileId];
+        VIAudioFile *audioFile = [[RNVIAudioFileManager getInstance].audioFiles objectForKey:fileId];
         audioFile.delegate = nil;
-        [[VIAudioFileManager getInstance].audioFiles removeObjectForKey:fileId];
+        [[RNVIAudioFileManager getInstance].audioFiles removeObjectForKey:fileId];
     }
 }
 

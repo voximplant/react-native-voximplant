@@ -3,10 +3,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Utils.h"
-#import "Constants.h"
+#import "RNVIUtils.h"
+#import "RNVIConstants.h"
 
-@implementation Utils
+@implementation RNVIUtils
 
 + (NSData *)dataFromHexString:(NSString *)string {
     NSMutableData *data = [NSMutableData dataWithCapacity: string.length / 2];

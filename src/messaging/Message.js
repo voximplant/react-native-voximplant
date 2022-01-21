@@ -7,7 +7,7 @@ import {
     NativeModules,
 } from 'react-native';
 
-const MessagingModule = NativeModules.VIMessagingModule;
+const MessagingModule = NativeModules.RNVIMessagingModule;
 
 /**
  * @memberOf Voximplant.Messaging

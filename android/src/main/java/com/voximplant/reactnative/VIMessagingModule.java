@@ -124,7 +124,7 @@ public class VIMessagingModule extends ReactContextBaseJavaModule implements IMe
     
     @Override
     public String getName() {
-        return "VIMessagingModule";
+        return "RNVIMessagingModule";
     }
     
     @ReactMethod

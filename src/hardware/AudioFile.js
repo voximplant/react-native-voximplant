@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import AudioFileEventTypes from "./AudioFileEventTypes";
 
-const AudioFileModule = NativeModules.VIAudioFileModule;
+const AudioFileModule = NativeModules.RNVIAudioFileModule;
 const EventEmitter = new NativeEventEmitter(AudioFileModule);
 
 /**

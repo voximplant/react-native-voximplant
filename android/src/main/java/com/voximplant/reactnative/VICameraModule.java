@@ -52,7 +52,7 @@ public class VICameraModule extends ReactContextBaseJavaModule implements ICamer
     
     @Override
     public String getName() {
-        return "VICameraModule";
+        return "RNVICameraModule";
     }
 
     @ReactMethod

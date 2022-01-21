@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B26F1CFD22EB10CB00535E6F /* CallManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD822EB106D00535E6F /* CallManager.h */; };
-		B26F1CFE22EB10CB00535E6F /* CallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCC22EB106D00535E6F /* CallManager.m */; };
-		B26F1CFF22EB10CB00535E6F /* Constants.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCE22EB106D00535E6F /* Constants.h */; };
-		B26F1D0022EB10CB00535E6F /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCA22EB106D00535E6F /* Constants.m */; };
-		B26F1D0122EB10CB00535E6F /* Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD122EB106D00535E6F /* Utils.h */; };
-		B26F1D0222EB10CB00535E6F /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDB22EB106D00535E6F /* Utils.m */; };
+		B26F1CFD22EB10CB00535E6F /* VICallManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD822EB106D00535E6F /* VICallManager.h */; };
+		B26F1CFE22EB10CB00535E6F /* VICallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCC22EB106D00535E6F /* VICallManager.m */; };
+		B26F1CFF22EB10CB00535E6F /* VIConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCE22EB106D00535E6F /* VIConstants.h */; };
+		B26F1D0022EB10CB00535E6F /* VIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCA22EB106D00535E6F /* VIConstants.m */; };
+		B26F1D0122EB10CB00535E6F /* VIUtils.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD122EB106D00535E6F /* VIUtils.h */; };
+		B26F1D0222EB10CB00535E6F /* VIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDB22EB106D00535E6F /* VIUtils.m */; };
 		B26F1D0322EB10CB00535E6F /* VIAudioDeviceModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */; };
 		B26F1D0422EB10CB00535E6F /* VIAudioDeviceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */; };
 		B26F1D0522EB10CB00535E6F /* VICallModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD522EB106D00535E6F /* VICallModule.h */; };
@@ -42,23 +42,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B26F1CCA22EB106D00535E6F /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		B26F1CCC22EB106D00535E6F /* CallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallManager.m; sourceTree = "<group>"; };
+		B26F1CCA22EB106D00535E6F /* VIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIConstants.m; sourceTree = "<group>"; };
+		B26F1CCC22EB106D00535E6F /* VICallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICallManager.m; sourceTree = "<group>"; };
 		B26F1CCD22EB106D00535E6F /* VIClientModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIClientModule.h; sourceTree = "<group>"; };
-		B26F1CCE22EB106D00535E6F /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		B26F1CCE22EB106D00535E6F /* VIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIConstants.h; sourceTree = "<group>"; };
 		B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIMessagingModule.h; sourceTree = "<group>"; };
 		B26F1CD022EB106D00535E6F /* VideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoView.m; sourceTree = "<group>"; };
-		B26F1CD122EB106D00535E6F /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		B26F1CD122EB106D00535E6F /* VIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIUtils.h; sourceTree = "<group>"; };
 		B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIAudioDeviceModule.h; sourceTree = "<group>"; };
 		B26F1CD322EB106D00535E6F /* VIClientModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIClientModule.m; sourceTree = "<group>"; };
 		B26F1CD422EB106D00535E6F /* VideoViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewManager.m; sourceTree = "<group>"; };
 		B26F1CD522EB106D00535E6F /* VICallModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICallModule.h; sourceTree = "<group>"; };
 		B26F1CD622EB106D00535E6F /* VideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoView.h; sourceTree = "<group>"; };
 		B26F1CD722EB106D00535E6F /* VideoViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewManager.h; sourceTree = "<group>"; };
-		B26F1CD822EB106D00535E6F /* CallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallManager.h; sourceTree = "<group>"; };
+		B26F1CD822EB106D00535E6F /* VICallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICallManager.h; sourceTree = "<group>"; };
 		B26F1CD922EB106D00535E6F /* VIMessagingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIMessagingModule.m; sourceTree = "<group>"; };
 		B26F1CDA22EB106D00535E6F /* VICameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICameraModule.h; sourceTree = "<group>"; };
-		B26F1CDB22EB106D00535E6F /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		B26F1CDB22EB106D00535E6F /* VIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIUtils.m; sourceTree = "<group>"; };
 		B26F1CDC22EB106D00535E6F /* VICallModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICallModule.m; sourceTree = "<group>"; };
 		B26F1CDE22EB106D00535E6F /* VICameraModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICameraModule.m; sourceTree = "<group>"; };
 		B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIAudioDeviceModule.m; sourceTree = "<group>"; };
@@ -86,12 +86,12 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				B26F1CD822EB106D00535E6F /* CallManager.h */,
-				B26F1CCC22EB106D00535E6F /* CallManager.m */,
-				B26F1CCE22EB106D00535E6F /* Constants.h */,
-				B26F1CCA22EB106D00535E6F /* Constants.m */,
-				B26F1CD122EB106D00535E6F /* Utils.h */,
-				B26F1CDB22EB106D00535E6F /* Utils.m */,
+				B26F1CD822EB106D00535E6F /* VICallManager.h */,
+				B26F1CCC22EB106D00535E6F /* VICallManager.m */,
+				B26F1CCE22EB106D00535E6F /* VIConstants.h */,
+				B26F1CCA22EB106D00535E6F /* VIConstants.m */,
+				B26F1CD122EB106D00535E6F /* VIUtils.h */,
+				B26F1CDB22EB106D00535E6F /* VIUtils.m */,
 				B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */,
 				B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */,
 				B26F1CD522EB106D00535E6F /* VICallModule.h */,
@@ -170,12 +170,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B26F1CFD22EB10CB00535E6F /* CallManager.h in Sources */,
-				B26F1CFE22EB10CB00535E6F /* CallManager.m in Sources */,
-				B26F1CFF22EB10CB00535E6F /* Constants.h in Sources */,
-				B26F1D0022EB10CB00535E6F /* Constants.m in Sources */,
-				B26F1D0122EB10CB00535E6F /* Utils.h in Sources */,
-				B26F1D0222EB10CB00535E6F /* Utils.m in Sources */,
+				B26F1CFD22EB10CB00535E6F /* VICallManager.h in Sources */,
+				B26F1CFE22EB10CB00535E6F /* VICallManager.m in Sources */,
+				B26F1CFF22EB10CB00535E6F /* VIConstants.h in Sources */,
+				B26F1D0022EB10CB00535E6F /* VIConstants.m in Sources */,
+				B26F1D0122EB10CB00535E6F /* VIUtils.h in Sources */,
+				B26F1D0222EB10CB00535E6F /* VIUtils.m in Sources */,
 				B26F1D0322EB10CB00535E6F /* VIAudioDeviceModule.h in Sources */,
 				B26F1D0422EB10CB00535E6F /* VIAudioDeviceModule.m in Sources */,
 				B26F1D0522EB10CB00535E6F /* VICallModule.h in Sources */,

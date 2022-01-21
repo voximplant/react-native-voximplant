@@ -11,7 +11,7 @@ import {
 
 import AudioDeviceEvents from './AudioDeviceEvents';
 
-const AudioDeviceModule = NativeModules.VIAudioDeviceModule;
+const AudioDeviceModule = NativeModules.RNVIAudioDeviceModule;
 const EventEmitter = new NativeEventEmitter(AudioDeviceModule);
 
 /**

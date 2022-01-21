@@ -4,7 +4,7 @@
 
 #import <VoxImplant/VoxImplant.h>
 
-@interface CallManager : NSObject
+@interface RNVICallManager : NSObject
 
 + (VIClient *)getClient;
 + (VIClient *)getClientWithBundleId:(NSString *)bundleId;

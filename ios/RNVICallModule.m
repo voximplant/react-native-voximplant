@@ -2,12 +2,12 @@
  * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
-#import "VICallModule.h"
+#import "RNVICallModule.h"
 #import "RCTBridgeModule.h"
 #import "RCTConvert.h"
-#import "Constants.h"
-#import "CallManager.h"
-#import "Utils.h"
+#import "RNVIConstants.h"
+#import "RNVICallManager.h"
+#import "RNVIUtils.h"
 
 @implementation RCTConvert (VIVideoCodec)
 RCT_ENUM_CONVERTER(VIVideoCodec, (@{
@@ -17,11 +17,11 @@ RCT_ENUM_CONVERTER(VIVideoCodec, (@{
                                     }), VIVideoCodecAuto, integerValue)
 @end
 
-@interface VICallModule()
+@interface RNVICallModule()
 
 @end
 
-@implementation VICallModule
+@implementation RNVICallModule
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {
@@ -46,7 +46,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call addDelegate:self];
     }
@@ -58,7 +58,7 @@ RCT_REMAP_METHOD(answer,
                  withHVideoCodec:(VIVideoCodec)videoCodec
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     VICallSettings *callSettings = [[VICallSettings alloc] init];
     callSettings.customData = customData;
     callSettings.extraHeaders = headers;
@@ -71,60 +71,60 @@ RCT_REMAP_METHOD(answer,
 }
 
 RCT_EXPORT_METHOD(decline:(NSString *)callId headers:(NSDictionary *)headers) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call rejectWithMode:VIRejectModeDecline headers:headers];
     }
 }
 
 RCT_EXPORT_METHOD(reject:(NSString *)callId headers:(NSDictionary *)headers) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call rejectWithMode:VIRejectModeBusy headers:headers];
     }
 }
 
 RCT_EXPORT_METHOD(sendAudio:(NSString *)callId enable:(BOOL)enable) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         call.sendAudio = enable;
     }
 }
 
 RCT_EXPORT_METHOD(sendDTMF:(NSString *)callId tone:(NSString *)tone) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call sendDTMF:tone];
     }
 }
 
 RCT_EXPORT_METHOD(hangup:(NSString *)callId headers:(NSDictionary *)headers) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call hangupWithHeaders:headers];
     }
 }
 
 RCT_EXPORT_METHOD(sendMessage:(NSString *)callId message:(NSString *)message) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call sendMessage:message];
     }
 }
 
 RCT_EXPORT_METHOD(sendInfo:(NSString *)callId mimeType:(NSString *)mimeType body:(NSString *)body headers:(NSDictionary *)headers) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call sendInfo:body mimeType:mimeType headers:headers];
     }
 }
 
 RCT_REMAP_METHOD(sendVideo, sendVideo:(NSString *)callId enable:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call setSendVideo:enable completion:^(NSError * _Nullable error) {
             if (error) {
-                reject([Utils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
             } else {
                 resolve([NSNull null]);
             }
@@ -133,11 +133,11 @@ RCT_REMAP_METHOD(sendVideo, sendVideo:(NSString *)callId enable:(BOOL)enable res
 }
 
 RCT_REMAP_METHOD(hold, hold:(NSString *)callId enable:(BOOL)enable resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call setHold:enable completion:^(NSError * _Nullable error) {
             if (error) {
-                reject([Utils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
             } else {
                 resolve([NSNull null]);
             }
@@ -146,11 +146,11 @@ RCT_REMAP_METHOD(hold, hold:(NSString *)callId enable:(BOOL)enable resolver:(RCT
 }
 
 RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    VICall *call = [CallManager getCallById:callId];
+    VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call startReceiveVideoWithCompletion:^(NSError * _Nullable error) {
             if (error) {
-                reject([Utils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
             } else {
                 resolve([NSNull null]);
             }
@@ -168,7 +168,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 
 - (void)call:(VICall *)call didDisconnectWithHeaders:(NSDictionary *)headers answeredElsewhere:(NSNumber *)answeredElsewhere {
     [call removeDelegate:self];
-    [CallManager removeCallById:call.callId];
+    [RNVICallManager removeCallById:call.callId];
     [self sendEventWithName:kEventCallDisconnected body:@{
                                                           kEventParamName              : kEventNameCallDisconnected,
                                                           kEventParamCallId            : call.callId,
@@ -179,7 +179,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 
 - (void)call:(VICall *)call didFailWithError:(NSError *)error headers:(NSDictionary *)headers {
     [call removeDelegate:self];
-    [CallManager removeCallById:call.callId];
+    [RNVICallManager removeCallById:call.callId];
     [self sendEventWithName:kEventCallFailed body:@{
                                                     kEventParamName    : kEventNameCallFailed,
                                                     kEventParamCallId  : call.callId,
@@ -237,12 +237,12 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)call:(VICall *)call didAddLocalVideoStream:(VILocalVideoStream *)videoStream {
-    [CallManager addVideoStream:videoStream];
+    [RNVICallManager addVideoStream:videoStream];
     [self sendEventWithName:kEventCallLocalVideoStreamAdded body:@{
                                                                    kEventParamName            : kEventNameCallLocalVideoStreamAdded,
                                                                    kEventParamCallId          : call.callId,
                                                                    kEventParamVideoStreamId   : videoStream.streamId,
-                                                                   kEventParamVideoStreamType : [Utils convertVideoStreamTypeToString:videoStream.type]
+                                                                   kEventParamVideoStreamType : [RNVIUtils convertVideoStreamTypeToString:videoStream.type]
                                                                    }];
 }
 
@@ -252,11 +252,11 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                                      kEventParamCallId        : call.callId,
                                                                      kEventParamVideoStreamId : videoStream.streamId
                                                                      }];
-    [CallManager removeVideoStreamById:videoStream.streamId];
+    [RNVICallManager removeVideoStreamById:videoStream.streamId];
 }
 
 - (void) call:(VICall *)call didAddEndpoint:(VIEndpoint *)endpoint {
-    [CallManager addEndpoint:endpoint forCall:call.callId];
+    [RNVICallManager addEndpoint:endpoint forCall:call.callId];
     [endpoint setDelegate:self];
     [self sendEventWithName:kEventCallEndpointAdded body:@{
                                                            kEventParamName           : kEventNameCallEndpointAdded,
@@ -269,36 +269,36 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
-    [CallManager addVideoStream:videoStream];
-    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
+    [RNVICallManager addVideoStream:videoStream];
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
                                                                    kEventParamName            : kEventNameEndpointRemoteStreamAdded,
                                                                    kEventParamCallId          : callId ? callId : [NSNull null],
                                                                    kEventParamEndpointId      : endpoint.endpointId,
                                                                    kEventParamVideoStreamId   : videoStream.streamId,
-                                                                   kEventParamVideoStreamType : [Utils convertVideoStreamTypeToString:videoStream.type]
+                                                                   kEventParamVideoStreamType : [RNVIUtils convertVideoStreamTypeToString:videoStream.type]
                                                                    }];
 }
 
 - (void)endpoint:(VIEndpoint *)endpoint didRemoveRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
-    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamRemoved body:@{
                                                                    kEventParamName          : kEventEndpointRemoteStreamRemoved,
                                                                    kEventParamCallId        : callId ? callId : [NSNull null],
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
-    [CallManager removeVideoStreamById:videoStream.streamId];
+    [RNVICallManager removeVideoStreamById:videoStream.streamId];
 }
 
 - (void)endpointDidRemove:(VIEndpoint *)endpoint {
-    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoved body:@{
                                                          kEventParamName           : kEventNameEndpointRemoved,
                                                          kEventParamCallId         : callId ? callId : [NSNull null],
                                                          kEventParamEndpointId     : endpoint.endpointId
                                                          }];
-    [CallManager removeEndpointById:endpoint.endpointId];
+    [RNVICallManager removeEndpointById:endpoint.endpointId];
 }
 
 - (void)callDidStartReconnecting: (VICall *)call {
@@ -316,7 +316,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)endpointInfoDidUpdate:(VIEndpoint *)endpoint {
-    NSString *callId = [CallManager getCallIdByEndpointId:endpoint.endpointId];
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointInfoUpdate body:@{
                                                          kEventParamName           : kEventNameEndpointInfoUpdate,
                                                          kEventParamCallId         : callId ? callId : [NSNull null],

@@ -52,7 +52,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     
     @Override
     public String getName() {
-        return "VICallModule";
+        return "RNVICallModule";
     }
 
     @ReactMethod

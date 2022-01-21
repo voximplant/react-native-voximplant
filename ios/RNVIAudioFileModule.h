@@ -8,6 +8,6 @@
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
 
-@interface VIAudioFileModule : RCTEventEmitter <RCTBridgeModule, VIAudioFileDelegate>
+@interface RNVIAudioFileModule : RCTEventEmitter <RCTBridgeModule, VIAudioFileDelegate>
 
 @end

@@ -5,18 +5,18 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "VIMessagingModule.h"
+#import "RNVIMessagingModule.h"
 #import "RCTConvert.h"
-#import "Constants.h"
-#import "Utils.h"
-#import "CallManager.h"
+#import "RNVIConstants.h"
+#import "RNVIUtils.h"
+#import "RNVICallManager.h"
 
-@interface VIMessagingModule()
+@interface RNVIMessagingModule()
 @property(nonatomic, assign) BOOL hasListeners;
 @property(nonatomic, weak, readonly, getter=getMessenger) VIMessenger *messenger;
 @end
 
-@implementation VIMessagingModule
+@implementation RNVIMessagingModule
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {
@@ -39,7 +39,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (VIMessenger *)getMessenger {
-    return [CallManager getClient].messenger;
+    return [RNVICallManager getClient].messenger;
 }
 
 - (void)startObserving {
@@ -53,8 +53,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertUserEvent:(VIUserEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     
     VIUser *user = event.user;
@@ -82,7 +82,7 @@ RCT_EXPORT_MODULE();
         if (user.notifications) {
             NSMutableArray<NSString *> *notifications = [NSMutableArray new];
             for (NSString* notification in user.notifications) {
-                [notifications addObject:[Utils convertMessengerNotificationToString:notification]];
+                [notifications addObject:[RNVIUtils convertMessengerNotificationToString:notification]];
             }
             [userDictionary setObject:notifications forKey:kEventMesParamUserNotifications];
         }
@@ -97,8 +97,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertStatusEvent:(VIStatusEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:@(event.online) forKey:kEventMesParamOnline];
 
@@ -107,8 +107,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertSubscriptionEvent:(VISubscriptionEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     if (event.users) {
         [dictionary setObject:event.users forKey:kEventMesParamUsers];
@@ -119,8 +119,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertConversationEvent:(VIConversationEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:@(event.sequence) forKey:kEventMesParamSequence];
     [dictionary setObject:@(event.timestamp) forKey:kEventMesParamTimestamp];
@@ -207,8 +207,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertConversationListEvent:(VIConversationListEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:event.conversationList forKey:kEventMesParamConversationList];
     return dictionary;
@@ -217,8 +217,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertConversationServiceEvent:(VIConversationServiceEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:@(event.sequence) forKey:kEventMesParamSequence];
     if (event.conversationUUID) {
@@ -229,8 +229,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertMessageEvent:(VIMessageEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:@(event.sequence) forKey:kEventMesParamSequence];
     [dictionary setObject:@(event.timestamp) forKey:kEventMesParamTimestamp];
@@ -258,8 +258,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertRetrasmitEvent:(VIRetransmitEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:@(event.fromSequence) forKey:kEventMesParamFromSequence];
     [dictionary setObject:@(event.toSequence) forKey:kEventMesParamToSequence];
@@ -283,8 +283,8 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)convertErrorEvent:(VIErrorEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     if (event.errorDescription) {
         [dictionary setObject:event.errorDescription forKey:kEventMesParamDescription];
     }
@@ -296,46 +296,46 @@ RCT_EXPORT_MODULE();
 - (NSDictionary *)createErrorEventInvalidArgument:(VIMessengerAction)action {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:kEventNameMesError forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:action] forKey:kEventMesParamAction];
     [dictionary setObject:[NSNumber numberWithInteger:10001] forKey:kEventMesParamCode];
     [dictionary setObject:kInvalidArguments forKey:kEventMesParamDescription];
     return dictionary;
 }
 
 RCT_REMAP_METHOD(getUserByName, getUserByName:(NSString *)user responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getUserByName:user
                   completion:[VIMessengerCompletion<VIUserEvent*> success:^(VIUserEvent * _Nonnull result) {
-        __strong VIMessagingModule *strongSelf = weakSelf;
+        __strong RNVIMessagingModule *strongSelf = weakSelf;
         NSDictionary *event = [strongSelf convertUserEvent:result];
         callback(@[event, [NSNull null]]);
     } failure:^(VIErrorEvent * _Nonnull errorEvent) {
-        __strong VIMessagingModule *strongSelf = weakSelf;
+        __strong RNVIMessagingModule *strongSelf = weakSelf;
         NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
         callback(@[[NSNull null], error]);
     }]];
 }
 
 RCT_REMAP_METHOD(getUserById, getUserById:(nonnull NSNumber *)imUserId responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getUserByIMId:imUserId
                   completion:[VIMessengerCompletion<VIUserEvent*> success:^(VIUserEvent * _Nonnull result) {
-        __strong VIMessagingModule *strongSelf = weakSelf;
+        __strong RNVIMessagingModule *strongSelf = weakSelf;
         NSDictionary *event = [strongSelf convertUserEvent:result];
         callback(@[event, [NSNull null]]);
     } failure:^(VIErrorEvent * _Nonnull errorEvent) {
-        __strong VIMessagingModule *strongSelf = weakSelf;
+        __strong RNVIMessagingModule *strongSelf = weakSelf;
         NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
         callback(@[[NSNull null], error]);
     }]];
 }
 
 RCT_REMAP_METHOD(getUsersByName, getUsersByName:(NSArray<NSString *> *)users responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getUsersByName:users
                    completion:[VIMessengerCompletion<NSArray<VIUserEvent *> *>
                                success:^(NSArray<VIUserEvent *> * _Nonnull result) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSMutableArray *userEvents = [NSMutableArray new];
                                    for (VIUserEvent *resultEvent in result) {
                                        [userEvents addObject:[strongSelf convertUserEvent:resultEvent]];
@@ -343,18 +343,18 @@ RCT_REMAP_METHOD(getUsersByName, getUsersByName:(NSArray<NSString *> *)users res
                                    callback(@[userEvents, [NSNull null]]);
                                }
                                failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                    callback(@[[NSNull null], error]);
                                }]];
 }
 
 RCT_REMAP_METHOD(getUsersById, getUsersById:(NSArray<NSNumber *> *)users responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getUsersByIMId:users
                    completion:[VIMessengerCompletion<NSArray<VIUserEvent *> *>
                                success:^(NSArray<VIUserEvent *> * _Nonnull result) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSMutableArray *userEvents = [NSMutableArray new];
                                    for (VIUserEvent *resultEvent in result) {
                                        [userEvents addObject:[strongSelf convertUserEvent:resultEvent]];
@@ -362,7 +362,7 @@ RCT_REMAP_METHOD(getUsersById, getUsersById:(NSArray<NSNumber *> *)users respons
                                    callback(@[userEvents, [NSNull null]]);
                                }
                                failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                    callback(@[[NSNull null], error]);
                                }]];
@@ -371,94 +371,94 @@ RCT_REMAP_METHOD(getUsersById, getUsersById:(NSArray<NSNumber *> *)users respons
 RCT_REMAP_METHOD(editUser, editUserCustomData:(NSDictionary *)customData
                             privateCustomData:(NSDictionary *)privateCustomData
                              responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger editUserWithCustomData:customData
                     privateCustomData:privateCustomData
                            completion:[VIMessengerCompletion<VIUserEvent*>
                                        success:^(VIUserEvent * _Nonnull result) {
-                                           __strong VIMessagingModule *strongSelf = weakSelf;
+                                           __strong RNVIMessagingModule *strongSelf = weakSelf;
                                            NSDictionary *event = [strongSelf convertUserEvent:result];
                                            callback(@[event, [NSNull null]]);
                                        } failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                           __strong VIMessagingModule *strongSelf = weakSelf;
+                                           __strong RNVIMessagingModule *strongSelf = weakSelf;
                                            NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                            callback(@[[NSNull null], error]);
                                        }]];
 }
 
 RCT_REMAP_METHOD(setStatus, setStatus:(BOOL)online responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger setStatus:online
                    completion:[VIMessengerCompletion<VIStatusEvent*>
                                success:^(VIStatusEvent * _Nonnull result) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSDictionary *event = [strongSelf convertStatusEvent:result];
                                    callback(@[event, [NSNull null]]);
                                }
                                failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                    callback(@[[NSNull null], error]);
                                }]];
 }
 
 RCT_REMAP_METHOD(subscribe, subscribe:(NSArray<NSNumber *> *)users responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger subscribe:users
                    completion:[VIMessengerCompletion<VISubscriptionEvent *>
                                success:^(VISubscriptionEvent * _Nonnull result) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSDictionary *event = [strongSelf convertSubscriptionEvent:result];
                                    callback(@[event, [NSNull null]]);
                                }
                                failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                   __strong VIMessagingModule *strongSelf = weakSelf;
+                                   __strong RNVIMessagingModule *strongSelf = weakSelf;
                                    NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                    callback(@[[NSNull null], error]);
                                }]];
 }
 
 RCT_REMAP_METHOD(unsubscribe, unsubscribe:(NSArray<NSNumber *> *)users responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger unsubscribe:users
                      completion:[VIMessengerCompletion<VISubscriptionEvent *>
                                  success:^(VISubscriptionEvent * _Nonnull result) {
-                                     __strong VIMessagingModule *strongSelf = weakSelf;
+                                     __strong RNVIMessagingModule *strongSelf = weakSelf;
                                      NSDictionary *event = [strongSelf convertSubscriptionEvent:result];
                                      callback(@[event, [NSNull null]]);
                                  }
                                  failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                     __strong VIMessagingModule *strongSelf = weakSelf;
+                                     __strong RNVIMessagingModule *strongSelf = weakSelf;
                                      NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                      callback(@[[NSNull null], error]);
                                  }]];
 }
 
 RCT_EXPORT_METHOD(unsubscribeFromAll:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger unsubscribeFromAll:[VIMessengerCompletion<VISubscriptionEvent *>
                                         success:^(VISubscriptionEvent * _Nonnull result) {
-                                            __strong VIMessagingModule *strongSelf = weakSelf;
+                                            __strong RNVIMessagingModule *strongSelf = weakSelf;
                                             NSDictionary *event = [strongSelf convertSubscriptionEvent:result];
                                             callback(@[event, [NSNull null]]);
                                         }
                                         failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                            __strong VIMessagingModule *strongSelf = weakSelf;
+                                            __strong RNVIMessagingModule *strongSelf = weakSelf;
                                             NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                             callback(@[[NSNull null], error]);
                                         }]];
 }
 
 RCT_EXPORT_METHOD(getSubscriptions:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getSubscriptionList:[VIMessengerCompletion<VISubscriptionEvent *>
                                          success:^(VISubscriptionEvent * _Nonnull result) {
-                                             __strong VIMessagingModule *strongSelf = weakSelf;
+                                             __strong RNVIMessagingModule *strongSelf = weakSelf;
                                              NSDictionary *event = [strongSelf convertSubscriptionEvent:result];
                                              callback(@[event, [NSNull null]]);
                                          }
                                          failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                             __strong VIMessagingModule *strongSelf = weakSelf;
+                                             __strong RNVIMessagingModule *strongSelf = weakSelf;
                                              NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                              callback(@[[NSNull null], error]);
                                          }]];
@@ -473,16 +473,16 @@ RCT_REMAP_METHOD(manageNotifications, manageNotifications:(NSArray<NSString *> *
             [messengerNotifications addObject:VIMessengerNotificationEditMessage];
         }
     }
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger managePushNotifications:messengerNotifications
                                  completion:[VIMessengerCompletion<VIUserEvent *>
                                              success:^(VIUserEvent * _Nonnull result) {
-                                                 __strong VIMessagingModule *strongSelf = weakSelf;
+                                                 __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                  NSDictionary *event = [strongSelf convertUserEvent:result];
                                                  callback(@[event, [NSNull null]]);
                                              }
                                              failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                                 __strong VIMessagingModule *strongSelf = weakSelf;
+                                                 __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                  NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                                  callback(@[[NSNull null], error]);
                                              }]];
@@ -504,43 +504,43 @@ RCT_REMAP_METHOD(createConversation, createConversationWithConfig:(NSDictionary 
     if ([config objectForKey:kEventMesParamParticipants]) {
         conversationConfig.participants = [self convertDictionaryToParicipants:[config objectForKey:kEventMesParamParticipants]];
     }
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger createConversation:conversationConfig
                             completion:[VIMessengerCompletion<VIConversationEvent *>
                                         success:^(VIConversationEvent * _Nonnull result) {
-                                            __strong VIMessagingModule *strongSelf = weakSelf;
+                                            __strong RNVIMessagingModule *strongSelf = weakSelf;
                                             NSDictionary *event = [strongSelf convertConversationEvent:result];
                                             callback(@[event, [NSNull null]]);
                                         }
                                         failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                            __strong VIMessagingModule *strongSelf = weakSelf;
+                                            __strong RNVIMessagingModule *strongSelf = weakSelf;
                                             NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                             callback(@[[NSNull null], error]);
                                         }]];
 }
 
 RCT_REMAP_METHOD(getConversation, getConversation:(NSString *)uuid responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getConversation:uuid
                          completion:[VIMessengerCompletion<VIConversationEvent *>
                                      success:^(VIConversationEvent * _Nonnull result) {
-                                         __strong VIMessagingModule *strongSelf = weakSelf;
+                                         __strong RNVIMessagingModule *strongSelf = weakSelf;
                                          NSDictionary *event = [strongSelf convertConversationEvent:result];
                                          callback(@[event, [NSNull null]]);
                                      }
                                      failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                         __strong VIMessagingModule *strongSelf = weakSelf;
+                                         __strong RNVIMessagingModule *strongSelf = weakSelf;
                                          NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                          callback(@[[NSNull null], error]);
                                      }]];
 }
 
 RCT_REMAP_METHOD(getConversations, getConversations:(NSArray<NSString *> *)conversations responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getConversations:conversations
                           completion:[VIMessengerCompletion<NSArray<VIConversationEvent *> *>
                                       success:^(NSArray<VIConversationEvent *> * _Nonnull result) {
-                                          __strong VIMessagingModule *strongSelf = weakSelf;
+                                          __strong RNVIMessagingModule *strongSelf = weakSelf;
                                           NSMutableArray *conversations = [NSMutableArray new];
                                           for (VIConversationEvent *event in result) {
                                               NSDictionary *conversation = [strongSelf convertConversationEvent:event];
@@ -549,22 +549,22 @@ RCT_REMAP_METHOD(getConversations, getConversations:(NSArray<NSString *> *)conve
                                           callback(@[conversations, [NSNull null]]);
                                       }
                                       failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                          __strong VIMessagingModule *strongSelf = weakSelf;
+                                          __strong RNVIMessagingModule *strongSelf = weakSelf;
                                           NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                           callback(@[[NSNull null], error]);
                                       }]];
 }
 
 RCT_EXPORT_METHOD(getPublicConversations: (RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger getPublicConversations:[VIMessengerCompletion<VIConversationListEvent *>
                                             success:^(VIConversationListEvent * _Nonnull result) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *event = [strongSelf convertConversationListEvent:result];
                                                 callback(@[event, [NSNull null]]);
                                             }
                                             failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                                 callback(@[[NSNull null], error]);
                                             }]];
@@ -573,17 +573,17 @@ RCT_EXPORT_METHOD(getPublicConversations: (RCTResponseSenderBlock)callback) {
 RCT_REMAP_METHOD(addParticipants, addParticipantsToConversation:(NSString *)uuid
                                                    participants:(NSArray<NSDictionary *> *)participants
                                                responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     [conversation addParticipants:[self convertDictionaryToParicipants:participants]
                        completion:[VIMessengerCompletion<VIConversationEvent *>
                                    success:^(VIConversationEvent * _Nonnull result) {
-                                       __strong VIMessagingModule *strongSelf = weakSelf;
+                                       __strong RNVIMessagingModule *strongSelf = weakSelf;
                                        NSDictionary *event = [strongSelf convertConversationEvent:result];
                                        callback(@[event, [NSNull null]]);
                                    }
                                    failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                       __strong VIMessagingModule *strongSelf = weakSelf;
+                                       __strong RNVIMessagingModule *strongSelf = weakSelf;
                                        NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                        callback(@[[NSNull null], error]);
                                    }]];
@@ -592,17 +592,17 @@ RCT_REMAP_METHOD(addParticipants, addParticipantsToConversation:(NSString *)uuid
 RCT_REMAP_METHOD(editParticipants, editParticipnatsInConversation:(NSString *)uuid
                                                      participants:(NSArray<NSDictionary *> *)participants
                                                  responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     [conversation editParticipants:[self convertDictionaryToParicipants:participants]
                        completion:[VIMessengerCompletion<VIConversationEvent *>
                                    success:^(VIConversationEvent * _Nonnull result) {
-                                       __strong VIMessagingModule *strongSelf = weakSelf;
+                                       __strong RNVIMessagingModule *strongSelf = weakSelf;
                                        NSDictionary *event = [strongSelf convertConversationEvent:result];
                                        callback(@[event, [NSNull null]]);
                                    }
                                    failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                       __strong VIMessagingModule *strongSelf = weakSelf;
+                                       __strong RNVIMessagingModule *strongSelf = weakSelf;
                                        NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                        callback(@[[NSNull null], error]);
                                    }]];
@@ -611,17 +611,17 @@ RCT_REMAP_METHOD(editParticipants, editParticipnatsInConversation:(NSString *)uu
 RCT_REMAP_METHOD(removeParticipants, removeParticipantsFromConversation:(NSString *)uuid
                                                            participants:(NSArray<NSDictionary *> *)participants
                                                        responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     [conversation removeParticipants:[self convertDictionaryToParicipants:participants]
                         completion:[VIMessengerCompletion<VIConversationEvent *>
                                     success:^(VIConversationEvent * _Nonnull result) {
-                                        __strong VIMessagingModule *strongSelf = weakSelf;
+                                        __strong RNVIMessagingModule *strongSelf = weakSelf;
                                         NSDictionary *event = [strongSelf convertConversationEvent:result];
                                         callback(@[event, [NSNull null]]);
                                     }
                                     failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                        __strong VIMessagingModule *strongSelf = weakSelf;
+                                        __strong RNVIMessagingModule *strongSelf = weakSelf;
                                         NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                         callback(@[[NSNull null], error]);
                                     }]];
@@ -643,15 +643,15 @@ RCT_REMAP_METHOD(updateConversation, updateConversation:(NSString *)uuid
     config.direct = direct;
     VIConversation *conversation = [self.messenger recreateConversation:config uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation update:[VIMessengerCompletion<VIConversationEvent *>
                               success:^(VIConversationEvent * _Nonnull result) {
-                                  __strong VIMessagingModule *strongSelf = weakSelf;
+                                  __strong RNVIMessagingModule *strongSelf = weakSelf;
                                   NSDictionary *event = [strongSelf convertConversationEvent:result];
                                   callback(@[event, [NSNull null]]);
                               }
                               failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                  __strong VIMessagingModule *strongSelf = weakSelf;
+                                  __strong RNVIMessagingModule *strongSelf = weakSelf;
                                   NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                   callback(@[[NSNull null], error]);
                               }]];
@@ -664,15 +664,15 @@ RCT_REMAP_METHOD(updateConversation, updateConversation:(NSString *)uuid
 RCT_EXPORT_METHOD(typing:(NSString *)uuid responseCallback:(RCTResponseSenderBlock)callback) {
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation typing:[VIMessengerCompletion<VIConversationServiceEvent *>
                               success:^(VIConversationServiceEvent * _Nonnull result) {
-                                  __strong VIMessagingModule *strongSelf = weakSelf;
+                                  __strong RNVIMessagingModule *strongSelf = weakSelf;
                                   NSDictionary *event = [strongSelf convertConversationServiceEvent:result];
                                   callback(@[event, [NSNull null]]);
                               }
                               failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                  __strong VIMessagingModule *strongSelf = weakSelf;
+                                  __strong RNVIMessagingModule *strongSelf = weakSelf;
                                   NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                   callback(@[[NSNull null], error]);
                               }]];
@@ -687,16 +687,16 @@ RCT_REMAP_METHOD(markAsRead, markAsReadForConversation:(NSString *)uuid
                                       responseCallback:(RCTResponseSenderBlock)callback) {
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation markAsRead:sequence.longLongValue
                       completion:[VIMessengerCompletion<VIConversationServiceEvent *>
                                   success:^(VIConversationServiceEvent * _Nonnull result) {
-                                      __strong VIMessagingModule *strongSelf = weakSelf;
+                                      __strong RNVIMessagingModule *strongSelf = weakSelf;
                                       NSDictionary *event = [strongSelf convertConversationServiceEvent:result];
                                       callback(@[event, [NSNull null]]);
                                   }
                                   failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                      __strong VIMessagingModule *strongSelf = weakSelf;
+                                      __strong RNVIMessagingModule *strongSelf = weakSelf;
                                       NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                       callback(@[[NSNull null], error]);
                                   }]];
@@ -712,17 +712,17 @@ RCT_REMAP_METHOD(sendMessage, sendMessageToConversation:(NSString *)uuid
                                        responseCallback:(RCTResponseSenderBlock)callback) {
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation sendMessage:text
                           payload:payload
                        completion:[VIMessengerCompletion<VIMessageEvent *>
                                    success:^(VIMessageEvent * _Nonnull result) {
-                                       __strong VIMessagingModule *strongSelf = weakSelf;
+                                       __strong RNVIMessagingModule *strongSelf = weakSelf;
                                        NSDictionary *event = [strongSelf convertMessageEvent:result];
                                        callback(@[event, [NSNull null]]);
                                    }
                                    failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                       __strong VIMessagingModule *strongSelf = weakSelf;
+                                       __strong RNVIMessagingModule *strongSelf = weakSelf;
                                        NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                        callback(@[[NSNull null], error]);
                                    }]];
@@ -739,16 +739,16 @@ RCT_REMAP_METHOD(updateMessage, updateMessageInConversation:(NSString *)conversa
                                            responseCallback:(RCTResponseSenderBlock)callback) {
     VIMessage *message = [self.messenger recreateMessage:uuid conversation:conversationUuid text:[NSString string] payload:nil sequence:0];
     if (message) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [message update:text payload:payload
              completion:[VIMessengerCompletion<VIMessageEvent *>
                          success:^(VIMessageEvent * _Nonnull result) {
-                             __strong VIMessagingModule *strongSelf = weakSelf;
+                             __strong RNVIMessagingModule *strongSelf = weakSelf;
                              NSDictionary *event = [strongSelf convertMessageEvent:result];
                              callback(@[event, [NSNull null]]);
                          }
                          failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                             __strong VIMessagingModule *strongSelf = weakSelf;
+                             __strong RNVIMessagingModule *strongSelf = weakSelf;
                              NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                              callback(@[[NSNull null], error]);
                          }]];
@@ -763,13 +763,13 @@ RCT_REMAP_METHOD(removeMessage, removeMessageFromConversation:(NSString *)conver
                                              responseCallback:(RCTResponseSenderBlock)callback) {
     VIMessage *message = [self.messenger recreateMessage:uuid conversation:conversationUuid text:[NSString string] payload:nil sequence:0];
     if (message) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [message remove:[VIMessengerCompletion<VIMessageEvent *> success:^(VIMessageEvent * _Nonnull result) {
-            __strong VIMessagingModule *strongSelf = weakSelf;
+            __strong RNVIMessagingModule *strongSelf = weakSelf;
             NSDictionary *event = [strongSelf convertMessageEvent:result];
             callback(@[event, [NSNull null]]);
         } failure:^(VIErrorEvent * _Nonnull errorEvent) {
-            __strong VIMessagingModule *strongSelf = weakSelf;
+            __strong RNVIMessagingModule *strongSelf = weakSelf;
             NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
             callback(@[[NSNull null], error]);
         }]];
@@ -780,32 +780,32 @@ RCT_REMAP_METHOD(removeMessage, removeMessageFromConversation:(NSString *)conver
 }
 
 RCT_REMAP_METHOD(leaveConversation, leaveConversation:(NSString *)uuid responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger leaveConversation:uuid
                            completion:[VIMessengerCompletion<VIConversationEvent *>
                                        success:^(VIConversationEvent * _Nonnull result) {
-                                           __strong VIMessagingModule *strongSelf = weakSelf;
+                                           __strong RNVIMessagingModule *strongSelf = weakSelf;
                                            NSDictionary *event = [strongSelf convertConversationEvent:result];
                                            callback(@[event, [NSNull null]]);
                                        }
                                        failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                           __strong VIMessagingModule *strongSelf = weakSelf;
+                                           __strong RNVIMessagingModule *strongSelf = weakSelf;
                                            NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                            callback(@[[NSNull null], error]);
                                        }]];
 }
 
 RCT_REMAP_METHOD(joinConversation, joinConversation:(NSString *)uuid responseCallback:(RCTResponseSenderBlock)callback) {
-    __weak VIMessagingModule *weakSelf = self;
+    __weak RNVIMessagingModule *weakSelf = self;
     [self.messenger joinConversation:uuid
                           completion:[VIMessengerCompletion<VIConversationEvent *>
                                       success:^(VIConversationEvent * _Nonnull result) {
-                                          __strong VIMessagingModule *strongSelf = weakSelf;
+                                          __strong RNVIMessagingModule *strongSelf = weakSelf;
                                           NSDictionary *event = [strongSelf convertConversationEvent:result];
                                           callback(@[event, [NSNull null]]);
                                       }
                                       failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                          __strong VIMessagingModule *strongSelf = weakSelf;
+                                          __strong RNVIMessagingModule *strongSelf = weakSelf;
                                           NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                           callback(@[[NSNull null], error]);
                                       }]];
@@ -818,17 +818,17 @@ RCT_REMAP_METHOD(retransmitEvents, retransmitEvents:(NSString *)uuid
                                    responseCallback:(RCTResponseSenderBlock)callback) {
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation retransmitEventsFrom:from.longLongValue
                                         to:to.longLongValue
                                 completion:[VIMessengerCompletion<VIRetransmitEvent *>
                                             success:^(VIRetransmitEvent * _Nonnull result) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *event = [strongSelf convertRetrasmitEvent:result];
                                                 callback(@[event, [NSNull null]]);
                                             }
                                             failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                                 callback(@[[NSNull null], error]);
                                             }]];
@@ -844,17 +844,17 @@ RCT_REMAP_METHOD(retransmitEventsFrom, retransmitEventsFrom:(NSString *)uuid
                                            responseCallback:(RCTResponseSenderBlock)callback) {
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation retransmitEventsFrom:from.longLongValue
                                      count:count.unsignedIntegerValue
                                 completion:[VIMessengerCompletion<VIRetransmitEvent *>
                                             success:^(VIRetransmitEvent * _Nonnull result) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *event = [strongSelf convertRetrasmitEvent:result];
                                                 callback(@[event, [NSNull null]]);
                                             }
                                             failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                                 callback(@[[NSNull null], error]);
                                             }]];
@@ -870,17 +870,17 @@ RCT_REMAP_METHOD(retransmitEventsTo, retransmitEventsTo:(NSString *)uuid
                                        responseCallback:(RCTResponseSenderBlock)callback) {
     VIConversation *conversation = [self.messenger recreateConversation:[VIConversationConfig new] uuid:uuid lastSequence:0 lastUpdateTime:0 createdTime:0];
     if (conversation) {
-        __weak VIMessagingModule *weakSelf = self;
+        __weak RNVIMessagingModule *weakSelf = self;
         [conversation retransmitEventsTo:to.longLongValue
                                    count:count.unsignedIntegerValue
                               completion:[VIMessengerCompletion<VIRetransmitEvent *>
                                             success:^(VIRetransmitEvent * _Nonnull result) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *event = [strongSelf convertRetrasmitEvent:result];
                                                 callback(@[event, [NSNull null]]);
                                             }
                                             failure:^(VIErrorEvent * _Nonnull errorEvent) {
-                                                __strong VIMessagingModule *strongSelf = weakSelf;
+                                                __strong RNVIMessagingModule *strongSelf = weakSelf;
                                                 NSDictionary *error = [strongSelf convertErrorEvent:errorEvent];
                                                 callback(@[[NSNull null], error]);
                                             }]];
@@ -916,8 +916,8 @@ RCT_REMAP_METHOD(retransmitEventsTo, retransmitEventsTo:(NSString *)uuid
 
 - (void)messenger:(VIMessenger *)messenger didRemoveConversation:(VIConversationEvent *)event {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setObject:[Utils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
-    [dictionary setObject:[Utils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
+    [dictionary setObject:[RNVIUtils convertMessengerEventTypeToString:event.eventType] forKey:kEventMesParamEventType];
+    [dictionary setObject:[RNVIUtils convertMessengerEventActionToString:event.action] forKey:kEventMesParamAction];
     [dictionary setObject:event.imUserId forKey:kEventMesParamEventIMUserId];
     [dictionary setObject:@(event.sequence) forKey:kEventMesParamSequence];
     [dictionary setObject:@(event.timestamp) forKey:kEventMesParamTimestamp];

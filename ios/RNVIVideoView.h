@@ -5,6 +5,6 @@
 #import <UIKit/UIKit.h>
 #import "RCTView.h"
 
-@interface VideoView : RCTView
+@interface RNVIVideoView : RCTView
 
 @end

@@ -95,7 +95,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 
 	@Override
 	public String getName() {
-		return "VIClientModule";
+		return "RNVIClientModule";
 	}
 
 	//region React methods

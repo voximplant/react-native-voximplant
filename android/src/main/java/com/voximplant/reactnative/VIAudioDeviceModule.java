@@ -51,7 +51,7 @@ public class VIAudioDeviceModule extends ReactContextBaseJavaModule implements I
     
     @Override
     public String getName() {
-        return "VIAudioDeviceModule";
+        return "RNVIAudioDeviceModule";
     }
 
     @ReactMethod

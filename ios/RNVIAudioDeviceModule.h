@@ -4,11 +4,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import <VoxImplant/VoxImplant.h>
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
-#import <VoxImplant/VoxImplant.h>
 
-
-@interface VICallModule : RCTEventEmitter <RCTBridgeModule, VICallDelegate, VIEndpointDelegate>
+@interface RNVIAudioDeviceModule : RCTEventEmitter <RCTBridgeModule, VIAudioManagerDelegate>
 @end

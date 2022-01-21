@@ -11,7 +11,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 public class VideoViewManager extends SimpleViewManager<VideoView> {
     @Override 
     public String getName() {
-        return "VIVideoView";
+        return "RNVIVideoView";
     }
 
     @Override 

@@ -4,7 +4,7 @@
 
 #import <VoxImplant/VoxImplant.h>
 
-@interface VIAudioFileManager : NSObject
+@interface RNVIAudioFileManager : NSObject
 
 + (void)addAudioFile:(VIAudioFile *)audioFile fileId:(NSString *)fileId;
 + (VIAudioFile *)getAudioFileById:(NSString *)fileId;

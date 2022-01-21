@@ -4,5 +4,5 @@
 
 #import "RCTViewManager.h"
 
-@interface VIVideoViewManager : RCTViewManager
+@interface RNVIVideoViewManager : RCTViewManager
 @end

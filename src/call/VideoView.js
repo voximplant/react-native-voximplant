@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { RenderScaleType } from './../Enums';
 
 const RCTVoximplantVideoView = requireNativeComponent(
-    'VIVideoView', 
+    'RNVIVideoView', 
     VideoView
 );
 

@@ -12,7 +12,7 @@ import MessengerEventTypes from "./MessengerEventTypes";
 import Conversation from "./Conversation";
 import Message from "./Message";
 
-const MessagingModule = NativeModules.VIMessagingModule;
+const MessagingModule = NativeModules.RNVIMessagingModule;
 
 const listeners = {};
 

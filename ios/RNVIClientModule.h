@@ -9,6 +9,6 @@
 #import <React/RCTEventEmitter.h>
 #import <VoxImplant/VoxImplant.h>
 
-@interface VIClientModule : RCTEventEmitter <RCTBridgeModule, VIClientSessionDelegate, VIClientCallManagerDelegate, VILogDelegate>
+@interface RNVIClientModule : RCTEventEmitter <RCTBridgeModule, VIClientSessionDelegate, VIClientCallManagerDelegate, VILogDelegate>
 + (NSUUID *)uuidForPushNotification:(NSDictionary *)notification;
 @end
