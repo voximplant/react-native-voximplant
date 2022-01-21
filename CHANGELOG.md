@@ -1,19 +1,20 @@
 # Changelog
 
 ### 1.28.0
+### 1.28.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.29.1 and Voximplant iOS SDK 2.46.1
 - Introduce new APIs to restore the connection to the Voximplant Cloud if it was closed due to network issues during a call:
-  - [ClientEvents.Reconnecting](/docs/references/reactnative/voximplant/clienteventtypes#reconnecting) - notifies
+  - [ClientEvents.Reconnecting](https://voximplant.com/docs/references/reactnative/voximplant/clienteventtypes#reconnecting) - notifies
     that the connection to the Voximplant Cloud is lost and the client is reconnecting
-  - [ClientEvents.Reconnected](/docs/references/reactnative/voximplant/clienteventtypes#reconnected) - notifies
+  - [ClientEvents.Reconnected](https://voximplant.com/docs/references/reactnative/voximplant/clienteventtypes#reconnected) - notifies
     that the connection to the Voximplant Cloud is restored
-  - [ClientState.RECONNECTING](/docs/references/reactnative/voximplant/clientstate#reconnecting) - client state
+  - [ClientState.RECONNECTING](https://voximplant.com/docs/references/reactnative/voximplant/clientstate#reconnecting) - client state
     representing that the client is reconnecting to the Voximplant Cloud
-  - [CallEvents.CallReconnecting](/docs/references/reactnative/voximplant/calleventtypes#callreconnecting) - notifies
+  - [CallEvents.CallReconnecting](https://voximplant.com/docs/references/reactnative/voximplant/calleventtypes#callreconnecting) - notifies
     that the SDK is reconnecting to the Voximplant Cloud and media streams may not be active
-  - [CallEvents.CallReconnected](/docs/references/reactnative/voximplant/calleventtypes#callreconnected) - notifies
+  - [CallEvents.CallReconnected](https://voximplant.com/docs/references/reactnative/voximplant/calleventtypes#callreconnected) - notifies
     that the SDK is successfully reconnected to the Voximplant Cloud and media streams are restored
-  - [CallError.RECONNECTING](/docs/references/reactnative/voximplant/callerror#reconnecting) - call error
+  - [CallError.RECONNECTING](https://voximplant.com/docs/references/reactnative/voximplant/callerror#reconnecting) - call error
     that informs that a call operation cannot be completed while a call is reconnecting
 - Fix for [#139](https://github.com/voximplant/react-native-voximplant/issues/139)
 - Fix for [#136](https://github.com/voximplant/react-native-voximplant/issues/136)
