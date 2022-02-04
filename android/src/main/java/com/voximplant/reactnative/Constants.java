@@ -40,6 +40,8 @@ class Constants {
     static final String EVENT_ENDPOINT_REMOTE_STREAM_ADDED = "VIEndpointRemoteVideoStreamAdded";
     static final String EVENT_ENDPOINT_REMOTE_STREAM_REMOVED = "VIEndpointRemoteVideoStreamRemoved";
     static final String EVENT_ENDPOINT_REMOVED = "VIEndpointRemoved";
+    static final String EVENT_ENDPOINT_VOICE_ACTIVITY_STARTED = "VIVoiceActivityStarted";
+    static final String EVENT_ENDPOINT_VOICE_ACTIVITY_STOPPED = "VIVoiceActivityStopped";
 
     static final String EVENT_AUDIO_DEVICE_CHANGED = "VIAudioDeviceChanged";
     static final String EVENT_AUDIO_DEVICE_LIST_CHANGED = "VIAudioDeviceListChanged";
@@ -79,6 +81,8 @@ class Constants {
     static final String EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED = "RemoteVideoStreamAdded";
     static final String EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED = "RemoteVideoStreamRemoved";
     static final String EVENT_NAME_ENDPOINT_REMOVED = "Removed";
+    static final String EVENT_NAME_VOICE_ACTIVITY_STARTED = "VoiceActivityStarted";
+    static final String EVENT_NAME_VOICE_ACTIVITY_STOPPED = "VoiceActivityStopped";
 
     static final String EVENT_NAME_AUDIO_DEVICE_CHANGED = "DeviceChanged";
     static final String EVENT_NAME_AUDIO_DEVICE_LIST_CHANGED = "DeviceListChanged";

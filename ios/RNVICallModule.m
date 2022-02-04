@@ -329,6 +329,23 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                          }];
 }
 
+- (void)didDetectVoiceActivityStart:(VIEndpoint *)endpoint {
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointVoiceActivityStarted body:@{
+                                                                      kEventParamName         : kEventNameVoiceActivityStarted,
+                                                                      kEventParamCallId       : callId ? callId : [NSNull null],
+                                                                      kEventParamEndpointId   : endpoint.endpointId
+                                                                      }];
+}
+
+- (void)didDetectVoiceActivityStop:(VIEndpoint *)endpoint {
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointVoiceActivityStopped body:@{
+                                                                      kEventParamName         : kEventNameVoiceActivityStopped,
+                                                                      kEventParamCallId       : callId ? callId : [NSNull null],
+                                                                      kEventParamEndpointId   : endpoint.endpointId
+                                                                      }];
+}
 
 
 @end

@@ -206,10 +206,32 @@ export default class Endpoint {
     /**
      * @private
      */
+     _VIVoiceActivityStarted = (event) => {
+        if (event.endpointId === this.id) {
+            this._prepareEvent(event);
+            this._emit(EndpointEvents.VoiceActivityStarted, event);
+        }
+    };
+
+    /**
+     * @private
+     */
+     _VIVoiceActivityStopped = (event) => {
+        if (event.endpointId === this.id) {
+            this._prepareEvent(event);
+            this._emit(EndpointEvents.VoiceActivityStopped, event);
+        }
+    };
+
+    /**
+     * @private
+     */
     _events = ['VIEndpointInfoUpdated',
         'VIEndpointRemoved',
         'VIEndpointRemoteVideoStreamAdded',
-        'VIEndpointRemoteVideoStreamRemoved'];
+        'VIEndpointRemoteVideoStreamRemoved',
+        'VIVoiceActivityStarted',
+        'VIVoiceActivityStopped'];
 
     /**
      * @private

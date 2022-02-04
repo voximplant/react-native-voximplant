@@ -389,6 +389,24 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         sendEvent(EVENT_ENDPOINT_REMOTE_STREAM_REMOVED, params);
     }
 
+    @Override
+    public void onVoiceActivityStarted(IEndpoint endpoint) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_VOICE_ACTIVITY_STARTED);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        sendEvent(EVENT_ENDPOINT_VOICE_ACTIVITY_STARTED, params);
+    }
+
+    @Override
+    public void onVoiceActivityStopped(IEndpoint endpoint) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_VOICE_ACTIVITY_STOPPED);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        sendEvent(EVENT_ENDPOINT_VOICE_ACTIVITY_STOPPED, params);
+    }
+
     private void sendEvent(String eventName, @Nullable WritableMap params) {
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
     }
