@@ -208,13 +208,14 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void createAndStartCall(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
+	public void createAndStartCall(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, boolean enableSimulcast, Callback callback) {
 		if (mClient != null) {
 			CallSettings callSettings = new CallSettings();
 			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
 			callSettings.customData = customData;
 			callSettings.extraHeaders = Utils.createHashMap(headers);
 			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
+			callSettings.enableSimulcast = enableSimulcast;
 			ICall call = mClient.call(user, callSettings);
 			if (call != null) {
 				try {
@@ -233,13 +234,14 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void createAndStartConference(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
+	public void createAndStartConference(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, boolean enableSimulcast, Callback callback) {
 		if (mClient != null) {
 			CallSettings callSettings = new CallSettings();
 			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
 			callSettings.customData = customData;
 			callSettings.extraHeaders = Utils.createHashMap(headers);
 			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
+			callSettings.enableSimulcast = enableSimulcast;
 			ICall call = mClient.callConference(user, callSettings);
 			if (call != null) {
 				try {

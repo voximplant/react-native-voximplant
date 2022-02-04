@@ -297,6 +297,7 @@ RCT_REMAP_METHOD(createAndStartCall,
                   customData:(NSString *)customData
                   headers:(NSDictionary *)headers
                   setupCallKit:(BOOL)setupCallKit
+                  enableSimulcast:(BOOL)enableSimulcast
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
         VICallSettings *callSettings = [[VICallSettings alloc] init];
@@ -305,6 +306,7 @@ RCT_REMAP_METHOD(createAndStartCall,
         callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                                                                  sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
         callSettings.preferredVideoCodec = videoCodec;
+        callSettings.enableSimulcast = enableSimulcast;
         VICall *call = [_client call:user settings:callSettings];
         if (call) {
             if (setupCallKit) {
@@ -327,6 +329,7 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
                  customData:(NSString *)customData
                  headers:(NSDictionary *)headers
                  setupCallKit:(BOOL)setupCallKit
+                 enableSimulcast:(BOOL)enableSimulcast
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
         VICallSettings *callSettings = [[VICallSettings alloc] init];
@@ -335,6 +338,7 @@ RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
         callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                                                                  sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
         callSettings.preferredVideoCodec = videoCodec;
+        callSettings.enableSimulcast = enableSimulcast;
         VICall *call = [_client callConference:user settings:callSettings];
         if (call) {
             if (setupCallKit) {

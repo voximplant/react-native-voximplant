@@ -57,7 +57,8 @@ RCT_REMAP_METHOD(answer,
                  withVideoSettings:(NSDictionary *)videoFlags
                  withHVideoCodec:(VIVideoCodec)videoCodec
                  customData:(NSString *)customData
-                 headers:(NSDictionary *)headers) {
+                 headers:(NSDictionary *)headers
+                 enableSimulcast:(BOOL)enableSimulcast) {
     VICall *call = [RNVICallManager getCallById:callId];
     VICallSettings *callSettings = [[VICallSettings alloc] init];
     callSettings.customData = customData;
@@ -65,6 +66,7 @@ RCT_REMAP_METHOD(answer,
     callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
                                                              sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
     callSettings.preferredVideoCodec = videoCodec;
+    callSettings.enableSimulcast = enableSimulcast;
     if (call) {
         [call answerWithSettings:callSettings];
     }
