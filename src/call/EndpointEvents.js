@@ -38,7 +38,7 @@ const EndpointEvents = {
     /**
      * Event is triggered when a voice activity of the endpoint is stopped in a conference call.
      */
-    VoiceActivityStopped     : 'VoiceActivityStarted'
+    VoiceActivityStopped     : 'VoiceActivityStopped'
 };
 
 export default EndpointEvents;
