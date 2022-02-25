@@ -255,6 +255,15 @@ export default class Call {
     }
 
     /**
+     * Get the call duration in seconds
+     * @returns {Promise<number|CallError>}
+     * @memberOf Voximplant.Call
+     */
+    getDuration() {
+        return CallModule.getCallDuration(this.callId);
+    }
+
+    /**
      * @private
      */
     _emit(event, ...args) {

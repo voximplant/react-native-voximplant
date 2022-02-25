@@ -26,6 +26,7 @@ import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
@@ -196,6 +197,18 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
             call.hangup(Utils.createHashMap(headers));
+        }
+    }
+
+    @ReactMethod
+    public void getCallDuration(String callId, final Promise promise) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            long duration = call.getCallDuration();
+            DecimalFormat df = new DecimalFormat("0");
+            promise.resolve(df.format(duration / 1000));
+        } else {
+            promise.reject(CallError.INTERNAL_ERROR.toString(), "Call.getDuration(): call is no more unavailable, already ended or failed");
         }
     }
 
