@@ -112,6 +112,35 @@ export default class Endpoint {
     }
 
     /**
+     * Method for requests the specified video size for the video stream.
+     * @param {*} streamId 
+     * @param {*} width 
+     * @param {*} height 
+     * @returns 
+     */
+    requestVideoSize(streamId, width, height) {
+        return CallModule.requestVideoSize(streamId, width, height);
+    }
+
+    /**
+     * Method for enable recieving the remote video stream.
+     * @param {*} streamId
+     * @returns
+     */
+    startReceiving(streamId) {
+        return CallModule.startReceiving(streamId);
+    }
+
+    /**
+     * Method for disable recieving the remote video stream.
+     * @param {*} streamId
+     * @returns
+     */
+     stopReceiving(streamId) {
+        return CallModule.stopReceiving(streamId);
+    }
+
+    /**
      * @private
      */
     _emit(event, ...args) {

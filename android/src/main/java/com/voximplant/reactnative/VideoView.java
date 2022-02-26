@@ -9,7 +9,8 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.ViewGroup;
 
-import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.ILocalVideoStream;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.RenderScaleType;
 
 import org.webrtc.RendererCommon;
@@ -55,18 +56,29 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
             mVideoStreamId = videoStreamId;
         }
         if (mVideoStreamId != null && !mVideoStreamId.equals(videoStreamId)) {
-            IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
-            if (videoStream != null) {
-                videoStream.removeVideoRenderer(mVideoViewRenderer);
+            ILocalVideoStream localVideoStream = CallManager.getInstance().getLocalVideoStreamById(mVideoStreamId);
+            IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(mVideoStreamId);
+            if (localVideoStream != null) {
+                localVideoStream.removeVideoRenderer(mVideoViewRenderer);
+            }
+            if (remoteVideoStream != null) {
+                remoteVideoStream.removeVideoRenderer(mVideoViewRenderer);
             }
             removeView(mVideoViewRenderer);
             mVideoStreamId = videoStreamId;
         }
         if (mVideoStreamId != null && !mVideoStreamId.isEmpty()) {
-            IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
-            if (videoStream != null) {
+            ILocalVideoStream localVideoStream = CallManager.getInstance().getLocalVideoStreamById(mVideoStreamId);
+            IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(mVideoStreamId);
+            if (localVideoStream != null) {
                 addView(mVideoViewRenderer);
-                videoStream.addVideoRenderer(mVideoViewRenderer,
+                localVideoStream.addVideoRenderer(mVideoViewRenderer,
+                        mScaleType.equals(SCALE_TYPE_FILL) ? RenderScaleType.SCALE_FILL : RenderScaleType.SCALE_FIT,
+                        this);
+            }
+            if (remoteVideoStream != null) {
+                addView(mVideoViewRenderer);
+                remoteVideoStream.addVideoRenderer(mVideoViewRenderer,
                         mScaleType.equals(SCALE_TYPE_FILL) ? RenderScaleType.SCALE_FILL : RenderScaleType.SCALE_FIT,
                         this);
             }
@@ -76,9 +88,14 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
-        if (videoStream != null) {
-            videoStream.removeVideoRenderer(mVideoViewRenderer);
+        ILocalVideoStream localVideoStream = CallManager.getInstance().getLocalVideoStreamById(mVideoStreamId);
+        IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(mVideoStreamId);
+        if (localVideoStream != null) {
+            localVideoStream.removeVideoRenderer(mVideoViewRenderer);
+            removeView(mVideoViewRenderer);
+        }
+        if (remoteVideoStream != null) {
+            remoteVideoStream.removeVideoRenderer(mVideoViewRenderer);
             removeView(mVideoViewRenderer);
         }
     }

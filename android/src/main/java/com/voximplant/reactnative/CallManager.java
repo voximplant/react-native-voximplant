@@ -6,7 +6,8 @@ package com.voximplant.reactnative;
 
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.IEndpoint;
-import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.ILocalVideoStream;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,8 @@ class CallManager {
     // endpoint id and call id matching
     private HashMap<String, String> mCallEndpoints = new HashMap<>();
 
-    private HashMap<String, IVideoStream> mVideoStreams = new HashMap<>();
+    private HashMap<String, ILocalVideoStream> localVideoStreams = new HashMap<>();
+    private HashMap<String, IRemoteVideoStream> remoteVideoStreams = new HashMap<>();
     // video stream id and call id matching
     private HashMap<String, String> mCallVideoStreams = new HashMap<>();
 
@@ -55,7 +57,11 @@ class CallManager {
             objectsToRemove.clear();
             for (Map.Entry<String, String> callVideoStream : mCallVideoStreams.entrySet()) {
                 if (callVideoStream.getValue().equals(call.getCallId())) {
-                    mVideoStreams.remove(callVideoStream.getKey());
+                    localVideoStreams.remove(callVideoStream.getKey());
+                    objectsToRemove.add(callVideoStream.getKey());
+                }
+                if (callVideoStream.getValue().equals(call.getCallId())) {
+                    remoteVideoStreams.remove(callVideoStream.getKey());
                     objectsToRemove.add(callVideoStream.getKey());
                 }
             }
@@ -98,22 +104,39 @@ class CallManager {
         return mEndpoints.get(endpointId);
     }
 
-    void addVideoStream(String callId, IVideoStream videoStream) {
+    void addLocalVideoStream(String callId, ILocalVideoStream videoStream) {
         if (videoStream != null) {
-            mVideoStreams.put(videoStream.getVideoStreamId(), videoStream);
+            localVideoStreams.put(videoStream.getVideoStreamId(), videoStream);
             mCallVideoStreams.put(videoStream.getVideoStreamId(), callId);
         }
     }
 
-    void removeVideoStream(IVideoStream videoStream) {
+    void addRemoteVideoStream(String callId, IRemoteVideoStream videoStream) {
         if (videoStream != null) {
-            mVideoStreams.remove(videoStream.getVideoStreamId());
+            remoteVideoStreams.put(videoStream.getVideoStreamId(), videoStream);
+            mCallVideoStreams.put(videoStream.getVideoStreamId(), callId);
+        }
+    }
+
+    void removeLocalVideoStream(ILocalVideoStream videoStream) {
+        if (videoStream != null) {
+            localVideoStreams.remove(videoStream.getVideoStreamId());
             mCallVideoStreams.remove(videoStream.getVideoStreamId());
         }
     }
 
-    IVideoStream getVideoStreamById(String videoStreamId) {
-        return mVideoStreams.get(videoStreamId);
+    void removeRemoteVideoStream(IRemoteVideoStream videoStream) {
+        if (videoStream != null) {
+            remoteVideoStreams.remove(videoStream.getVideoStreamId());
+            mCallVideoStreams.remove(videoStream.getVideoStreamId());
+        }
     }
 
+    ILocalVideoStream getLocalVideoStreamById(String videoStreamId) {
+        return localVideoStreams.get(videoStreamId);
+    }
+
+    IRemoteVideoStream getRemoteVideoStreamById(String videoStreamId) {
+        return remoteVideoStreams.get(videoStreamId);
+    }
 }

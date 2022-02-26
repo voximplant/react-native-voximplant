@@ -42,6 +42,10 @@ RCT_EXPORT_MODULE();
              kEventEndpointRemoteStreamAdded,
              kEventEndpointRemoteStreamRemoved,
              kEventCallReconnecting,
+             kEventCallReconnected,
+             kEventEndpointVoiceActivityStarted,
+             kEventEndpointVoiceActivityStopped,
+             kEventCallReconnecting,
              kEventCallReconnected];
 }
 
@@ -160,6 +164,52 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
     }
 }
 
+RCT_EXPORT_METHOD(startReceiving:(NSString *)streamId
+                        resolver:(RCTPromiseResolveBlock)resolve
+                        rejecter:(RCTPromiseRejectBlock)reject) {
+    VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
+    if (remoteVideoStream) {
+        [remoteVideoStream startReceivingWithCompletion:^(NSError * _Nullable error) {
+            if (error) {
+                reject(nil, error, nil);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
+    }
+}
+
+RCT_EXPORT_METHOD(stopReceiving:(NSString *)streamId
+                       resolver:(RCTPromiseResolveBlock)resolve
+                       rejecter:(RCTPromiseRejectBlock)reject) {
+    VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
+    if (remoteVideoStream) {
+        [remoteVideoStream stopReceivingWithCompletion:^(NSError * _Nullable error) {
+            if (error) {
+                reject(nil, error, nil);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
+    }
+}
+
+RCT_EXPORT_METHOD(requestVideoSize:(NSString *)streamId
+                         withWidth:(NSNumber *)width
+                        withHeight:(NSNumber *)height
+                          resolver:(RCTPromiseResolveBlock)resolve
+                          rejecter:(RCTPromiseRejectBlock)reject) {
+    VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
+    if (remoteVideoStream) {
+        NSUInteger integerWidth = [width unsignedIntegerValue];
+        NSUInteger integerHeight = [height unsignedIntegerValue];
+        [remoteVideoStream requestVideoSizeWithWidth:integerWidth height:integerHeight];
+        resolve([NSNull null]);
+    } else {
+        reject(nil, @"Can't perform video size for this streamId", nil);
+    }
+}
+
 - (void)call:(VICall *)call didConnectWithHeaders:(NSDictionary *)headers {
     [self sendEventWithName:kEventCallConnected body:@{
                                                        kEventParamName    : kEventNameCallConnected,
@@ -239,7 +289,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)call:(VICall *)call didAddLocalVideoStream:(VILocalVideoStream *)videoStream {
-    [RNVICallManager addVideoStream:videoStream];
+    [RNVICallManager addLocalVideoStream:videoStream];
     [self sendEventWithName:kEventCallLocalVideoStreamAdded body:@{
                                                                    kEventParamName            : kEventNameCallLocalVideoStreamAdded,
                                                                    kEventParamCallId          : call.callId,
@@ -254,7 +304,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                                      kEventParamCallId        : call.callId,
                                                                      kEventParamVideoStreamId : videoStream.streamId
                                                                      }];
-    [RNVICallManager removeVideoStreamById:videoStream.streamId];
+    [RNVICallManager removeLocalVideoStreamById:videoStream.streamId];
 }
 
 - (void) call:(VICall *)call didAddEndpoint:(VIEndpoint *)endpoint {
@@ -271,7 +321,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 }
 
 - (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
-    [RNVICallManager addVideoStream:videoStream];
+    [RNVICallManager addRemoteVideoStream:videoStream];
     NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
                                                                    kEventParamName            : kEventNameEndpointRemoteStreamAdded,
@@ -290,7 +340,7 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
-    [RNVICallManager removeVideoStreamById:videoStream.streamId];
+    [RNVICallManager removeRemoteVideoStreamById:videoStream.streamId];
 }
 
 - (void)endpointDidRemove:(VIEndpoint *)endpoint {

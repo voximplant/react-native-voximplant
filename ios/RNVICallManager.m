@@ -8,7 +8,8 @@
 @property(nonatomic, strong) VIClient *client;
 @property(nonatomic, strong) NSMutableDictionary<NSString *, VICall *> *calls;
 @property(nonatomic, strong) NSMutableDictionary<NSString *, VIEndpoint *> *endpoints;
-@property(nonatomic, strong) NSMutableDictionary<NSString *, VIVideoStream *> *videoStreams;
+@property(nonatomic, strong) NSMutableDictionary<NSString *, VILocalVideoStream *> *localVideoStreams;
+@property(nonatomic, strong) NSMutableDictionary<NSString *, VIRemoteVideoStream *> *remoteVideoStreams;
 @property(nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *callEndpoints;
 @end
 
@@ -29,7 +30,8 @@
         _calls = [NSMutableDictionary dictionary];
         _endpoints = [NSMutableDictionary dictionary];
         _callEndpoints = [NSMutableDictionary dictionary];
-        _videoStreams = [NSMutableDictionary dictionary];
+        _localVideoStreams = [NSMutableDictionary dictionary];
+        _remoteVideoStreams = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -100,20 +102,34 @@
     [[RNVICallManager getInstance].callEndpoints removeObjectForKey:endpointId];
 }
 
-+ (void)addVideoStream:(VIVideoStream *)videoStream {
-    [[RNVICallManager getInstance].videoStreams setObject:videoStream forKey:videoStream.streamId];
++ (void)addLocalVideoStream:(VILocalVideoStream *)videoStream {
+    [[RNVICallManager getInstance].localVideoStreams setObject:videoStream forKey:videoStream.streamId];
 }
 
-+ (VIVideoStream *)getVideoStreamById:(NSString *)videoStreamId {
++ (void)addRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
+    [[RNVICallManager getInstance].remoteVideoStreams setObject:videoStream forKey:videoStream.streamId];
+}
+
++ (VILocalVideoStream *)getLocalVideoStreamById:(NSString *)videoStreamId {
     if (videoStreamId) {
-        return [[RNVICallManager getInstance].videoStreams objectForKey:videoStreamId];
+        return [[RNVICallManager getInstance].localVideoStreams objectForKey:videoStreamId];
     }
     return nil;
 }
 
-+ (void)removeVideoStreamById:(NSString *)videoStreamId {
-    [[RNVICallManager getInstance].videoStreams removeObjectForKey:videoStreamId];
++ (VIRemoteVideoStream *)getRemoteVideoStreamById:(NSString *)videoStreamId {
+    if (videoStreamId) {
+        return [[RNVICallManager getInstance].remoteVideoStreams objectForKey:videoStreamId];
+    }
+    return nil;
 }
 
++ (void)removeLocalVideoStreamById:(NSString *)videoStreamId {
+    [[RNVICallManager getInstance].localVideoStreams removeObjectForKey:videoStreamId];
+}
+
++ (void)removeRemoteVideoStreamById:(NSString *)videoStreamId {
+    [[RNVICallManager getInstance].remoteVideoStreams removeObjectForKey:videoStreamId];
+}
 
 @end

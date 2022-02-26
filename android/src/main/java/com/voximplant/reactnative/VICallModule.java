@@ -5,6 +5,7 @@
 package com.voximplant.reactnative;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -26,6 +27,7 @@ import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
@@ -199,6 +201,53 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         }
     }
 
+    @ReactMethod
+    public void startReceiving(String streamId, final Promise promise) {
+        IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
+        if (remoteVideoStream != null) {
+            remoteVideoStream.startReceiving(new ICallCompletionHandler() {
+                @Override
+                public void onComplete() {
+                    promise.resolve(null);
+                }
+
+                @Override
+                public void onFailure(CallException exception) {
+                    promise.reject(exception);
+                }
+            });
+        }
+    }
+
+    @ReactMethod
+    public void stopReceiving(String streamId, final Promise promise) {
+        IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
+        if (remoteVideoStream != null) {
+            remoteVideoStream.stopReceiving(new ICallCompletionHandler() {
+                @Override
+                public void onComplete() {
+                    promise.resolve(null);
+                }
+
+                @Override
+                public void onFailure(CallException exception) {
+                    promise.reject(exception);
+                }
+            });
+        }
+    }
+
+    @ReactMethod
+    public void requestVideoSize(String streamId, int width, int height, final Promise promise) {
+        IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
+        if (remoteVideoStream != null) {
+            remoteVideoStream.requestVideoSize(width, height);
+            promise.resolve(null);
+        } else {
+            promise.reject(null, "Can't perform video size for this streamId");
+        }
+    }
+
     @Override
     public void onCallConnected(ICall call, Map<String, String> headers) {
         WritableMap params = Arguments.createMap();
@@ -272,7 +321,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onLocalVideoStreamAdded(ICall call, ILocalVideoStream videoStream) {
-        CallManager.getInstance().addVideoStream(call.getCallId(), videoStream);
+        CallManager.getInstance().addLocalVideoStream(call.getCallId(), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -283,7 +332,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onLocalVideoStreamRemoved(ICall call, ILocalVideoStream videoStream) {
-        CallManager.getInstance().removeVideoStream(videoStream);
+        CallManager.getInstance().removeLocalVideoStream(videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_LOCAL_VIDEO_STREAM_REMOVED);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
@@ -368,7 +417,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onRemoteVideoStreamAdded(IEndpoint endpoint, IRemoteVideoStream videoStream) {
-        CallManager.getInstance().addVideoStream(CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()), videoStream);
+        CallManager.getInstance().addRemoteVideoStream(CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()), videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_ADDED);
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
@@ -380,7 +429,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @Override
     public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IRemoteVideoStream videoStream) {
-        CallManager.getInstance().removeVideoStream(videoStream);
+        CallManager.getInstance().removeRemoteVideoStream(videoStream);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_ENDPOINT_REMOTE_STREAM_REMOVED);
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
