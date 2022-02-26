@@ -158,6 +158,17 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
     }
 }
 
+RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    VICall *call = [RNVICallManager getCallById:callId];
+    if (call) {
+        NSTimeInterval interval = [call duration];
+        NSNumber *intervalInSeconds = [NSNumber numberWithInt:interval];
+        resolve(intervalInSeconds);
+    } else {
+        reject(kCallErrorInternal, @"Can't perform duration for this callId", nil);
+    }
+}
+
 - (void)call:(VICall *)call didConnectWithHeaders:(NSDictionary *)headers {
     [self sendEventWithName:kEventCallConnected body:@{
                                                        kEventParamName    : kEventNameCallConnected,
