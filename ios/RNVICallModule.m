@@ -195,8 +195,8 @@ RCT_EXPORT_METHOD(stopReceiving:(NSString *)streamId
 }
 
 RCT_EXPORT_METHOD(requestVideoSize:(NSString *)streamId
-                         withWidth:(NSNumber *)width
-                        withHeight:(NSNumber *)height
+                         withWidth:(NSNumber * _Nonnull)width
+                        withHeight:(NSNumber * _Nonnull)height
                           resolver:(RCTPromiseResolveBlock)resolve
                           rejecter:(RCTPromiseRejectBlock)reject) {
     VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
