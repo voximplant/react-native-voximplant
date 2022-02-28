@@ -469,8 +469,7 @@ export default class Client {
         }
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, callSettings.enableSimulcast, (callId, errorDescription) => {
+                ClientModule.createAndStartCall(number, callSettings, (callId, errorDescription) => {
                         if (callId) {
                             let call = new Call(callId);
                             resolve(call);
@@ -480,8 +479,7 @@ export default class Client {
                     });
             }
             if (Platform.OS === 'ios') {
-                ClientModule.createAndStartCall(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, callSettings.setupCallKit, callSettings.enableSimulcast, (callId, errorDescription) => {
+                ClientModule.createAndStartCall(number, callSettings, (callId, errorDescription) => {
                         if (callId) {
                             let call = new Call(callId);
                             resolve(call);
@@ -533,8 +531,7 @@ export default class Client {
         }
         return new Promise((resolve, reject) => {
             if (Platform.OS === 'android') {
-                ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, callSettings.enableSimulcast, (callId, errorDescription) => {
+                ClientModule.createAndStartConference(number, callSettings, (callId, errorDescription) => {
                         if (callId) {
                             let call = new Call(callId);
                             resolve(call);
@@ -544,8 +541,7 @@ export default class Client {
                     });
             }
             if (Platform.OS === 'ios') {
-                ClientModule.createAndStartConference(number, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData,
-                    callSettings.extraHeaders, callSettings.setupCallKit, callSettings.enableSimulcast, (callId, errorDescription) => {
+                ClientModule.createAndStartConference(number, callSettings, (callId, errorDescription) => {
                         if (callId) {
                             let call = new Call(callId);
                             resolve(call);
