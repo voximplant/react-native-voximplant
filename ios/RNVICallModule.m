@@ -165,7 +165,7 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
         NSNumber *intervalInSeconds = [NSNumber numberWithInt:interval];
         resolve(intervalInSeconds);
     } else {
-        reject(kCallErrorInternal, @"Can't perform duration for this callId", nil);
+        reject(kCallErrorInternal, @"Call.getDuration(): call is no more unavailable, already ended or failed", nil);
     }
 }
 
