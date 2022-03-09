@@ -28,4 +28,6 @@
 + (VIRemoteVideoStream *)getRemoteVideoStreamById:(NSString *)videoStreamId;
 + (void)removeRemoteVideoStreamById:(NSString *)videoStreamId;
 
++ (VIVideoStream *)getVideoStreamById:(NSString *)videoStreamId;
+
 @end

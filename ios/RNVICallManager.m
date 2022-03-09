@@ -132,4 +132,12 @@
     [[RNVICallManager getInstance].remoteVideoStreams removeObjectForKey:videoStreamId];
 }
 
++ (VIVideoStream *)getVideoStreamById:(NSString *)videoStreamId {
+    VIVideoStream *videoStream = [[RNVICallManager getInstance].localVideoStreams objectForKey:videoStreamId];
+    if (!videoStream) {
+        videoStream = [[RNVICallManager getInstance].remoteVideoStreams objectForKey:videoStreamId];
+    }
+    return videoStream;
+}
+
 @end

@@ -287,17 +287,10 @@ RCT_REMAP_METHOD(createAndStartCall,
                  withSettings:(NSDictionary *)settings
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        VICallSettings *callSettings = [[VICallSettings alloc] init];
-        callSettings.customData = [settings valueForKey:@"customData"];
-        callSettings.extraHeaders = [settings valueForKey:@"extraHeaders"];;
-        NSDictionary *videoFlags = [settings valueForKey:@"video"];
-        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-        callSettings.preferredVideoCodec = [self convertVideoCodecFromString:[settings valueForKey:@"preferredVideoCodec"]];
-        callSettings.enableSimulcast = [settings valueForKey:@"enableSimulcast"];
+        VICallSettings *callSettings = [RNVIUtils convertDictionaryToCallSettings:settings];
         VICall *call = [_client call:user settings:callSettings];
         if (call) {
-            if ([settings valueForKey:@"setupCallKit"]) {
+            if ([[settings valueForKey:@"setupCallKit"] boolValue]) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [RNVICallManager addCall:call];
@@ -316,17 +309,10 @@ RCT_REMAP_METHOD(createAndStartConference,
                  withSettings:(NSDictionary *)settings
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        VICallSettings *callSettings = [[VICallSettings alloc] init];
-        callSettings.customData = [settings valueForKey:@"customData"];
-        callSettings.extraHeaders = [settings valueForKey:@"extraHeaders"];
-        NSDictionary *videoFlags = [settings valueForKey:@"video"];
-        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-        callSettings.preferredVideoCodec = [self convertVideoCodecFromString:[settings valueForKey:@"preferredVideoCodec"]];
-        callSettings.enableSimulcast = [settings valueForKey:@"enableSimulcast"];
+        VICallSettings *callSettings = [RNVIUtils convertDictionaryToCallSettings:settings];
         VICall *call = [_client callConference:user settings:callSettings];
         if (call) {
-            if ([settings valueForKey:@"setupCallKit"]) {
+            if ([[settings valueForKey:@"setupCallKit"] boolValue]) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [RNVICallManager addCall:call];
@@ -337,16 +323,6 @@ RCT_REMAP_METHOD(createAndStartConference,
         }
     } else {
         callback(@[[NSNull null], @"NOT_LOGGED_IN"]);
-    }
-}
-
-- (VIVideoCodec)convertVideoCodecFromString:(NSString *)codec {
-    if ([codec isEqualToString:@"VP8"]) {
-        return VIVideoCodecVP8;
-    } else if ([codec isEqualToString:@"H264"]) {
-        return VIVideoCodecH264;
-    } else {
-        return VIVideoCodecAuto;
     }
 }
 

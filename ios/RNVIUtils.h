@@ -19,5 +19,7 @@
 + (NSDictionary *)convertAuthParamsToDictionary:(VIAuthParams *)authParams;
 + (NSString *)convertVideoStreamTypeToString:(VIVideoStreamType)videoStreamType;
 + (NSString *)convertAudioFileErrorToString:(VIAudioFileErrorCode)audioFileError;
++ (VIVideoCodec)convertVideoCodecFromString:(NSString *)codec;
++ (VICallSettings *)convertDictionaryToCallSettings:(NSDictionary *)settings;
 
 @end

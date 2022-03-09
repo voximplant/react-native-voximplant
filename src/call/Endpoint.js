@@ -12,6 +12,7 @@ import {
 import EndpointEvents from './EndpointEvents';
 import CallManager from './CallManager';
 import VideoStream from './VideoStream';
+import { CallError } from '../Enums';
 
 const CallModule = NativeModules.RNVICallModule;
 
@@ -113,9 +114,11 @@ export default class Endpoint {
 
     /**
      * Method for requests the specified video size for the video stream.
-     * @param {*} streamId 
-     * @param {*} width 
-     * @param {*} height 
+     * @param {*} streamId - Remote video stream id
+     * @param {*} width - Requested width of the video stream
+     * @param {*} height - Requested height of the video stream
+     * @returns {Promise<void|CallError>}
+     * @memberOf Voximplant.Endpoint
      * @returns 
      */
     requestVideoSize(streamId, width, height) {
@@ -124,8 +127,9 @@ export default class Endpoint {
 
     /**
      * Method for enable recieving the remote video stream.
-     * @param {*} streamId
-     * @returns
+     * @param {*} streamId - Remote video stream id
+     * @returns {Promise<void|CallError>}
+     * @memberOf Voximplant.Endpoint
      */
     startReceiving(streamId) {
         return CallModule.startReceiving(streamId);
@@ -133,8 +137,9 @@ export default class Endpoint {
 
     /**
      * Method for disable recieving the remote video stream.
-     * @param {*} streamId
-     * @returns
+     * @param {*} streamId - Remote video stream id
+     * @returns {Promise<void|CallError>}
+     * @memberOf Voximplant.Endpoint
      */
      stopReceiving(streamId) {
         return CallModule.stopReceiving(streamId);

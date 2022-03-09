@@ -12,8 +12,7 @@
 @property(nonatomic, assign) NSString *videoStreamId;
 @property(nonatomic, assign) NSString *scaleType;
 @property(nonatomic, strong) VIVideoRendererView *videoRenderer;
-@property(nonatomic, strong) VILocalVideoStream *localVideoStream;
-@property(nonatomic, strong) VIRemoteVideoStream *remoteVideoStream;
+@property(nonatomic, strong) VIVideoStream *videoStream;
 @end
 
 @implementation RNVIVideoView
@@ -28,44 +27,22 @@
 
 - (void)setVideoStreamId:(NSString *)videoStreamId {
     _videoStreamId = videoStreamId;
-    if (_localVideoStream && _videoRenderer && !videoStreamId) {
-        [_localVideoStream removeRenderer:_videoRenderer];
+    if (_videoStream && _videoRenderer && !videoStreamId) {
+        [_videoStream removeRenderer:_videoRenderer];
         _videoStreamId = videoStreamId;
-        _localVideoStream = nil;
+        _videoStream = nil;
         _videoRenderer = nil;
     } else if (videoStreamId) {
-        if (_localVideoStream && ![_localVideoStream.streamId isEqualToString:videoStreamId]) {
-            [_localVideoStream removeRenderer:_videoRenderer];
-            _localVideoStream = nil;
+        if (_videoStream && ![_videoStream.streamId isEqualToString:videoStreamId]) {
+            [_videoStream removeRenderer:_videoRenderer];
+            _videoStream = nil;
             _videoRenderer = nil;
         }
         _videoStreamId = videoStreamId;
-        _localVideoStream = [RNVICallManager getLocalVideoStreamById:_videoStreamId];
-        if (_localVideoStream) {
+        _videoStream = [RNVICallManager getVideoStreamById:_videoStreamId];
+        if (_videoStream) {
             _videoRenderer = [[VIVideoRendererView alloc] initWithContainerView:self];
-            [_localVideoStream addRenderer:_videoRenderer];
-            if (_scaleType) {
-                [_videoRenderer setResizeMode:[RNVIUtils convertStringToVideoResizeMode:_scaleType]];
-            }
-        }
-    }
-    
-    if (_remoteVideoStream && _videoRenderer && !videoStreamId) {
-        [_remoteVideoStream removeRenderer:_videoRenderer];
-        _videoStreamId = videoStreamId;
-        _remoteVideoStream = nil;
-        _videoRenderer = nil;
-    } else if (videoStreamId) {
-        if (_remoteVideoStream && ![_remoteVideoStream.streamId isEqualToString:videoStreamId]) {
-            [_remoteVideoStream removeRenderer:_videoRenderer];
-            _remoteVideoStream = nil;
-            _videoRenderer = nil;
-        }
-        _videoStreamId = videoStreamId;
-        _remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:_videoStreamId];
-        if (_remoteVideoStream) {
-            _videoRenderer = [[VIVideoRendererView alloc] initWithContainerView:self];
-            [_remoteVideoStream addRenderer:_videoRenderer];
+            [_videoStream addRenderer:_videoRenderer];
             if (_scaleType) {
                 [_videoRenderer setResizeMode:[RNVIUtils convertStringToVideoResizeMode:_scaleType]];
             }
@@ -75,23 +52,15 @@
 
 - (void)setScaleType:(NSString *)scaleType {
     _scaleType = scaleType;
-    if (_localVideoStream && _videoRenderer) {
-        [_videoRenderer setResizeMode:[RNVIUtils convertStringToVideoResizeMode:scaleType]];
-    }
-    if (_remoteVideoStream && _videoRenderer) {
+    if (_videoStream && _videoRenderer) {
         [_videoRenderer setResizeMode:[RNVIUtils convertStringToVideoResizeMode:scaleType]];
     }
 }
 
 - (void)removeFromSuperview {
-    if (_localVideoStream && _videoRenderer) {
-        [_localVideoStream removeRenderer:_videoRenderer];
-        _localVideoStream = nil;
-        _videoRenderer = nil;
-    }
-    if (_remoteVideoStream && _videoRenderer) {
-        [_remoteVideoStream removeRenderer:_videoRenderer];
-        _remoteVideoStream = nil;
+    if (_videoStream && _videoRenderer) {
+        [_videoStream removeRenderer:_videoRenderer];
+        _videoStream = nil;
         _videoRenderer = nil;
     }
     [super removeFromSuperview];

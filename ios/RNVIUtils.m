@@ -244,4 +244,27 @@
     }
 }
 
++ (VIVideoCodec)convertVideoCodecFromString:(NSString *)codec {
+    if ([codec isEqualToString:@"VP8"]) {
+        return VIVideoCodecVP8;
+    } else if ([codec isEqualToString:@"H264"]) {
+        return VIVideoCodecH264;
+    } else {
+        return VIVideoCodecAuto;
+    }
+}
+
++ (VICallSettings *)convertDictionaryToCallSettings:(NSDictionary *)settings {
+    VICallSettings *callSettings = [[VICallSettings alloc] init];
+    callSettings.customData = [settings valueForKey:@"customData"];
+    callSettings.extraHeaders = [settings valueForKey:@"extraHeaders"];
+    NSDictionary *flags = [settings objectForKey:@"video"];
+    callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[flags valueForKey:@"receiveVideo"] boolValue]
+                                                             sendVideo:[[flags valueForKey:@"sendVideo"] boolValue]];
+    callSettings.preferredVideoCodec = [self convertVideoCodecFromString:[settings valueForKey:@"preferredVideoCodec"]];
+    callSettings.enableSimulcast = [[settings valueForKey:@"enableSimulcast"] boolValue];
+
+    return callSettings;
+}
+
 @end

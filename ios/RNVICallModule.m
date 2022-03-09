@@ -56,21 +56,9 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
     }
 }
 
-RCT_REMAP_METHOD(answer,
-                 answerCall:(NSString *)callId
-                 withVideoSettings:(NSDictionary *)videoFlags
-                 withHVideoCodec:(VIVideoCodec)videoCodec
-                 customData:(NSString *)customData
-                 headers:(NSDictionary *)headers
-                 enableSimulcast:(BOOL)enableSimulcast) {
+RCT_REMAP_METHOD(answer, answerCall:(NSString *)callId withSettings:(NSDictionary *)settings) {
     VICall *call = [RNVICallManager getCallById:callId];
-    VICallSettings *callSettings = [[VICallSettings alloc] init];
-    callSettings.customData = customData;
-    callSettings.extraHeaders = headers;
-    callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                                             sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-    callSettings.preferredVideoCodec = videoCodec;
-    callSettings.enableSimulcast = enableSimulcast;
+    VICallSettings *callSettings = [RNVIUtils convertDictionaryToCallSettings:settings];
     if (call) {
         [call answerWithSettings:callSettings];
     }
@@ -171,7 +159,7 @@ RCT_EXPORT_METHOD(startReceiving:(NSString *)streamId
     if (remoteVideoStream) {
         [remoteVideoStream startReceivingWithCompletion:^(NSError * _Nullable error) {
             if (error) {
-                reject(nil, error, nil);
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
             } else {
                 resolve([NSNull null]);
             }
@@ -186,7 +174,7 @@ RCT_EXPORT_METHOD(stopReceiving:(NSString *)streamId
     if (remoteVideoStream) {
         [remoteVideoStream stopReceivingWithCompletion:^(NSError * _Nullable error) {
             if (error) {
-                reject(nil, error, nil);
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
             } else {
                 resolve([NSNull null]);
             }
@@ -206,7 +194,7 @@ RCT_EXPORT_METHOD(requestVideoSize:(NSString *)streamId
         [remoteVideoStream requestVideoSizeWithWidth:integerWidth height:integerHeight];
         resolve([NSNull null]);
     } else {
-        reject(nil, @"Can't perform video size for this streamId", nil);
+        reject(kCallErrorInternal, @"Failed to find remote video stream by provided video stream id", nil);
     }
 }
 

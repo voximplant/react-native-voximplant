@@ -66,15 +66,10 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @ReactMethod
-    public void answer(String callId, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, boolean enableSimulcast) {
+    public void answer(String callId, ReadableMap settings) {
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
-            CallSettings callSettings = new CallSettings();
-            callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
-            callSettings.customData = customData;
-            callSettings.extraHeaders = Utils.createHashMap(headers);
-            callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
-            callSettings.enableSimulcast = enableSimulcast;
+            CallSettings callSettings = Utils.convertCallSettingsFromMap(settings);
             try {
                 call.answer(callSettings);
             } catch (CallException e) {
@@ -213,7 +208,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
                 @Override
                 public void onFailure(CallException exception) {
-                    promise.reject(exception);
+                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
                 }
             });
         }
@@ -231,7 +226,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
                 @Override
                 public void onFailure(CallException exception) {
-                    promise.reject(exception);
+                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
                 }
             });
         }
@@ -244,7 +239,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
             remoteVideoStream.requestVideoSize(width, height);
             promise.resolve(null);
         } else {
-            promise.reject(null, "Can't perform video size for this streamId");
+            promise.reject(CallError.INTERNAL_ERROR.toString(), "Failed to find remote video stream by provided video stream id");
         }
     }
 

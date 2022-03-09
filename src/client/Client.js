@@ -459,7 +459,7 @@ export default class Client {
             callSettings.customData = null;
         }
         if (callSettings.extraHeaders === undefined) {
-            callSettings.extraHeaders = null;
+            callSettings.extraHeaders = {};
         }
         if (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null) {
             callSettings.setupCallKit = false;
@@ -521,7 +521,7 @@ export default class Client {
             callSettings.customData = null;
         }
         if (callSettings.extraHeaders === undefined) {
-            callSettings.extraHeaders = null;
+            callSettings.extraHeaders = {};
         }
         if (callSettings.setupCallKit === undefined) {
             callSettings.setupCallKit = false;

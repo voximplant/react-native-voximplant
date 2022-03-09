@@ -7,7 +7,9 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.VideoCodec;
+import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.call.VideoStreamType;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LogLevel;
@@ -597,5 +599,21 @@ class Utils {
 			default:
 				return AudioFileUsage.UNKNOWN;
 		}
+	}
+
+	static CallSettings convertCallSettingsFromMap(ReadableMap settings) {
+		CallSettings callSettings = new CallSettings();
+		ReadableMap map = settings.getMap("video");
+		if (map != null) {
+			callSettings.videoFlags = new VideoFlags(map.getBoolean("receiveVideo"),map.getBoolean("sendVideo"));
+		} else {
+			callSettings.videoFlags = new VideoFlags(true, true);
+		}
+		callSettings.customData = settings.getString("customData");
+		callSettings.extraHeaders = createHashMap(settings.getMap("extraHeaders"));
+		callSettings.preferredVideoCodec = convertStringToVideoCodec(settings.getString("preferredVideoCodec"));
+		callSettings.enableSimulcast = settings.getBoolean("enableSimulcast");
+
+		return callSettings;
 	}
 }
