@@ -1,6 +1,16 @@
 # Changelog
 
-### 1.28.0
+### 1.29.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.31.0 and Voximplant iOS SDK 2.46.3
+- Introduce new API to get a call duration - [Call.getDuration]
+- Introduce simulcast feature support for video conference. Simulcast is currently disabled by default, but can be enabled via [CallSettings.enableSimulcast] parameter.
+- Introduce new APIs to control remote video streams in a video conference call:
+  - [Endpoint.startReceiving](link) - Starts receiving video on the video stream.
+  - [Endpoint.stopReceiving](link) - Stops receiving video on the video stream.
+  - [Endpoint.requestVideoSize](link) - Requests the specified video size for the video stream.
+    The stream resolution may be changed to the closest to the specified width and height.
+- Introduced [Endpoint.VoiceActivityStarted](link) and [Endpoint.VoiceActivityStopped](link) API to handle voice activity of an endpoint in a conference call.
+
 ### 1.28.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.29.1 and Voximplant iOS SDK 2.46.1
 - Introduce new APIs to restore the connection to the Voximplant Cloud if it was closed due to network issues during a call:
@@ -20,7 +30,7 @@
 - Fix for [#136](https://github.com/voximplant/react-native-voximplant/issues/136)
   - Breaking changes for iOS: VIClientModule (native iOS module) is renamed to RNVIClientModule.
     If VIClientModule is used in the application AppDelegate, it is required to change its name in the import statement and API method call
-  
+
 ### 1.27.1
 - Fix: "attempted to remove more listeners than added" error on RN 0.64 or below 
 
