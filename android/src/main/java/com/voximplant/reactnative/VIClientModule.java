@@ -102,7 +102,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
 					 String videoCodec, String packageName, String requestAudioFocusMode) {
-		Voximplant.subVersion = "react-1.28.0";
+		Voximplant.subVersion = "react-1.29.0";
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableDebugLogging = enableDebugLogging;
@@ -208,13 +208,9 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void createAndStartCall(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
+	public void createAndStartCall(String user, ReadableMap settings, Callback callback) {
 		if (mClient != null) {
-			CallSettings callSettings = new CallSettings();
-			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
-			callSettings.customData = customData;
-			callSettings.extraHeaders = Utils.createHashMap(headers);
-			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
+			CallSettings callSettings = Utils.convertCallSettingsFromMap(settings);
 			ICall call = mClient.call(user, callSettings);
 			if (call != null) {
 				try {
@@ -233,13 +229,9 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void createAndStartConference(String user, ReadableMap videoSettings, String videoCodec, String customData, ReadableMap headers, Callback callback) {
+	public void createAndStartConference(String user, ReadableMap settings, Callback callback) {
 		if (mClient != null) {
-			CallSettings callSettings = new CallSettings();
-			callSettings.videoFlags = new VideoFlags(videoSettings.getBoolean("receiveVideo"), videoSettings.getBoolean("sendVideo"));
-			callSettings.customData = customData;
-			callSettings.extraHeaders = Utils.createHashMap(headers);
-			callSettings.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
+			CallSettings callSettings = Utils.convertCallSettingsFromMap(settings);
 			ICall call = mClient.callConference(user, callSettings);
 			if (call != null) {
 				try {

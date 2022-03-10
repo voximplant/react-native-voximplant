@@ -26,12 +26,14 @@ NSString *const kEventCallLocalVideoStreamRemoved = @"VICallLocalVideoStreamRemo
 NSString *const kEventCallMessageReceived = @"VICallMessageReceived";
 NSString *const kEventCallProgressToneStart = @"VICallProgressToneStart";
 NSString *const kEventCallProgressToneStop = @"VICallProgressToneStop";
+NSString *const kEventCallReconnecting = @"VICallReconnecting";
+NSString *const kEventCallReconnected = @"VICallReconnected";
 NSString *const kEventEndpointInfoUpdate = @"VIEndpointInfoUpdated";
 NSString *const kEventEndpointRemoteStreamAdded = @"VIEndpointRemoteVideoStreamAdded";
 NSString *const kEventEndpointRemoteStreamRemoved = @"VIEndpointRemoteVideoStreamRemoved";
 NSString *const kEventEndpointRemoved = @"VIEndpointRemoved";
-NSString *const kEventCallReconnecting = @"VICallReconnecting";
-NSString *const kEventCallReconnected = @"VICallReconnected";
+NSString *const kEventEndpointVoiceActivityStarted = @"VIVoiceActivityStarted";
+NSString *const kEventEndpointVoiceActivityStopped = @"VIVoiceActivityStopped";
 
 NSString *const kEventAudioDeviceChanged = @"VIAudioDeviceChanged";
 NSString *const kEventAudioDeviceListChanged = @"VIAudioDeviceListChanged";
@@ -68,6 +70,8 @@ NSString *const kEventNameEndpointInfoUpdate = @"InfoUpdated";
 NSString *const kEventNameEndpointRemoteStreamAdded = @"RemoteVideoStreamAdded";
 NSString *const kEventNameEndpointRemoteStreanRemoved = @"RemoteVideoStreamRemoved";
 NSString *const kEventNameEndpointRemoved = @"Removed";
+NSString *const kEventNameVoiceActivityStarted = @"VoiceActivityStarted";
+NSString *const kEventNameVoiceActivityStopped = @"VoiceActivityStopped";
 
 NSString *const kEventNameAudioDeviceChanged = @"DeviceChanged";
 NSString *const kEventNameAudioDeviceListChanged = @"DeviceListChanged";

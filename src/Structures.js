@@ -78,6 +78,7 @@ const VideoFlags = {
  * @property {object} [extraHeaders] - Optional custom parameter (SIP headers) that should be passes with call (INVITE) message. Parameter names must start with "X-" to be processed. Headers size limit is 200  bytes
  * @property {Voximplant.VideoFlags} [video] - Tells if video should be supported for the call
  * @property {boolean} [setupCallKit] - Specify if the outgoing call on iOS will be made with CallKit. Applicable only for outgoing calls. IOS ONLY.
+ * @property {boolean} [enableSimulcast] - Specify if simulcast feature should be enabled in the conference call.
  */
 const CallSettings = {
 

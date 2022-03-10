@@ -8,7 +8,7 @@
  * Events that are triggered when Endpoint is updated/edited, removed or started/stopped to receive stream from another Endpoint.
  * @memberOf Voximplant
  * @enum {string}
- * @type {{InfoUpdated: string, RemoteVideoStreamAdded: string, RemoteVideoStreamRemoved: string, Removed: string}}
+ * @type {{InfoUpdated: string, RemoteVideoStreamAdded: string, RemoteVideoStreamRemoved: string, Removed: string, VoiceActivityStarted: string, VoiceActivityStopped: string}}
  */
 const EndpointEvents = {
     /**
@@ -30,7 +30,15 @@ const EndpointEvents = {
      * Event is triggered when an Endpoint is removed.
      * Handler function receives {@link EventHandlers.Removed} object as an argument.
      */
-    Removed                  : 'Removed'
+    Removed                  : 'Removed',
+    /**
+     * Event is triggered when a voice activity of the endpoint is detected in a conference call.
+     */
+    VoiceActivityStarted     : 'VoiceActivityStarted',
+    /**
+     * Event is triggered when a voice activity of the endpoint is stopped in a conference call.
+     */
+    VoiceActivityStopped     : 'VoiceActivityStopped'
 };
 
 export default EndpointEvents;

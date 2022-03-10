@@ -46,14 +46,6 @@ RCT_ENUM_CONVERTER(VIClientState, (@{
                                      }), VIClientStateDisconnected, integerValue)
 @end
 
-@implementation RCTConvert (VIVideoCodec)
-RCT_ENUM_CONVERTER(VIVideoCodec, (@{
-                                     @"VP8"  : @(VIVideoCodecVP8),
-                                     @"H264" : @(VIVideoCodecH264),
-                                     @"AUTO" : @(VIVideoCodecAuto),
-                                     }), VIVideoCodecAuto, integerValue)
-@end
-
 @interface VIClient (Version)
 + (void)setVersionExtension:(NSString *)version;
 @end
@@ -95,7 +87,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId h264RecoveryMode:(BOOL)h264RecoveryMode) {
-    [VIClient setVersionExtension:@"react-1.28.0"];
+    [VIClient setVersionExtension:@"react-1.29.0"];
     [VIClient setLogLevel:logLevel];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
@@ -291,23 +283,14 @@ RCT_EXPORT_METHOD(unregisterIMPushNotificationsTokenIOS:(NSString *)token) {
 }
 
 RCT_REMAP_METHOD(createAndStartCall,
-                  callUser:(NSString *)user
-                  withVideoSettings:(NSDictionary *)videoFlags
-                  withVideoCodec:(VIVideoCodec)videoCodec
-                  customData:(NSString *)customData
-                  headers:(NSDictionary *)headers
-                  setupCallKit:(BOOL)setupCallKit
+                 callUser:(NSString *)user
+                 withSettings:(NSDictionary *)settings
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        VICallSettings *callSettings = [[VICallSettings alloc] init];
-        callSettings.customData = customData;
-        callSettings.extraHeaders = headers;
-        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-        callSettings.preferredVideoCodec = videoCodec;
+        VICallSettings *callSettings = [RNVIUtils convertDictionaryToCallSettings:settings];
         VICall *call = [_client call:user settings:callSettings];
         if (call) {
-            if (setupCallKit) {
+            if ([[settings valueForKey:@"setupCallKit"] boolValue]) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [RNVICallManager addCall:call];
@@ -321,23 +304,15 @@ RCT_REMAP_METHOD(createAndStartCall,
     }
 }
 
-RCT_REMAP_METHOD(createAndStartConference, callConference:(NSString *)user
-                 withVideoSettings:(NSDictionary *)videoFlags
-                 withVideoCodec:(VIVideoCodec)videoCodec
-                 customData:(NSString *)customData
-                 headers:(NSDictionary *)headers
-                 setupCallKit:(BOOL)setupCallKit
+RCT_REMAP_METHOD(createAndStartConference,
+                 callConference:(NSString *)user
+                 withSettings:(NSDictionary *)settings
                  responseCallback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        VICallSettings *callSettings = [[VICallSettings alloc] init];
-        callSettings.customData = customData;
-        callSettings.extraHeaders = headers;
-        callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                                                 sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-        callSettings.preferredVideoCodec = videoCodec;
+        VICallSettings *callSettings = [RNVIUtils convertDictionaryToCallSettings:settings];
         VICall *call = [_client callConference:user settings:callSettings];
         if (call) {
-            if (setupCallKit) {
+            if ([[settings valueForKey:@"setupCallKit"] boolValue]) {
                 [[VIAudioManager sharedAudioManager] callKitConfigureAudioSession:nil];
             }
             [RNVICallManager addCall:call];

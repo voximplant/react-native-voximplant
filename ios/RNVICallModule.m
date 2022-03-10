@@ -42,6 +42,10 @@ RCT_EXPORT_MODULE();
              kEventEndpointRemoteStreamAdded,
              kEventEndpointRemoteStreamRemoved,
              kEventCallReconnecting,
+             kEventCallReconnected,
+             kEventEndpointVoiceActivityStarted,
+             kEventEndpointVoiceActivityStopped,
+             kEventCallReconnecting,
              kEventCallReconnected];
 }
 
@@ -52,19 +56,9 @@ RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
     }
 }
 
-RCT_REMAP_METHOD(answer,
-                 answerCall:(NSString *)callId
-                 withVideoSettings:(NSDictionary *)videoFlags
-                 withHVideoCodec:(VIVideoCodec)videoCodec
-                 customData:(NSString *)customData
-                 headers:(NSDictionary *)headers) {
+RCT_REMAP_METHOD(answer, answerCall:(NSString *)callId withSettings:(NSDictionary *)settings) {
     VICall *call = [RNVICallManager getCallById:callId];
-    VICallSettings *callSettings = [[VICallSettings alloc] init];
-    callSettings.customData = customData;
-    callSettings.extraHeaders = headers;
-    callSettings.videoFlags = [VIVideoFlags videoFlagsWithReceiveVideo:[[videoFlags valueForKey:@"receiveVideo"] boolValue]
-                                                             sendVideo:[[videoFlags valueForKey:@"sendVideo"] boolValue]];
-    callSettings.preferredVideoCodec = videoCodec;
+    VICallSettings *callSettings = [RNVIUtils convertDictionaryToCallSettings:settings];
     if (call) {
         [call answerWithSettings:callSettings];
     }
@@ -158,6 +152,52 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
     }
 }
 
+RCT_EXPORT_METHOD(startReceiving:(NSString *)streamId
+                        resolver:(RCTPromiseResolveBlock)resolve
+                        rejecter:(RCTPromiseRejectBlock)reject) {
+    VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
+    if (remoteVideoStream) {
+        [remoteVideoStream startReceivingWithCompletion:^(NSError * _Nullable error) {
+            if (error) {
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
+    }
+}
+
+RCT_EXPORT_METHOD(stopReceiving:(NSString *)streamId
+                       resolver:(RCTPromiseResolveBlock)resolve
+                       rejecter:(RCTPromiseRejectBlock)reject) {
+    VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
+    if (remoteVideoStream) {
+        [remoteVideoStream stopReceivingWithCompletion:^(NSError * _Nullable error) {
+            if (error) {
+                reject([RNVIUtils convertIntToCallError:error.code], [error.userInfo objectForKey:@"reason"], error);
+            } else {
+                resolve([NSNull null]);
+            }
+        }];
+    }
+}
+
+RCT_EXPORT_METHOD(requestVideoSize:(NSString *)streamId
+                         withWidth:(NSNumber * _Nonnull)width
+                        withHeight:(NSNumber * _Nonnull)height
+                          resolver:(RCTPromiseResolveBlock)resolve
+                          rejecter:(RCTPromiseRejectBlock)reject) {
+    VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
+    if (remoteVideoStream) {
+        NSUInteger integerWidth = [width unsignedIntegerValue];
+        NSUInteger integerHeight = [height unsignedIntegerValue];
+        [remoteVideoStream requestVideoSizeWithWidth:integerWidth height:integerHeight];
+        resolve([NSNull null]);
+    } else {
+        reject(kCallErrorInternal, @"Failed to find remote video stream by provided video stream id", nil);
+    }
+}
+
 RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
@@ -248,7 +288,7 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
 }
 
 - (void)call:(VICall *)call didAddLocalVideoStream:(VILocalVideoStream *)videoStream {
-    [RNVICallManager addVideoStream:videoStream];
+    [RNVICallManager addLocalVideoStream:videoStream];
     [self sendEventWithName:kEventCallLocalVideoStreamAdded body:@{
                                                                    kEventParamName            : kEventNameCallLocalVideoStreamAdded,
                                                                    kEventParamCallId          : call.callId,
@@ -263,7 +303,7 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
                                                                      kEventParamCallId        : call.callId,
                                                                      kEventParamVideoStreamId : videoStream.streamId
                                                                      }];
-    [RNVICallManager removeVideoStreamById:videoStream.streamId];
+    [RNVICallManager removeLocalVideoStreamById:videoStream.streamId];
 }
 
 - (void) call:(VICall *)call didAddEndpoint:(VIEndpoint *)endpoint {
@@ -280,7 +320,7 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
 }
 
 - (void)endpoint:(VIEndpoint *)endpoint didAddRemoteVideoStream:(VIRemoteVideoStream *)videoStream {
-    [RNVICallManager addVideoStream:videoStream];
+    [RNVICallManager addRemoteVideoStream:videoStream];
     NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointRemoteStreamAdded body:@{
                                                                    kEventParamName            : kEventNameEndpointRemoteStreamAdded,
@@ -299,7 +339,7 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
                                                                    kEventParamEndpointId    : endpoint.endpointId,
                                                                    kEventParamVideoStreamId : videoStream.streamId
                                                                    }];
-    [RNVICallManager removeVideoStreamById:videoStream.streamId];
+    [RNVICallManager removeRemoteVideoStreamById:videoStream.streamId];
 }
 
 - (void)endpointDidRemove:(VIEndpoint *)endpoint {
@@ -338,6 +378,23 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
                                                          }];
 }
 
+- (void)didDetectVoiceActivityStart:(VIEndpoint *)endpoint {
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointVoiceActivityStarted body:@{
+                                                                      kEventParamName         : kEventNameVoiceActivityStarted,
+                                                                      kEventParamCallId       : callId ? callId : [NSNull null],
+                                                                      kEventParamEndpointId   : endpoint.endpointId
+                                                                      }];
+}
+
+- (void)didDetectVoiceActivityStop:(VIEndpoint *)endpoint {
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointVoiceActivityStopped body:@{
+                                                                      kEventParamName         : kEventNameVoiceActivityStopped,
+                                                                      kEventParamCallId       : callId ? callId : [NSNull null],
+                                                                      kEventParamEndpointId   : endpoint.endpointId
+                                                                      }];
+}
 
 
 @end

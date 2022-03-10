@@ -20,8 +20,14 @@
 + (VIEndpoint *)getEndpointById:(NSString *)endpointId;
 + (void)removeEndpointById:(NSString *)endpointId;
 
-+ (void)addVideoStream:(VIVideoStream *)videoStream;
++ (void)addLocalVideoStream:(VILocalVideoStream *)videoStream;
++ (VILocalVideoStream *)getLocalVideoStreamById:(NSString *)videoStreamId;
++ (void)removeLocalVideoStreamById:(NSString *)videoStreamId;
+
++ (void)addRemoteVideoStream:(VIRemoteVideoStream *)videoStream;
++ (VIRemoteVideoStream *)getRemoteVideoStreamById:(NSString *)videoStreamId;
++ (void)removeRemoteVideoStreamById:(NSString *)videoStreamId;
+
 + (VIVideoStream *)getVideoStreamById:(NSString *)videoStreamId;
-+ (void)removeVideoStreamById:(NSString *)videoStreamId;
 
 @end

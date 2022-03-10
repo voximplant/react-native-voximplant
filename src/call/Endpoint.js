@@ -12,6 +12,7 @@ import {
 import EndpointEvents from './EndpointEvents';
 import CallManager from './CallManager';
 import VideoStream from './VideoStream';
+import { CallError } from '../Enums';
 
 const CallModule = NativeModules.RNVICallModule;
 
@@ -112,6 +113,40 @@ export default class Endpoint {
     }
 
     /**
+     * Requests the specified video size for the video stream.
+     * The stream resolution may be changed to the closest to the specified width and height.
+     * Valid only for conferences.
+     * @param {string} streamId - Remote video stream id
+     * @param {number} width - Requested width of the video stream
+     * @param {number} height - Requested height of the video stream
+     * @returns {Promise<void|CallError>}
+     * @memberOf Voximplant.Endpoint
+     */
+    requestVideoSize(streamId, width, height) {
+        return CallModule.requestVideoSize(streamId, width, height);
+    }
+
+    /**
+     * Starts receiving video on the video stream.
+     * @param {string} streamId - Remote video stream id
+     * @returns {Promise<void|CallError>}
+     * @memberOf Voximplant.Endpoint
+     */
+    startReceiving(streamId) {
+        return CallModule.startReceiving(streamId);
+    }
+
+    /**
+     * Stops receiving video on the video stream.
+     * @param {string} streamId - Remote video stream id
+     * @returns {Promise<void|CallError>}
+     * @memberOf Voximplant.Endpoint
+     */
+     stopReceiving(streamId) {
+        return CallModule.stopReceiving(streamId);
+    }
+
+    /**
      * @private
      */
     _emit(event, ...args) {
@@ -206,10 +241,32 @@ export default class Endpoint {
     /**
      * @private
      */
+     _VIVoiceActivityStarted = (event) => {
+        if (event.endpointId === this.id) {
+            this._prepareEvent(event);
+            this._emit(EndpointEvents.VoiceActivityStarted, event);
+        }
+    };
+
+    /**
+     * @private
+     */
+     _VIVoiceActivityStopped = (event) => {
+        if (event.endpointId === this.id) {
+            this._prepareEvent(event);
+            this._emit(EndpointEvents.VoiceActivityStopped, event);
+        }
+    };
+
+    /**
+     * @private
+     */
     _events = ['VIEndpointInfoUpdated',
         'VIEndpointRemoved',
         'VIEndpointRemoteVideoStreamAdded',
-        'VIEndpointRemoteVideoStreamRemoved'];
+        'VIEndpointRemoteVideoStreamRemoved',
+        'VIVoiceActivityStarted',
+        'VIVoiceActivityStopped'];
 
     /**
      * @private

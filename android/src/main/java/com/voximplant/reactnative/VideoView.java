@@ -9,6 +9,8 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.ViewGroup;
 
+import com.voximplant.sdk.call.ILocalVideoStream;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.IVideoStream;
 import com.voximplant.sdk.call.RenderScaleType;
 
@@ -54,8 +56,8 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
         if (mVideoStreamId == null || mVideoStreamId.isEmpty()) {
             mVideoStreamId = videoStreamId;
         }
+        IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(videoStreamId);
         if (mVideoStreamId != null && !mVideoStreamId.equals(videoStreamId)) {
-            IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
             if (videoStream != null) {
                 videoStream.removeVideoRenderer(mVideoViewRenderer);
             }
@@ -63,7 +65,6 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
             mVideoStreamId = videoStreamId;
         }
         if (mVideoStreamId != null && !mVideoStreamId.isEmpty()) {
-            IVideoStream videoStream = CallManager.getInstance().getVideoStreamById(mVideoStreamId);
             if (videoStream != null) {
                 addView(mVideoViewRenderer);
                 videoStream.addVideoRenderer(mVideoViewRenderer,
