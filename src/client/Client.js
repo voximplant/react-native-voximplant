@@ -461,10 +461,8 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = {};
         }
-        if (Platform.OS === 'ios') {
-            if (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null) {
-                callSettings.setupCallKit = false;
-            }
+        if (Platform.OS === 'ios' && (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null)) {
+            callSettings.setupCallKit = false;
         }
         if (callSettings.enableSimulcast === undefined) {
             callSettings.enableSimulcast = false;
@@ -513,10 +511,8 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = {};
         }
-        if (Platform.OS === 'ios') {
-            if (callSettings.setupCallKit === undefined) {
-                callSettings.setupCallKit = false;
-            }
+        if (Platform.OS === 'ios' && (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null)) {
+            callSettings.setupCallKit = false;
         }
         if (callSettings.enableSimulcast === undefined) {
             callSettings.enableSimulcast = false;
