@@ -125,13 +125,13 @@ export default class Call {
             callSettings.customData = null;
         }
         if (callSettings.extraHeaders === undefined) {
-            callSettings.extraHeaders = null;
+            callSettings.extraHeaders = {};
         }
         if (callSettings.enableSimulcast === undefined) {
             callSettings.enableSimulcast = false;
         }
 
-        CallModule.answer(this.callId, callSettings.video, callSettings.preferredVideoCodec, callSettings.customData, callSettings.extraHeaders, callSettings.enableSimulcast);
+        CallModule.answer(this.callId, callSettings);
     }
 
     /**

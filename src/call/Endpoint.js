@@ -113,21 +113,22 @@ export default class Endpoint {
     }
 
     /**
-     * Method for requests the specified video size for the video stream.
-     * @param {*} streamId - Remote video stream id
-     * @param {*} width - Requested width of the video stream
-     * @param {*} height - Requested height of the video stream
+     * Requests the specified video size for the video stream.
+     * The stream resolution may be changed to the closest to the specified width and height.
+     * Valid only for conferences.
+     * @param {string} streamId - Remote video stream id
+     * @param {number} width - Requested width of the video stream
+     * @param {number} height - Requested height of the video stream
      * @returns {Promise<void|CallError>}
      * @memberOf Voximplant.Endpoint
-     * @returns 
      */
     requestVideoSize(streamId, width, height) {
         return CallModule.requestVideoSize(streamId, width, height);
     }
 
     /**
-     * Method for enable recieving the remote video stream.
-     * @param {*} streamId - Remote video stream id
+     * Starts receiving video on the video stream.
+     * @param {string} streamId - Remote video stream id
      * @returns {Promise<void|CallError>}
      * @memberOf Voximplant.Endpoint
      */
@@ -136,8 +137,8 @@ export default class Endpoint {
     }
 
     /**
-     * Method for disable recieving the remote video stream.
-     * @param {*} streamId - Remote video stream id
+     * Stops receiving video on the video stream.
+     * @param {string} streamId - Remote video stream id
      * @returns {Promise<void|CallError>}
      * @memberOf Voximplant.Endpoint
      */

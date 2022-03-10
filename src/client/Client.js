@@ -461,33 +461,23 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = {};
         }
-        if (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null) {
-            callSettings.setupCallKit = false;
+        if (Platform.OS === 'ios') {
+            if (callSettings.setupCallKit === undefined || callSettings.setupCallKit === null) {
+                callSettings.setupCallKit = false;
+            }
         }
         if (callSettings.enableSimulcast === undefined) {
             callSettings.enableSimulcast = false;
         }
         return new Promise((resolve, reject) => {
-            if (Platform.OS === 'android') {
-                ClientModule.createAndStartCall(number, callSettings, (callId, errorDescription) => {
-                        if (callId) {
-                            let call = new Call(callId);
-                            resolve(call);
-                        } else {
-                            reject(errorDescription);
-                        }
-                    });
-            }
-            if (Platform.OS === 'ios') {
-                ClientModule.createAndStartCall(number, callSettings, (callId, errorDescription) => {
-                        if (callId) {
-                            let call = new Call(callId);
-                            resolve(call);
-                        } else {
-                            reject(errorDescription);
-                        }
-                    });
-            }
+            ClientModule.createAndStartCall(number, callSettings, (callId, errorDescription) => {
+                if (callId) {
+                    let call = new Call(callId);
+                    resolve(call);
+                } else {
+                    reject(errorDescription);
+                }
+            });
         });
     }
 
@@ -523,33 +513,23 @@ export default class Client {
         if (callSettings.extraHeaders === undefined) {
             callSettings.extraHeaders = {};
         }
-        if (callSettings.setupCallKit === undefined) {
-            callSettings.setupCallKit = false;
+        if (Platform.OS === 'ios') {
+            if (callSettings.setupCallKit === undefined) {
+                callSettings.setupCallKit = false;
+            }
         }
         if (callSettings.enableSimulcast === undefined) {
             callSettings.enableSimulcast = false;
         }
         return new Promise((resolve, reject) => {
-            if (Platform.OS === 'android') {
-                ClientModule.createAndStartConference(number, callSettings, (callId, errorDescription) => {
-                        if (callId) {
-                            let call = new Call(callId);
-                            resolve(call);
-                        } else {
-                            reject(errorDescription);
-                        }
-                    });
-            }
-            if (Platform.OS === 'ios') {
-                ClientModule.createAndStartConference(number, callSettings, (callId, errorDescription) => {
-                        if (callId) {
-                            let call = new Call(callId);
-                            resolve(call);
-                        } else {
-                            reject(errorDescription);
-                        }
-                    });
-            }
+            ClientModule.createAndStartConference(number, callSettings, (callId, errorDescription) => {
+                if (callId) {
+                    let call = new Call(callId);
+                    resolve(call);
+                } else {
+                    reject(errorDescription);
+                }
+            });
         });
     }
 
