@@ -243,6 +243,17 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         }
     }
 
+    public void getCallDuration(String callId, final Promise promise) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            long duration = call.getCallDuration();
+            DecimalFormat df = new DecimalFormat("0");
+            promise.resolve(df.format(duration / 1000));
+        } else {
+            promise.reject(CallError.INTERNAL_ERROR.toString(), "Call.getDuration(): call is no more unavailable, already ended or failed");
+        }
+    }
+
     @Override
     public void onCallConnected(ICall call, Map<String, String> headers) {
         WritableMap params = Arguments.createMap();
