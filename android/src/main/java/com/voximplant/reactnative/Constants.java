@@ -43,6 +43,13 @@ class Constants {
     static final String EVENT_ENDPOINT_VOICE_ACTIVITY_STARTED = "VIVoiceActivityStarted";
     static final String EVENT_ENDPOINT_VOICE_ACTIVITY_STOPPED = "VIVoiceActivityStopped";
 
+    static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS = "VIStopReceivingVideoStreamSuccess";
+    static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE = "VIStopReceivingVideoStreamFailure";
+    static final String EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS = "VIStartReceivingVideoStreamSuccess";
+    static final String EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_FAILURE = "VIStartReceivingVideoStreamFailure";
+    static final String EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_SUCCESS = "VIRequestVideoSizeForVideoStreamSuccess";
+    static final String EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_FAILURE = "VIRequestVideoSizeForVideoStreamFailure";
+
     static final String EVENT_AUDIO_DEVICE_CHANGED = "VIAudioDeviceChanged";
     static final String EVENT_AUDIO_DEVICE_LIST_CHANGED = "VIAudioDeviceListChanged";
 

@@ -71,6 +71,13 @@ FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventNameVoiceActivityStarted;
 FOUNDATION_EXPORT NSString *const kEventNameVoiceActivityStopped;
 
+FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStreamSuccess;
+FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStreamFailure;
+FOUNDATION_EXPORT NSString *const kEventEndpointStartReceivingVideoStreamSuccess;
+FOUNDATION_EXPORT NSString *const kEventEndpointStartReceivingVideoStreamFailure;
+FOUNDATION_EXPORT NSString *const kEventEndpointRequestVideoSizeForVideoStreamSuccess;
+FOUNDATION_EXPORT NSString *const kEventEndpointRequestVideoSizeForVideoStreamFailure;
+
 FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceChanged;
 FOUNDATION_EXPORT NSString *const kEventNameAudioDeviceListChanged;
 
