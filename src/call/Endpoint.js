@@ -123,7 +123,21 @@ export default class Endpoint {
      * @memberOf Voximplant.Endpoint
      */
     requestVideoSize(streamId, width, height) {
-        return CallModule.requestVideoSize(streamId, width, height);
+        return new Promise((resolve, reject) => {
+            const success = () => {
+                requestVideoSizeRemoteStreamFailure.remove();
+                requestVideoSizeRemoteStreamSuccess.remove();
+                resolve();
+            };
+            const failure = (event) => {
+                requestVideoSizeRemoteStreamSuccess.remove();
+                requestVideoSizeRemoteStreamFailure.remove();
+                reject(event);
+            };
+            const requestVideoSizeRemoteStreamSuccess = EventEmitter.addListener('VIRequestVideoSizeRemoteStreamSuccess', success)
+            const requestVideoSizeRemoteStreamFailure = EventEmitter.addListener('VIRequestVideoSizeRemoteStreamFailure', failure)
+            CallModule.requestVideoSize(streamId, width, height);
+        });
     }
 
     /**
