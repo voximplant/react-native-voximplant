@@ -119,7 +119,7 @@ export default class Endpoint {
      * @param {string} streamId - Remote video stream id
      * @param {number} width - Requested width of the video stream
      * @param {number} height - Requested height of the video stream
-     * @returns {Promise<void|CallError>}
+     * @returns {Promise<void|CallOperationFailed>}
      * @memberOf Voximplant.Endpoint
      */
     requestVideoSize(streamId, width, height) {
@@ -143,7 +143,7 @@ export default class Endpoint {
     /**
      * Starts receiving video on the video stream.
      * @param {string} streamId - Remote video stream id
-     * @returns {Promise<void|CallError>}
+     * @returns {Promise<void|CallOperationFailed>}
      * @memberOf Voximplant.Endpoint
      */
     startReceiving(streamId) {
@@ -167,7 +167,7 @@ export default class Endpoint {
     /**
      * Stops receiving video on the video stream.
      * @param {string} streamId - Remote video stream id
-     * @returns {Promise<void|CallError>}
+     * @returns {Promise<void|CallOperationFailed>}
      * @memberOf Voximplant.Endpoint
      */
     stopReceiving(streamId) {

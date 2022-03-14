@@ -197,49 +197,67 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @ReactMethod
-    public void startReceiving(String streamId, final Promise promise) {
+    public void startReceiving(String streamId) {
         IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
         if (remoteVideoStream != null) {
             remoteVideoStream.startReceiving(new ICallCompletionHandler() {
                 @Override
                 public void onComplete() {
-                    promise.resolve(null);
+                    WritableMap params = Arguments.createMap();
+                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS);
+                    sendEvent(EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS, params);
                 }
 
                 @Override
                 public void onFailure(CallException exception) {
-                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
+                    WritableMap params = Arguments.createMap();
+                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_FAILURE);
+                    params.putString(EVENT_PARAM_CODE, exception.getErrorCode().toString());
+                    params.putString(EVENT_PARAM_REASON, exception.getMessage());
+                    sendEvent(EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_FAILURE, params);
                 }
             });
         }
     }
 
     @ReactMethod
-    public void stopReceiving(String streamId, final Promise promise) {
+    public void stopReceiving(String streamId) {
         IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
         if (remoteVideoStream != null) {
             remoteVideoStream.stopReceiving(new ICallCompletionHandler() {
                 @Override
                 public void onComplete() {
-                    promise.resolve(null);
+                    WritableMap params = Arguments.createMap();
+                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS);
+                    sendEvent(EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS, params);
                 }
 
                 @Override
                 public void onFailure(CallException exception) {
-                    promise.reject(exception.getErrorCode().toString(), exception.getMessage());
+                    WritableMap params = Arguments.createMap();
+                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE);
+                    params.putString(EVENT_PARAM_CODE, exception.getErrorCode().toString());
+                    params.putString(EVENT_PARAM_REASON, exception.getMessage());
+                    sendEvent(EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE, params);
                 }
             });
         }
     }
 
     @ReactMethod
-    public void requestVideoSize(String streamId, int width, int height, final Promise promise) {
+    public void requestVideoSize(String streamId, int width, int height) {
         IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
         if (remoteVideoStream != null) {
             remoteVideoStream.requestVideoSize(width, height);
-            promise.resolve(null);
+            WritableMap params = Arguments.createMap();
+            params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_SUCCESS);
+            sendEvent(EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_SUCCESS, params);
         } else {
-            promise.reject(CallError.INTERNAL_ERROR.toString(), "Failed to find remote video stream by provided video stream id");
+            WritableMap params = Arguments.createMap();
+            params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_FAILURE);
+            params.putString(EVENT_PARAM_CODE, CallError.INTERNAL_ERROR.toString());
+            params.putString(EVENT_PARAM_REASON, "Failed to find remote video stream by provided video stream id");
+            sendEvent(EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_FAILURE, params);
         }
     }
 
