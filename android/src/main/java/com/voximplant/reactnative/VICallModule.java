@@ -243,6 +243,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         }
     }
 
+    @ReactMethod
     public void getCallDuration(String callId, final Promise promise) {
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
