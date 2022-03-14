@@ -249,7 +249,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         if (call != null) {
             long duration = call.getCallDuration();
             DecimalFormat df = new DecimalFormat("0");
-            promise.resolve(df.format(duration / 1000));
+            promise.resolve(Integer.parseInt(df.format(duration / 1000)));
         } else {
             promise.reject(CallError.INTERNAL_ERROR.toString(), "Call.getDuration(): call is no more unavailable, already ended or failed");
         }
