@@ -2,14 +2,15 @@
 
 ### 1.29.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.31.0 and Voximplant iOS SDK 2.46.3
-- Introduce new API to get a call duration - [Call.getDuration]
-- Introduce simulcast feature support for video conference. Simulcast is currently disabled by default, but can be enabled via [CallSettings.enableSimulcast] parameter.
+- Introduce new API to get a call duration - [Call.getDuration](https://voximplant.com/docs/references/reactnative/voximplant/call#getduration)
+- Introduce simulcast feature support for video conference. Simulcast is currently disabled by default, but can be enabled via [CallSettings.enableSimulcast](https://voximplant.com/docs/references/reactnative/voximplant/callsettings#enablesimulcast) parameter.
 - Introduce new APIs to control remote video streams in a video conference call:
-  - [Endpoint.startReceiving](link) - Starts receiving video on the video stream.
-  - [Endpoint.stopReceiving](link) - Stops receiving video on the video stream.
-  - [Endpoint.requestVideoSize](link) - Requests the specified video size for the video stream.
-    The stream resolution may be changed to the closest to the specified width and height.
-- Introduced [Endpoint.VoiceActivityStarted](link) and [Endpoint.VoiceActivityStopped](link) API to handle voice activity of an endpoint in a conference call.
+  - [Endpoint.startReceiving](https://voximplant.com/docs/references/reactnative/voximplant/endpoint#startreceiving) - Starts receiving video on the video stream.
+  - [Endpoint.stopReceiving](https://voximplant.com/docs/references/reactnative/voximplant/endpoint#stopreceiving) - Stops receiving video on the video stream.
+  - [Endpoint.requestVideoSize](https://voximplant.com/docs/references/reactnative/voximplant/endpoint#requestvideosize) - Requests the specified video size for the video stream.
+    The stream resolution may be changed to the closest to the specified width and height.
+- Introduced [Endpoint.VoiceActivityStarted](https://voximplant.com/docs/references/reactnative/voximplant/endpointeventtypes#voiceactivitystarted) and [Endpoint.VoiceActivityStopped](https://voximplant.com/docs/references/reactnative/voximplant/endpointeventtypes#voiceactivitystopped) API to handle voice activity of an endpoint in a conference call.
+
 
 ### 1.28.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.29.1 and Voximplant iOS SDK 2.46.1
