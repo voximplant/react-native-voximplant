@@ -12,7 +12,6 @@ import {
 import EndpointEvents from './EndpointEvents';
 import CallManager from './CallManager';
 import VideoStream from './VideoStream';
-import { CallError } from '../Enums';
 
 const CallModule = NativeModules.RNVICallModule;
 
