@@ -133,7 +133,21 @@ export default class Endpoint {
      * @memberOf Voximplant.Endpoint
      */
     startReceiving(streamId) {
-        return CallModule.startReceiving(streamId);
+        return new Promise((resolve, reject) => {
+            const success = () => {
+                startReceivingVideoStreamFailure.remove();
+                startReceivingVideoStreamSuccess.remove();
+                resolve();
+            };
+            const failure = (event) => {
+                startReceivingVideoStreamSuccess.remove();
+                startReceivingVideoStreamFailure.remove();
+                reject(event);
+            };
+            const startReceivingVideoStreamSuccess = EventEmitter.addListener('VIStartReceivingVideoStreamSuccess', success)
+            const startReceivingVideoStreamFailure = EventEmitter.addListener('VIStartReceivingVideoStreamFailure', failure)
+            CallModule.startReceiving(streamId);
+        });
     }
 
     /**
@@ -142,8 +156,22 @@ export default class Endpoint {
      * @returns {Promise<void|CallError>}
      * @memberOf Voximplant.Endpoint
      */
-     stopReceiving(streamId) {
-        return CallModule.stopReceiving(streamId);
+    stopReceiving(streamId) {
+        return new Promise((resolve, reject) => {
+            const success = () => {
+                startReceivingVideoStreamFailure.remove();
+                stopReceivingVideoStreamSuccess.remove();
+                resolve();
+            };
+            const failure = (event) => {
+                stopReceivingVideoStreamSuccess.remove();
+                startReceivingVideoStreamFailure.remove();
+                reject(event);
+            };
+            const stopReceivingVideoStreamSuccess = EventEmitter.addListener('VIStopReceivingVideoStreamSuccess', success)
+            const startReceivingVideoStreamFailure = EventEmitter.addListener('VIStartReceivingVideoStreamFailure', failure)
+            CallModule.stopReceiving(streamId);
+        });
     }
 
     /**
@@ -241,7 +269,7 @@ export default class Endpoint {
     /**
      * @private
      */
-     _VIVoiceActivityStarted = (event) => {
+    _VIVoiceActivityStarted = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
             this._emit(EndpointEvents.VoiceActivityStarted, event);
@@ -251,7 +279,7 @@ export default class Endpoint {
     /**
      * @private
      */
-     _VIVoiceActivityStopped = (event) => {
+    _VIVoiceActivityStopped = (event) => {
         if (event.endpointId === this.id) {
             this._prepareEvent(event);
             this._emit(EndpointEvents.VoiceActivityStopped, event);
