@@ -47,12 +47,12 @@ RCT_EXPORT_MODULE();
              kEventEndpointVoiceActivityStopped,
              kEventCallReconnecting,
              kEventCallReconnected,
-             kEventEndpointStopReceivingVideoStreamFailure,
              kEventEndpointStopReceivingVideoStreamSuccess,
-             kEventEndpointStartReceivingVideoStreamFailure,
+             kEventEndpointStopReceivingVideoStreamFailure,
              kEventEndpointStartReceivingVideoStreamSuccess,
-             kEventEndpointRequestVideoSizeRemoteStreamSuccess,
-             kEventEndpointRequestVideoSizeRemoteStreamFailure];
+             kEventEndpointStartReceivingVideoStreamFailure,
+             kEventEndpointRequestVideoSizeForVideoStreamSuccess,
+             kEventEndpointRequestVideoSizeForVideoStreamFailure];
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
@@ -202,15 +202,15 @@ RCT_EXPORT_METHOD(requestVideoSize:(NSString *)streamId width:(NSNumber * _Nonnu
         NSUInteger integerWidth = [width unsignedIntegerValue];
         NSUInteger integerHeight = [height unsignedIntegerValue];
         [remoteVideoStream requestVideoSizeWithWidth:integerWidth height:integerHeight];
-        [self sendEventWithName:kEventEndpointRequestVideoSizeRemoteStreamSuccess body:@{
-                                                                    kEventParamName   : kEventEndpointRequestVideoSizeRemoteStreamSuccess,
-                                                                    }];
+        [self sendEventWithName:kEventEndpointRequestVideoSizeForVideoStreamSuccess body:@{
+                                                                      kEventParamName   : kEventEndpointRequestVideoSizeForVideoStreamSuccess,
+                                                                      }];
     } else {
-        [self sendEventWithName:kEventEndpointRequestVideoSizeRemoteStreamFailure body:@{
-                                                                    kEventParamName   : kEventEndpointRequestVideoSizeRemoteStreamFailure,
-                                                                    kEventParamCode   : kCallErrorInternal,
-                                                                    kEventParamReason : @"Failed to find remote video stream by provided video stream id"
-                                                                    }];
+        [self sendEventWithName:kEventEndpointRequestVideoSizeForVideoStreamFailure body:@{
+                                                                      kEventParamName   : kEventEndpointRequestVideoSizeForVideoStreamFailure,
+                                                                      kEventParamCode   : kCallErrorInternal,
+                                                                      kEventParamReason : @"Failed to find remote video stream by provided video stream id"
+                                                                      }];
     }
 }
 

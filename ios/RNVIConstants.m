@@ -39,8 +39,8 @@ NSString *const kEventEndpointStopReceivingVideoStreamSuccess = @"VIStopReceivin
 NSString *const kEventEndpointStopReceivingVideoStreamFailure = @"VIStopReceivingVideoStreamFailure";
 NSString *const kEventEndpointStartReceivingVideoStreamSuccess = @"VIStartReceivingVideoStreamSuccess";
 NSString *const kEventEndpointStartReceivingVideoStreamFailure = @"VIStartReceivingVideoStreamFailure";
-NSString *const kEventEndpointRequestVideoSizeRemoteStreamSuccess = @"VIRequestVideoSizeRemoteStreamSuccess";
-NSString *const kEventEndpointRequestVideoSizeRemoteStreamFailure = @"VIRequestVideoSizeRemoteStreamFailure";
+NSString *const kEventEndpointRequestVideoSizeForVideoStreamSuccess = @"VIRequestVideoSizeForVideoStreamSuccess";
+NSString *const kEventEndpointRequestVideoSizeForVideoStreamFailure = @"VIRequestVideoSizeForVideoStreamFailure";
 
 NSString *const kEventAudioDeviceChanged = @"VIAudioDeviceChanged";
 NSString *const kEventAudioDeviceListChanged = @"VIAudioDeviceListChanged";

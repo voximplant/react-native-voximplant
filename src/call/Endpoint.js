@@ -125,17 +125,17 @@ export default class Endpoint {
     requestVideoSize(streamId, width, height) {
         return new Promise((resolve, reject) => {
             const success = () => {
-                requestVideoSizeRemoteStreamFailure.remove();
-                requestVideoSizeRemoteStreamSuccess.remove();
+                requestVideoSizeForVideoStreamFailure.remove();
+                requestVideoSizeForVideoStreamSuccess.remove();
                 resolve();
             };
             const failure = (event) => {
-                requestVideoSizeRemoteStreamSuccess.remove();
-                requestVideoSizeRemoteStreamFailure.remove();
+                requestVideoSizeForVideoStreamSuccess.remove();
+                requestVideoSizeForVideoStreamFailure.remove();
                 reject(event);
             };
-            const requestVideoSizeRemoteStreamSuccess = EventEmitter.addListener('VIRequestVideoSizeRemoteStreamSuccess', success)
-            const requestVideoSizeRemoteStreamFailure = EventEmitter.addListener('VIRequestVideoSizeRemoteStreamFailure', failure)
+            const requestVideoSizeForVideoStreamSuccess = EventEmitter.addListener('VIRequestVideoSizeForVideoStreamSuccess', success)
+            const requestVideoSizeForVideoStreamFailure = EventEmitter.addListener('VIRequestVideoSizeForVideoStreamFailure', failure)
             CallModule.requestVideoSize(streamId, width, height);
         });
     }
