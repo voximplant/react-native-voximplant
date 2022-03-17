@@ -1,6 +1,6 @@
 {
   "name": "react-native-voximplant",
-  "version": "1.29.0",
+  "version": "1.29.1",
   "description": "VoxImplant Mobile SDK for embedding voice and video communication into React Native apps.",
   "nativePackage": true,
   "keywords": [
@@ -18,17 +18,10 @@
   "engines": {
     "node": ">=4"
   },
-  "scripts": {
-    "doc-as-json": "jsdoc -X ./index.js"
-  },
   "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
   "license": "MIT",
   "homepage": "https://voximplant.com",
   "peerDependencies": {
     "react-native": ">= 0.47.0"
-  },
-  "devDependencies": {
-    "jsdoc": "^3.5.5",
-    "jsdoc-cli": "^1.0.1"
   }
 }
