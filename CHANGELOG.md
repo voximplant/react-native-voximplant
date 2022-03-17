@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.29.1
+- Remove unused devDependencies
+
 ### 1.29.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.31.0 and Voximplant iOS SDK 2.46.3
 - Introduce new API to get a call duration - [Call.getDuration](https://voximplant.com/docs/references/reactnative/voximplant/call#getduration)

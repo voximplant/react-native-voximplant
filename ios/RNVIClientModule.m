@@ -87,7 +87,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId h264RecoveryMode:(BOOL)h264RecoveryMode) {
-    [VIClient setVersionExtension:@"react-1.29.0"];
+    [VIClient setVersionExtension:@"react-1.29.1"];
     [VIClient setLogLevel:logLevel];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
