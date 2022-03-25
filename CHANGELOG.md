@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.29.2
+### 1.30.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.1 and Voximplant iOS SDK 2.46.4
 
 
