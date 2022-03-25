@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
     s.homepage     = 'https://github.com/voximplant/react-native-voximplant'
     s.source       = {:path => './ios/'}
     s.summary      = 'RN voximplant'
-    s.version      = '1.29.1'
-    s.dependency   'VoxImplantSDK', '2.46.3'
+    s.version      = '1.29.2'
+    s.dependency   'VoxImplantSDK', '2.46.4'
     s.dependency   'React'
 end
