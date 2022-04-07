@@ -86,8 +86,11 @@ RCT_EXPORT_MODULE();
     _hasListerners = NO;
 }
 
-RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId h264RecoveryMode:(BOOL)h264RecoveryMode) {
-    [VIClient setVersionExtension:@"react-1.30.0"];
+RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel
+                              bundleId:(NSString *)bundleId
+                      h264RecoveryMode:(BOOL)h264RecoveryMode
+                     forceRelayTraffic:(BOOL)forceRelayTraffic) {
+    [VIClient setVersionExtension:@"react-1.31.0"];
     [VIClient setLogLevel:logLevel];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
@@ -99,6 +102,7 @@ RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *
     } else {
         _client = [RNVICallManager getClient];
     }
+    _client.enableForceRelayTraffic = forceRelayTraffic;
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
 

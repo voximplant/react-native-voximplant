@@ -101,8 +101,8 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	//region React methods
 	@ReactMethod
 	public void init(boolean enableVideo, boolean enableDebugLogging, boolean enableCameraMirroring, boolean enableLogcatLogging,
-					 String videoCodec, String packageName, String requestAudioFocusMode) {
-		Voximplant.subVersion = "react-1.30.0";
+					 String videoCodec, String packageName, String requestAudioFocusMode, boolean forceRelayTraffic) {
+		Voximplant.subVersion = "react-1.31.0";
 		ClientConfig config = new ClientConfig();
 		config.enableVideo = enableVideo;
 		config.enableDebugLogging = enableDebugLogging;
@@ -111,6 +111,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		config.preferredVideoCodec = Utils.convertStringToVideoCodec(videoCodec);
 		config.packageName = packageName;
 		config.requestAudioFocusMode = Utils.convertStringToRequestAudioFocusMode(requestAudioFocusMode);
+		config.forceRelayTraffic = forceRelayTraffic;
 		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
 		mClient.setClientIncomingCallListener(this);
 		mClient.setClientLoginListener(this);
