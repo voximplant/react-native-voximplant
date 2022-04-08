@@ -2,7 +2,7 @@
 
 ### 1.31.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.3 and Voximplant iOS SDK 2.46.7
-- Introduce ClientConfig.forceRelayTraffic option to specify force traffic to go through TURN servers
+- Introduce [ClientConfig.forceRelayTraffic](https://voximplant.com/docs/references/reactnative/voximplant/clientconfig#forcerelaytraffic) option to specify force traffic to go through TURN servers
 
 ### 1.30.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.1 and Voximplant iOS SDK 2.46.4
