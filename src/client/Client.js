@@ -50,14 +50,8 @@ export default class Client {
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.requestAudioFocusMode === undefined) clientConfig.requestAudioFocusMode = RequestAudioFocusMode.REQUEST_ON_CALL_START;
             if (clientConfig.forceRelayTraffic === undefined) clientConfig.forceRelayTraffic = false
-            if (clientConfig.logLevel !== undefined) {
-                console.log('logLevel is iOS only option');
-                delete clientConfig.logLevel;
-            }
-            if (clientConfig.h264RecoveryMode !== undefined) {
-                console.log('h264RecoveryMode is iOS only option');
-                delete clientConfig.h264RecoveryMode;
-            }
+            if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
+            if (clientConfig.h264RecoveryMode !== undefined) console.log('h264RecoveryMode is iOS only option');
             ClientModule.init(clientConfig);
         }
         if (Platform.OS === 'ios') {
@@ -71,12 +65,7 @@ export default class Client {
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
             if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
             if (clientConfig.requestAudioFocusMode !== undefined) console.log('requestAudioFocusMode is Android only option');
-            ClientModule.initWithOptions({
-                logLevel: clientConfig.logLevel,
-                bundleId: clientConfig.bundleId,
-                h264RecoveryMode: clientConfig.h264RecoveryMode,
-                forceRelayTraffic: clientConfig.forceRelayTraffic,
-            });
+            ClientModule.initWithOptions(clientConfig);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
         EventEmitter.addListener('VIConnectionClosed', this._onConnectionClosed);
