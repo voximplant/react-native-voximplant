@@ -25,15 +25,6 @@ NSString *const CLIENT_STATE_LOGGING_IN = @"logging_in";
 NSString *const CLIENT_STATE_LOGGED_IN = @"logged_in";
 NSString *const CLIENT_STATE_RECONNECTING = @"reconnecting";
 
-@implementation RCTConvert (VILogLevel)
-RCT_ENUM_CONVERTER(VILogLevel, (@{
-                                  @"error"   : @(VILogLevelError),
-                                  @"warning" : @(VILogLevelWarning),
-                                  @"info"    : @(VILogLevelInfo),
-                                  @"debug"   : @(VILogLevelDebug),
-                                  @"verbose" : @(VILogLevelVerbose)
-                                  }), VILogLevelInfo, integerValue)
-@end
 
 @implementation RCTConvert (VIClientState)
 RCT_ENUM_CONVERTER(VIClientState, (@{
@@ -86,19 +77,24 @@ RCT_EXPORT_MODULE();
     _hasListerners = NO;
 }
 
-RCT_REMAP_METHOD(initWithOptions, init:(VILogLevel)logLevel bundleId:(NSString *)bundleId h264RecoveryMode:(BOOL)h264RecoveryMode) {
-    [VIClient setVersionExtension:@"react-1.30.0"];
+RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
+    VILogLevel logLevel = [RNVIUtils convertLogLevelFromString:[options objectForKey:@"logLevel"]];
     [VIClient setLogLevel:logLevel];
+    [VIClient setVersionExtension:@"react-1.31.0"];
+    BOOL h264RecoveryMode = [options objectForKey:@"h264RecoveryMode"];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
         kRTCFieldTrialVoximplantH264RecoveryModeKey: kRTCFieldTrialEnabledValue
       });
     }
+    NSString *bundleId = [options objectForKey:@"bundleId"];
     if (bundleId) {
         _client = [RNVICallManager getClientWithBundleId:bundleId];
     } else {
         _client = [RNVICallManager getClient];
     }
+    BOOL forceRelayTraffic = [options objectForKey:@"forceRelayTraffic"];
+    _client.enableForceRelayTraffic = forceRelayTraffic;
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
 

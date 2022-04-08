@@ -49,27 +49,23 @@ export default class Client {
             if (clientConfig.preferredVideoCodec === undefined) clientConfig.preferredVideoCodec = VideoCodec.VP8;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.requestAudioFocusMode === undefined) clientConfig.requestAudioFocusMode = RequestAudioFocusMode.REQUEST_ON_CALL_START;
+            if (clientConfig.forceRelayTraffic === undefined) clientConfig.forceRelayTraffic = false
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
             if (clientConfig.h264RecoveryMode !== undefined) console.log('h264RecoveryMode is iOS only option');
-            ClientModule.init(clientConfig.enableVideo,
-                clientConfig.enableDebugLogging,
-                clientConfig.enableCameraMirroring,
-                clientConfig.enableLogcatLogging,
-                clientConfig.preferredVideoCodec,
-                clientConfig.bundleId,
-                clientConfig.requestAudioFocusMode);
+            ClientModule.init(clientConfig);
         }
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
             if (clientConfig.h264RecoveryMode === undefined) clientConfig.h264RecoveryMode = false;
+            if (clientConfig.forceRelayTraffic === undefined) clientConfig.forceRelayTraffic = false
             if (clientConfig.enableVideo !== undefined) console.log('enableVideo is Android only option');
             if (clientConfig.enableDebugLogging !== undefined) console.log('enableDebugLogging is Android only option');
             if (clientConfig.enableCameraMirroring !== undefined) console.log('enableCameraMirroring is Android only option');
             if (clientConfig.enableLogcatLogging !== undefined) console.log('enableLogcatLogging is Android only option');
             if (clientConfig.preferredVideoCodec !== undefined) console.log('preferredVideoCodec is Android only option');
             if (clientConfig.requestAudioFocusMode !== undefined) console.log('requestAudioFocusMode is Android only option');
-            ClientModule.initWithOptions(clientConfig.logLevel, clientConfig.bundleId, clientConfig.h264RecoveryMode);
+            ClientModule.initWithOptions(clientConfig);
         }
         EventEmitter.addListener('VIConnectionEstablished', this._onConnectionEstablished);
         EventEmitter.addListener('VIConnectionClosed', this._onConnectionClosed);

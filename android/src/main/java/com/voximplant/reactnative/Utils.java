@@ -11,6 +11,7 @@ import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.call.VideoStreamType;
+import com.voximplant.sdk.client.ClientConfig;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
@@ -615,5 +616,18 @@ class Utils {
 		callSettings.enableSimulcast = settings.getBoolean("enableSimulcast");
 
 		return callSettings;
+	}
+
+	static ClientConfig convertClientConfigFromMap(ReadableMap settings) {
+		ClientConfig clientConfig = new ClientConfig();
+		clientConfig.enableVideo = settings.getBoolean("enableVideo");
+		clientConfig.enableDebugLogging = settings.getBoolean("enableDebugLogging");
+		clientConfig.enableCameraMirroring = settings.getBoolean("enableCameraMirroring");
+		clientConfig.enableLogcatLogging = settings.getBoolean("enableLogcatLogging");
+		clientConfig.preferredVideoCodec = convertStringToVideoCodec(settings.getString("preferredVideoCodec"));
+		clientConfig.packageName = settings.getString("packageName");
+		clientConfig.requestAudioFocusMode = convertStringToRequestAudioFocusMode(settings.getString("requestAudioFocusMode"));
+		clientConfig.forceRelayTraffic = settings.getBoolean("forceRelayTraffic");
+		return clientConfig;
 	}
 }

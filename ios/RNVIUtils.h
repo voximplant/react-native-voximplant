@@ -21,5 +21,6 @@
 + (NSString *)convertAudioFileErrorToString:(VIAudioFileErrorCode)audioFileError;
 + (VIVideoCodec)convertVideoCodecFromString:(NSString *)codec;
 + (VICallSettings *)convertDictionaryToCallSettings:(NSDictionary *)settings;
++ (VILogLevel)convertLogLevelFromString:(NSString *)logLevel;
 
 @end

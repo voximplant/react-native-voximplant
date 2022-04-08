@@ -267,4 +267,20 @@
     return callSettings;
 }
 
++ (VILogLevel)convertLogLevelFromString:(NSString *)logLevel {
+    if ([logLevel isEqualToString:@"error"]) {
+        return VILogLevelError;
+    } else if ([logLevel isEqualToString:@"warning"]) {
+        return VILogLevelWarning;
+    } else if ([logLevel isEqualToString:@"info"]) {
+        return VILogLevelInfo;
+    } else if ([logLevel isEqualToString:@"debug"]) {
+        return VILogLevelDebug;
+    } else if ([logLevel isEqualToString:@"verbose"]) {
+        return VILogLevelVerbose;
+    } else {
+        return VILogLevelInfo;;
+    }
+}
+
 @end
