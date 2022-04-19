@@ -1,0 +1,9 @@
+{
+    "recursive": true,
+    "timeout": 120000,
+    "reporter": "spec",
+    "slow": 1000,
+    "exit": true,
+    "file": "e2e/init.js",
+    "require": ["node_modules/jet/platform/node", "./helpers"]
+}

@@ -390,7 +390,9 @@ describe('user', () => {
     it('subscribe to user2 and user3', async () => {
         messenger.should.be.not.null();
 
-        let usersToSubscribe = [11694, 59468];
+        let user2IMId = (await messenger.getUserByName(TEST_USER_2)).user.imId;
+        let user3IMId = (await messenger.getUserByName(TEST_USER_3)).user.imId;
+        let usersToSubscribe = [user3IMId, user2IMId];
 
         let subscriptionEvent = await messenger.subscribe(usersToSubscribe);
         console.log(JSON.stringify(subscriptionEvent));

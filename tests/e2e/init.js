@@ -1,8 +1,11 @@
 const detox = require('detox');
-const config = require('../package.json').detox;
+const config = require('../.detoxrc.json');
+const jet = require('jet/platform/node');
 
 before(async () => {
   await detox.init(config);
+  await device.launchApp();
+  await jet.init();
 });
 
 beforeEach(async function beforeEach() {
