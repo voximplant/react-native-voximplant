@@ -4,9 +4,10 @@
 1. Create 3 Voximplant users
 2. Replace required credentials with Voximplant users credentials in `tests/helpers/Credentials.js` 
 3. In terminal in `react-native-voximplant` directory run command `git apply tests/patches/gradle_version.patch`.
-4. In terminal go to `tests` directory and run `yarn install`
+4. In terminal go to `tests` directory and run `yarn install`.
+5. In terminal run `patch -p1 < patches/detox+19.5.1.patch`.
 6. In terminal run `yarn run packager-jet`
-6. To run the tests on iOS, ensure [xcpretty](https://github.com/supermarin/xcpretty) is installed
+7. To run the tests on iOS, ensure [xcpretty](https://github.com/supermarin/xcpretty) is installed
 
 ## Run on android
 1. Create android emulator with name `Pixel_3a_API_30_x86` and launch it

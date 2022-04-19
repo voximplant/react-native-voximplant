@@ -14,8 +14,7 @@
     "test-ios": "detox test --configuration ios.sim.debug --loglevel verbose",
     "test-ios-reuse": "detox test --configuration ios.sim.debug --reuse --loglevel warn",
     "test-ios-cover": "nyc detox test --configuration ios.sim.debug",
-    "test-ios-cover-reuse": "nyc detox test --configuration ios.sim.debug --reuse --loglevel warn",
-    "prepare": "patch-package"
+    "test-ios-cover-reuse": "nyc detox test --configuration ios.sim.debug --reuse --loglevel warn"
   },
   "dependencies": {
     "react": "17.0.2",
@@ -46,7 +45,6 @@
     "metro-react-native-babel-preset": "^0.70.1",
     "mocha": "^9.2.2",
     "nyc": "^13.1.0",
-    "patch-package": "^6.4.7",
     "react-test-renderer": "17.0.2",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
