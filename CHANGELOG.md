@@ -2,7 +2,7 @@
 
 ### 1.32.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.4 and Voximplant iOS SDK 2.46.8
-- Fix (iOS): ClientConfig.forceRelayTraffic API is enable by default, it is impact on calls througt Voximplant Cloud
+- Fix for [#153]
 
 ### 1.31.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.3 and Voximplant iOS SDK 2.46.7
