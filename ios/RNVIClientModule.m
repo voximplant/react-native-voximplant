@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
     VILogLevel logLevel = [RNVIUtils convertLogLevelFromString:[options objectForKey:@"logLevel"]];
     [VIClient setLogLevel:logLevel];
     [VIClient setVersionExtension:@"react-1.31.0"];
-    BOOL h264RecoveryMode = [options objectForKey:@"h264RecoveryMode"];
+    BOOL h264RecoveryMode = [[options objectForKey:@"h264RecoveryMode"] boolValue];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
         kRTCFieldTrialVoximplantH264RecoveryModeKey: kRTCFieldTrialEnabledValue
@@ -93,7 +93,7 @@ RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
     } else {
         _client = [RNVICallManager getClient];
     }
-    BOOL forceRelayTraffic = [options objectForKey:@"forceRelayTraffic"];
+    BOOL forceRelayTraffic = [[options objectForKey:@"forceRelayTraffic"] boolValue];
     _client.enableForceRelayTraffic = forceRelayTraffic;
     _client.sessionDelegate = self;
     _client.callManagerDelegate = self;
