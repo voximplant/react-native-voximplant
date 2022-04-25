@@ -80,7 +80,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
     VILogLevel logLevel = [RNVIUtils convertLogLevelFromString:[options objectForKey:@"logLevel"]];
     [VIClient setLogLevel:logLevel];
-    [VIClient setVersionExtension:@"react-1.31.0"];
+    [VIClient setVersionExtension:@"react-1.32.0"];
     BOOL h264RecoveryMode = [[options objectForKey:@"h264RecoveryMode"] boolValue];
     if (h264RecoveryMode) {
       RTCInitFieldTrialDictionary(@{
