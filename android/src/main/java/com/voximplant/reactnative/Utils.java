@@ -625,7 +625,7 @@ class Utils {
 		clientConfig.enableCameraMirroring = settings.getBoolean("enableCameraMirroring");
 		clientConfig.enableLogcatLogging = settings.getBoolean("enableLogcatLogging");
 		clientConfig.preferredVideoCodec = convertStringToVideoCodec(settings.getString("preferredVideoCodec"));
-		clientConfig.packageName = settings.getString("packageName");
+		clientConfig.packageName = settings.getString("bundleId");
 		clientConfig.requestAudioFocusMode = convertStringToRequestAudioFocusMode(settings.getString("requestAudioFocusMode"));
 		clientConfig.forceRelayTraffic = settings.getBoolean("forceRelayTraffic");
 		return clientConfig;
