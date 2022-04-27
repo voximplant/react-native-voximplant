@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.32.1
+- Fix for [#156](https://github.com/voximplant/react-native-voximplant/issues/153)
+
 ### 1.32.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.4 and Voximplant iOS SDK 2.46.8
 - Fix for [#153](https://github.com/voximplant/react-native-voximplant/issues/153)
