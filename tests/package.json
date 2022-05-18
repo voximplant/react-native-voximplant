@@ -48,7 +48,8 @@
     "react-test-renderer": "17.0.2",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
-    "sinon": "^13.0.2"
+    "sinon": "^13.0.2",
+    "react-native-voximplant": "../"
   },
   "nyc": {
     "check-coverage": true,

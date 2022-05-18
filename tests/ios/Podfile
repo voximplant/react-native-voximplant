@@ -12,8 +12,6 @@ target 'TestingProject' do
     :hermes_enabled => false
   )
 
-  pod 'react-native-voximplant', path: '../../react-native-voximplant.podspec'
-
   target 'TestingProjectTests' do
     inherit! :complete
     # Pods for testing
