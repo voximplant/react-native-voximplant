@@ -140,6 +140,9 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         missingDimensionStrategy 'detox', 'full'
     }
+    buildFeatures {
+        viewBinding true
+    }
     splits {
         abi {
             reset()
