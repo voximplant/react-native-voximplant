@@ -1,8 +1,0 @@
---recursive
---timeout 30000
---reporter spec
---slow 1000
---bail
---exit
---require jet/platform/node
---require ./helpers

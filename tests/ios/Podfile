@@ -1,46 +1,30 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '11.0'
 
 target 'TestingProject' do
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  use_frameworks!
+  config = use_native_modules!
 
-      # Pods for VoximplantDemo
-      pod 'React', :path => '../node_modules/react-native', :subspecs => [
-      'Core',
-      'CxxBridge',
-      'RCTNetwork',
-      'RCTText',
-      'RCTWebSocket',
-      'DevSupport',
-      'RCTLinkingIOS',
-    
-      # Add any other subspecs you want to use in your project
-      ]
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :hermes_enabled => false
+  )
 
-      # Demo project dependencies
-      pod 'react-native-voximplant', path: '../../react-native-voximplant.podspec'
+  target 'TestingProjectTests' do
+    inherit! :complete
+    # Pods for testing
+  end
 
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable the next line.
+  use_flipper!()
 
-      pod 'Jet', :path => '../node_modules/jet/ios/Jet.podspec'
-      # Explicitly include Yoga if you are using RN >= 0.42.0
-      pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
-
-      # Third party deps podspec link
-      pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-      pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
-      pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
-      post_install do |installer|
-          installer.pods_project.targets.each do |target|
-              target.build_configurations.each do |config|
-                  config.build_settings['ENABLE_BITCODE'] = 'NO'
-              end
-          end
-      end
-
-      target 'TestingProjectTests' do
-      	inherit! :search_paths
-      end
-
+  post_install do |installer|
+    react_native_post_install(installer)
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  end
 end

@@ -1,0 +1,13 @@
+diff --git a/android/build.gradle b/android/build.gradle
+index 343f3ed..c5d1f40 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -14,7 +14,7 @@ android {
+     }
+ 
+     defaultConfig {
+-        minSdkVersion 16
++        minSdkVersion 21
+         targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+         versionCode 1
+         versionName "1.0"

@@ -1,10 +1,5 @@
 rootProject.name = 'TestingProject'
-
-include ':jet'
-project(':jet').projectDir = new File(rootProject.projectDir, '../node_modules/jet/android')
-
-include ':react-native-voximplant'
-project(':react-native-voximplant').projectDir = new File(rootProject.projectDir, './../../android')
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 
 include ':app'
 

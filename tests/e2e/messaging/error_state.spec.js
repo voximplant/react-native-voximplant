@@ -6,6 +6,18 @@ const { TEST_LOGIN,
     TEST_USER_3 } = TestHelpers.credentials;
 
 describe('error - invalid states', () => {
+    let client = null;
+
+    before(async() => {
+        await device.reloadReactNative();
+        client = Voximplant.getInstance();
+        await client.connect();
+        await client.login(TEST_LOGIN, TEST_PASSWORD);
+    });
+
+    after(async() => {
+        await client.disconnect();
+     });
 
     it('use messenger before client', async () => {
         let messenger = Voximplant.getMessenger();
