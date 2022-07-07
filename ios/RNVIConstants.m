@@ -35,6 +35,15 @@ NSString *const kEventEndpointRemoved = @"VIEndpointRemoved";
 NSString *const kEventEndpointVoiceActivityStarted = @"VIVoiceActivityStarted";
 NSString *const kEventEndpointVoiceActivityStopped = @"VIVoiceActivityStopped";
 
+NSString *const kEventQualityIssuePacketLoss = @"VIQualityIssuePacketLoss";
+NSString *const kEventQualityIssueCodecMismatch = @"VIQualityIssueCodecMismatch";
+NSString *const kEventQualityIssueLocalVideoDegradation = @"VIQualityIssueLocalVideoDegradation";
+NSString *const kEventQualityIssueIceDisconnected = @"VIQualityIssueIceDisconnected";
+NSString *const kEventQualityIssueHighMediaLatency = @"VIQualityIssueHighMediaLatency";
+NSString *const kEventQualityIssueNoAudioSignal = @"VIQualityIssueNoAudioSignal";
+NSString *const kEventQualityIssueNoAudioReceive = @"VIQualityIssueNoAudioReceive";
+NSString *const kEventQualityIssueNoVideoReceive = @"VIQualityIssueNoVideoReceive";
+
 NSString *const kEventEndpointStopReceivingVideoStreamSuccess = @"VIStopReceivingVideoStreamSuccess";
 NSString *const kEventEndpointStopReceivingVideoStreamFailure = @"VIStopReceivingVideoStreamFailure";
 NSString *const kEventEndpointStartReceivingVideoStreamSuccess = @"VIStartReceivingVideoStreamSuccess";
@@ -79,6 +88,15 @@ NSString *const kEventNameEndpointRemoteStreanRemoved = @"RemoteVideoStreamRemov
 NSString *const kEventNameEndpointRemoved = @"Removed";
 NSString *const kEventNameVoiceActivityStarted = @"VoiceActivityStarted";
 NSString *const kEventNameVoiceActivityStopped = @"VoiceActivityStopped";
+
+NSString *const kEventNameQualityIssuePacketLoss = @"PacketLoss";
+NSString *const kEventNameQualityIssueCodecMismatch = @"CodecMismatch";
+NSString *const kEventNameQualityIssueLocalVideoDegradation = @"LocalVideoDegradation";
+NSString *const kEventNameQualityIssueIceDisconnected = @"IceDisconnected";
+NSString *const kEventNameQualityIssueHighMediaLatency = @"HighMediaLatency";
+NSString *const kEventNameQualityIssueNoAudioSignal = @"NoAudioSignal";
+NSString *const kEventNameQualityIssueNoAudioReceive = @"NoAudioReceive";
+NSString *const kEventNameQualityIssueNoVideoReceive = @"NoVideoReceive";
 
 NSString *const kEventNameAudioDeviceChanged = @"DeviceChanged";
 NSString *const kEventNameAudioDeviceListChanged = @"DeviceListChanged";

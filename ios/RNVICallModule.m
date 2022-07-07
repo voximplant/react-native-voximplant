@@ -412,5 +412,84 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
                                                                       }];
 }
 
+- (void)call:(VICall *)call didDetectPacketLoss:(double)packetLoss issueLevel:(VIQualityIssueLevel)level {
+    [self sendEventWithName:kEventQualityIssuePacketLoss body:@{
+        @"event": kEventNameQualityIssuePacketLoss,
+        @"packetLoss": @(packetLoss),
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+
+- (void)call:(VICall *)call didDetectCodecMismatch:(nullable NSString *)codec issueLevel:(VIQualityIssueLevel)level {
+    [self sendEventWithName:kEventQualityIssueCodecMismatch body:@{
+        @"event": kEventNameQualityIssueCodecMismatch,
+        @"codec": codec ? codec : [NSNull null],
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+
+- (void)call:(VICall *)call didDetectLocalVideoDegradation:(CGSize)actualSize targetSize:(CGSize)targetSize issueLevel:(VIQualityIssueLevel)level {
+    NSDictionary *actualSizeStruct = @{
+        @"width": @((int)actualSize.width),
+        @"height": @((int)actualSize.height)
+    };
+    NSDictionary *targetSizeStruct = @{
+        @"width": @((int)targetSize.width),
+        @"height": @((int)targetSize.height)
+    };
+    [self sendEventWithName:kEventQualityIssueLocalVideoDegradation body:@{
+        @"event": kEventNameQualityIssueLocalVideoDegradation,
+        @"actualSizeStruct": actualSizeStruct,
+        @"targetSizeStruct": targetSizeStruct,
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+
+- (void)call:(VICall *)call didDetectIceDisconnected:(VIQualityIssueLevel)level {
+    [self sendEventWithName:kEventQualityIssueIceDisconnected body:@{
+        @"event": kEventNameQualityIssueIceDisconnected,
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+
+- (void)call:(VICall *)call didDetectHighMediaLatency:(NSTimeInterval)latency issueLevel:(VIQualityIssueLevel)level {
+    // TODO: check double value
+    [self sendEventWithName:kEventQualityIssueHighMediaLatency body:@{
+        @"event": kEventNameQualityIssueHighMediaLatency,
+        @"latency": @([[NSNumber fromTimeInterval:latency] doubleValue]),
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+
+- (void)call:(VICall *)call didDetectNoAudioSignal:(VIQualityIssueLevel)level {
+    [self sendEventWithName:kEventQualityIssueNoAudioSignal body:@{
+        @"event": kEventNameQualityIssueNoAudioSignal,
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+
+- (void)                   call:(VICall *)call
+didDetectNoAudioReceiveOnStream:(VIRemoteAudioStream *)audioStream
+                   fromEndpoint:(VIEndpoint *)endpoint
+                     issueLevel:(VIQualityIssueLevel)level {
+    [self sendEventWithName:kEventQualityIssueNoAudioReceive body:@{
+        @"event": kEventNameQualityIssueNoAudioReceive,
+        @"audiostreamId": audioStream.streamId,
+        @"endpointId": endpoint.endpointId,
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
+    
+- (void)                   call:(VICall *)call
+didDetectNoVideoReceiveOnStream:(VIRemoteVideoStream *)videoStream
+                   fromEndpoint:(VIEndpoint *)endpoint
+                     issueLevel:(VIQualityIssueLevel)level {
+    [self sendEventWithName:kEventQualityIssueNoVideoReceive body:@{
+        @"event": kEventNameQualityIssueNoVideoReceive,
+        @"videostreamId": videoStream.streamId,
+        @"endpointId": endpoint.endpointId,
+        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+    }];
+}
 
 @end

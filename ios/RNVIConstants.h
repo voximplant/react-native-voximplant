@@ -35,6 +35,15 @@ FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointVoiceActivityStarted;
 FOUNDATION_EXPORT NSString *const kEventEndpointVoiceActivityStopped;
 
+FOUNDATION_EXPORT NSString *const kEventQualityIssuePacketLoss;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueCodecMismatch;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueLocalVideoDegradation;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueIceDisconnected;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueHighMediaLatency;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueNoAudioSignal;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueNoAudioReceive;
+FOUNDATION_EXPORT NSString *const kEventQualityIssueNoVideoReceive;
+
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceChanged;
 FOUNDATION_EXPORT NSString *const kEventAudioDeviceListChanged;
 
@@ -70,6 +79,15 @@ FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoteStreanRemoved;
 FOUNDATION_EXPORT NSString *const kEventNameEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventNameVoiceActivityStarted;
 FOUNDATION_EXPORT NSString *const kEventNameVoiceActivityStopped;
+
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssuePacketLoss;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueCodecMismatch;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueLocalVideoDegradation;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueIceDisconnected;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueHighMediaLatency;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueNoAudioSignal;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueNoAudioReceive;
+FOUNDATION_EXPORT NSString *const kEventNameQualityIssueNoVideoReceive;
 
 FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStreamSuccess;
 FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStreamFailure;

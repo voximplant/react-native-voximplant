@@ -283,4 +283,25 @@
     }
 }
 
++ (NSString *)convertQualityIssueLevelToString:(VIQualityIssueLevel)level {
+    switch(level) {
+        case VIQualityIssueLevelNone:
+            return @"None";
+        case VIQualityIssueLevelMinor:
+            return @"Minor";
+        case VIQualityIssueLevelMajor:
+            return @"Najor";
+        case VIQualityIssueLevelCritical:
+            return @"Critical";
+        default:
+            return @"None";
+    }
+}
+
+@implementation NSNumber (FromTimeInterval)
+
++ (instancetype)fromTimeInterval:(NSTimeInterval)timeInterval {
+    return @((NSInteger)round(timeInterval * 1000.0));
+}
+
 @end

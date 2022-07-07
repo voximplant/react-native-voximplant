@@ -10,5 +10,5 @@
 #import <VoxImplant/VoxImplant.h>
 
 
-@interface RNVICallModule : RCTEventEmitter <RCTBridgeModule, VICallDelegate, VIEndpointDelegate>
+@interface RNVICallModule : RCTEventEmitter <RCTBridgeModule, VICallDelegate, VIEndpointDelegate, VIQualityIssueDelegate>
 @end

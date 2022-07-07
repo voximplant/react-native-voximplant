@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
 'use strict';
@@ -13,6 +13,7 @@ import CallManager from './CallManager';
 import Endpoint from './Endpoint';
 import VideoStream from './VideoStream';
 import {VideoCodec} from "../Enums";
+import QualitySubscriber from './QualitySubscriber';
 
 const CallModule = NativeModules.RNVICallModule;
 
@@ -46,6 +47,11 @@ export default class Call {
     callKitUUID;
 
     /**
+     * 
+     */
+    callIssues;
+
+    /**
      * @ignore
      */
     constructor(callId) {
@@ -58,6 +64,8 @@ export default class Call {
         CallModule.internalSetup(this.callId);
 
         CallManager.getInstance().addCall(this);
+        // TODO: add callId for separate calls
+        this.callIssues = new QualitySubscriber();
     }
 
     /**
@@ -259,8 +267,15 @@ export default class Call {
      * @returns {Promise<number|CallError>}
      * @memberOf Voximplant.Call
      */
-     getDuration() {
+    getDuration() {
         return CallModule.getCallDuration(this.callId);
+    }
+
+    /**
+     * Returns current status for all quality issues.
+     */
+    currentQualityIssues() {
+        return CallModule.currentQualityIssues(this.callId);
     }
 
     /**
