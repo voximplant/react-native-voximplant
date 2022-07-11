@@ -23,6 +23,7 @@
 + (VICallSettings *)convertDictionaryToCallSettings:(NSDictionary *)settings;
 + (VILogLevel)convertLogLevelFromString:(NSString *)logLevel;
 + (NSString *)convertQualityIssueLevelToString:(VIQualityIssueLevel)level;
++ (NSString *)convertQualityIssueTypeToString:(VIQualityIssueType)type;
 
 @end
 

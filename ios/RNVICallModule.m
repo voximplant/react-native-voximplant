@@ -52,13 +52,22 @@ RCT_EXPORT_MODULE();
              kEventEndpointStartReceivingVideoStreamSuccess,
              kEventEndpointStartReceivingVideoStreamFailure,
              kEventEndpointRequestVideoSizeForVideoStreamSuccess,
-             kEventEndpointRequestVideoSizeForVideoStreamFailure];
+             kEventEndpointRequestVideoSizeForVideoStreamFailure,
+             kEventQualityIssuePacketLoss,
+             kEventQualityIssueCodecMismatch,
+             kEventQualityIssueLocalVideoDegradation,
+             kEventQualityIssueIceDisconnected,
+             kEventQualityIssueHighMediaLatency,
+             kEventQualityIssueNoAudioSignal,
+             kEventQualityIssueNoAudioReceive,
+             kEventQualityIssueNoVideoReceive];
 }
 
 RCT_EXPORT_METHOD(internalSetup:(NSString *)callId) {
     VICall *call = [RNVICallManager getCallById:callId];
     if (call) {
         [call addDelegate:self];
+        [call setQualityIssueDelegate:self];
     }
 }
 
@@ -222,6 +231,21 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
         resolve(intervalInSeconds);
     } else {
         reject(kCallErrorInternal, @"Call.getDuration(): call is no more unavailable, already ended or failed", nil);
+    }
+}
+
+RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    VICall *call = [RNVICallManager getCallById:callId];
+    if (call) {
+        NSArray *issues = [call qualityIssues];
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        for (VIQualityIssueType type in issues) {
+            NSString *issueLevelForType = [RNVIUtils convertQualityIssueLevelToString:[call issueLevelForType:type]];
+            [dictionary setObject:issueLevelForType forKey:[RNVIUtils convertQualityIssueTypeToString:type]];
+        }
+        resolve(dictionary);
+    } else {
+        reject(kCallErrorInternal, @"Call is no more unavailable, already ended or failed", nil);
     }
 }
 
@@ -413,18 +437,21 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
 }
 
 - (void)call:(VICall *)call didDetectPacketLoss:(double)packetLoss issueLevel:(VIQualityIssueLevel)level {
+    // TODO: check double value
     [self sendEventWithName:kEventQualityIssuePacketLoss body:@{
-        @"event": kEventNameQualityIssuePacketLoss,
-        @"packetLoss": @(packetLoss),
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName      : kEventNameQualityIssuePacketLoss,
+        kEventParamCallId    : call.callId,
+        kEventParamPacketLoss: @(packetLoss),
+        kEventParamIssueLevel: [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 
 - (void)call:(VICall *)call didDetectCodecMismatch:(nullable NSString *)codec issueLevel:(VIQualityIssueLevel)level {
     [self sendEventWithName:kEventQualityIssueCodecMismatch body:@{
-        @"event": kEventNameQualityIssueCodecMismatch,
-        @"codec": codec ? codec : [NSNull null],
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName         : kEventNameQualityIssueCodecMismatch,
+        kEventParamCallId       : call.callId,
+        kEventParamCodec        : codec ? codec : [NSNull null],
+        kEventParamIssueLevel   : [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 
@@ -438,33 +465,37 @@ RCT_EXPORT_METHOD(getCallDuration:(NSString *)callId resolver:(RCTPromiseResolve
         @"height": @((int)targetSize.height)
     };
     [self sendEventWithName:kEventQualityIssueLocalVideoDegradation body:@{
-        @"event": kEventNameQualityIssueLocalVideoDegradation,
-        @"actualSizeStruct": actualSizeStruct,
-        @"targetSizeStruct": targetSizeStruct,
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName      : kEventNameQualityIssueLocalVideoDegradation,
+        kEventParamCallId    : call.callId,
+        kEventParamActualSize: actualSizeStruct,
+        kEventParamTargetSize: targetSizeStruct,
+        kEventParamIssueLevel: [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 
 - (void)call:(VICall *)call didDetectIceDisconnected:(VIQualityIssueLevel)level {
     [self sendEventWithName:kEventQualityIssueIceDisconnected body:@{
-        @"event": kEventNameQualityIssueIceDisconnected,
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName      : kEventNameQualityIssueIceDisconnected,
+        kEventParamCallId    : call.callId,
+        kEventParamIssueLevel: [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 
 - (void)call:(VICall *)call didDetectHighMediaLatency:(NSTimeInterval)latency issueLevel:(VIQualityIssueLevel)level {
     // TODO: check double value
     [self sendEventWithName:kEventQualityIssueHighMediaLatency body:@{
-        @"event": kEventNameQualityIssueHighMediaLatency,
-        @"latency": @([[NSNumber fromTimeInterval:latency] doubleValue]),
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName      : kEventNameQualityIssueHighMediaLatency,
+        kEventParamCallId    : call.callId,
+        kEventParamLatency   : @([[NSNumber fromTimeInterval:latency] doubleValue]),
+        kEventParamIssueLevel: [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 
 - (void)call:(VICall *)call didDetectNoAudioSignal:(VIQualityIssueLevel)level {
     [self sendEventWithName:kEventQualityIssueNoAudioSignal body:@{
-        @"event": kEventNameQualityIssueNoAudioSignal,
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName      : kEventNameQualityIssueNoAudioSignal,
+        kEventParamCallId    : call.callId,
+        kEventParamIssueLevel: [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 
@@ -473,10 +504,11 @@ didDetectNoAudioReceiveOnStream:(VIRemoteAudioStream *)audioStream
                    fromEndpoint:(VIEndpoint *)endpoint
                      issueLevel:(VIQualityIssueLevel)level {
     [self sendEventWithName:kEventQualityIssueNoAudioReceive body:@{
-        @"event": kEventNameQualityIssueNoAudioReceive,
-        @"audiostreamId": audioStream.streamId,
-        @"endpointId": endpoint.endpointId,
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName         : kEventNameQualityIssueNoAudioReceive,
+        kEventParamCallId       : call.callId,
+        kEventParamAudioStreamId: audioStream.streamId,
+        kEventParamEndpointId   : endpoint.endpointId,
+        kEventParamIssueLevel   : [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
     
@@ -485,10 +517,11 @@ didDetectNoVideoReceiveOnStream:(VIRemoteVideoStream *)videoStream
                    fromEndpoint:(VIEndpoint *)endpoint
                      issueLevel:(VIQualityIssueLevel)level {
     [self sendEventWithName:kEventQualityIssueNoVideoReceive body:@{
-        @"event": kEventNameQualityIssueNoVideoReceive,
-        @"videostreamId": videoStream.streamId,
-        @"endpointId": endpoint.endpointId,
-        @"issueLevel": [RNVIUtils convertQualityIssueLevelToString:level]
+        kEventParamName         : kEventNameQualityIssueNoVideoReceive,
+        kEventParamCallId       : call.callId,
+        kEventParamVideoStreamId: videoStream.streamId,
+        kEventParamEndpointId   : endpoint.endpointId,
+        kEventParamIssueLevel   : [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
 

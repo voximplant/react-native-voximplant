@@ -115,6 +115,12 @@ FOUNDATION_EXPORT NSString *const kEventParamCode;
 FOUNDATION_EXPORT NSString *const kEventParamMessage;
 FOUNDATION_EXPORT NSString *const kEventParamIncomingVideo;
 FOUNDATION_EXPORT NSString *const kEventParamCallKitUUID;
+FOUNDATION_EXPORT NSString *const kEventParamIssueLevel;
+FOUNDATION_EXPORT NSString *const kEventParamLatency;
+FOUNDATION_EXPORT NSString *const kEventParamActualSize;
+FOUNDATION_EXPORT NSString *const kEventParamTargetSize;
+FOUNDATION_EXPORT NSString *const kEventParamPacketLoss;
+FOUNDATION_EXPORT NSString *const kEventParamCodec;
 
 FOUNDATION_EXPORT NSString *const kEventParamLogLevel;
 FOUNDATION_EXPORT NSString *const kEventParamLogMessage;
@@ -138,6 +144,7 @@ FOUNDATION_EXPORT NSString *const kEventParamVideoStreamId;
 FOUNDATION_EXPORT NSString *const kEventParamCurrentAudioDevice;
 FOUNDATION_EXPORT NSString *const kEventParamDeviceList;
 FOUNDATION_EXPORT NSString *const kEventParamVideoStreamType;
+FOUNDATION_EXPORT NSString *const kEventParamAudioStreamId;
 
 FOUNDATION_EXPORT NSString *const kEventParamAudioFileId;
 FOUNDATION_EXPORT NSString *const kEventParamError;

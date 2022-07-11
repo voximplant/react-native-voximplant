@@ -290,13 +290,37 @@
         case VIQualityIssueLevelMinor:
             return @"Minor";
         case VIQualityIssueLevelMajor:
-            return @"Najor";
+            return @"Major";
         case VIQualityIssueLevelCritical:
             return @"Critical";
         default:
             return @"None";
     }
 }
+
++ (NSString *)convertQualityIssueTypeToString:(VIQualityIssueType)type {
+    if ([type isEqual:VIQualityIssueTypeCodecMismatch]) {
+        return @"CodecMismatch";
+    } else if ([type isEqual:VIQualityIssueTypeLocalVideoDegradation]) {
+        return @"LocalVideoDegradation";
+    } else if ([type isEqual:VIQualityIssueTypeHighMediaLatency]) {
+        return @"HighMediaLatency";
+    } else if ([type isEqual:VIQualityIssueTypeIceDisconnected]) {
+        return @"IceDisconnected";
+    } else if ([type isEqual:VIQualityIssueTypeNoAudioSignal]) {
+        return @"NoAudioSignal";
+    } else if ([type isEqual:VIQualityIssueTypePacketLoss]) {
+        return @"PacketLoss";
+    } else if ([type isEqual:VIQualityIssueTypeNoAudioReceive]) {
+        return @"NoAudioReceive";
+    } else if ([type isEqual:VIQualityIssueTypeNoVideoReceive]) {
+        return @"NoVideoReceive";
+    } else {
+        return @"IceDisconnected";
+    }
+}
+
+@end
 
 @implementation NSNumber (FromTimeInterval)
 

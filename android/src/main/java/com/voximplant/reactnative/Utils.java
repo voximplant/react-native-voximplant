@@ -8,6 +8,8 @@ import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.voximplant.sdk.call.CallSettings;
+import com.voximplant.sdk.call.QualityIssue;
+import com.voximplant.sdk.call.QualityIssueLevel;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.call.VideoStreamType;
@@ -629,5 +631,49 @@ class Utils {
 		clientConfig.requestAudioFocusMode = convertStringToRequestAudioFocusMode(settings.getString("requestAudioFocusMode"));
 		clientConfig.forceRelayTraffic = settings.getBoolean("forceRelayTraffic");
 		return clientConfig;
+	}
+
+	static String convertQualityIssueLevelToString(QualityIssueLevel level) {
+		switch (level) {
+			case MINOR:
+				return "Minor";
+			case MAJOR:
+				return "Major";
+			case CRITICAL:
+				return "Critical";
+			case NONE:
+			default:
+				return "None";
+		}
+	}
+
+	static String convertQualityIssueToString(QualityIssue issue) {
+		switch (issue) {
+			case CODEC_MISMATCH:
+				return "CodecMismatch";
+			case LOCAL_VIDEO_DEGRADATION:
+				return "LocalVideoDegradation";
+			case HIGH_MEDIA_LATENCY:
+				return "HighMediaLatency";
+			case NO_AUDIO_SIGNAL:
+				return "NoAudioSignal";
+			case PACKET_LOSS:
+				return "PacketLoss";
+			case NO_AUDIO_RECEIVE:
+				return "NoAudioReceive";
+			case NO_VIDEO_RECEIVE:
+				return "NoVideoReceive";
+			case ICE_DISCONNECTED:
+			default:
+				return "IceDisconnected";
+		}
+	}
+
+	static WritableMap convertQualityIssuesMapToWritableMap(Map<QualityIssue, QualityIssueLevel> issues) {
+		WritableMap map = Arguments.createMap();
+		for(Map.Entry<QualityIssue, QualityIssueLevel> pair : issues.entrySet()) {
+			map.putString(convertQualityIssueToString(pair.getKey()), convertQualityIssueLevelToString(pair.getValue()));
+		}
+		return map;
 	}
 }

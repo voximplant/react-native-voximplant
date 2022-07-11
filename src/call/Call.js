@@ -47,7 +47,7 @@ export default class Call {
     callKitUUID;
 
     /**
-     * 
+     * Instance of class for handle call quality issues events.
      */
     callIssues;
 
@@ -64,8 +64,7 @@ export default class Call {
         CallModule.internalSetup(this.callId);
 
         CallManager.getInstance().addCall(this);
-        // TODO: add callId for separate calls
-        this.callIssues = new QualitySubscriber();
+        this.callIssues = new QualitySubscriber(this.callId);
     }
 
     /**
@@ -273,6 +272,8 @@ export default class Call {
 
     /**
      * Returns current status for all quality issues.
+     * @returns {Promise<object|CallError>} 
+     * @memberOf Voximplant.Call
      */
     currentQualityIssues() {
         return CallModule.currentQualityIssues(this.callId);
@@ -313,6 +314,7 @@ export default class Call {
             this._removeEventListeners();
             CallManager.getInstance().removeCall(this);
             this._replaceCallIdWithCallInEvent(event);
+            this.callIssues = null;
             this._emit(CallEvents.Disconnected, event);
         }
     };
@@ -341,6 +343,7 @@ export default class Call {
             this._removeEventListeners();
             this._replaceCallIdWithCallInEvent(event);
             CallManager.getInstance().removeCall(this);
+            this.callIssues = null;
             this._emit(CallEvents.Failed, event);
         }
     };

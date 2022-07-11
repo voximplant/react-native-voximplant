@@ -117,6 +117,12 @@ NSString *const kEventParamCode = @"code";
 NSString *const kEventParamMessage = @"message";
 NSString *const kEventParamIncomingVideo = @"video";
 NSString *const kEventParamCallKitUUID = @"callKitUUID";
+NSString *const kEventParamIssueLevel = @"issueLevel";
+NSString *const kEventParamLatency = @"latency";
+NSString *const kEventParamActualSize = @"actualSize";
+NSString *const kEventParamTargetSize = @"targetSize";
+NSString *const kEventParamPacketLoss = @"packetLoss";
+NSString *const kEventParamCodec = @"codec";
 
 NSString *const kEventParamLogLevel = @"level";
 NSString *const kEventParamLogMessage = @"message";
@@ -140,6 +146,7 @@ NSString *const kEventParamVideoStreamId = @"videoStreamId";
 NSString *const kEventParamCurrentAudioDevice = @"currentDevice";
 NSString *const kEventParamDeviceList = @"newDeviceList";
 NSString *const kEventParamVideoStreamType = @"videoStreamType";
+NSString *const kEventParamAudioStreamId = @"audioStreamId";
 
 NSString *const kEventParamAudioFileId = @"fileId";
 NSString *const kEventParamError = @"error";
