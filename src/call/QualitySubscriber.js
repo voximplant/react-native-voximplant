@@ -33,7 +33,7 @@ export default class QualitySubscriber {
             console.warn(`QualitySubscriber: on: handler is not a Function`);
             return;
         }
-        if (Object.values(QualityIssueEvents).indexOf(event) === -1) {
+        if (Object.values(QualityEvents).indexOf(event) === -1) {
             console.warn(`QualitySubscriber: on: QualityEvents does not contain ${event} event`);
             return;
         }
@@ -47,7 +47,7 @@ export default class QualitySubscriber {
         if (!this._listeners[event]) {
             return;
         }
-        if (Object.values(QualityIssueEvents).indexOf(event) === -1) {
+        if (Object.values(QualityEvents).indexOf(event) === -1) {
             console.warn(`QualitySubscriber: off: QualityEvents does not contain ${event} event`);
             return;
         }
