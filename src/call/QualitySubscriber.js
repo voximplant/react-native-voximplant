@@ -78,7 +78,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssuePacketLossCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.PacketLoss, event);
         }
     }
@@ -88,7 +87,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueCodecMismatchCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.CodecMismatch, event);
         }
     }
@@ -98,7 +96,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueLocalVideoDegradationCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.LocalVideoDegradation, event);
         }
     }
@@ -108,7 +105,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueIceDisconnectedCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.IceDisconnected, event);
         }
     }
@@ -118,7 +114,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueHighMediaLatencyCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.HighMediaLatency, event);
         }
     }
@@ -128,7 +123,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueNoAudioSignalCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.NoAudioSignal, event);
         }
     }
@@ -138,7 +132,6 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueNoAudioReceiveCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.NoAudioReceive, event);
         }
     }
@@ -148,16 +141,8 @@ export default class QualitySubscriber {
      */
     _VIQualityIssueNoVideoReceiveCallback = (event) => {
         if (event.callId === this._callId) {
-            this._replaceCallIdWithCallInEvent(event)
             this._emit(QualityEvents.NoVideoReceive, event);
         }
-    }
-
-    /**
-     * @private
-     */
-     _replaceCallIdWithCallInEvent(event) {
-        delete event.callId;
     }
 
     /**
@@ -183,15 +168,15 @@ export default class QualitySubscriber {
       });
     }
 
-    // /**
-    //  * @private
-    //  */
-    // _removeEventListeners() {
-    //     this._events.forEach((item) => {
-    //         if(this[`_${item}Subscriber`]) {
-    //             this[`_${item}Subscriber`].remove();
-    //             delete this[`_${item}Subscriber`];
-    //         }
-    //     });
-    // }
+    /**
+     * @private
+     */
+    _removeEventListeners() {
+        this._events.forEach((item) => {
+            if(this[`_${item}Subscriber`]) {
+                this[`_${item}Subscriber`].remove();
+                delete this[`_${item}Subscriber`];
+            }
+        });
+    }
 }

@@ -314,7 +314,7 @@ export default class Call {
             this._removeEventListeners();
             CallManager.getInstance().removeCall(this);
             this._replaceCallIdWithCallInEvent(event);
-            this.callIssues = null;
+            this.callIssues._removeEventListeners();
             this._emit(CallEvents.Disconnected, event);
         }
     };
@@ -343,7 +343,7 @@ export default class Call {
             this._removeEventListeners();
             this._replaceCallIdWithCallInEvent(event);
             CallManager.getInstance().removeCall(this);
-            this.callIssues = null;
+            this.callIssues._removeEventListeners();
             this._emit(CallEvents.Failed, event);
         }
     };

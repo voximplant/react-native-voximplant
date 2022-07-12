@@ -245,7 +245,7 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
         }
         resolve(dictionary);
     } else {
-        reject(kCallErrorInternal, @"Call is no more unavailable, already ended or failed", nil);
+        reject(kCallErrorInternal, @"Call.currentQualityIssues(): call is no more unavailable, already ended or failed", nil);
     }
 }
 
@@ -437,7 +437,6 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
 }
 
 - (void)call:(VICall *)call didDetectPacketLoss:(double)packetLoss issueLevel:(VIQualityIssueLevel)level {
-    // TODO: check double value
     [self sendEventWithName:kEventQualityIssuePacketLoss body:@{
         kEventParamName      : kEventNameQualityIssuePacketLoss,
         kEventParamCallId    : call.callId,
@@ -482,7 +481,6 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
 }
 
 - (void)call:(VICall *)call didDetectHighMediaLatency:(NSTimeInterval)latency issueLevel:(VIQualityIssueLevel)level {
-    // TODO: check double value
     [self sendEventWithName:kEventQualityIssueHighMediaLatency body:@{
         kEventParamName      : kEventNameQualityIssueHighMediaLatency,
         kEventParamCallId    : call.callId,
