@@ -272,7 +272,7 @@ export default class Call {
 
     /**
      * Returns current status for all quality issues.
-     * @returns {Promise<object|CallError>} 
+     * @returns {Promise<Object.<QualityEvents, QualityIssueLevel>|CallError>} 
      * @memberOf Voximplant.Call
      */
     currentQualityIssues() {
