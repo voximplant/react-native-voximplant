@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.33.1
+- Fix for [#164](https://github.com/voximplant/react-native-voximplant/issues/164)
+
 ### 1.33.0
 - Update native iOS modules to use Voximplant iOS SDK 2.46.9
 
