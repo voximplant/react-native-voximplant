@@ -286,7 +286,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
             Map<QualityIssue, QualityIssueLevel> issues = call.getCurrentQualityIssues();
             promise.resolve(Utils.convertQualityIssuesMapToWritableMap(issues));
         } else {
-            promise.reject(CallError.INTERNAL_ERROR.toString(), "Call is no more unavailable, already ended or failed");
+            promise.reject(CallError.INTERNAL_ERROR.toString(), "Call.currentQualityIssues(): call is no more unavailable, already ended or failed");
         }
     }
 
@@ -302,6 +302,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallDisconnected(ICall call, Map<String, String> headers, boolean answeredElsewhere) {
         call.removeCallListener(this);
+        call.setQualityIssueListener(null);
         CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_DISCONNECTED);
@@ -323,6 +324,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallFailed(ICall call, int code, String description, Map<String, String> headers) {
         call.removeCallListener(this);
+        call.setQualityIssueListener(null);
         CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_FAILED);
@@ -586,7 +588,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE);
         params.putString(EVENT_PARAM_CALLID, call.getCallId());
-        params.putString(EVENT_PARAM_AUDIO_STREAM_ID, videoStream.getVideoStreamId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
         params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
         params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
         sendEvent(EVENT_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE, params);

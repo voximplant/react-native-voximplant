@@ -259,6 +259,7 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
 
 - (void)call:(VICall *)call didDisconnectWithHeaders:(NSDictionary *)headers answeredElsewhere:(NSNumber *)answeredElsewhere {
     [call removeDelegate:self];
+    [call setQualityIssueDelegate:nil];
     [RNVICallManager removeCallById:call.callId];
     [self sendEventWithName:kEventCallDisconnected body:@{
                                                           kEventParamName              : kEventNameCallDisconnected,
@@ -270,6 +271,7 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
 
 - (void)call:(VICall *)call didFailWithError:(NSError *)error headers:(NSDictionary *)headers {
     [call removeDelegate:self];
+    [call setQualityIssueDelegate:nil];
     [RNVICallManager removeCallById:call.callId];
     [self sendEventWithName:kEventCallFailed body:@{
                                                     kEventParamName    : kEventNameCallFailed,

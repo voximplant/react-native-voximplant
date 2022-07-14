@@ -350,8 +350,20 @@ export const AudioFileUsage = {
  * @enum {string}
  */
 export const QualityIssueLevel = {
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
     NONE: "None",
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
     MINOR: "Minor",
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
     MAJOR: "Major",
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
     CRITICAL: "Critical"
 };

@@ -421,7 +421,7 @@ const ErrorEvent = {
  * @property {string} name - Name of the event
  * @property {string} callId - The call id that trigered the event
  * @property {number} packetLoss - Average packet loss for 2.5 seconds.
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const PacketLossEvent = {
   
@@ -431,7 +431,7 @@ const PacketLossEvent = {
  * @property {string} name - Name of the event
  * @property {string} callId - The call id that trigered the event
  * @property {string | null} codec - Codec that is currently used or null if the video is not sent.
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const CodecMismatchEvent = {
 
@@ -442,7 +442,7 @@ const CodecMismatchEvent = {
  * @property {string} callId - The call id that trigered the event
  * @property {object} actualSize - Sent frame size.
  * @property {object} tragetSize - Captured frame size.
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const LocalVideoDegradationEvent = {
 
@@ -451,7 +451,7 @@ const LocalVideoDegradationEvent = {
 /**
  * @property {string} name - Name of the event
  * @property {string} callId - The call id that trigered the event
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const IceDisconnectedEvent = {
 
@@ -461,7 +461,7 @@ const IceDisconnectedEvent = {
  * @property {string} name - Name of the event
  * @property {string} callId - The call id that tregered the event
  * @property {number} latency - Network-based latency measured in milliseconds at the moment the issue triggered.
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const HighMediaLatencyEvent = {
 
@@ -470,7 +470,7 @@ const HighMediaLatencyEvent = {
 /**
  * @property {string} name - Name of the event
  * @property {string} callId - The call id that tregered the event
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const NoAudioSignalEvent = {
 
@@ -481,7 +481,7 @@ const NoAudioSignalEvent = {
  * @property {string} callId - The call id that tregered the event
  * @property {string} audioStreamId - Remote audio stream the issue is belongs to.
  * @property {string} enpointId - Endpoint the issue belongs to.
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
 const NoAudioReceiveEvent = {
 
@@ -490,9 +490,9 @@ const NoAudioReceiveEvent = {
 /**
  * @property {string} name - Name of the event
  * @property {string} callId - The call id that tregered the event
- * @property {string} videoStreamId - Remote audio stream the issue is belongs to.
+ * @property {string} videoStreamId - Remote video stream the issue is belongs to.
  * @property {string} enpointId - Endpoint the issue belongs to.
- * @property {string} issueLevel - Issue level.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
  */
  const NoVideoReceiveEvent = {
 
