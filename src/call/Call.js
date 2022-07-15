@@ -49,7 +49,7 @@ export default class Call {
     /**
      * Instance of class for handle call quality issues events.
      */
-    callIssues;
+    qualityIssues;
 
     /**
      * @ignore
@@ -64,7 +64,7 @@ export default class Call {
         CallModule.internalSetup(this.callId);
 
         CallManager.getInstance().addCall(this);
-        this.callIssues = new QualitySubscriber(this.callId);
+        this.qualityIssues = new QualitySubscriber(this.callId);
     }
 
     /**
@@ -314,7 +314,7 @@ export default class Call {
             this._removeEventListeners();
             CallManager.getInstance().removeCall(this);
             this._replaceCallIdWithCallInEvent(event);
-            this.callIssues._removeEventListeners();
+            this.qualityIssues._removeEventListeners();
             this._emit(CallEvents.Disconnected, event);
         }
     };
@@ -343,7 +343,7 @@ export default class Call {
             this._removeEventListeners();
             this._replaceCallIdWithCallInEvent(event);
             CallManager.getInstance().removeCall(this);
-            this.callIssues._removeEventListeners();
+            this.qualityIssues._removeEventListeners();
             this._emit(CallEvents.Failed, event);
         }
     };

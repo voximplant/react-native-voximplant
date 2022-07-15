@@ -4,7 +4,7 @@
 
 /**
  * The events that are triggered by {@link Call} instance.
- * Use {@link Call.callIssues#on} to subscribe on any of these events.
+ * Use {@link Call.qualityIssues#on} to subscribe on any of these events.
  *
  * @memberOf Voximplant
  * @enum {string}
