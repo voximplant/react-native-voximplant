@@ -47,7 +47,7 @@ export default class Call {
     callKitUUID;
 
     /**
-     * Instance of class for handle call quality issues events.
+     * Instance of a class that may be used to subscribe to call quality issues events.
      */
     qualityIssues;
 
