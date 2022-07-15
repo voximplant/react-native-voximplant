@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
 'use strict';
@@ -13,6 +13,7 @@ import CallManager from './CallManager';
 import Endpoint from './Endpoint';
 import VideoStream from './VideoStream';
 import {VideoCodec} from "../Enums";
+import QualitySubscriber from './QualitySubscriber';
 
 const CallModule = NativeModules.RNVICallModule;
 
@@ -46,6 +47,11 @@ export default class Call {
     callKitUUID;
 
     /**
+     * Instance of a class that may be used to subscribe to call quality issues events.
+     */
+    qualityIssues;
+
+    /**
      * @ignore
      */
     constructor(callId) {
@@ -58,6 +64,7 @@ export default class Call {
         CallModule.internalSetup(this.callId);
 
         CallManager.getInstance().addCall(this);
+        this.qualityIssues = new QualitySubscriber(this.callId);
     }
 
     /**
@@ -259,8 +266,17 @@ export default class Call {
      * @returns {Promise<number|CallError>}
      * @memberOf Voximplant.Call
      */
-     getDuration() {
+    getDuration() {
         return CallModule.getCallDuration(this.callId);
+    }
+
+    /**
+     * Returns current status for all quality issues.
+     * @returns {Promise<Object.<QualityEvents, QualityIssueLevel>|CallError>} 
+     * @memberOf Voximplant.Call
+     */
+    currentQualityIssues() {
+        return CallModule.currentQualityIssues(this.callId);
     }
 
     /**
@@ -298,6 +314,7 @@ export default class Call {
             this._removeEventListeners();
             CallManager.getInstance().removeCall(this);
             this._replaceCallIdWithCallInEvent(event);
+            this.qualityIssues._removeEventListeners();
             this._emit(CallEvents.Disconnected, event);
         }
     };
@@ -326,6 +343,7 @@ export default class Call {
             this._removeEventListeners();
             this._replaceCallIdWithCallInEvent(event);
             CallManager.getInstance().removeCall(this);
+            this.qualityIssues._removeEventListeners();
             this._emit(CallEvents.Failed, event);
         }
     };

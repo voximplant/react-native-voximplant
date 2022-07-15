@@ -23,18 +23,23 @@ import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IEndpointListener;
 import com.voximplant.sdk.call.ILocalVideoStream;
+import com.voximplant.sdk.call.IQualityIssueListener;
+import com.voximplant.sdk.call.IRemoteAudioStream;
 import com.voximplant.sdk.call.IRemoteVideoStream;
+import com.voximplant.sdk.call.QualityIssue;
+import com.voximplant.sdk.call.QualityIssueLevel;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
 
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static com.voximplant.reactnative.Constants.*;
 
-public class VICallModule extends ReactContextBaseJavaModule implements ICallListener, IEndpointListener {
+public class VICallModule extends ReactContextBaseJavaModule implements ICallListener, IEndpointListener, IQualityIssueListener {
     private ReactApplicationContext mReactContext;
 
     public VICallModule(ReactApplicationContext reactContext) {
@@ -62,6 +67,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         ICall call = CallManager.getInstance().getCallById(callId);
         if (call != null) {
             call.addCallListener(this);
+            call.setQualityIssueListener(this);
         }
     }
 
@@ -273,6 +279,17 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         }
     }
 
+    @ReactMethod
+    public void currentQualityIssues(String callId, final Promise promise) {
+        ICall call = CallManager.getInstance().getCallById(callId);
+        if (call != null) {
+            Map<QualityIssue, QualityIssueLevel> issues = call.getCurrentQualityIssues();
+            promise.resolve(Utils.convertQualityIssuesMapToWritableMap(issues));
+        } else {
+            promise.reject(CallError.INTERNAL_ERROR.toString(), "Call.currentQualityIssues(): call is no more unavailable, already ended or failed");
+        }
+    }
+
     @Override
     public void onCallConnected(ICall call, Map<String, String> headers) {
         WritableMap params = Arguments.createMap();
@@ -285,6 +302,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallDisconnected(ICall call, Map<String, String> headers, boolean answeredElsewhere) {
         call.removeCallListener(this);
+        call.setQualityIssueListener(null);
         CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_DISCONNECTED);
@@ -306,6 +324,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     @Override
     public void onCallFailed(ICall call, int code, String description, Map<String, String> headers) {
         call.removeCallListener(this);
+        call.setQualityIssueListener(null);
         CallManager.getInstance().removeCall(call);
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_FAILED);
@@ -479,6 +498,100 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
         params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
         sendEvent(EVENT_ENDPOINT_VOICE_ACTIVITY_STOPPED, params);
+    }
+
+    @Override
+    public void onPacketLoss(@NonNull ICall call, @NonNull QualityIssueLevel level, double packetLoss) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_PACKET_LOSS);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putDouble(EVENT_PARAM_PACKET_LOSS, packetLoss);
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_PACKET_LOSS, params);
+    }
+
+    @Override
+    public void onCodecMismatch(@NonNull ICall call, @NonNull QualityIssueLevel level, @Nullable String sendCodec) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_CODEC_MISMATCH);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        if (sendCodec != null) {
+            params.putString(EVENT_PARAM_CODEC, sendCodec);
+        } else {
+            params.putNull(EVENT_PARAM_CODEC);
+        }
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_CODEC_MISMATCH, params);
+    }
+
+    @Override
+    public void onLocalVideoDegradation(@NonNull ICall call, @NonNull QualityIssueLevel level, int targetWidth, int targetHeight, int actualWidth, int actualHeight) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_LOCAL_VIDEO_DEGRADATION);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+
+        WritableMap actual = Arguments.createMap();
+        actual.putInt("width", actualWidth);
+        actual.putInt("height", actualHeight);
+
+        WritableMap target = Arguments.createMap();
+        actual.putInt("width", targetWidth);
+        actual.putInt("height", targetHeight);
+
+        params.putMap(EVENT_PARAM_ACTUAL_SIZE, actual);
+        params.putMap(EVENT_PARAM_TARGET_SIZE, target);
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_LOCAL_VIDEO_DEGRADATION, params);
+    }
+
+    @Override
+    public void onIceDisconnected(@NonNull ICall call, @NonNull QualityIssueLevel level) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_ICE_DISCONNECTED);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_ICE_DISCONNECTED, params);
+    }
+
+    @Override
+    public void onHighMediaLatency(@NonNull ICall call, @NonNull QualityIssueLevel level, double latency) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_HIGH_MEDIA_LATENCY);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putDouble(EVENT_PARAM_LATENCY, latency);
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_HIGH_MEDIA_LATENCY, params);
+    }
+
+    @Override
+    public void onNoAudioSignal(@NonNull ICall call, @NonNull QualityIssueLevel level) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_NO_AUDIO_SIGNAL);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_NO_AUDIO_SIGNAL, params);
+    }
+
+    @Override
+    public void onNoAudioReceive(@NonNull ICall call, @NonNull QualityIssueLevel level, @NonNull IRemoteAudioStream audioStream, @NonNull IEndpoint endpoint) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_NO_AUDIO_RECEIVE);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_AUDIO_STREAM_ID, audioStream.getAudioStreamId());
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_NO_AUDIO_RECEIVE, params);
+    }
+    
+    @Override
+    public void onNoVideoReceive(@NonNull ICall call, @NonNull QualityIssueLevel level, @NonNull IRemoteVideoStream videoStream, @NonNull IEndpoint endpoint) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE);
+        params.putString(EVENT_PARAM_CALLID, call.getCallId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
+        sendEvent(EVENT_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE, params);
     }
 
     private void sendEvent(String eventName, @Nullable WritableMap params) {

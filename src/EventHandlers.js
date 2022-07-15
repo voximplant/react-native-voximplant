@@ -416,3 +416,84 @@ const RetransmitEvent = {
 const ErrorEvent = {
 
 };
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that trigered the event
+ * @property {number} packetLoss - Average packet loss for 2.5 seconds.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const PacketLossEvent = {
+  
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that trigered the event
+ * @property {string | null} codec - Codec that is currently used or null if the video is not sent.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const CodecMismatchEvent = {
+
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that trigered the event
+ * @property {object} actualSize - Sent frame size.
+ * @property {object} tragetSize - Captured frame size.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const LocalVideoDegradationEvent = {
+
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that trigered the event
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const IceDisconnectedEvent = {
+
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that tregered the event
+ * @property {number} latency - Network-based latency measured in milliseconds at the moment the issue triggered.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const HighMediaLatencyEvent = {
+
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that tregered the event
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const NoAudioSignalEvent = {
+
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that tregered the event
+ * @property {string} audioStreamId - Remote audio stream the issue is belongs to.
+ * @property {string} enpointId - Endpoint the issue belongs to.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+const NoAudioReceiveEvent = {
+
+}
+
+/**
+ * @property {string} name - Name of the event
+ * @property {string} callId - The call id that tregered the event
+ * @property {string} videoStreamId - Remote video stream the issue is belongs to.
+ * @property {string} enpointId - Endpoint the issue belongs to.
+ * @property {QualityIssueLevel} issueLevel - Issue level.
+ */
+ const NoVideoReceiveEvent = {
+
+}

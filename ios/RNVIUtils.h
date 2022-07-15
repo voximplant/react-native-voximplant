@@ -22,5 +22,13 @@
 + (VIVideoCodec)convertVideoCodecFromString:(NSString *)codec;
 + (VICallSettings *)convertDictionaryToCallSettings:(NSDictionary *)settings;
 + (VILogLevel)convertLogLevelFromString:(NSString *)logLevel;
++ (NSString *)convertQualityIssueLevelToString:(VIQualityIssueLevel)level;
++ (NSString *)convertQualityIssueTypeToString:(VIQualityIssueType)type;
+
+@end
+
+@interface NSNumber (FromTimeInterval)
+
++ (instancetype)fromTimeInterval:(NSTimeInterval)timeInterval;
 
 @end

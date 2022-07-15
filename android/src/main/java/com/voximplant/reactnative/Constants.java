@@ -43,6 +43,15 @@ class Constants {
     static final String EVENT_ENDPOINT_VOICE_ACTIVITY_STARTED = "VIVoiceActivityStarted";
     static final String EVENT_ENDPOINT_VOICE_ACTIVITY_STOPPED = "VIVoiceActivityStopped";
 
+    static final String EVENT_CALL_QUALITY_ISSUE_PACKET_LOSS = "VIQualityIssuePacketLoss";
+    static final String EVENT_CALL_QUALITY_ISSUE_CODEC_MISMATCH = "VIQualityIssueCodecMismatch";
+    static final String EVENT_CALL_QUALITY_ISSUE_LOCAL_VIDEO_DEGRADATION = "VIQualityIssueLocalVideoDegradation";
+    static final String EVENT_CALL_QUALITY_ISSUE_ICE_DISCONNECTED = "VIQualityIssueIceDisconnected";
+    static final String EVENT_CALL_QUALITY_ISSUE_HIGH_MEDIA_LATENCY = "VIQualityIssueHighMediaLatency";
+    static final String EVENT_CALL_QUALITY_ISSUE_NO_AUDIO_SIGNAL = "VIQualityIssueNoAudioSignal";
+    static final String EVENT_CALL_QUALITY_ISSUE_NO_AUDIO_RECEIVE = "VIQualityIssueNoAudioReceive";
+    static final String EVENT_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE = "VIQualityIssueNoVideoReceive";
+
     static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS = "VIStopReceivingVideoStreamSuccess";
     static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE = "VIStopReceivingVideoStreamFailure";
     static final String EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS = "VIStartReceivingVideoStreamSuccess";
@@ -91,6 +100,15 @@ class Constants {
     static final String EVENT_NAME_VOICE_ACTIVITY_STARTED = "VoiceActivityStarted";
     static final String EVENT_NAME_VOICE_ACTIVITY_STOPPED = "VoiceActivityStopped";
 
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_PACKET_LOSS = "PacketLoss";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_CODEC_MISMATCH = "CodecMismatch";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_LOCAL_VIDEO_DEGRADATION = "LocalVideoDegradation";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_ICE_DISCONNECTED = "IceDisconnected";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_HIGH_MEDIA_LATENCY = "HighMediaLatency";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_NO_AUDIO_SIGNAL = "NoAudioSignal";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_NO_AUDIO_RECEIVE = "NoAudioReceive";
+    static final String EVENT_NAME_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE = "NoVideoReceive";
+
     static final String EVENT_NAME_AUDIO_DEVICE_CHANGED = "DeviceChanged";
     static final String EVENT_NAME_AUDIO_DEVICE_LIST_CHANGED = "DeviceListChanged";
 
@@ -114,6 +132,12 @@ class Constants {
     static final String EVENT_PARAM_CODE = "code";
     static final String EVENT_PARAM_MESSAGE = "message";
     static final String EVENT_PARAM_INCOMING_VIDEO = "video";
+    static final String EVENT_PARAM_ISSUE_LEVEL = "issueLevel";
+    static final String EVENT_PARAM_LATENCY = "latency";
+    static final String EVENT_PARAM_ACTUAL_SIZE = "actualSize";
+    static final String EVENT_PARAM_TARGET_SIZE = "targetSize";
+    static final String EVENT_PARAM_PACKET_LOSS = "packetLoss";
+    static final String EVENT_PARAM_CODEC = "codec";
 
     static final String EVENT_PARAM_LOG_LEVEL = "level";
     static final String EVENT_PARAM_LOG_MESSAGE = "message";
@@ -136,6 +160,7 @@ class Constants {
     static final String EVENT_PARAM_VIDEO_STREAM_ID = "videoStreamId";
     static final String EVENT_PARAM_IS_LOCAL = "isLocal";
     static final String EVENT_PARAM_VIDEO_STREAM_TYPE = "videoStreamType";
+    static final String EVENT_PARAM_AUDIO_STREAM_ID = "audioStreamId";
 
     static final String EVENT_PARAM_AUDIO_FILE_ID = "fileId";
 

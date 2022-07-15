@@ -1,6 +1,9 @@
 # Changelog
 
-### 1.33.1
+### 1.34.0
+- Introduce new APIs to monitor issues that affect call quality:
+  - Call.qualityIssues - Instance of a class that may be used to subscribe to call quality issues events.
+  - Call.currentQualityIssues - get current status for all quality issues.
 - Fix for [#164](https://github.com/voximplant/react-native-voximplant/issues/164)
 
 ### 1.33.0

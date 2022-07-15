@@ -340,4 +340,30 @@ export const AudioFileUsage = {
     NOTIFICATION: "notification",
     RINGTONE: "ringtone",
     UNKNOWN: "unknown"
-}
+};
+
+/**
+ * Enum that represents quality issue levels.
+ * @name QualityIssueLevel
+ * @memberOf Voximplant.Call
+ * @type {{NONE: string, MINOR: string, MAJOR: string, CRITICAL: string}}
+ * @enum {string}
+ */
+export const QualityIssueLevel = {
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
+    NONE: "None",
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
+    MINOR: "Minor",
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
+    MAJOR: "Major",
+    /**
+     * @memberOf Voximplant.QualityIssueLevel
+     */
+    CRITICAL: "Critical"
+};
