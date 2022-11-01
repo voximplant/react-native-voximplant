@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.35.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.34.0 and Voximplant iOS SDK 2.46.11
+
 ### 1.34.0
 - Introduce new APIs to monitor issues that affect call quality:
   - Call.qualityIssues - Instance of a class that may be used to subscribe to call quality issues events.
@@ -22,7 +25,6 @@
 
 ### 1.30.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.32.1 and Voximplant iOS SDK 2.46.4
-
 
 ### 1.29.1
 - Remove unused devDependencies
