@@ -49,7 +49,7 @@ public class VICameraModule extends ReactContextBaseJavaModule implements ICamer
     public void removeListeners(Integer count) {
       // Keep: Required for RN built in Event Emitter Calls.
     }
-    
+
     @Override
     public String getName() {
         return "RNVICameraModule";
@@ -60,12 +60,17 @@ public class VICameraModule extends ReactContextBaseJavaModule implements ICamer
         mCameraIndex = Utils.convertCameraTypeToCameraIndex(cameraType);
         mCameraManager.setCamera(mCameraIndex, mCameraResolutionWidth, mCameraResolutionHeight);
     }
-    
+
     @ReactMethod
     public void setCameraResolution(int width, int height) {
          mCameraResolutionWidth = width;
          mCameraResolutionHeight = height;
          mCameraManager.setCamera(mCameraIndex, mCameraResolutionWidth, mCameraResolutionHeight);
+    }
+
+    @ReactMethod
+    public void useOrientationEventListener(boolean use) {
+        mCameraManager.useOrientationEventListener(use);
     }
 
     @Override
@@ -75,7 +80,7 @@ public class VICameraModule extends ReactContextBaseJavaModule implements ICamer
         sendEvent(EVENT_CAMERA_DISCONNECTED, params);
     }
 
-    @Override 
+    @Override
     public void onCameraError(String errorDescription) {
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CAMERA_ERROR);
@@ -91,7 +96,7 @@ public class VICameraModule extends ReactContextBaseJavaModule implements ICamer
         sendEvent(EVENT_CAMERA_SWITCH_DONE, params);
     }
 
-    @Override 
+    @Override
     public void onCameraSwitchError(String errorDescription) {
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CAMERA_SWITCH_ERROR);
