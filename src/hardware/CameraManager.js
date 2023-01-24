@@ -89,7 +89,7 @@ export default class CameraManager {
      */
     useOrientationEventListener(use) {
         if (Platform.OS === 'android') {
-            CameraModule.useOrientationEventListener(true);
+            CameraModule.useOrientationEventListener(use);
         }
     }
 
