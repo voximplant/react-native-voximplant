@@ -50,7 +50,7 @@ export default class CameraManager {
             EventEmitter.addListener('VICameraError', this._onCameraError);
             EventEmitter.addListener('VICameraSwitchDone', this._onCameraSwitchDone);
             EventEmitter.addListener('VICameraSwitchError', this._onCameraSwitchError);
-        }  
+        }
     }
 
     /**
@@ -70,6 +70,27 @@ export default class CameraManager {
      */
     setCameraResolution(width, height) {
         CameraModule.setCameraResolution(width, height);
+    }
+
+    /**
+     * ANDROID ONLY.
+     *
+     * Use OrientationEventListener to detect the device rotation and to rotate camera frames according to device orientation.
+     *
+     * By default, Display rotation is used to determine the device rotation.
+     *
+     * The way how the device orientation is detected, affects camera frames rotation on local and remote side if auto-rotate is disabled on a mobile phone:
+     *
+     * OrientationEventListener will detect landscape orientation
+     * Display rotation will always report portrait orientation
+     * The method should be called in idle camera state, i.e. video is currently not sending in a call.
+     * @param {boolean} use - True, if OrientationEventListener should be used to detect the device orientation, otherwise Display rotation is used.
+     * @memberOf Voximplant.Hardware.CameraManager
+     */
+    useOrientationEventListener(use) {
+        if (Platform.OS === 'android') {
+            CameraModule.useOrientationEventListener(use);
+        }
     }
 
     /**
