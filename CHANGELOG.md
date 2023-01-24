@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.36.0
+- Introduce [CameraManager.useOrientationEventListener](https://voximplant.com/docs/references/reactnative/voximplant/hardware/cameramanager#useorientationeventlistener) API to use Android orientation event listener to rotate video frames
+
 ### 1.35.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.34.0 and Voximplant iOS SDK 2.46.11
 
