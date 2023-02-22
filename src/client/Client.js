@@ -319,7 +319,7 @@ export default class Client {
     requestOneTimeLoginKey(username) {
         return new Promise((resolve, reject) => {
             let requestResult = (event) => {
-                if (event.result) {
+                if (event.result || event.code === 302) {
                     resolve(event);
                 } else {
                     reject(event);
@@ -563,7 +563,7 @@ export default class Client {
     };
 
     /**
-     * 
+     *
      * @private
      */
      _onReconnecting = (event) => {
@@ -571,8 +571,8 @@ export default class Client {
      };
 
     /**
-     * 
-     * @private 
+     *
+     * @private
      */
      _onReconnected = (event) => {
          this._emit(ClientEvents.Reconnected, event);
