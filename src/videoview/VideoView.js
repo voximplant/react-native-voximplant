@@ -8,10 +8,10 @@ import {
 } from 'react-native'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { RenderScaleType } from './../Enums';
+import { RenderScaleType } from '../Enums';
 
 const RCTVoximplantVideoView = requireNativeComponent(
-    'RNVIVideoView', 
+    'RNVIVideoView',
     VideoView
 );
 

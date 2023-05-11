@@ -23,5 +23,10 @@
   "homepage": "https://voximplant.com",
   "peerDependencies": {
     "react-native": ">= 0.47.0"
+  },
+  "codegenConfig": {
+    "name": "RNVoximplantSpec",
+    "type": "components",
+    "jsSrcsDir": "src/videoview"
   }
 }
