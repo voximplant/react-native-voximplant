@@ -23,13 +23,11 @@ using namespace facebook::react;
     RNVIVideoViewImpl * _view;
 }
 
-+ (ComponentDescriptorProvider)componentDescriptorProvider
-{
++ (ComponentDescriptorProvider)componentDescriptorProvider {
     return concreteComponentDescriptorProvider<RNVIVideoViewComponentDescriptor>();
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     static const auto defaultProps = std::make_shared<const RNVIVideoViewProps>();
     _props = defaultProps;
@@ -42,15 +40,18 @@ using namespace facebook::react;
   return self;
 }
 
-- (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
-{
+- (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps {
     const auto &oldViewProps = *std::static_pointer_cast<RNVIVideoViewProps const>(_props);
     const auto &newViewProps = *std::static_pointer_cast<RNVIVideoViewProps const>(props);
     if (oldViewProps.videoStreamId != newViewProps.videoStreamId) {
-        NSString *videoStreamId = [[NSString alloc] initWithUTF8String: newViewProps.videoStreamId.c_str()];
+        NSString *videoStreamId = [[NSString alloc] initWithUTF8String:newViewProps.videoStreamId.c_str()];
         [_view setVideoStreamId:videoStreamId];
     }
 
+    if (oldViewProps.scaleType != newViewProps.scaleType) {
+        NSString *scaleType = [[NSString alloc] initWithUTF8String:newViewProps.scaleType.c_str()];
+        [_view setScaleType:scaleType];
+    }
     [super updateProps:props oldProps:oldProps];
 }
 
