@@ -20,7 +20,7 @@ import org.webrtc.SurfaceViewRenderer;
 import static com.voximplant.reactnative.Constants.SCALE_TYPE_FILL;
 import static com.voximplant.reactnative.Constants.SCALE_TYPE_FIT;
 
-class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
+class VideoViewImpl extends ViewGroup implements RendererCommon.RendererEvents {
 
     private String mVideoStreamId;
     private String mScaleType = SCALE_TYPE_FIT;
@@ -32,7 +32,7 @@ class VideoView extends ViewGroup implements RendererCommon.RendererEvents {
 
     private final Runnable requestSurfaceViewRendererLayoutRunnable = this::requestSurfaceViewRendererLayout;
 
-    VideoView(Context context) {
+    VideoViewImpl(Context context) {
         super(context);
         mVideoViewRenderer = new SurfaceViewRenderer(context);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
