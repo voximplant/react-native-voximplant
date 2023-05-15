@@ -4,11 +4,16 @@
 
 package com.voximplant.reactnative;
 
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
 public class VideoViewManager extends SimpleViewManager<VideoViewImpl> {
+    public VideoViewManager(ReactApplicationContext context) {
+
+    }
+
     @Override
     public String getName() {
         return "RNVIVideoView";
