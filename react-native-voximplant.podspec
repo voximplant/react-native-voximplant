@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     s.source       = {:path => './ios/'}
     s.summary      = 'RN voximplant'
     s.version      = '1.36.0'
-    s.dependency   'VoxImplantSDK', '2.46.11'
+    s.dependency   'VoxImplantSDK', '2.47.0'
     if fabric_enabled
       s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
       s.pod_target_xcconfig    = {

@@ -7,7 +7,7 @@
 
 #import "RCTBridgeModule.h"
 #import "RCTEventEmitter.h"
-#import <VoxImplant/VoxImplant.h>
+#import <VoxImplantSDK/VoxImplantSDK.h>
 
 @interface RNVIMessagingModule : RCTEventEmitter <RCTBridgeModule, VIMessengerDelegate>
 @end

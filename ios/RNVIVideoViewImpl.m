@@ -4,7 +4,7 @@
  */
 
 #import "RNVIVideoViewImpl.h"
-#import <VoxImplant/VoxImplant.h>
+#import <VoxImplantSDK/VoxImplantSDK.h>
 #import "RNVICallManager.h"
 #import "RNVIUtils.h"
 

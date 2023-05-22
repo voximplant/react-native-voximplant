@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <VoxImplant/VoxImplant.h>
+#import <VoxImplantSDK/VoxImplantSDK.h>
 
 @interface RNVIUtils : NSObject
 + (NSData *)dataFromHexString:(NSString *)string;

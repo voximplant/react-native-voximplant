@@ -5,7 +5,7 @@
 #import "RNVICameraModule.h"
 #import "RCTBridgeModule.h"
 #import "RNVIConstants.h"
-#import <Voximplant/VoxImplant.h>
+#import <VoxImplantSDK/VoxImplantSDK.h>
 
 @interface RNVICameraModule()
 @end
@@ -30,7 +30,7 @@ RCT_EXPORT_METHOD(switchCamera:(NSString *)camera) {
 
 RCT_REMAP_METHOD(setCameraResolution, setCameraWidth:(int)width andHeight:(int)height) {
     AVCaptureDevicePosition position = [VICameraManager sharedCameraManager].useBackCamera ? AVCaptureDevicePositionBack : AVCaptureDevicePositionFront;
-    
+
     NSArray<AVCaptureDevice *> *captureDevices = [[VICameraManager sharedCameraManager] captureDevices];
     AVCaptureDevice *captureDevice = captureDevices[0];
     for (AVCaptureDevice *device in captureDevices) {
@@ -44,7 +44,7 @@ RCT_REMAP_METHOD(setCameraResolution, setCameraWidth:(int)width andHeight:(int)h
     int targetHeight = height;
     AVCaptureDeviceFormat *selectedFormat = nil;
     int currentDiff = INT_MAX;
-    
+
     for (AVCaptureDeviceFormat *format in formats) {
         CMVideoDimensions dimension = CMVideoFormatDescriptionGetDimensions(format.formatDescription);
         int diff = abs(targetWidth - dimension.width) + abs(targetHeight - dimension.height);
