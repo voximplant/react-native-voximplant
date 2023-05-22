@@ -13,7 +13,7 @@ import Call from './call/Call';
 import CallEvents from './call/CallEvents';
 import Endpoint from './call/Endpoint';
 import VideoStream from './call/VideoStream';
-import VideoView from './call/VideoView';
+import VideoView from './videoview/index';
 import EndpointEvents from './call/EndpointEvents';
 import ClientEvents from './client/ClientEvents';
 import {ClientState, CameraType, RenderScaleType, LogLevel, CallError, VideoCodec, RequestAudioFocusMode, VideoStreamType} from "./Enums";

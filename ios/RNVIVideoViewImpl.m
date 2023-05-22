@@ -3,19 +3,19 @@
  * Copyright (c) 2011-2019, Zingaya, Inc. All rights reserved.
  */
 
-#import "RNVIVideoView.h"
+#import "RNVIVideoViewImpl.h"
 #import <VoxImplant/VoxImplant.h>
 #import "RNVICallManager.h"
 #import "RNVIUtils.h"
 
-@interface RNVIVideoView ()
+@interface RNVIVideoViewImpl ()
 @property(nonatomic, assign) NSString *videoStreamId;
 @property(nonatomic, assign) NSString *scaleType;
 @property(nonatomic, strong) VIVideoRendererView *videoRenderer;
 @property(nonatomic, strong) VIVideoStream *videoStream;
 @end
 
-@implementation RNVIVideoView
+@implementation RNVIVideoViewImpl
 
 - (id)init {
     self = [super init];

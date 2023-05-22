@@ -1,26 +1,38 @@
-apply plugin: 'com.android.library'
+buildscript {
+    ext.safeExtGet = {prop, fallback ->
+        rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+    }
+}
 
-def getExtOrIntegerDefault(name) {
-    return rootProject.ext.has(name) ? rootProject.ext.get(name) : 29
+def isNewArchitectureEnabled() {
+    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+
+apply plugin: 'com.android.library'
+if (isNewArchitectureEnabled()) {
+    apply plugin: 'com.facebook.react'
 }
 
 android {
-    compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+    compileSdkVersion safeExtGet('compileSdkVersion', 31)
 
     sourceSets {
         main {
             jniLibs.srcDirs += 'libs'
+            if (isNewArchitectureEnabled()) {
+                java.srcDirs += ['src/newarch']
+            } else {
+                java.srcDirs += ['src/oldarch']
+            }
         }
     }
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+        minSdkVersion safeExtGet('minSdkVersion', 21)
+        targetSdkVersion safeExtGet('targetSdkVersion', 31)
         versionCode 1
         versionName "1.0"
-    }
-    lintOptions {
-        abortOnError false
+        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
     }
 
     compileOptions {
@@ -38,4 +50,12 @@ dependencies {
     implementation "com.facebook.react:react-native:+"
     implementation "com.voximplant:voximplant-sdk:2.34.0"
     implementation "androidx.annotation:annotation:1.5.0"
+}
+
+if (isNewArchitectureEnabled()) {
+    react {
+        jsRootDir = file("../src/")
+        libraryName = "RNVoximplant"
+        codegenJavaPackageName = "com.voximplant.reactnative"
+    }
 }
