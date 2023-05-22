@@ -101,7 +101,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	//region React methods
 	@ReactMethod
 	public void init(ReadableMap settings) {
-		Voximplant.subVersion = "react-1.36.0";
+		Voximplant.subVersion = "react-1.37.0";
 		ClientConfig config = Utils.convertClientConfigFromMap(settings);
 		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
 		mClient.setClientIncomingCallListener(this);

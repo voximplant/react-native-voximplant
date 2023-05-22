@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
     s.homepage     = 'https://github.com/voximplant/react-native-voximplant'
     s.source       = {:path => './ios/'}
     s.summary      = 'RN voximplant'
-    s.version      = '1.36.0'
+    s.version      = '1.37.0'
     s.dependency   'VoxImplantSDK', '2.47.0'
     if fabric_enabled
       s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
