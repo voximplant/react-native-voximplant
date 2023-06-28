@@ -47,10 +47,8 @@ RCT_EXPORT_MODULE();
              kEventEndpointVoiceActivityStopped,
              kEventCallReconnecting,
              kEventCallReconnected,
-             kEventEndpointStopReceivingVideoStreamSuccess,
-             kEventEndpointStopReceivingVideoStreamFailure,
-             kEventEndpointStartReceivingVideoStreamSuccess,
-             kEventEndpointStartReceivingVideoStreamFailure,
+             kEventEndpointStopReceivingVideoStream,
+             kEventEndpointStartReceivingVideoStream,
              kEventEndpointRequestVideoSizeForVideoStreamSuccess,
              kEventEndpointRequestVideoSizeForVideoStreamFailure,
              kEventQualityIssuePacketLoss,
@@ -170,38 +168,14 @@ RCT_REMAP_METHOD(receiveVideo, receiveVideo:(NSString *)callId resolver:(RCTProm
 RCT_EXPORT_METHOD(startReceiving:(NSString *)streamId) {
     VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
     if (remoteVideoStream) {
-        [remoteVideoStream startReceivingWithCompletion:^(NSError * _Nullable error) {
-            if (error) {
-                [self sendEventWithName:kEventEndpointStartReceivingVideoStreamFailure body:@{
-                                                                         kEventParamName   : kEventEndpointStartReceivingVideoStreamFailure,
-                                                                         kEventParamCode   : [RNVIUtils convertIntToCallError:error.code],
-                                                                         kEventParamReason : [NSArray arrayWithObject:[error.userInfo objectForKey:@"reason"]]
-                                                                         }];
-            } else {
-                [self sendEventWithName:kEventEndpointStartReceivingVideoStreamSuccess body:@{
-                                                                         kEventParamName   : kEventEndpointStartReceivingVideoStreamSuccess,
-                                                                         }];
-            }
-        }];
+        [remoteVideoStream startReceiving];
     }
 }
 
 RCT_EXPORT_METHOD(stopReceiving:(NSString *)streamId) {
     VIRemoteVideoStream *remoteVideoStream = [RNVICallManager getRemoteVideoStreamById:streamId];
     if (remoteVideoStream) {
-        [remoteVideoStream stopReceivingWithCompletion:^(NSError * _Nullable error) {
-            if (error) {
-                [self sendEventWithName:kEventEndpointStopReceivingVideoStreamFailure body:@{
-                                                                        kEventParamName   : kEventEndpointStopReceivingVideoStreamFailure,
-                                                                        kEventParamCode   : [RNVIUtils convertIntToCallError:error.code],
-                                                                        kEventParamReason : [NSArray arrayWithObject:[error.userInfo objectForKey:@"reason"]]
-                                                                        }];
-            } else {
-                [self sendEventWithName:kEventEndpointStopReceivingVideoStreamSuccess body:@{
-                                                                        kEventParamName   : kEventEndpointStopReceivingVideoStreamSuccess,
-                                                                        }];
-            }
-        }];
+        [remoteVideoStream stopReceiving];
     }
 }
 
@@ -438,6 +412,30 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
                                                                       }];
 }
 
+- (void)            endpoint:(VIEndpoint *)endpoint
+didStartReceivingVideoStream:(VIRemoteVideoStream *)videoStream {
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointStartReceivingVideoStream body:@{
+        kEventParamName          : kEventEndpointStartReceivingVideoStream,
+        kEventParamCallId        : callId ? callId : [NSNull null],
+        kEventParamEndpointId    : endpoint.endpointId,
+        kEventParamVideoStreamId : videoStream.streamId
+    }];
+}
+
+- (void)           endpoint:(VIEndpoint *)endpoint
+didStopReceivingVideoStream:(VIRemoteVideoStream *)videoStream
+                     reason:(VIVideoStreamReceiveStopReason)reason {
+    NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
+    [self sendEventWithName:kEventEndpointStopReceivingVideoStream body:@{
+        kEventParamName          : kEventEndpointStopReceivingVideoStream,
+        kEventParamCallId        : callId ? callId : [NSNull null],
+        kEventParamEndpointId    : endpoint.endpointId,
+        kEventParamVideoStreamId : videoStream.streamId,
+        kEventParamReason        : [RNVIUtils convertVideoStreamReceiveStopReasonToString:reason]
+    }];
+}
+
 - (void)call:(VICall *)call didDetectPacketLoss:(double)packetLoss issueLevel:(VIQualityIssueLevel)level {
     [self sendEventWithName:kEventQualityIssuePacketLoss body:@{
         kEventParamName      : kEventNameQualityIssuePacketLoss,
@@ -511,7 +509,7 @@ didDetectNoAudioReceiveOnStream:(VIRemoteAudioStream *)audioStream
         kEventParamIssueLevel   : [RNVIUtils convertQualityIssueLevelToString:level]
     }];
 }
-    
+
 - (void)                   call:(VICall *)call
 didDetectNoVideoReceiveOnStream:(VIRemoteVideoStream *)videoStream
                    fromEndpoint:(VIEndpoint *)endpoint

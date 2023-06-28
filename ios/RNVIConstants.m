@@ -44,10 +44,8 @@ NSString *const kEventQualityIssueNoAudioSignal = @"VIQualityIssueNoAudioSignal"
 NSString *const kEventQualityIssueNoAudioReceive = @"VIQualityIssueNoAudioReceive";
 NSString *const kEventQualityIssueNoVideoReceive = @"VIQualityIssueNoVideoReceive";
 
-NSString *const kEventEndpointStopReceivingVideoStreamSuccess = @"VIStopReceivingVideoStreamSuccess";
-NSString *const kEventEndpointStopReceivingVideoStreamFailure = @"VIStopReceivingVideoStreamFailure";
-NSString *const kEventEndpointStartReceivingVideoStreamSuccess = @"VIStartReceivingVideoStreamSuccess";
-NSString *const kEventEndpointStartReceivingVideoStreamFailure = @"VIStartReceivingVideoStreamFailure";
+NSString *const kEventEndpointStopReceivingVideoStream = @"VIStopReceivingVideoStream";
+NSString *const kEventEndpointStartReceivingVideoStream = @"VIStartReceivingVideoStream";
 NSString *const kEventEndpointRequestVideoSizeForVideoStreamSuccess = @"VIRequestVideoSizeForVideoStreamSuccess";
 NSString *const kEventEndpointRequestVideoSizeForVideoStreamFailure = @"VIRequestVideoSizeForVideoStreamFailure";
 
@@ -153,6 +151,9 @@ NSString *const kEventParamError = @"error";
 
 NSString *const kVideoStreamTypeVideo = @"Video";
 NSString *const kVideoStreamTypeScreenSharing = @"ScreenSharing";
+
+NSString *const kVideoStreamReceiveStopReasonAutomatic = @"Automatic";
+NSString *const kVideoStreamReceiveStopReasonManual = @"Manual";
 
 NSString *const kScaleTypeFit = @"fit";
 NSString *const kScaleTypeFill = @"fill";
