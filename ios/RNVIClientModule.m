@@ -10,7 +10,7 @@
 #import "RNVIUtils.h"
 #import "RNVICallManager.h"
 #import "RNVIClientModule.h"
-#import <WebRTC/WebRTC.h>
+#import <VoximplantWebRTC/VoximplantWebRTC.h>
 
 NSString *const LOG_LEVEL_ERROR = @"error";
 NSString *const LOG_LEVEL_WARNING = @"warning";
@@ -80,13 +80,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
     VILogLevel logLevel = [RNVIUtils convertLogLevelFromString:[options objectForKey:@"logLevel"]];
     [VIClient setLogLevel:logLevel];
-    [VIClient setVersionExtension:@"react-1.37.0"];
-    BOOL h264RecoveryMode = [[options objectForKey:@"h264RecoveryMode"] boolValue];
-    if (h264RecoveryMode) {
-      RTCInitFieldTrialDictionary(@{
-        kRTCFieldTrialVoximplantH264RecoveryModeKey: kRTCFieldTrialEnabledValue
-      });
-    }
+    [VIClient setVersionExtension:@"react-1.38.0"];
     NSString *bundleId = [options objectForKey:@"bundleId"];
     if (bundleId) {
         _client = [RNVICallManager getClientWithBundleId:bundleId];

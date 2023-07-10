@@ -51,13 +51,11 @@ export default class Client {
             if (clientConfig.requestAudioFocusMode === undefined) clientConfig.requestAudioFocusMode = RequestAudioFocusMode.REQUEST_ON_CALL_START;
             if (clientConfig.forceRelayTraffic === undefined) clientConfig.forceRelayTraffic = false
             if (clientConfig.logLevel !== undefined) console.log('logLevel is iOS only option');
-            if (clientConfig.h264RecoveryMode !== undefined) console.log('h264RecoveryMode is iOS only option');
             ClientModule.init(clientConfig);
         }
         if (Platform.OS === 'ios') {
             if (clientConfig.logLevel === undefined) clientConfig.logLevel = LogLevel.INFO;
             if (clientConfig.bundleId === undefined) clientConfig.bundleId = null;
-            if (clientConfig.h264RecoveryMode === undefined) clientConfig.h264RecoveryMode = false;
             if (clientConfig.forceRelayTraffic === undefined) clientConfig.forceRelayTraffic = false
             if (clientConfig.enableVideo !== undefined) console.log('enableVideo is Android only option');
             if (clientConfig.enableDebugLogging !== undefined) console.log('enableDebugLogging is Android only option');
@@ -563,7 +561,7 @@ export default class Client {
     };
 
     /**
-     * 
+     *
      * @private
      */
      _onReconnecting = (event) => {
@@ -571,8 +569,8 @@ export default class Client {
      };
 
     /**
-     * 
-     * @private 
+     *
+     * @private
      */
      _onReconnected = (event) => {
          this._emit(ClientEvents.Reconnected, event);
