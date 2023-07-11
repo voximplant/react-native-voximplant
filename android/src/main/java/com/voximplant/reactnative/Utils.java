@@ -12,6 +12,7 @@ import com.voximplant.sdk.call.QualityIssue;
 import com.voximplant.sdk.call.QualityIssueLevel;
 import com.voximplant.sdk.call.VideoCodec;
 import com.voximplant.sdk.call.VideoFlags;
+import com.voximplant.sdk.call.VideoStreamReceiveStopReason;
 import com.voximplant.sdk.call.VideoStreamType;
 import com.voximplant.sdk.client.ClientConfig;
 import com.voximplant.sdk.client.ClientState;
@@ -88,6 +89,8 @@ import static com.voximplant.reactnative.Constants.SEND_MESSAGE;
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_CONNECTED;
 import static com.voximplant.reactnative.Constants.REQUEST_ON_CALL_START;
 import static com.voximplant.reactnative.Constants.UNKNOWN;
+import static com.voximplant.reactnative.Constants.VIDEO_RECEIVE_STOP_REASON_AUTOMATIC;
+import static com.voximplant.reactnative.Constants.VIDEO_RECEIVE_STOP_REASON_MANUAL;
 import static com.voximplant.reactnative.Constants.VIDEO_STREAM_TYPE_SCREEN_SHARING;
 import static com.voximplant.reactnative.Constants.VIDEO_STREAM_TYPE_VIDEO;
 
@@ -584,6 +587,16 @@ class Utils {
 			case VIDEO:
 			default:
 				return VIDEO_STREAM_TYPE_VIDEO;
+		}
+	}
+
+	static String convertVideoReceiveStopReason(VideoStreamReceiveStopReason reason) {
+		switch (reason) {
+			case MANUAL:
+				return VIDEO_RECEIVE_STOP_REASON_MANUAL;
+			case AUTOMATIC:
+			default:
+				return VIDEO_RECEIVE_STOP_REASON_AUTOMATIC;
 		}
 	}
 
