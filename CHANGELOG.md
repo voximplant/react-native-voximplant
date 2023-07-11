@@ -1,5 +1,16 @@
 # Changelog
 
+### 1.40.0-beta
+- This is a beta SDK version. Not recommended for production use.
+- Update native Android and iOS modules to use Voximplant Android SDK 2.37.0-beta and Voximplant iOS SDK 2.50.0-beta
+- Endpoint.startReceiving and Endpoint.stopReceiving API return type void instead of Promise. The result of the API call is now provided via events:
+  - EndpointEvents.StartReceivingVideoStream
+  - EndpointEvents.StopReceivingVideoStream
+- Introduce new API to handle video receive stop on a remote video stream:
+  - EndpointEvents.StartReceivingVideoStream
+  - EndpointEvents.StopReceivingVideoStream
+- Introduce new API VideoStreamReceiveStopReason to handle the reason for video receive stop on a remote video stream.
+
 ### 1.38.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.35.3 and Voximplant iOS SDK 2.48.2
 - Minimum supported iOS version is changed to 11.0
