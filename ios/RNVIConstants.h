@@ -34,6 +34,8 @@ FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointVoiceActivityStarted;
 FOUNDATION_EXPORT NSString *const kEventEndpointVoiceActivityStopped;
+FOUNDATION_EXPORT NSString *const kEventNameStartReceivingVideoStream;
+FOUNDATION_EXPORT NSString *const kEventNameStopReceivingVideoStream;
 
 FOUNDATION_EXPORT NSString *const kEventQualityIssuePacketLoss;
 FOUNDATION_EXPORT NSString *const kEventQualityIssueCodecMismatch;

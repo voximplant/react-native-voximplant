@@ -48,7 +48,7 @@ const EndpointEvents = {
      *
      * The event is not triggered if the endpoint client has started sending video using {@link Voximplant.Call#sendVideo} API.
      */
-    StartReceiveVideoStream  : 'StartReceiveVideoStream',
+    StartReceivingVideoStream  : 'StartReceivingVideoStream',
     /**
      * Triggered when video receive on a remote video stream is stopped. Available only for the conference calls.
      *
@@ -60,11 +60,11 @@ const EndpointEvents = {
      *
      * If the video receive is disabled automatically, it may be automatically enabled as soon as the network condition
      * on the device is good and there is enough bandwidth to receive the video on this remote video stream.
-     * In this case event {@link Voximplant.EndpointEvents.StartReceiveVideoStream} will be invoked.
+     * In this case event {@link Voximplant.EndpointEvents.StartReceivingVideoStream} will be invoked.
      *
      * The event is not triggered if the endpoint client has stopped sending video using {@link Voximplant.Call#sendVideo} API.
      */
-    StopReceiveVideoStream  : 'StopReceiveVideoStream',
+    StopReceivingVideoStream  : 'StopReceivingVideoStream',
 };
 
 export default EndpointEvents;

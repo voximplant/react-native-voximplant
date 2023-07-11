@@ -275,7 +275,7 @@ export default class Endpoint {
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
             delete event.videoStreamId;
             event.videoStream = videoStream;
-            this._emit(EndpointEvents.StopReceiveVideoStream, event);
+            this._emit(EndpointEvents.StopReceivingVideoStream, event);
         }
     }
 
@@ -285,7 +285,7 @@ export default class Endpoint {
             let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
             delete event.videoStreamId;
             event.videoStream = videoStream;
-            this._emit(EndpointEvents.StartReceiveVideoStream, event);
+            this._emit(EndpointEvents.StartReceivingVideoStream, event);
         }
     }
 

@@ -86,6 +86,8 @@ NSString *const kEventNameEndpointRemoteStreanRemoved = @"RemoteVideoStreamRemov
 NSString *const kEventNameEndpointRemoved = @"Removed";
 NSString *const kEventNameVoiceActivityStarted = @"VoiceActivityStarted";
 NSString *const kEventNameVoiceActivityStopped = @"VoiceActivityStopped";
+NSString *const kEventNameStartReceivingVideoStream = @"StartReceivingVideoStream";
+NSString *const kEventNameStopReceivingVideoStream = @"StopReceivingVideoStream";
 
 NSString *const kEventNameQualityIssuePacketLoss = @"PacketLoss";
 NSString *const kEventNameQualityIssueCodecMismatch = @"CodecMismatch";

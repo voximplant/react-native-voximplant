@@ -416,7 +416,7 @@ RCT_EXPORT_METHOD(currentQualityIssues:(NSString *)callId resolver:(RCTPromiseRe
 didStartReceivingVideoStream:(VIRemoteVideoStream *)videoStream {
     NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointStartReceivingVideoStream body:@{
-        kEventParamName          : kEventEndpointStartReceivingVideoStream,
+        kEventParamName          : kEventNameStartReceivingVideoStream,
         kEventParamCallId        : callId ? callId : [NSNull null],
         kEventParamEndpointId    : endpoint.endpointId,
         kEventParamVideoStreamId : videoStream.streamId
@@ -428,7 +428,7 @@ didStopReceivingVideoStream:(VIRemoteVideoStream *)videoStream
                      reason:(VIVideoStreamReceiveStopReason)reason {
     NSString *callId = [RNVICallManager getCallIdByEndpointId:endpoint.endpointId];
     [self sendEventWithName:kEventEndpointStopReceivingVideoStream body:@{
-        kEventParamName          : kEventEndpointStopReceivingVideoStream,
+        kEventParamName          : kEventNameStopReceivingVideoStream,
         kEventParamCallId        : callId ? callId : [NSNull null],
         kEventParamEndpointId    : endpoint.endpointId,
         kEventParamVideoStreamId : videoStream.streamId,
