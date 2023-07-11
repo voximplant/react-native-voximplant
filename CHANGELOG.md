@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.38.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.35.3 and Voximplant iOS SDK 2.48.2
+- Minimum supported iOS version is changed to 11.0
+- iOS 32-bit architectures are no more supported
+- ClientConfig.h264RecoveryMode option is removed
+
 ### 1.37.0
 - Fabric support for VideoView component
 - Update native Android and iOS modules to use Voximplant Android SDK 2.35.2 and Voximplant iOS SDK 2.47.0

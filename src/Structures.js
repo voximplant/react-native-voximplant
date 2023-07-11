@@ -34,7 +34,6 @@
  *
  * ANDROID ONLY
  *
- * @property {boolean} [h264RecoveryMode] - Enable experimental packet recovery mode to decode broken h264 streams. iOS ONLY
  * @property {boolean} [forceRelayTraffic] - Force traffic to go through TURN servers. False by default.
  */
 const ClientConfig = {
