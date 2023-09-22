@@ -142,49 +142,19 @@ export default class Endpoint {
     /**
      * Starts receiving video on the video stream.
      * @param {string} streamId - Remote video stream id
-     * @returns {Promise<void|EventHandlers.CallOperationFailed>}
      * @memberOf Voximplant.Endpoint
      */
     startReceiving(streamId) {
-        return new Promise((resolve, reject) => {
-            const success = () => {
-                startReceivingVideoStreamFailure.remove();
-                startReceivingVideoStreamSuccess.remove();
-                resolve();
-            };
-            const failure = (event) => {
-                startReceivingVideoStreamSuccess.remove();
-                startReceivingVideoStreamFailure.remove();
-                reject(event);
-            };
-            const startReceivingVideoStreamSuccess = EventEmitter.addListener('VIStartReceivingVideoStreamSuccess', success)
-            const startReceivingVideoStreamFailure = EventEmitter.addListener('VIStartReceivingVideoStreamFailure', failure)
-            CallModule.startReceiving(streamId);
-        });
+        CallModule.startReceiving(streamId);
     }
 
     /**
      * Stops receiving video on the video stream.
      * @param {string} streamId - Remote video stream id
-     * @returns {Promise<void|EventHandlers.CallOperationFailed>}
      * @memberOf Voximplant.Endpoint
      */
     stopReceiving(streamId) {
-        return new Promise((resolve, reject) => {
-            const success = () => {
-                startReceivingVideoStreamFailure.remove();
-                stopReceivingVideoStreamSuccess.remove();
-                resolve();
-            };
-            const failure = (event) => {
-                stopReceivingVideoStreamSuccess.remove();
-                startReceivingVideoStreamFailure.remove();
-                reject(event);
-            };
-            const stopReceivingVideoStreamSuccess = EventEmitter.addListener('VIStopReceivingVideoStreamSuccess', success)
-            const startReceivingVideoStreamFailure = EventEmitter.addListener('VIStartReceivingVideoStreamFailure', failure)
-            CallModule.stopReceiving(streamId);
-        });
+        CallModule.stopReceiving(streamId);
     }
 
     /**
@@ -299,6 +269,26 @@ export default class Endpoint {
         }
     };
 
+    _VIStopReceivingVideoStream = (event) => {
+        if (event.endpointId === this.id) {
+            this._prepareEvent(event);
+            let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            delete event.videoStreamId;
+            event.videoStream = videoStream;
+            this._emit(EndpointEvents.StopReceivingVideoStream, event);
+        }
+    }
+
+    _VIStartReceivingVideoStream = (event) => {
+        if (event.endpointId === this.id) {
+            this._prepareEvent(event);
+            let videoStream = CallManager.getInstance().getVideoStreamById(event.videoStreamId);
+            delete event.videoStreamId;
+            event.videoStream = videoStream;
+            this._emit(EndpointEvents.StartReceivingVideoStream, event);
+        }
+    }
+
     /**
      * @private
      */
@@ -307,7 +297,10 @@ export default class Endpoint {
         'VIEndpointRemoteVideoStreamAdded',
         'VIEndpointRemoteVideoStreamRemoved',
         'VIVoiceActivityStarted',
-        'VIVoiceActivityStopped'];
+        'VIVoiceActivityStopped',
+        'VIStopReceivingVideoStream',
+        'VIStartReceivingVideoStream',
+    ];
 
     /**
      * @private

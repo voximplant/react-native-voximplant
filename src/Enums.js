@@ -208,6 +208,24 @@ export const VideoStreamType = {
 };
 
 /**
+ * Enum that represents the reason why video receive on the remote video stream was stopped.
+ * @name VideoStreamReceiveStopReason
+ * @memberOf Voximplant
+ * @enum {string}
+ * @type {{AUTOMATIC: string, MANUAL: string}}
+ */
+export const VideoStreamReceiveStopReason =  {
+    /**
+     * Indicates that video receive on a remote video stream is stopped by the Voximplant Cloud due to a network issue on the device.
+     */
+    AUTOMATIC : 'Automatic',
+    /**
+     * Indicates that video receive on a remote video stream is stopped by the client via {@link Voximplant.Endpoint#stopReceiving}.
+     */
+    MANUAL    : 'Manual'
+};
+
+/**
  * Enum that represents actions that trigger messenger events. Each action is the reason for every triggered event.
  * @name MessengerAction
  * @memberOf Voximplant.Messaging

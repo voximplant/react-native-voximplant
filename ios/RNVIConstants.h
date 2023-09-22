@@ -34,6 +34,8 @@ FOUNDATION_EXPORT NSString *const kEventEndpointRemoteStreamRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointRemoved;
 FOUNDATION_EXPORT NSString *const kEventEndpointVoiceActivityStarted;
 FOUNDATION_EXPORT NSString *const kEventEndpointVoiceActivityStopped;
+FOUNDATION_EXPORT NSString *const kEventNameStartReceivingVideoStream;
+FOUNDATION_EXPORT NSString *const kEventNameStopReceivingVideoStream;
 
 FOUNDATION_EXPORT NSString *const kEventQualityIssuePacketLoss;
 FOUNDATION_EXPORT NSString *const kEventQualityIssueCodecMismatch;
@@ -89,10 +91,8 @@ FOUNDATION_EXPORT NSString *const kEventNameQualityIssueNoAudioSignal;
 FOUNDATION_EXPORT NSString *const kEventNameQualityIssueNoAudioReceive;
 FOUNDATION_EXPORT NSString *const kEventNameQualityIssueNoVideoReceive;
 
-FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStreamSuccess;
-FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStreamFailure;
-FOUNDATION_EXPORT NSString *const kEventEndpointStartReceivingVideoStreamSuccess;
-FOUNDATION_EXPORT NSString *const kEventEndpointStartReceivingVideoStreamFailure;
+FOUNDATION_EXPORT NSString *const kEventEndpointStopReceivingVideoStream;
+FOUNDATION_EXPORT NSString *const kEventEndpointStartReceivingVideoStream;
 FOUNDATION_EXPORT NSString *const kEventEndpointRequestVideoSizeForVideoStreamSuccess;
 FOUNDATION_EXPORT NSString *const kEventEndpointRequestVideoSizeForVideoStreamFailure;
 
@@ -151,6 +151,9 @@ FOUNDATION_EXPORT NSString *const kEventParamError;
 
 FOUNDATION_EXPORT NSString *const kVideoStreamTypeVideo;
 FOUNDATION_EXPORT NSString *const kVideoStreamTypeScreenSharing;
+
+FOUNDATION_EXPORT NSString *const kVideoStreamReceiveStopReasonAutomatic;
+FOUNDATION_EXPORT NSString *const kVideoStreamReceiveStopReasonManual;
 
 FOUNDATION_EXPORT NSString *const kScaleTypeFit;
 FOUNDATION_EXPORT NSString *const kScaleTypeFill;

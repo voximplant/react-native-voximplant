@@ -52,10 +52,8 @@ class Constants {
     static final String EVENT_CALL_QUALITY_ISSUE_NO_AUDIO_RECEIVE = "VIQualityIssueNoAudioReceive";
     static final String EVENT_CALL_QUALITY_ISSUE_NO_VIDEO_RECEIVE = "VIQualityIssueNoVideoReceive";
 
-    static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS = "VIStopReceivingVideoStreamSuccess";
-    static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE = "VIStopReceivingVideoStreamFailure";
-    static final String EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS = "VIStartReceivingVideoStreamSuccess";
-    static final String EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_FAILURE = "VIStartReceivingVideoStreamFailure";
+    static final String EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM = "VIStopReceivingVideoStream";
+    static final String EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM = "VIStartReceivingVideoStream";
     static final String EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_SUCCESS = "VIRequestVideoSizeForVideoStreamSuccess";
     static final String EVENT_ENDPOINT_REQUEST_VIDEO_SIZE_FOR_VIDEO_STREAM_FAILURE = "VIRequestVideoSizeForVideoStreamFailure";
 
@@ -99,6 +97,9 @@ class Constants {
     static final String EVENT_NAME_ENDPOINT_REMOVED = "Removed";
     static final String EVENT_NAME_VOICE_ACTIVITY_STARTED = "VoiceActivityStarted";
     static final String EVENT_NAME_VOICE_ACTIVITY_STOPPED = "VoiceActivityStopped";
+
+    static final String EVENT_NAME_STOP_RECEIVING_VIDEO_STREAM = "StopReceivingVideoStream";
+    static final String EVENT_NAME_START_RECEIVING_VIDEO_STREAM = "StartReceivingVideoStream";
 
     static final String EVENT_NAME_CALL_QUALITY_ISSUE_PACKET_LOSS = "PacketLoss";
     static final String EVENT_NAME_CALL_QUALITY_ISSUE_CODEC_MISMATCH = "CodecMismatch";
@@ -186,6 +187,9 @@ class Constants {
 
     static final String VIDEO_STREAM_TYPE_VIDEO = "Video";
     static final String VIDEO_STREAM_TYPE_SCREEN_SHARING = "ScreenSharing";
+
+    static final String VIDEO_RECEIVE_STOP_REASON_AUTOMATIC = "Automatic";
+    static final String VIDEO_RECEIVE_STOP_REASON_MANUAL = "Manual";
 
     static final String BLUETOOTH = "Bluetooth";
     static final String EARPIECE = "Earpiece";

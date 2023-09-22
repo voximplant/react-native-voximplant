@@ -224,6 +224,13 @@
     }
 }
 
++ (NSString *)convertVideoStreamReceiveStopReasonToString:(VIVideoStreamReceiveStopReason)reason {
+    if ([reason isEqualToString:VIVideoStreamReceiveStopReasonManual]) {
+        return kVideoStreamReceiveStopReasonManual;
+    }
+    return kVideoStreamReceiveStopReasonAutomatic;
+}
+
 + (NSString *)convertAudioFileErrorToString:(VIAudioFileErrorCode)audioFileError {
     switch (audioFileError) {
         case VIAudioFileErrorCodeDestroyed:

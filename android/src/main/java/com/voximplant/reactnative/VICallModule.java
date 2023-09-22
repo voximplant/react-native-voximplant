@@ -30,6 +30,7 @@ import com.voximplant.sdk.call.QualityIssue;
 import com.voximplant.sdk.call.QualityIssueLevel;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
+import com.voximplant.sdk.call.VideoStreamReceiveStopReason;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -49,14 +50,14 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
 
     @ReactMethod
     public void addListener(String eventName) {
-      // Keep: Required for RN built in Event Emitter Calls.
+        // Keep: Required for RN built in Event Emitter Calls.
     }
 
     @ReactMethod
     public void removeListeners(Integer count) {
-      // Keep: Required for RN built in Event Emitter Calls.
+        // Keep: Required for RN built in Event Emitter Calls.
     }
-    
+
     @Override
     public String getName() {
         return "RNVICallModule";
@@ -206,23 +207,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     public void startReceiving(String streamId) {
         IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
         if (remoteVideoStream != null) {
-            remoteVideoStream.startReceiving(new ICallCompletionHandler() {
-                @Override
-                public void onComplete() {
-                    WritableMap params = Arguments.createMap();
-                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS);
-                    sendEvent(EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_SUCCESS, params);
-                }
-
-                @Override
-                public void onFailure(CallException exception) {
-                    WritableMap params = Arguments.createMap();
-                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_FAILURE);
-                    params.putString(EVENT_PARAM_CODE, exception.getErrorCode().toString());
-                    params.putString(EVENT_PARAM_REASON, exception.getMessage());
-                    sendEvent(EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM_FAILURE, params);
-                }
-            });
+            remoteVideoStream.startReceiving();
         }
     }
 
@@ -230,23 +215,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     public void stopReceiving(String streamId) {
         IRemoteVideoStream remoteVideoStream = CallManager.getInstance().getRemoteVideoStreamById(streamId);
         if (remoteVideoStream != null) {
-            remoteVideoStream.stopReceiving(new ICallCompletionHandler() {
-                @Override
-                public void onComplete() {
-                    WritableMap params = Arguments.createMap();
-                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS);
-                    sendEvent(EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_SUCCESS, params);
-                }
-
-                @Override
-                public void onFailure(CallException exception) {
-                    WritableMap params = Arguments.createMap();
-                    params.putString(EVENT_PARAM_NAME, EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE);
-                    params.putString(EVENT_PARAM_CODE, exception.getErrorCode().toString());
-                    params.putString(EVENT_PARAM_REASON, exception.getMessage());
-                    sendEvent(EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM_FAILURE, params);
-                }
-            });
+            remoteVideoStream.stopReceiving();
         }
     }
 
@@ -501,6 +470,27 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
     }
 
     @Override
+    public void onStartReceivingVideoStream(@NonNull IEndpoint endpoint, @NonNull IRemoteVideoStream videoStream) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_START_RECEIVING_VIDEO_STREAM);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        sendEvent(EVENT_ENDPOINT_START_RECEIVING_VIDEO_STREAM, params);
+    }
+
+    @Override
+    public void onStopReceivingVideoStream(@NonNull IEndpoint endpoint, @NonNull IRemoteVideoStream videoStream, @NonNull VideoStreamReceiveStopReason reason) {
+        WritableMap params = Arguments.createMap();
+        params.putString(EVENT_PARAM_NAME, EVENT_NAME_STOP_RECEIVING_VIDEO_STREAM);
+        params.putString(EVENT_PARAM_CALLID, CallManager.getInstance().getCallIdByEndpointId(endpoint.getEndpointId()));
+        params.putString(EVENT_PARAM_ENDPOINTID, endpoint.getEndpointId());
+        params.putString(EVENT_PARAM_VIDEO_STREAM_ID, videoStream.getVideoStreamId());
+        params.putString(EVENT_PARAM_REASON, Utils.convertVideoReceiveStopReason(reason));
+        sendEvent(EVENT_ENDPOINT_STOP_RECEIVING_VIDEO_STREAM, params);
+    }
+
+    @Override
     public void onPacketLoss(@NonNull ICall call, @NonNull QualityIssueLevel level, double packetLoss) {
         WritableMap params = Arguments.createMap();
         params.putString(EVENT_PARAM_NAME, EVENT_NAME_CALL_QUALITY_ISSUE_PACKET_LOSS);
@@ -582,7 +572,7 @@ public class VICallModule extends ReactContextBaseJavaModule implements ICallLis
         params.putString(EVENT_PARAM_ISSUE_LEVEL, Utils.convertQualityIssueLevelToString(level));
         sendEvent(EVENT_CALL_QUALITY_ISSUE_NO_AUDIO_RECEIVE, params);
     }
-    
+
     @Override
     public void onNoVideoReceive(@NonNull ICall call, @NonNull QualityIssueLevel level, @NonNull IRemoteVideoStream videoStream, @NonNull IEndpoint endpoint) {
         WritableMap params = Arguments.createMap();
