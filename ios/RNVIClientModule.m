@@ -80,7 +80,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
     VILogLevel logLevel = [RNVIUtils convertLogLevelFromString:[options objectForKey:@"logLevel"]];
     [VIClient setLogLevel:logLevel];
-    [VIClient setVersionExtension:@"react-1.40.0"];
+    [VIClient setVersionExtension:@"react-1.40.1"];
     NSString *bundleId = [options objectForKey:@"bundleId"];
     if (bundleId) {
         _client = [RNVICallManager getClientWithBundleId:bundleId];

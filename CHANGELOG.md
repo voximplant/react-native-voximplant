@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.40.1
+- Add ability to end calls from native code
+
 ### 1.40.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.37.0 and Voximplant iOS SDK 2.50.0
 - Introduce new API to handle video receive stop on a remote video stream and its reason (see 1.40.0-beta changelog)
