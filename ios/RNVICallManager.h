@@ -30,4 +30,8 @@
 
 + (VIVideoStream *)getVideoStreamById:(NSString *)videoStreamId;
 
+// This method is intended to be used only to end the calls when the app is terminating
++ (void)endAllCalls;
+
+
 @end

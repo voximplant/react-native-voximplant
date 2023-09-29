@@ -140,4 +140,16 @@
     return videoStream;
 }
 
+// This method is intended to be used only for the case applicationWillTerminate:
++ (void)endAllCalls {
+    if ([RNVICallManager getInstance].calls.count == 0) {
+        return;
+    }
+    [[RNVICallManager getInstance].calls enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull callId, VICall * _Nonnull call, BOOL * _Nonnull stop) {
+        [call hangupWithHeaders:nil];
+    }];
+    // Sleep for 50ms to give the SDK time to notify the Voximplant Cloud that the call is ended
+    usleep(50000);
+}
+
 @end

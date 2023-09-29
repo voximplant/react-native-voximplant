@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-class CallManager {
+public class CallManager {
     private static CallManager mInstance = null;
     private Map<String, ICall> mCalls = new HashMap<>();
     private Map<String, IEndpoint> mEndpoints = new HashMap<>();
@@ -30,7 +30,7 @@ class CallManager {
 
     }
 
-    static synchronized CallManager getInstance() {
+    public static synchronized CallManager getInstance() {
         if (mInstance == null) {
             mInstance = new CallManager();
         }
@@ -148,4 +148,11 @@ class CallManager {
         }
         return videoStream;
     }
+
+    public void endAllCalls() {
+        for (Map.Entry<String, ICall> callEntry : mCalls.entrySet()) {
+            callEntry.getValue().hangup(null);
+        }
+    }
+
 }
