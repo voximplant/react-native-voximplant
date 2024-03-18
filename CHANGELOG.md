@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.40.2
+- Update RNVoximplant.xcodeproj with the actual source code for iOS platform
+
 ### 1.40.1
 - Add ability to end calls from native code
 
