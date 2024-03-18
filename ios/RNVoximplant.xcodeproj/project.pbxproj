@@ -7,26 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B26F1CFD22EB10CB00535E6F /* VICallManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD822EB106D00535E6F /* VICallManager.h */; };
-		B26F1CFE22EB10CB00535E6F /* VICallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCC22EB106D00535E6F /* VICallManager.m */; };
-		B26F1CFF22EB10CB00535E6F /* VIConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCE22EB106D00535E6F /* VIConstants.h */; };
-		B26F1D0022EB10CB00535E6F /* VIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCA22EB106D00535E6F /* VIConstants.m */; };
-		B26F1D0122EB10CB00535E6F /* VIUtils.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD122EB106D00535E6F /* VIUtils.h */; };
-		B26F1D0222EB10CB00535E6F /* VIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDB22EB106D00535E6F /* VIUtils.m */; };
-		B26F1D0322EB10CB00535E6F /* VIAudioDeviceModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */; };
-		B26F1D0422EB10CB00535E6F /* VIAudioDeviceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */; };
-		B26F1D0522EB10CB00535E6F /* VICallModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD522EB106D00535E6F /* VICallModule.h */; };
-		B26F1D0622EB10CB00535E6F /* VICallModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDC22EB106D00535E6F /* VICallModule.m */; };
-		B26F1D0722EB10CB00535E6F /* VICameraModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDA22EB106D00535E6F /* VICameraModule.h */; };
-		B26F1D0822EB10CB00535E6F /* VICameraModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CDE22EB106D00535E6F /* VICameraModule.m */; };
-		B26F1D0922EB10CB00535E6F /* VIClientModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCD22EB106D00535E6F /* VIClientModule.h */; };
-		B26F1D0A22EB10CB00535E6F /* VIClientModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD322EB106D00535E6F /* VIClientModule.m */; };
-		B26F1D0B22EB10CB00535E6F /* VideoView.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD622EB106D00535E6F /* VideoView.h */; };
-		B26F1D0C22EB10CB00535E6F /* VideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD022EB106D00535E6F /* VideoView.m */; };
-		B26F1D0D22EB10CB00535E6F /* VideoViewManager.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD722EB106D00535E6F /* VideoViewManager.h */; };
-		B26F1D0E22EB10CB00535E6F /* VideoViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD422EB106D00535E6F /* VideoViewManager.m */; };
-		B26F1D0F22EB10CB00535E6F /* VIMessagingModule.h in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */; };
-		B26F1D1022EB10CB00535E6F /* VIMessagingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B26F1CD922EB106D00535E6F /* VIMessagingModule.m */; };
+		F296F6CA2BA8465000D9A0CE /* RNVIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6B12BA8464F00D9A0CE /* RNVIConstants.m */; };
+		F296F6CB2BA8465000D9A0CE /* RNVIVideoViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6B32BA8464F00D9A0CE /* RNVIVideoViewManager.m */; };
+		F296F6CC2BA8465000D9A0CE /* RNVIVideoView.mm in Sources */ = {isa = PBXBuildFile; fileRef = F296F6B52BA8464F00D9A0CE /* RNVIVideoView.mm */; };
+		F296F6CD2BA8465000D9A0CE /* RNVICallModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6B82BA8464F00D9A0CE /* RNVICallModule.m */; };
+		F296F6CE2BA8465000D9A0CE /* RNVICameraModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6B92BA8464F00D9A0CE /* RNVICameraModule.m */; };
+		F296F6CF2BA8465000D9A0CE /* RNVIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6BA2BA8464F00D9A0CE /* RNVIUtils.m */; };
+		F296F6D02BA8465000D9A0CE /* RNVIAudioDeviceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6BC2BA8464F00D9A0CE /* RNVIAudioDeviceModule.m */; };
+		F296F6D12BA8465000D9A0CE /* RNVIVideoViewImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6BD2BA8464F00D9A0CE /* RNVIVideoViewImpl.m */; };
+		F296F6D22BA8465000D9A0CE /* RNVIClientModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6BE2BA8464F00D9A0CE /* RNVIClientModule.m */; };
+		F296F6D32BA8465000D9A0CE /* RNVIAudioFileModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6BF2BA8464F00D9A0CE /* RNVIAudioFileModule.m */; };
+		F296F6D42BA8465000D9A0CE /* RNVIMessagingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6C02BA8464F00D9A0CE /* RNVIMessagingModule.m */; };
+		F296F6D52BA8465000D9A0CE /* RNVIAudioFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6C52BA8465000D9A0CE /* RNVIAudioFileManager.m */; };
+		F296F6D62BA8465000D9A0CE /* RNVICallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F296F6C92BA8465000D9A0CE /* RNVICallManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,27 +35,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B26F1CCA22EB106D00535E6F /* VIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIConstants.m; sourceTree = "<group>"; };
-		B26F1CCC22EB106D00535E6F /* VICallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICallManager.m; sourceTree = "<group>"; };
-		B26F1CCD22EB106D00535E6F /* VIClientModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIClientModule.h; sourceTree = "<group>"; };
-		B26F1CCE22EB106D00535E6F /* VIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIConstants.h; sourceTree = "<group>"; };
-		B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIMessagingModule.h; sourceTree = "<group>"; };
-		B26F1CD022EB106D00535E6F /* VideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoView.m; sourceTree = "<group>"; };
-		B26F1CD122EB106D00535E6F /* VIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIUtils.h; sourceTree = "<group>"; };
-		B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIAudioDeviceModule.h; sourceTree = "<group>"; };
-		B26F1CD322EB106D00535E6F /* VIClientModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIClientModule.m; sourceTree = "<group>"; };
-		B26F1CD422EB106D00535E6F /* VideoViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewManager.m; sourceTree = "<group>"; };
-		B26F1CD522EB106D00535E6F /* VICallModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICallModule.h; sourceTree = "<group>"; };
-		B26F1CD622EB106D00535E6F /* VideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoView.h; sourceTree = "<group>"; };
-		B26F1CD722EB106D00535E6F /* VideoViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewManager.h; sourceTree = "<group>"; };
-		B26F1CD822EB106D00535E6F /* VICallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICallManager.h; sourceTree = "<group>"; };
-		B26F1CD922EB106D00535E6F /* VIMessagingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIMessagingModule.m; sourceTree = "<group>"; };
-		B26F1CDA22EB106D00535E6F /* VICameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICameraModule.h; sourceTree = "<group>"; };
-		B26F1CDB22EB106D00535E6F /* VIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIUtils.m; sourceTree = "<group>"; };
-		B26F1CDC22EB106D00535E6F /* VICallModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICallModule.m; sourceTree = "<group>"; };
-		B26F1CDE22EB106D00535E6F /* VICameraModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICameraModule.m; sourceTree = "<group>"; };
-		B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIAudioDeviceModule.m; sourceTree = "<group>"; };
 		B26F1CF422EB109A00535E6F /* libRNVoximplant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNVoximplant.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F296F6B12BA8464F00D9A0CE /* RNVIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIConstants.m; sourceTree = "<group>"; };
+		F296F6B22BA8464F00D9A0CE /* RNVIMessagingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIMessagingModule.h; sourceTree = "<group>"; };
+		F296F6B32BA8464F00D9A0CE /* RNVIVideoViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIVideoViewManager.m; sourceTree = "<group>"; };
+		F296F6B42BA8464F00D9A0CE /* RNVIClientModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIClientModule.h; sourceTree = "<group>"; };
+		F296F6B52BA8464F00D9A0CE /* RNVIVideoView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RNVIVideoView.mm; sourceTree = "<group>"; };
+		F296F6B62BA8464F00D9A0CE /* RNVIAudioDeviceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIAudioDeviceModule.h; sourceTree = "<group>"; };
+		F296F6B72BA8464F00D9A0CE /* RNVIAudioFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIAudioFileModule.h; sourceTree = "<group>"; };
+		F296F6B82BA8464F00D9A0CE /* RNVICallModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVICallModule.m; sourceTree = "<group>"; };
+		F296F6B92BA8464F00D9A0CE /* RNVICameraModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVICameraModule.m; sourceTree = "<group>"; };
+		F296F6BA2BA8464F00D9A0CE /* RNVIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIUtils.m; sourceTree = "<group>"; };
+		F296F6BB2BA8464F00D9A0CE /* RNVICallModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVICallModule.h; sourceTree = "<group>"; };
+		F296F6BC2BA8464F00D9A0CE /* RNVIAudioDeviceModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIAudioDeviceModule.m; sourceTree = "<group>"; };
+		F296F6BD2BA8464F00D9A0CE /* RNVIVideoViewImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIVideoViewImpl.m; sourceTree = "<group>"; };
+		F296F6BE2BA8464F00D9A0CE /* RNVIClientModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIClientModule.m; sourceTree = "<group>"; };
+		F296F6BF2BA8464F00D9A0CE /* RNVIAudioFileModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIAudioFileModule.m; sourceTree = "<group>"; };
+		F296F6C02BA8464F00D9A0CE /* RNVIMessagingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIMessagingModule.m; sourceTree = "<group>"; };
+		F296F6C12BA8464F00D9A0CE /* RNVICameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVICameraModule.h; sourceTree = "<group>"; };
+		F296F6C22BA8464F00D9A0CE /* RNVICallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVICallManager.h; sourceTree = "<group>"; };
+		F296F6C32BA8464F00D9A0CE /* RNVIVideoViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIVideoViewImpl.h; sourceTree = "<group>"; };
+		F296F6C42BA8464F00D9A0CE /* RNVIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIConstants.h; sourceTree = "<group>"; };
+		F296F6C52BA8465000D9A0CE /* RNVIAudioFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVIAudioFileManager.m; sourceTree = "<group>"; };
+		F296F6C62BA8465000D9A0CE /* RNVIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIUtils.h; sourceTree = "<group>"; };
+		F296F6C72BA8465000D9A0CE /* RNVIAudioFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIAudioFileManager.h; sourceTree = "<group>"; };
+		F296F6C82BA8465000D9A0CE /* RNVIVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNVIVideoView.h; sourceTree = "<group>"; };
+		F296F6C92BA8465000D9A0CE /* RNVICallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNVICallManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,26 +84,31 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				B26F1CD822EB106D00535E6F /* VICallManager.h */,
-				B26F1CCC22EB106D00535E6F /* VICallManager.m */,
-				B26F1CCE22EB106D00535E6F /* VIConstants.h */,
-				B26F1CCA22EB106D00535E6F /* VIConstants.m */,
-				B26F1CD122EB106D00535E6F /* VIUtils.h */,
-				B26F1CDB22EB106D00535E6F /* VIUtils.m */,
-				B26F1CD222EB106D00535E6F /* VIAudioDeviceModule.h */,
-				B26F1CE222EB106D00535E6F /* VIAudioDeviceModule.m */,
-				B26F1CD522EB106D00535E6F /* VICallModule.h */,
-				B26F1CDC22EB106D00535E6F /* VICallModule.m */,
-				B26F1CDA22EB106D00535E6F /* VICameraModule.h */,
-				B26F1CDE22EB106D00535E6F /* VICameraModule.m */,
-				B26F1CCD22EB106D00535E6F /* VIClientModule.h */,
-				B26F1CD322EB106D00535E6F /* VIClientModule.m */,
-				B26F1CD622EB106D00535E6F /* VideoView.h */,
-				B26F1CD022EB106D00535E6F /* VideoView.m */,
-				B26F1CD722EB106D00535E6F /* VideoViewManager.h */,
-				B26F1CD422EB106D00535E6F /* VideoViewManager.m */,
-				B26F1CCF22EB106D00535E6F /* VIMessagingModule.h */,
-				B26F1CD922EB106D00535E6F /* VIMessagingModule.m */,
+				F296F6B62BA8464F00D9A0CE /* RNVIAudioDeviceModule.h */,
+				F296F6BC2BA8464F00D9A0CE /* RNVIAudioDeviceModule.m */,
+				F296F6C72BA8465000D9A0CE /* RNVIAudioFileManager.h */,
+				F296F6C52BA8465000D9A0CE /* RNVIAudioFileManager.m */,
+				F296F6B72BA8464F00D9A0CE /* RNVIAudioFileModule.h */,
+				F296F6BF2BA8464F00D9A0CE /* RNVIAudioFileModule.m */,
+				F296F6C22BA8464F00D9A0CE /* RNVICallManager.h */,
+				F296F6C92BA8465000D9A0CE /* RNVICallManager.m */,
+				F296F6BB2BA8464F00D9A0CE /* RNVICallModule.h */,
+				F296F6B82BA8464F00D9A0CE /* RNVICallModule.m */,
+				F296F6C12BA8464F00D9A0CE /* RNVICameraModule.h */,
+				F296F6B92BA8464F00D9A0CE /* RNVICameraModule.m */,
+				F296F6B42BA8464F00D9A0CE /* RNVIClientModule.h */,
+				F296F6BE2BA8464F00D9A0CE /* RNVIClientModule.m */,
+				F296F6C42BA8464F00D9A0CE /* RNVIConstants.h */,
+				F296F6B12BA8464F00D9A0CE /* RNVIConstants.m */,
+				F296F6B22BA8464F00D9A0CE /* RNVIMessagingModule.h */,
+				F296F6C02BA8464F00D9A0CE /* RNVIMessagingModule.m */,
+				F296F6C62BA8465000D9A0CE /* RNVIUtils.h */,
+				F296F6BA2BA8464F00D9A0CE /* RNVIUtils.m */,
+				F296F6C82BA8465000D9A0CE /* RNVIVideoView.h */,
+				F296F6B52BA8464F00D9A0CE /* RNVIVideoView.mm */,
+				F296F6C32BA8464F00D9A0CE /* RNVIVideoViewImpl.h */,
+				F296F6BD2BA8464F00D9A0CE /* RNVIVideoViewImpl.m */,
+				F296F6B32BA8464F00D9A0CE /* RNVIVideoViewManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 				B26F1CF422EB109A00535E6F /* libRNVoximplant.a */,
 			);
@@ -170,26 +173,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B26F1CFD22EB10CB00535E6F /* VICallManager.h in Sources */,
-				B26F1CFE22EB10CB00535E6F /* VICallManager.m in Sources */,
-				B26F1CFF22EB10CB00535E6F /* VIConstants.h in Sources */,
-				B26F1D0022EB10CB00535E6F /* VIConstants.m in Sources */,
-				B26F1D0122EB10CB00535E6F /* VIUtils.h in Sources */,
-				B26F1D0222EB10CB00535E6F /* VIUtils.m in Sources */,
-				B26F1D0322EB10CB00535E6F /* VIAudioDeviceModule.h in Sources */,
-				B26F1D0422EB10CB00535E6F /* VIAudioDeviceModule.m in Sources */,
-				B26F1D0522EB10CB00535E6F /* VICallModule.h in Sources */,
-				B26F1D0622EB10CB00535E6F /* VICallModule.m in Sources */,
-				B26F1D0722EB10CB00535E6F /* VICameraModule.h in Sources */,
-				B26F1D0822EB10CB00535E6F /* VICameraModule.m in Sources */,
-				B26F1D0922EB10CB00535E6F /* VIClientModule.h in Sources */,
-				B26F1D0A22EB10CB00535E6F /* VIClientModule.m in Sources */,
-				B26F1D0B22EB10CB00535E6F /* VideoView.h in Sources */,
-				B26F1D0C22EB10CB00535E6F /* VideoView.m in Sources */,
-				B26F1D0D22EB10CB00535E6F /* VideoViewManager.h in Sources */,
-				B26F1D0E22EB10CB00535E6F /* VideoViewManager.m in Sources */,
-				B26F1D0F22EB10CB00535E6F /* VIMessagingModule.h in Sources */,
-				B26F1D1022EB10CB00535E6F /* VIMessagingModule.m in Sources */,
+				F296F6D32BA8465000D9A0CE /* RNVIAudioFileModule.m in Sources */,
+				F296F6D22BA8465000D9A0CE /* RNVIClientModule.m in Sources */,
+				F296F6CA2BA8465000D9A0CE /* RNVIConstants.m in Sources */,
+				F296F6D42BA8465000D9A0CE /* RNVIMessagingModule.m in Sources */,
+				F296F6D62BA8465000D9A0CE /* RNVICallManager.m in Sources */,
+				F296F6CB2BA8465000D9A0CE /* RNVIVideoViewManager.m in Sources */,
+				F296F6CD2BA8465000D9A0CE /* RNVICallModule.m in Sources */,
+				F296F6CF2BA8465000D9A0CE /* RNVIUtils.m in Sources */,
+				F296F6D02BA8465000D9A0CE /* RNVIAudioDeviceModule.m in Sources */,
+				F296F6CE2BA8465000D9A0CE /* RNVICameraModule.m in Sources */,
+				F296F6CC2BA8465000D9A0CE /* RNVIVideoView.mm in Sources */,
+				F296F6D12BA8465000D9A0CE /* RNVIVideoViewImpl.m in Sources */,
+				F296F6D52BA8465000D9A0CE /* RNVIAudioFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
