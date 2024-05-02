@@ -18,6 +18,7 @@ import com.voximplant.sdk.client.ClientConfig;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
+import com.voximplant.sdk.client.Node;
 import com.voximplant.sdk.client.RequestAudioFocusMode;
 import com.voximplant.sdk.hardware.AudioDevice;
 import com.voximplant.sdk.hardware.AudioFileUsage;
@@ -324,6 +325,33 @@ class Utils {
 			}
 		}
 		return resultMap;
+	}
+
+	static Node convertStringToNode(String node) {
+		switch (node) {
+			case "node1":
+				return Node.NODE_1;
+			case "node2":
+				return Node.NODE_2;
+			case "node3":
+				return Node.NODE_3;
+			case "node4":
+				return Node.NODE_4;
+			case "node5":
+				return Node.NODE_5;
+			case "node6":
+				return Node.NODE_6;
+			case "node7":
+				return Node.NODE_7;
+			case "node8":
+				return Node.NODE_8;
+			case "node9":
+				return Node.NODE_9;
+			case "node10":
+				return Node.NODE_10;
+			default:
+				return Node.NODE_1;
+		}
 	}
 
 	static String convertClientStateToString(ClientState state) {

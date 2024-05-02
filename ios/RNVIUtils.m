@@ -327,6 +327,31 @@
     }
 }
 
++ (VIConnectionNode)convertConnectionNodeFromString:(NSString *)node {
+    if ([node isEqualToString:@"node1"]) {
+        return VIConnectionNodeNode1;
+    } else if ([node isEqualToString:@"node2"]) {
+        return VIConnectionNodeNode2;
+    } else if ([node isEqualToString:@"node3"]) {
+        return VIConnectionNodeNode3;
+    } else if ([node isEqualToString:@"node4"]) {
+        return VIConnectionNodeNode4;
+    } else if ([node isEqualToString:@"node5"]) {
+        return VIConnectionNodeNode5;
+    } else if ([node isEqualToString:@"node6"]) {
+        return VIConnectionNodeNode6;
+    } else if ([node isEqualToString:@"node7"]) {
+        return VIConnectionNodeNode7;
+    } else if ([node isEqualToString:@"node8"]) {
+        return VIConnectionNodeNode8;
+    } else if ([node isEqualToString:@"node9"]) {
+        return VIConnectionNodeNode9;
+    } else if ([node isEqualToString:@"node10"]) {
+        return VIConnectionNodeNode10;
+    }
+    return VIConnectionNodeNode1;
+}
+
 @end
 
 @implementation NSNumber (FromTimeInterval)

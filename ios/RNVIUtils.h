@@ -25,6 +25,7 @@
 + (VILogLevel)convertLogLevelFromString:(NSString *)logLevel;
 + (NSString *)convertQualityIssueLevelToString:(VIQualityIssueLevel)level;
 + (NSString *)convertQualityIssueTypeToString:(VIQualityIssueType)type;
++ (VIConnectionNode)convertConnectionNodeFromString:(NSString *)node;
 
 @end
 

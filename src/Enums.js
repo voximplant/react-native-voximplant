@@ -35,6 +35,26 @@ export const LogLevel = {
 };
 
 /**
+ * Enum that describes the nodes the Voximplant account may belong to.
+ * @name ConnectionNode
+ * @memberOf Voximplant
+ * @enum {string}
+ * @type {{NODE_4: string, NODE_3: string, NODE_2: string, NODE_1: string, NODE_8: string, NODE_7: string, NODE_6: string, NODE_5: string, NODE_9: string, NODE_10: string}}
+ */
+export const ConnectionNode = {
+    NODE_1: "node1",
+    NODE_2: "node2",
+    NODE_3: "node3",
+    NODE_4: "node4",
+    NODE_5: "node5",
+    NODE_6: "node6",
+    NODE_7: "node7",
+    NODE_8: "node8",
+    NODE_9: "node9",
+    NODE_10: "node10",
+}
+
+/**
  * The client states
  * @name ClientState
  * @memberOf Voximplant

@@ -22,6 +22,7 @@ import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.AuthParams;
 import com.voximplant.sdk.client.ClientConfig;
+import com.voximplant.sdk.client.ClientException;
 import com.voximplant.sdk.client.IClient;
 import com.voximplant.sdk.client.IClientIncomingCallListener;
 import com.voximplant.sdk.client.IClientLoginListener;
@@ -29,6 +30,7 @@ import com.voximplant.sdk.client.IClientSessionListener;
 import com.voximplant.sdk.client.ILogListener;
 import com.voximplant.sdk.client.LogLevel;
 import com.voximplant.sdk.client.LoginError;
+import com.voximplant.sdk.client.Node;
 
 import java.util.List;
 import java.util.Map;
@@ -83,15 +85,15 @@ public class VIClientModule extends ReactContextBaseJavaModule
 		mReactContext = reactContext;
 	}
 
-  @ReactMethod
-  public void addListener(String eventName) {
-    // Keep: Required for RN built in Event Emitter Calls.
-  }
+	@ReactMethod
+	public void addListener(String eventName) {
+		// Keep: Required for RN built in Event Emitter Calls.
+	}
 
-  @ReactMethod
-  public void removeListeners(Integer count) {
-    // Keep: Required for RN built in Event Emitter Calls.
-  }
+	@ReactMethod
+	public void removeListeners(Integer count) {
+		// Keep: Required for RN built in Event Emitter Calls.
+	}
 
 	@Override
 	public String getName() {
@@ -103,10 +105,14 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	public void init(ReadableMap settings) {
 		Voximplant.subVersion = "react-1.40.2";
 		ClientConfig config = Utils.convertClientConfigFromMap(settings);
-		mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
-		mClient.setClientIncomingCallListener(this);
-		mClient.setClientLoginListener(this);
-		mClient.setClientSessionListener(this);
+		try {
+			mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
+			mClient.setClientIncomingCallListener(this);
+			mClient.setClientLoginListener(this);
+			mClient.setClientSessionListener(this);
+		} catch (ClientException e) {
+
+		}
 		Voximplant.setLogListener(this);
 	}
 
@@ -118,7 +124,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	}
 
 	@ReactMethod
-	public void connect(boolean connectivityCheck, ReadableArray servers, Callback callback) {
+	public void connect(boolean connectivityCheck, ReadableArray servers, String node, Callback callback) {
 		List<String> serversList;
 		if (mClient == null) {
 			return;
@@ -129,7 +135,12 @@ public class VIClientModule extends ReactContextBaseJavaModule
 			serversList = null;
 		}
 		try {
-			mClient.connect(connectivityCheck, serversList);
+			if (node != null) {
+				Node connectionNode = Utils.convertStringToNode(node);
+				mClient.connect(connectionNode, connectivityCheck, serversList);
+			} else {
+				mClient.connect(connectivityCheck, serversList);
+			}
 			callback.invoke(true);
 		} catch (IllegalStateException e) {
 			callback.invoke(false);

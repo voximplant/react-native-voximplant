@@ -44,6 +44,7 @@ const ClientConfig = {
  * @memberOf Voximplant
  * @property {boolean} [connectivityCheck] - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
  * @property {array} [servers] - Server name of particular media gateway for connection
+ * @property {ConnectionNode} [node] - Node the Voximplant account belongs to.
  */
 const ConnectOptions = {
 

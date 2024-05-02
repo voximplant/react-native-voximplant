@@ -101,9 +101,15 @@ RCT_EXPORT_METHOD(disconnect) {
     }
 }
 
-RCT_EXPORT_METHOD(connect:(BOOL)connectivityCheck gateways:(NSArray *)gateways callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(connect:(BOOL)connectivityCheck gateways:(NSArray *)gateways node:(nullable NSString *)node callback:(RCTResponseSenderBlock)callback) {
     if (_client) {
-        BOOL isValidState = [_client connectWithConnectivityCheck:connectivityCheck gateways:gateways];
+        BOOL isValidState = NO;
+        if (node) {
+            VIConnectionNode connectionNode = [RNVIUtils convertConnectionNodeFromString:node];
+            isValidState = [_client connectTo:connectionNode connectivityCheck:connectivityCheck gateways:gateways];
+        } else {
+            isValidState = [_client connectWithConnectivityCheck:connectivityCheck gateways:gateways];
+        }
         callback(@[[NSNumber numberWithBool:isValidState]]);
     }
 }

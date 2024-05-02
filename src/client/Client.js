@@ -159,6 +159,10 @@ export default class Client {
             if (!options) options = {};
             if (options.connectivityCheck === undefined) options.connectivityCheck = false;
             if (options.servers === undefined) options.servers = [];
+            if (options.node === undefined) {
+                console.warn('Node parameter is missing. It will be required in the next release.');
+                options.node = null;
+            }
             let connected = (event) => {
                 resolve(event);
                 if (this._connectionEstablishedSubscriber) {
@@ -183,7 +187,7 @@ export default class Client {
             };
             this._connectionEstablishedSubscriber = EventEmitter.addListener('VIConnectionEstablished', connected);
             this._connectionFailedSubscriber = EventEmitter.addListener('VIConnectionFailed', failed);
-            ClientModule.connect(options.connectivityCheck, options.servers, (isValidState) => {
+            ClientModule.connect(options.connectivityCheck, options.servers, options.node, (isValidState) => {
                 if (!isValidState) {
                     if (this._connectionEstablishedSubscriber) {
                         this._connectionEstablishedSubscriber.remove();
