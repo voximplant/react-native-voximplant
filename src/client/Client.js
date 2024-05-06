@@ -159,7 +159,7 @@ export default class Client {
             if (!options) options = {};
             if (options.connectivityCheck === undefined) options.connectivityCheck = false;
             if (options.servers === undefined) options.servers = [];
-            if (options.node === undefined) {
+            if (!options.node) {
                 console.warn('Node parameter is missing. It will be required in the next release.');
                 options.node = null;
             }
