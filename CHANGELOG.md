@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.41.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.39.0 and Voximplant iOS SDK 2.52.0
+- Introduce [ConnectionNode](https://voximplant.com/docs/references/reactnative/voximplant/connectionnode) enum
+- Introduce [ConnectOptions.node](https://voximplant.com/docs/references/reactnative/voximplant/connectoptions#node) config to specify the node the Voximplant account belongs to
+
 ### 1.40.2
 - Update RNVoximplant.xcodeproj with the actual source code for iOS platform
 
