@@ -321,7 +321,7 @@ export default class Client {
     requestOneTimeLoginKey(username) {
         return new Promise((resolve, reject) => {
             let requestResult = (event) => {
-                if (event.result) {
+                if (event.result || event.code === 302) {
                     resolve(event);
                 } else {
                     reject(event);
