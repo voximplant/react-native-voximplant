@@ -80,7 +80,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)options) {
     VILogLevel logLevel = [RNVIUtils convertLogLevelFromString:[options objectForKey:@"logLevel"]];
     [VIClient setLogLevel:logLevel];
-    [VIClient setVersionExtension:@"react-1.41.0"];
+    [VIClient setVersionExtension:@"react-1.42.0"];
     NSString *bundleId = [options objectForKey:@"bundleId"];
     if (bundleId) {
         _client = [RNVICallManager getClientWithBundleId:bundleId];
@@ -104,12 +104,16 @@ RCT_EXPORT_METHOD(disconnect) {
 RCT_EXPORT_METHOD(connect:(BOOL)connectivityCheck gateways:(NSArray *)gateways node:(nullable NSString *)node callback:(RCTResponseSenderBlock)callback) {
     if (_client) {
         BOOL isValidState = NO;
-        if (node) {
-            VIConnectionNode connectionNode = [RNVIUtils convertConnectionNodeFromString:node];
-            isValidState = [_client connectTo:connectionNode connectivityCheck:connectivityCheck gateways:gateways];
-        } else {
-            isValidState = [_client connectWithConnectivityCheck:connectivityCheck gateways:gateways];
+        BOOL isNodeValid = [RNVIUtils validateConnectionNodeString:node];
+        if (!isNodeValid) {
+            [self sendEventWithName:kEventConnectionFailed body:@{
+                                                                  kEventParamName    : kEventNameConnectionFailed,
+                                                                  kEventParamMessage : @"Invalid ConnectionNode",
+                                                                  }];
+            return;
         }
+        VIConnectionNode connectionNode = [RNVIUtils convertConnectionNodeFromString:node];
+        isValidState = [_client connectTo:connectionNode connectivityCheck:connectivityCheck gateways:gateways];
         callback(@[[NSNumber numberWithBool:isValidState]]);
     }
 }

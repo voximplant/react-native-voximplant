@@ -26,6 +26,7 @@
 + (NSString *)convertQualityIssueLevelToString:(VIQualityIssueLevel)level;
 + (NSString *)convertQualityIssueTypeToString:(VIQualityIssueType)type;
 + (VIConnectionNode)convertConnectionNodeFromString:(NSString *)node;
++ (BOOL)validateConnectionNodeString:(NSString *)node;
 
 @end
 

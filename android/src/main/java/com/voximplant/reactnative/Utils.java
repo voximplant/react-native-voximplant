@@ -328,6 +328,9 @@ class Utils {
 	}
 
 	static Node convertStringToNode(String node) {
+		if (node == null) {
+			return null;
+		}
 		switch (node) {
 			case "node1":
 				return Node.NODE_1;
@@ -350,7 +353,7 @@ class Utils {
 			case "node10":
 				return Node.NODE_10;
 			default:
-				return Node.NODE_1;
+				return null;
 		}
 	}
 

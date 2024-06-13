@@ -352,6 +352,19 @@
     return VIConnectionNodeNode1;
 }
 
++ (BOOL)validateConnectionNodeString:(NSString *)node {
+    return [node isEqualToString:@"node1"] ||
+    [node isEqualToString:@"node2"] ||
+    [node isEqualToString:@"node3"] ||
+    [node isEqualToString:@"node4"] ||
+    [node isEqualToString:@"node5"] ||
+    [node isEqualToString:@"node6"] ||
+    [node isEqualToString:@"node7"] ||
+    [node isEqualToString:@"node8"] ||
+    [node isEqualToString:@"node9"] ||
+    [node isEqualToString:@"node10"];
+}
+
 @end
 
 @implementation NSNumber (FromTimeInterval)

@@ -14,8 +14,8 @@ import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.IVideoStream;
 import com.voximplant.sdk.call.RenderScaleType;
 
-import org.webrtc.RendererCommon;
-import org.webrtc.SurfaceViewRenderer;
+import com.voximplant.webrtc.RendererCommon;
+import com.voximplant.webrtc.SurfaceViewRenderer;
 
 import static com.voximplant.reactnative.Constants.SCALE_TYPE_FILL;
 import static com.voximplant.reactnative.Constants.SCALE_TYPE_FIT;

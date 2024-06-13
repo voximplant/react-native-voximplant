@@ -103,7 +103,7 @@ public class VIClientModule extends ReactContextBaseJavaModule
 	//region React methods
 	@ReactMethod
 	public void init(ReadableMap settings) {
-		Voximplant.subVersion = "react-1.41.0";
+		Voximplant.subVersion = "react-1.42.0";
 		ClientConfig config = Utils.convertClientConfigFromMap(settings);
 		try {
 			mClient = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), mReactContext, config);
@@ -135,13 +135,13 @@ public class VIClientModule extends ReactContextBaseJavaModule
 			serversList = null;
 		}
 		try {
-			if (node != null) {
-				Node connectionNode = Utils.convertStringToNode(node);
+			Node connectionNode = Utils.convertStringToNode(node);
+			if (connectionNode != null) {
 				mClient.connect(connectionNode, connectivityCheck, serversList);
+				callback.invoke(true);
 			} else {
-				mClient.connect(connectivityCheck, serversList);
+				onConnectionFailed("Invalid ConnectionNode");
 			}
-			callback.invoke(true);
 		} catch (IllegalStateException e) {
 			callback.invoke(false);
 		}

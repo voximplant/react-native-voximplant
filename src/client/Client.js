@@ -156,12 +156,17 @@ export default class Client {
      */
     connect(options) {
         return new Promise((resolve, reject) => {
-            if (!options) options = {};
+            if (!options) {
+                console.error('ConnectOptions and ConnectionNode are required');
+                reject({'name': ClientEvents.ConnectionFailed, 'message': 'ConnectOptions and ConnectionNode are required'});
+                return;
+            }
             if (options.connectivityCheck === undefined) options.connectivityCheck = false;
             if (options.servers === undefined) options.servers = [];
             if (!options.node) {
-                console.warn('Node parameter is missing. It will be required in the next release.');
-                options.node = null;
+                console.error('ConnectionNode is required');
+                reject({'name': ClientEvents.ConnectionFailed, 'message': 'ConnectionNode is required'});
+                return;
             }
             let connected = (event) => {
                 resolve(event);
