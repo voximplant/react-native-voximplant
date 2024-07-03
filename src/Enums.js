@@ -36,6 +36,8 @@ export const LogLevel = {
 
 /**
  * Enum that describes the nodes the Voximplant account may belong to.
+ *
+ * Find more information in the [getting started guide](https://voximplant.com/docs/getting-started/platform/react-native).
  * @name ConnectionNode
  * @memberOf Voximplant
  * @enum {string}

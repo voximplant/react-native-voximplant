@@ -2,7 +2,8 @@
 
 ### 1.42.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.40.1 and Voximplant iOS SDK 2.53.0
-- [ConnectOptions.node](https://voximplant.com/docs/references/reactnative/voximplant/connectoptions#node) is a required parameter to establish the connection with the Voximplant Cloud
+- [ConnectOptions.node](https://voximplant.com/docs/references/reactnative/voximplant/connectoptions#node) is a required parameter to establish the connection with the Voximplant Cloud.
+  Find more information about [ConnectionNode](https://voximplant.com/docs/references/reactnative/voximplant/connectionnode) in the [getting started guide](https://voximplant.com/docs/getting-started/platform/react-native)
 
 ### 1.41.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.39.0 and Voximplant iOS SDK 2.52.0

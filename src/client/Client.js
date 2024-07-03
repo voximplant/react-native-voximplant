@@ -150,7 +150,7 @@ export default class Client {
 
     /**
      * Connect to the Voximplant Cloud
-     * @param {Voximplant.ConnectOptions} [options] - Connection options
+     * @param {Voximplant.ConnectOptions} options - Connection options
      * @returns {Promise<EventHandlers.ConnectionEstablished|EventHandlers.ConnectionFailed>}
      * @memberOf Voximplant.Client
      */

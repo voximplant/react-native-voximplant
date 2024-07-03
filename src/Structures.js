@@ -44,7 +44,7 @@ const ClientConfig = {
  * @memberOf Voximplant
  * @property {boolean} [connectivityCheck] - Checks whether UDP traffic will flow correctly between device and the Voximplant cloud. This check reduces connection speed
  * @property {array} [servers] - Server name of particular media gateway for connection
- * @property {ConnectionNode} [node] - Node the Voximplant account belongs to.
+ * @property {ConnectionNode} node - Node the Voximplant account belongs to. Find more information about {@link Voximplant.ConnectionNode} in the [getting started guide](https://voximplant.com/docs/getting-started/platform/react-native).
  */
 const ConnectOptions = {
 
