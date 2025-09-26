@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.43.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.43.1 and Voximplant iOS SDK 2.56.0
+
 ### 1.42.1
 - Fix compatibility issues with React Native 0.76 on iOS platform.
 
