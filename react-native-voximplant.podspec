@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
     s.source       = {:path => './ios/'}
     s.summary      = 'RN voximplant'
     s.version      = '1.42.1'
-    s.dependency   'VoxImplantSDK', '2.53.0'
+    s.dependency   'VoxImplantSDK', '2.56.0'
     if fabric_enabled
       install_modules_dependencies(s)
     else
