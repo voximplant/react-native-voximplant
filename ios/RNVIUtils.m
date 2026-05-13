@@ -348,6 +348,10 @@
         return VIConnectionNodeNode9;
     } else if ([node isEqualToString:@"node10"]) {
         return VIConnectionNodeNode10;
+    } else if ([node isEqualToString:@"node11"]) {
+        return VIConnectionNodeNode11;
+    } else if ([node isEqualToString:@"node12"]) {
+        return VIConnectionNodeNode12;
     }
     return VIConnectionNodeNode1;
 }
@@ -362,7 +366,9 @@
     [node isEqualToString:@"node7"] ||
     [node isEqualToString:@"node8"] ||
     [node isEqualToString:@"node9"] ||
-    [node isEqualToString:@"node10"];
+    [node isEqualToString:@"node10"] ||
+    [node isEqualToString:@"node11"] ||
+    [node isEqualToString:@"node12"];
 }
 
 @end

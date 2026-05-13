@@ -41,7 +41,7 @@ export const LogLevel = {
  * @name ConnectionNode
  * @memberOf Voximplant
  * @enum {string}
- * @type {{NODE_4: string, NODE_3: string, NODE_2: string, NODE_1: string, NODE_8: string, NODE_7: string, NODE_6: string, NODE_5: string, NODE_9: string, NODE_10: string}}
+ * @type {{NODE_4: string, NODE_3: string, NODE_2: string, NODE_1: string, NODE_8: string, NODE_7: string, NODE_6: string, NODE_5: string, NODE_9: string, NODE_10: string, NODE_11: string, NODE_12: string}}
  */
 export const ConnectionNode = {
     NODE_1: "node1",
@@ -54,6 +54,8 @@ export const ConnectionNode = {
     NODE_8: "node8",
     NODE_9: "node9",
     NODE_10: "node10",
+    NODE_11: "node11",
+    NODE_12: "node12",
 }
 
 /**
