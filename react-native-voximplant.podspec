@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
     s.homepage     = 'https://github.com/voximplant/react-native-voximplant'
     s.source       = {:path => './ios/'}
     s.summary      = 'RN voximplant'
-    s.version      = '1.44.0'
-    s.dependency   'VoxImplantSDK', '2.57.0'
+    s.version      = '1.45.0'
+    s.dependency   'VoxImplantSDK', '2.58.0'
     if fabric_enabled
       install_modules_dependencies(s)
     else

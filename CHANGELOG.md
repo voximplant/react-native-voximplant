@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.45.0
+- Update native Android and iOS modules to use Voximplant Android SDK 2.45.0 and Voximplant iOS SDK 2.58.0
+- Introduce [ConnectionNode.NODE_13](https://voximplant.com/docs/references/reactnative/voximplant/connectionnode#node_13)
+
 ### 1.44.0
 - Update native Android and iOS modules to use Voximplant Android SDK 2.44.1 and Voximplant iOS SDK 2.57.0
 - Introduce [ConnectionNode.NODE_11](https://voximplant.com/docs/references/reactnative/voximplant/connectionnode#node_11) and [ConnectionNode.NODE_12](https://voximplant.com/docs/references/reactnative/voximplant/connectionnode#node_12)
