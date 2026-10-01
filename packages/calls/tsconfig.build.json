@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "./tsconfig",
+    "@voximplant/react-native-config/tsconfig.build.json"
+  ],
+  "exclude": [
+    "lib",
+    "src/**/specs/generated/Native*.ts",
+    "src/**/*.native-component-spec.ts"
+  ]
+}

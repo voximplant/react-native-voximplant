@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "./tsconfig",
+    "@voximplant/react-native-config/tsconfig.build.json"
+  ]
+}

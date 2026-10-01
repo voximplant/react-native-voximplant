@@ -1,0 +1,10 @@
+{
+  "name": "@voximplant/react-native-config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./vitest.config.js": "./vitest.config.js",
+    "./tsconfig.json": "./tsconfig.json",
+    "./tsconfig.build.json": "./tsconfig.build.json"
+  }
+}
