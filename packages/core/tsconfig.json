@@ -1,0 +1,6 @@
+{
+  "extends": "@voximplant/react-native-config/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "."
+  }
+}

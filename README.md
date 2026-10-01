@@ -1,103 +1,97 @@
-# Voximplant SDK for React Native
+# Voximplant React Native SDK
 
-Voximplant Mobile SDK module for React Native. It lets developers embed realtime voice and video communication into React Native apps and works together with [Voximplant cloud platform](http://voximplant.com). The SDK uses WebRTC for media processing.
+The Voximplant React Native SDK adds voice and video calls to React Native apps on iOS and Android.
 
-## Example
-You can get the demo app from [http://github.com/voximplant/react-native-demo](http://github.com/voximplant/react-native-demo)
+The SDK ships as two packages:
 
-## Supported React Native Versions
-React Native >= 0.47.0
+| Package | What it is for |
+| --- | --- |
+| [`@voximplant/react-native-core`](packages/core) | Connection to the Voximplant Cloud, login, push notifications, and audio devices |
+| [`@voximplant/react-native-calls`](packages/calls) | Calls, conferences, camera, and call statistics |
 
-## Getting started
+[`@voximplant/react-native-shared`](packages/shared) (common types and utilities) is installed with core and calls. An app does not need to add it unless it imports that package directly.
 
-`yarn add react-native-voximplant`
+Guides and the API reference: [voximplant.com/docs](https://voximplant.com/docs).
+
+## Requirements
+
+| Requirement | Minimum |
+| --- | --- |
+| react | ^19.2.0 |
+| react-native | >=0.77.0 <1.0.0 |
+| Android | API 24 |
+| iOS | 12 |
+
+## Install
+
+```bash
+npm install @voximplant/react-native-core 
+npn install @voximplant/react-native-calls
+```
+
+Calls expects core to be installed in the app, so install both packages together.
 
 ### iOS
 
-#### Automatic installation 
-- React Native 0.60+
+The Voximplant React Native SDK is built atop of Voximplant Android and iOS SDKs. 
 
-  CLI autolink feature links the module while building the app.
+The Voximplant iOS SDK is distributed only through Swift Package Manager, so CocoaPods does not resolve it on its own. Add the podspecs for your React Native SDK version to the app `Podfile`, next to `use_native_modules!`. Then run `pod install` in the `ios` directory.
 
-#### Manual install (React Native <= 0.59)
+**@voximplant/react-native-core**
 
-1. Make sure you have "React Native" project created with `react-native init`
-2. Open or create ios/Podfile and add the following dependencies. Please use demo project Podfile ad a reference.
-    ```
-    pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    ```
-3. Add `use_frameworks!` at the top of your target configuration.
+| SDK version | VoximplantCore |
+| --- | --- |
+| 2.0.0 | [3.3.0](https://github.com/voximplant/ios-sdk-releases/releases/download/3.3.0/VoximplantCore.podspec) |
 
-   Note: since the version 1.6.0, `use_frameworks!` is no longer mandatory.
-4. Run `pod install` from <your_project>/ios/
-5. Start XCode and open generated <your_project>.xcworkspace
-6. Check if there is no `*.xcodeproj` in the project navigation (see the  `Libraries` section). In case of any please remove them. 
-   Since React dependencies are added via Podfile, double integration of its modules may lead to unpredictable/incorrect behavior of an application.
-7. Run your project (`Cmd+R`)
+**@voximplant/react-native-calls**
 
-### Android
+| SDK version | VoximplantCalls | VoximplantWebRTC |
+| --- | --- | --- |
+| 2.0.0 | [3.3.0](https://github.com/voximplant/ios-sdk-releases/releases/download/3.3.0/VoximplantCalls.podspec) | [3.3.0](https://github.com/voximplant/ios-sdk-releases/releases/download/3.3.0/VoximplantWebRTC.podspec) |
 
-#### Automatic installation 
-- React Native 0.60+
+Example. Replace `<version>` with the version from the table for your SDK version:
 
-  CLI autolink feature links the module while building the app.
+```ruby
+target 'YourApp' do
+  config = use_native_modules!
 
-- React Native <= 0.59
+  pod 'VoximplantCore',   :podspec => 'https://github.com/voximplant/ios-sdk-releases/releases/download/<version>/VoximplantCore.podspec'
+  pod 'VoximplantCalls',  :podspec => 'https://github.com/voximplant/ios-sdk-releases/releases/download/<version>/VoximplantCalls.podspec'
+  pod 'VoximplantWebRTC', :podspec => 'https://github.com/voximplant/ios-sdk-releases/releases/download/<version>/VoximplantWebRTC.podspec'
 
-  Run `react-native link react-native-voximplant`
+  # use_react_native! and the rest of the target stay as they are
+end
+```
 
-#### Manual install
+Apps that use `@voximplant/react-native-calls` should set [NSCameraUsageDescription](https://developer.apple.com/documentation/bundleresources/information-property-list/nscamerausagedescription) and [NSMicrophoneUsageDescription](https://developer.apple.com/documentation/bundleresources/information-property-list/nsmicrophoneusagedescription) in the application `Info.plist`. iOS shows these strings when the app requests camera and microphone access.
 
-1. Make sure you have "React Native" project created with `react-native init`
-2. It is required to add Java 8 support. 
-    - Open `android/app/build.gradle` file and add the following lines to ‘android’ section: 
-        ```
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
-        }
-        ```
-    - If you're using gradle version < 3.0.0, do this step and the next one OR run the `gradle sync` command in Android Studio, then follow the provided hints. 
-      Open the `android/build.gradle` file and update the Android plugin for gradle: 
-        ```
-        dependencies {
-          // use the latest available version
-          classpath 'com.android.tools.build:gradle:3.1.3'
-        }​
-        
-        ```
-    - Open the android/gradle/wrapper/gradle-wrapper.properties file and edit the distributionUrl to gradle-4.4-all.zip: 
-        ```
-        distributionUrl=https\://services.gradle.org/distributions/gradle-4.4-all.zip
-        ```
-3. Run the `react-native link` command to link react-native-voximplant Android dependency OR perform the following steps: 
-    - Open up `android/app/main/java/[...]/MainApplication.java`
-    - Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
-      
-      Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
-      
-    - Append the following lines to `android/settings.gradle`:
+## Start
 
-        ```
-        include ':react-native-voximplant'
-        project(':react-native-voximplant').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-voximplant/android')
-        ```
-    - Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-    
-        ```
-        compile project(':react-native-voximplant')
-        ```    
+Connect to the node your Voximplant account belongs to, then log in. The [getting started guide](https://voximplant.com/docs/getting-started/platform/react-native) provides information about the node values and the sign-in steps.
 
-## Usage
-You will need free Voximplant developer account setup for making and receiving calls using the SDK. 
-Learn more at the [Getting started](https://voximplant.com/docs/introduction) page.
+```ts
+import {
+  Client,
+  ConnectionNode,
+} from '@voximplant/react-native-core';
 
-Official guides:
-- [Adding Voximplant SDKs to Your App](https://voximplant.com/docs/introduction/integration/adding_sdks)
+const client = Client.getInstance();
 
-## Have a question
+await client.connect({ node: ConnectionNode.Node1 });
+await client.login('user@app.account.voximplant.com', 'password');
+```
 
-- contact us via `support@voximplant.com`
-- create an issue
-- join our developer [community](https://discord.gg/sfCbT5u)
+Make and receive calls with `CallManager` from `@voximplant/react-native-calls`:
 
+```ts
+import { CallManager } from '@voximplant/react-native-calls';
+
+const callManager = CallManager.getInstance();
+
+const call = callManager.createCall('destination');
+call?.start();
+```
+
+## License
+
+The SDK is licensed under the Apache License 2.0.

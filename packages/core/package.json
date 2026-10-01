@@ -1,0 +1,115 @@
+{
+  "name": "@voximplant/react-native-core",
+  "version": "2.0.0",
+  "description": "Core module of the Voximplant React Native SDK for connection, login, push, and audio devices",
+  "main": "./lib/module/index.js",
+  "types": "./lib/typescript/src/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./lib/typescript/src/index.d.ts",
+      "default": "./lib/module/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "voximplant",
+    "react-native",
+    "voip",
+    "call",
+    "conference",
+    "realtime",
+    "video"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voximplant/react-native-voximplant.git"
+  },
+  "author": {
+    "email": "info@voximplant.com",
+    "name": "Voximplant, Inc.",
+    "url": "https://voximplant.com"
+  },
+  "homepage": "https://voximplant.com/docs",
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "*.podspec",
+    "react-native.config.js",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ],
+  "scripts": {
+    "clean": "del-cli android/build lib",
+    "build": "yarn bob build",
+    "prepare": "yarn build",
+    "typecheck": "tsc",
+    "gen:spec": "node ../../scripts/generate-native-spec/index.mts ."
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@voximplant/react-native-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@voximplant/react-native-config": "workspace:*",
+    "react-native-builder-bob": "0.40.18",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "@voximplant/react-native-shared": "workspace:*",
+    "react": "^19.2.0",
+    "react-native": ">=0.77.0 <1.0.0"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ],
+    "exclude": "{**/{__tests__,__fixtures__,__mocks__}/**,**/specs/generated/Native*.ts,**/*.native-component-spec.ts}"
+  },
+  "codegenConfig": {
+    "name": "CoreSpec",
+    "type": "modules",
+    "jsSrcsDir": "src/specs/generated",
+    "android": {
+      "javaPackageName": "com.voximplant.reactnative.core"
+    }
+  },
+  "create-react-native-library": {
+    "type": "turbo-module",
+    "languages": "kotlin-objc",
+    "tools": [
+      "eslint"
+    ],
+    "version": "0.57.2"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "extends": "../packages/config/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "paths": {
+      "@voximplant/react-native-core": [
+        "packages/core/src/index.ts"
+      ],
+      "@voximplant/react-native-calls": [
+        "packages/calls/src/index.ts"
+      ],
+      "@voximplant/react-native-shared": [
+        "packages/shared/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "../packages/core/src/**/*.ts",
+    "../packages/calls/src/**/*.ts",
+    "../packages/shared/src/**/*.ts"
+  ],
+  "exclude": [
+    "**/specs/**",
+    "**/*.native-spec.ts",
+    "**/*.native-component-spec.ts",
+    "**/__tests__/**"
+  ]
+}

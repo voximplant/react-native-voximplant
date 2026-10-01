@@ -1,0 +1,94 @@
+{
+  "name": "@voximplant/react-native-shared",
+  "version": "2.0.0",
+  "description": "Shared module of the Voximplant React Native SDK for common types and utilities",
+  "main": "./lib/module/index.js",
+  "types": "./lib/typescript/src/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./lib/typescript/src/index.d.ts",
+      "default": "./lib/module/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "voximplant",
+    "react-native",
+    "voip",
+    "call",
+    "conference",
+    "realtime",
+    "video"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voximplant/react-native-voximplant.git"
+  },
+  "author": {
+    "email": "info@voximplant.com",
+    "name": "Voximplant, Inc.",
+    "url": "https://voximplant.com"
+  },
+  "homepage": "https://voximplant.com/docs",
+  "license": "Apache-2.0",
+  "files": [
+    "src",
+    "lib",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ],
+  "scripts": {
+    "clean": "del-cli android/build lib",
+    "build": "yarn bob build",
+    "prepare": "yarn build",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "react-native-uuid": "^2.0.4"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0",
+    "react-native": ">=0.77.0 <1.0.0"
+  },
+  "devDependencies": {
+    "@voximplant/react-native-config": "workspace:*",
+    "react-native-builder-bob": "0.40.18",
+    "typescript": "5.9.2"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ],
+    "exclude": "**/{__tests__,__fixtures__,__mocks__}/**"
+  },
+  "create-react-native-library": {
+    "type": "library",
+    "languages": "js",
+    "tools": [
+      "eslint"
+    ],
+    "version": "0.57.2"
+  }
+}
