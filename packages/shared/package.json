@@ -55,10 +55,6 @@
   "dependencies": {
     "react-native-uuid": "^2.0.4"
   },
-  "peerDependencies": {
-    "react": "^19.2.0",
-    "react-native": ">=0.77.0 <1.0.0"
-  },
   "devDependencies": {
     "@voximplant/react-native-config": "workspace:*",
     "react-native-builder-bob": "0.40.18",
