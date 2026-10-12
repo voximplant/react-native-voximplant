@@ -10,6 +10,11 @@ type Workspace = {
   pkgPath: string;
 };
 
+const COMMIT_PREFIX: Record<ReleaseMode, string> = {
+  stable: 'release',
+  candidate: 'release-candidate',
+};
+
 const USAGE = `Usage: yarn release <semver>
 
   yarn release 2.0.0                 → tag v2.0.0
@@ -130,11 +135,11 @@ const bumpNativeVersions = (version: string): void => {
   });
 };
 
-const commit = (files: string[], version: string): void => {
+const commit = (files: string[], mode: ReleaseMode, version: string): void => {
   const paths = files.map((filePath) => `"${filePath}"`).join(' ');
   run(`git add ${paths}`);
 
-  run(`git commit -m "release: ${version}"`);
+  run(`git commit -m "${COMMIT_PREFIX[mode]}: ${version}"`);
 };
 
 const releaseStable = (version: string): void => {
@@ -147,6 +152,7 @@ const releaseStable = (version: string): void => {
   bumpNativeVersions(version);
   commit(
     [...workspaces.map(({ pkgPath }) => pkgPath), ...NATIVE_VERSION_FILES],
+    'stable',
     version
   );
 
@@ -162,6 +168,7 @@ const releaseCandidate = (version: string): void => {
   bumpWorkspaceVersions(workspaces, version);
   commit(
     workspaces.map(({ pkgPath }) => pkgPath),
+    'candidate',
     version
   );
 
