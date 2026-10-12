@@ -15,7 +15,8 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "gen:spec": "node --experimental-transform-types scripts/generate-native-spec/index.mts",
     "gen:doc": "node doc/reactnative-v2.docs.mjs && node --experimental-transform-types doc/converter/converter.ts && ./doc/changelog-generator.py --input ./doc/CHANGELOG.md --fqdn references.reactnative-v2.changelog --title Changelog --output ./doc/reactnative-v2.ad.json",
-    "release": "node --experimental-transform-types scripts/release.mts"
+    "release": "node --experimental-transform-types scripts/release.mts stable",
+    "release:candidate": "node --experimental-transform-types scripts/release.mts candidate"
   },
   "devDependencies": {
     "@eslint/compat": "^1.3.2",
