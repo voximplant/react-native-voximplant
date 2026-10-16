@@ -95,8 +95,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getClientState) {
 - (NSArray<NSString *> *)supportedEvents {
     return @[
         @"onClientDisconnected",
-        @"onClientReconnecting",
-        @"onClientReconnected",
+        @"onClientStateChanged",
     ];
 }
 
@@ -215,12 +214,8 @@ RCT_EXPORT_METHOD(setLogcatEnabled:(BOOL)enabled) {
         [weakSelf emitOnClientDisconnected:reason];
     };
 
-    coreImpl.onReconnecting = ^{
-        [weakSelf emitOnClientReconnecting];
-    };
-
-    coreImpl.onReconnect = ^{
-        [weakSelf emitOnClientReconnected];
+    coreImpl.onStateChanged = ^(NSString *state) {
+        [weakSelf emitOnClientStateChanged:state];
     };
 
     coreImpl.onLog = ^(NSDictionary *payload) {
@@ -231,13 +226,10 @@ RCT_EXPORT_METHOD(setLogcatEnabled:(BOOL)enabled) {
         [weakSelf sendEventWithName:@"onClientDisconnected" body:reason];
     };
 
-    coreImpl.onReconnecting = ^{
-        [weakSelf sendEventWithName:@"onClientReconnecting" body:nil];
+    coreImpl.onStateChanged = ^(NSString *state) {
+        [weakSelf sendEventWithName:@"onClientStateChanged" body:state];
     };
 
-    coreImpl.onReconnect = ^{
-        [weakSelf sendEventWithName:@"onClientReconnected" body:nil];
-    };
 #endif
 }
 

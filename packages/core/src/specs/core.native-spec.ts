@@ -39,9 +39,8 @@ export interface Spec extends TurboModule {
   registerForPushNotifications: (config: PushConfig) => Promise<void>;
   unregisterFromPushNotifications: (config: PushConfig) => Promise<void>;
 
+  readonly onClientStateChanged: CodegenTypes.EventEmitter<ClientState>;
   readonly onClientDisconnected: CodegenTypes.EventEmitter<ClientDisconnectReason>;
-  readonly onClientReconnecting: CodegenTypes.EventEmitter<void>;
-  readonly onClientReconnected: CodegenTypes.EventEmitter<void>;
   // ---- /Client ----
 
   // ---- Logger ----

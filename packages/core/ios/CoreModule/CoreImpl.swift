@@ -36,8 +36,7 @@ final class LoggerDelegate: VILogDelegate {
     public var clientState: String { client.state.rnValue }
     
     public var onDisconnect: ((String) -> Void)?
-    public var onReconnect: (() -> Void)?
-    public var onReconnecting: (() -> Void)?
+    public var onStateChanged: ((String) -> Void)?
     public var onLog: (([String: Any]) -> Void)?
 
     private let client: VIClient
@@ -77,12 +76,17 @@ final class LoggerDelegate: VILogDelegate {
             } else {
                 resolve(nil)
             }
+
+            self.onStateChanged?(self.client.state.rnValue)
         }
+
+        onStateChanged?("CONNECTING")
     }
     
     public func disconnect(resolve: @escaping RCTPromiseResolveBlock) {
         disconnectResolveBlocks.mutate({ $0.append(resolve) })
         client.disconnect()
+        onStateChanged?("DISCONNECTING")
     }
     
     public func login(
@@ -97,7 +101,11 @@ final class LoggerDelegate: VILogDelegate {
             } else if let loginError {
                 reject(loginError.errorCode, loginError.description, nil)
             }
+
+            self.onStateChanged?(self.client.state.rnValue)
         }
+
+        onStateChanged?("LOGGING_IN")
     }
     
     public func login(
@@ -112,7 +120,11 @@ final class LoggerDelegate: VILogDelegate {
             } else if let loginError {
                 reject(loginError.errorCode, loginError.description, nil)
             }
+
+            self.onStateChanged?(self.client.state.rnValue)
         }
+
+        onStateChanged?("LOGGING_IN")
     }
     
     public func login(
@@ -127,7 +139,11 @@ final class LoggerDelegate: VILogDelegate {
             } else if let loginError {
                 reject(loginError.errorCode, loginError.description, nil)
             }
+
+            self.onStateChanged?(self.client.state.rnValue)
         }
+
+        onStateChanged?("LOGGING_IN")
     }
     
     public func refreshTokens(
@@ -199,17 +215,22 @@ final class LoggerDelegate: VILogDelegate {
 extension CoreImpl {
     private func setupDelegateCallbacks() {
         clientSessionDelegate.onDisconnect = { [weak self] reason in
-            self?.disconnectResolveBlocks.access(\.self).forEach { $0(nil) }
-            self?.disconnectResolveBlocks.mutate([])
-            self?.onDisconnect?(reason.rnValue)
+            guard let self else { return }
+
+            self.disconnectResolveBlocks.access(\.self).forEach { $0(nil) }
+            self.disconnectResolveBlocks.mutate([])
+            self.onStateChanged?(self.client.state.rnValue)
+            self.onDisconnect?(reason.rnValue)
         }
-        
+
         clientSessionDelegate.onReconnect = { [weak self] in
-            self?.onReconnect?()
+            guard let self else { return }
+            self.onStateChanged?(self.client.state.rnValue)
         }
         
         clientSessionDelegate.onReconnecting = { [weak self] in
-            self?.onReconnecting?()
+            guard let self else { return }
+            self.onStateChanged?(self.client.state.rnValue)
         }
 
         loggerDelegate.onLog = { [weak self] logMessage, logLevel in

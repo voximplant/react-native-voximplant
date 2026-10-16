@@ -28,6 +28,7 @@ import {
 import NativeCore from '../../specs/core.native-spec';
 import { ClientEvent, type AnyClientEvent } from './client.events';
 import { ClientState } from './client.types';
+import { isClientState } from './internal';
 
 /**
  * Client for managing the connection to the Voximplant cloud.
@@ -211,11 +212,6 @@ class ClientImpl extends Client {
   public async connect(options: ConnectOptions): Promise<void> {
     try {
       await NativeCore.connect(options);
-      updateReadonlyWatchableValue(
-        this.state,
-        NativeCore.getClientState(),
-        watchableKey
-      );
     } catch (err) {
       throw toConnectionError(err);
     }
@@ -301,35 +297,19 @@ class ClientImpl extends Client {
   }
 
   private bridgeNativeEvents(): void {
-    NativeCore.onClientDisconnected((reason) => {
-      updateReadonlyWatchableValue(
-        this.state,
-        NativeCore.getClientState(),
-        watchableKey
-      );
+    NativeCore.onClientStateChanged((state) => {
+      if (!isClientState(state)) return;
 
+      updateReadonlyWatchableValue(this.state, state, watchableKey);
+    });
+
+    NativeCore.onClientDisconnected((reason) => {
       this.dispatchEvent({
         name: ClientEvent.Disconnected,
         payload: {
           reason,
         },
       });
-    });
-
-    NativeCore.onClientReconnected(() => {
-      updateReadonlyWatchableValue(
-        this.state,
-        NativeCore.getClientState(),
-        watchableKey
-      );
-    });
-
-    NativeCore.onClientReconnecting(() => {
-      updateReadonlyWatchableValue(
-        this.state,
-        NativeCore.getClientState(),
-        watchableKey
-      );
     });
   }
 }
