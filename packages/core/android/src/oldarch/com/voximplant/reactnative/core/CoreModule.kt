@@ -11,8 +11,7 @@ class CoreModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaMo
     private val impl: CoreModuleImpl = CoreModuleImpl(
         reactContext = reactContext,
         emitOnClientDisconnected = { reason -> emit("onClientDisconnected", reason) },
-        emitOnClientReconnected = { emit("onClientReconnected", null) },
-        emitOnClientReconnecting = { emit("onClientReconnecting", null) },
+        emitOnClientStateChanged = { state -> emit("onClientStateChanged", state) },
         emitOnLog = { log -> emit("onLog", log) }
     )
 

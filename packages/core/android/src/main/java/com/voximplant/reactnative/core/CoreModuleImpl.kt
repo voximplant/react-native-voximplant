@@ -35,8 +35,7 @@ import java.util.Locale
 class CoreModuleImpl(
     private val reactContext: ReactApplicationContext,
     private val emitOnClientDisconnected: (reason: String) -> Unit,
-    private val emitOnClientReconnected: () -> Unit,
-    private val emitOnClientReconnecting: () -> Unit,
+    private val emitOnClientStateChanged: (state: String) -> Unit,
     private val emitOnLog: (WritableMap) -> Unit,
 ) {
     private val disconnectPromises: MutableList<Promise> = Collections.synchronizedList(mutableListOf())
@@ -50,6 +49,7 @@ class CoreModuleImpl(
             }
 
             promisesToResolve.forEach { promise -> promise.resolve(null) }
+            emitOnClientStateChanged(getClientState())
             emitOnClientDisconnected(
                 when (reason) {
                     DisconnectReason.AlreadyDisconnected -> "ALREADY_DISCONNECTED"
@@ -59,9 +59,9 @@ class CoreModuleImpl(
             )
         }
 
-        override fun onReconnected() = emitOnClientReconnected()
+        override fun onReconnected() = emitOnClientStateChanged(getClientState())
 
-        override fun onReconnecting() = emitOnClientReconnecting()
+        override fun onReconnecting() = emitOnClientStateChanged(getClientState())
     }
 
     fun initialize() {
@@ -80,125 +80,174 @@ class CoreModuleImpl(
         ClientState.Reconnecting -> "RECONNECTING"
     }
 
-    fun connect(options: ReadableMap, promise: Promise) = Client.connect(
-        options = ConnectOptions(
-            node = when (options.getString("node")) {
-                "NODE_1" -> Node.Node1
-                "NODE_2" -> Node.Node2
-                "NODE_3" -> Node.Node3
-                "NODE_4" -> Node.Node4
-                "NODE_5" -> Node.Node5
-                "NODE_6" -> Node.Node6
-                "NODE_7" -> Node.Node7
-                "NODE_8" -> Node.Node8
-                "NODE_9" -> Node.Node9
-                "NODE_10" -> Node.Node10
-                "NODE_11" -> Node.Node11
-                "NODE_12" -> Node.Node12
-                "NODE_13" -> Node.Node13
-                else -> null
-            } ?: run {
-                promise.reject(code = "INVALID_ARGUMENT", message = "Invalid node")
-                return
-            },
-        ).apply {
-            gateways = options.getArray("gateways")?.toArrayList()?.filterIsInstance<String>().orEmpty()
-            services = when (options.getString("services")) {
-                "GOOGLE" -> MobileServices.Google
-                "HUAWEI" -> MobileServices.Huawei
-                null -> this.services
-                else -> {
-                    promise.reject(code = "INVALID_ARGUMENT", message = "Invalid services")
+    fun connect(options: ReadableMap, promise: Promise) {
+        Client.connect(
+            options = ConnectOptions(
+                node = when (options.getString("node")) {
+                    "NODE_1" -> Node.Node1
+                    "NODE_2" -> Node.Node2
+                    "NODE_3" -> Node.Node3
+                    "NODE_4" -> Node.Node4
+                    "NODE_5" -> Node.Node5
+                    "NODE_6" -> Node.Node6
+                    "NODE_7" -> Node.Node7
+                    "NODE_8" -> Node.Node8
+                    "NODE_9" -> Node.Node9
+                    "NODE_10" -> Node.Node10
+                    "NODE_11" -> Node.Node11
+                    "NODE_12" -> Node.Node12
+                    "NODE_13" -> Node.Node13
+                    else -> null
+                } ?: run {
+                    promise.reject(code = "INVALID_ARGUMENT", message = "Invalid node")
                     return
+                },
+            ).apply {
+                gateways = options.getArray("gateways")?.toArrayList()?.filterIsInstance<String>().orEmpty()
+                services = when (options.getString("services")) {
+                    "GOOGLE" -> MobileServices.Google
+                    "HUAWEI" -> MobileServices.Huawei
+                    null -> this.services
+                    else -> {
+                        promise.reject(code = "INVALID_ARGUMENT", message = "Invalid services")
+                        return
+                    }
                 }
-            }
-        },
-        callback = object : ConnectionCallback {
-            override fun onFailure(error: ConnectionError) = promise.reject(
-                code = when (error) {
-                    ConnectionError.InternalError -> "INTERNAL_ERROR"
-                    ConnectionError.Interrupted -> "INTERRUPTED"
-                    ConnectionError.InvalidState -> "INVALID_STATE"
-                    ConnectionError.NetworkIssues -> "NETWORK_ISSUES"
-                    ConnectionError.Timeout -> "TIMEOUT"
-                },
-                message = when (error) {
-                    ConnectionError.InternalError -> "Internal error"
-                    ConnectionError.Interrupted -> "Interrupted"
-                    ConnectionError.InvalidState -> "Invalid state"
-                    ConnectionError.NetworkIssues -> "Network issues"
-                    ConnectionError.Timeout -> "Timeout"
-                },
-            )
+            },
+            callback = object : ConnectionCallback {
+                override fun onFailure(error: ConnectionError) {
+                    promise.reject(
+                        code = when (error) {
+                            ConnectionError.InternalError -> "INTERNAL_ERROR"
+                            ConnectionError.Interrupted -> "INTERRUPTED"
+                            ConnectionError.InvalidState -> "INVALID_STATE"
+                            ConnectionError.NetworkIssues -> "NETWORK_ISSUES"
+                            ConnectionError.Timeout -> "TIMEOUT"
+                        },
+                        message = when (error) {
+                            ConnectionError.InternalError -> "Internal error"
+                            ConnectionError.Interrupted -> "Interrupted"
+                            ConnectionError.InvalidState -> "Invalid state"
+                            ConnectionError.NetworkIssues -> "Network issues"
+                            ConnectionError.Timeout -> "Timeout"
+                        },
+                    )
 
-            override fun onSuccess() = promise.resolve(null)
-        },
-    )
+                    emitOnClientStateChanged(getClientState())
+                }
+
+                override fun onSuccess() {
+                    promise.resolve(null)
+
+                    emitOnClientStateChanged(getClientState())
+                }
+            },
+        )
+
+        emitOnClientStateChanged("CONNECTING")
+    }
 
     fun disconnect(promise: Promise) {
         disconnectPromises.add(promise)
         Client.disconnect()
+        emitOnClientStateChanged("DISCONNECTING")
     }
 
-    fun login(username: String, password: String, promise: Promise) = Client.login(
-        username = username,
-        password = password,
-        callback = object : LoginCallback {
-            override fun onFailure(loginError: LoginError) = promise.reject(
-                code = loginError.asErrorCode(),
-                message = loginError.asErrorMessage(),
-            )
+    fun login(username: String, password: String, promise: Promise) {
+        Client.login(
+            username = username,
+            password = password,
+            callback = object : LoginCallback {
+                override fun onFailure(loginError: LoginError) {
+                    promise.reject(
+                        code = loginError.asErrorCode(),
+                        message = loginError.asErrorMessage(),
+                    )
 
-            override fun onSuccess(displayName: String, authParams: AuthParams?) = promise.resolve(
-                buildMap {
-                    put("displayName", displayName)
-                    if (authParams != null) {
-                        put("loginTokens", authParams.toMap().asWritableMap())
-                    }
-                }.asWritableMap(),
-            )
-        },
-    )
+                    emitOnClientStateChanged(getClientState())
+                }
 
-    fun loginWithOneTimeKey(username: String, hash: String, promise: Promise) = Client.loginWithOneTimeKey(
-        username = username,
-        hash = hash,
-        callback = object : LoginCallback {
-            override fun onFailure(loginError: LoginError) = promise.reject(
-                code = loginError.asErrorCode(),
-                message = loginError.asErrorMessage(),
-            )
+                override fun onSuccess(displayName: String, authParams: AuthParams?) {
+                    promise.resolve(
+                        buildMap {
+                            put("displayName", displayName)
+                            if (authParams != null) {
+                                put("loginTokens", authParams.toMap().asWritableMap())
+                            }
+                        }.asWritableMap(),
+                    )
 
-            override fun onSuccess(displayName: String, authParams: AuthParams?) = promise.resolve(
-                buildMap {
-                    put("displayName", displayName)
-                    if (authParams != null) {
-                        put("loginTokens", authParams.toMap().asWritableMap())
-                    }
-                }.asWritableMap(),
-            )
-        },
-    )
+                    emitOnClientStateChanged(getClientState())
+                }
+            },
+        )
 
-    fun loginWithAccessToken(username: String, accessToken: String, promise: Promise) = Client.loginWithAccessToken(
-        username = username,
-        accessToken = accessToken,
-        callback = object : LoginCallback {
-            override fun onFailure(loginError: LoginError) = promise.reject(
-                code = loginError.asErrorCode(),
-                message = loginError.asErrorMessage(),
-            )
+        emitOnClientStateChanged("LOGGING_IN")
+    }
 
-            override fun onSuccess(displayName: String, authParams: AuthParams?) = promise.resolve(
-                buildMap {
-                    put("displayName", displayName)
-                    if (authParams != null) {
-                        put("loginTokens", authParams.toMap().asWritableMap())
-                    }
-                }.asWritableMap(),
-            )
-        },
-    )
+    fun loginWithOneTimeKey(username: String, hash: String, promise: Promise) {
+        Client.loginWithOneTimeKey(
+            username = username,
+            hash = hash,
+            callback = object : LoginCallback {
+                override fun onFailure(loginError: LoginError) {
+                    promise.reject(
+                        code = loginError.asErrorCode(),
+                        message = loginError.asErrorMessage(),
+                    )
+
+                    emitOnClientStateChanged(getClientState())
+                }
+
+                override fun onSuccess(displayName: String, authParams: AuthParams?) {
+                    promise.resolve(
+                        buildMap {
+                            put("displayName", displayName)
+                            if (authParams != null) {
+                                put("loginTokens", authParams.toMap().asWritableMap())
+                            }
+                        }.asWritableMap(),
+                    )
+
+                    emitOnClientStateChanged(getClientState())
+                }
+            },
+        )
+
+        emitOnClientStateChanged("LOGGING_IN")
+    }
+
+    fun loginWithAccessToken(username: String, accessToken: String, promise: Promise) {
+        Client.loginWithAccessToken(
+            username = username,
+            accessToken = accessToken,
+            callback = object : LoginCallback {
+                override fun onFailure(loginError: LoginError) {
+                    promise.reject(
+                        code = loginError.asErrorCode(),
+                        message = loginError.asErrorMessage(),
+                    )
+
+                    emitOnClientStateChanged(getClientState())
+                }
+
+                override fun onSuccess(displayName: String, authParams: AuthParams?) {
+                    promise.resolve(
+                        buildMap {
+                            put("displayName", displayName)
+                            if (authParams != null) {
+                                put("loginTokens", authParams.toMap().asWritableMap())
+                            }
+                        }.asWritableMap(),
+                    )
+
+                    emitOnClientStateChanged(getClientState())
+                }
+            },
+        )
+
+        emitOnClientStateChanged("LOGGING_IN")
+    }
 
     fun requestOneTimeKey(username: String, promise: Promise) = Client.requestOneTimeKey(
         username = username,

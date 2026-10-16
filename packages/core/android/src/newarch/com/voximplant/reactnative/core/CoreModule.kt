@@ -8,8 +8,7 @@ class CoreModule(reactContext: ReactApplicationContext) : NativeCoreSpec(reactCo
     private val impl: CoreModuleImpl = CoreModuleImpl(
         reactContext = reactContext,
         emitOnClientDisconnected = ::emitOnClientDisconnected,
-        emitOnClientReconnected = ::emitOnClientReconnected,
-        emitOnClientReconnecting = ::emitOnClientReconnecting,
+        emitOnClientStateChanged = ::emitOnClientStateChanged,
         emitOnLog = ::emitOnLog,
     )
 
