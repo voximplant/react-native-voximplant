@@ -183,6 +183,14 @@ export class ConferenceImpl implements Conference {
 
   private onEnded(): void {
     this.subscriptions.clear();
+
+    this.endpoints.unlock(watchableKey);
+    this.endpoints.reset(this.endpointRepository.getList());
+    this.endpoints.lock(watchableKey);
+
+    this.localVideoStreams.unlock(watchableKey);
+    this.localVideoStreams.reset(this.localVideoStreamRepository.getList());
+    this.localVideoStreams.lock(watchableKey);
   }
 
   private bridgeNativeEvents(): void {

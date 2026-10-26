@@ -40,6 +40,10 @@ export abstract class Repository<
     return Array.from(this.getMap().values());
   }
 
+  public clear(): void {
+    this.storage.clear();
+  }
+
   protected store(data: EntityData): Entity {
     const stored = this.storage.get(data.id);
     if (stored) return stored;
