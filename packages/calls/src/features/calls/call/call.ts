@@ -235,6 +235,14 @@ export class CallImpl implements Call {
 
   private onEnded(): void {
     this.subscriptions.clear();
+
+    this.localVideoStreams.unlock(watchableKey);
+    this.localVideoStreams.reset(this.localVideoStreamRepository.getList());
+    this.localVideoStreams.lock(watchableKey);
+
+    this.remoteVideoStreams.unlock(watchableKey);
+    this.remoteVideoStreams.reset(this.remoteVideoStreamRepository.getList());
+    this.remoteVideoStreams.lock(watchableKey);
   }
 
   private bridgeNativeEvents(): void {

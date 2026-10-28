@@ -43,8 +43,8 @@ export class EndpointImpl implements Endpoint {
 
   public readonly isMuted: ReadonlyWatchable<boolean>;
   public readonly isVoiceActivityDetected: ReadonlyWatchable<boolean>;
-  public readonly audioStreams: ReadonlyWatchable<readonly RemoteAudioStream[]>;
-  public readonly videoStreams: ReadonlyWatchable<readonly RemoteVideoStream[]>;
+  public readonly audioStreams: ReadonlyWatchable<RemoteAudioStream[]>;
+  public readonly videoStreams: ReadonlyWatchable<RemoteVideoStream[]>;
 
   public addEventListener: AddEventListener<AnyEndpointEvent>;
   public removeEventListener: RemoveEventListener<AnyEndpointEvent>;
@@ -129,17 +129,20 @@ export class EndpointImpl implements Endpoint {
     }
   }
 
-  private onRemoved(): void {
+  public destroy(): void {
     this.subscriptions.clear();
+
+    this.audioStreams.unlock(watchableKey);
+    this.audioStreams.reset(this.audioStreamRepository.getList());
+    this.audioStreams.lock(watchableKey);
+
+    this.videoStreams.unlock(watchableKey);
+    this.videoStreams.reset(this.videoStreamRepository.getList());
+    this.videoStreams.lock(watchableKey);
   }
 
   private bridgeNativeEvents(): void {
     this.subscriptions.add(
-      NativeCalls.onConferenceEndpointRemoved((payload) => {
-        if (payload.endpointId !== this.id) return;
-        this.onRemoved();
-      }),
-
       NativeCalls.onEndpointMuteStateChanged((payload) => {
         if (payload.endpointId !== this.id) return;
 

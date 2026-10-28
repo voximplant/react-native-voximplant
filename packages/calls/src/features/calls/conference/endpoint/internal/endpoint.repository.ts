@@ -38,4 +38,24 @@ export class EndpointRepository extends Repository<
   protected createEntity(data: EndpointData): Endpoint {
     return new EndpointImpl(data);
   }
+
+  public override remove(id: EndpointId): Endpoint | null {
+    const endpoint = this.storage.get(id);
+
+    if (endpoint instanceof EndpointImpl) {
+      endpoint.destroy();
+    }
+
+    return super.remove(id);
+  }
+
+  public override clear(): void {
+    for (const endpoint of this.storage.values()) {
+      if (endpoint instanceof EndpointImpl) {
+        endpoint.destroy();
+      }
+    }
+
+    super.clear();
+  }
 }

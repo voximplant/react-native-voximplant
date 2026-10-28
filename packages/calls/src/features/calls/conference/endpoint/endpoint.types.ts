@@ -56,12 +56,12 @@ export interface Endpoint {
   /**
    * Watchable property that allows getting the remote audio streams associated with the endpoint and observing its changes
    */
-  readonly audioStreams: ReadonlyWatchable<readonly RemoteAudioStream[]>;
+  readonly audioStreams: ReadonlyWatchable<RemoteAudioStream[]>;
 
   /**
    * Watchable property that allows getting the remote video streams associated with the endpoint and observing its changes
    */
-  readonly videoStreams: ReadonlyWatchable<readonly RemoteVideoStream[]>;
+  readonly videoStreams: ReadonlyWatchable<RemoteVideoStream[]>;
 
   /**
    * Requests the specified video size for a remote video stream.

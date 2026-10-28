@@ -1,10 +1,11 @@
 import { generateUUID } from './uuid';
+import { weakBind } from './weakBind';
 
 /**
  * Callback function to be triggered when a value has changed. The return value will be ignored
  *
- * @param newValue New value of the observable property
- * @param oldValue Previous value of the observable property
+ * @param newValue New value of the observable property.
+ * @param oldValue Previous value of the observable property.
  *
  * @interface
  * @folder Watchable
@@ -30,7 +31,7 @@ export interface WatchOptions<T> {
   once?: boolean;
 
   /**
-   * Function that returns a boolean to determine if the callback should be called.
+   * A function that returns a boolean to determine if the callback should be called.
    * The guard not set by default.
    */
   guard?: (newValue: T, oldValue: T) => boolean;
@@ -41,7 +42,7 @@ export interface WatchOptions<T> {
   clearable?: boolean;
 
   /**
-   * AbortSignal. The watch callback is removed when the abort() method of the AbortController which owns the AbortSignal is called.
+   * An AbortSignal. The watch callback will be removed when the abort() method of the AbortController which owns the AbortSignal is called.
    * See [AbortController](https://reactnative.dev/docs/global-AbortController) for details.
    */
   signal?: AbortSignal;
@@ -61,28 +62,28 @@ const defaultWatchOptions: InternalWatchOptions<unknown> = {
 };
 
 /**
- * Basic reactive type for immutable structures and primitives.
+ * Basic WebSDK reactive type for immutable structures and primitives.
  * It uses strict equality check to determine if the `value` has changed.
  * The value can be set and read any time.
  * @folder Watchable
  */
 export interface Watchable<T> {
   /**
-   * Current value of the observable property
+   * Current value of the observable property.
    */
   value: T;
 
   /**
-   * Previous value of the observable property
+   * Previous value of the observable property.
    */
   get oldValue(): T;
 
   /**
    * Subscribes to the value changes.
    *
-   * When the value is changed, the [Shared.Watchable.OnValueChangeCallback] callback is triggered.
+   * When the value is changed, the [Core.Watchable.OnValueChangeCallback] callback is triggered.
    *
-   * Returns [Shared.Watchable.UnwatchFunction], to unwatch observable value changes.
+   * Returns [Core.Watchable.UnwatchFunction], to unwatch observable value changes.
    *
    * @param onValueChangeCallback Observer to be triggered when the value is changed
    * @param options Options
@@ -100,7 +101,7 @@ export interface Watchable<T> {
   unwatch: (onValueChangeCallback: OnValueChangeCallback<T>) => void;
 
   /**
-   * Clears all observers for this watchable excluding the ones created with [Shared.Watchable.WatchOptions.clearable]: false.
+   * Clears all observers for this watchable excluding the ones created with [Core.Watchable.WatchOptions.clearable]: false.
    */
   clear: () => void;
 
@@ -115,10 +116,26 @@ export interface Watchable<T> {
    * @hidden
    */
   unlock: (key: string) => void;
+
+  /**
+   * Sets both [Core.Watchable.Watchable.value] and [Core.Watchable.Watchable.oldValue] to the given or initial value.
+   *
+   * The [Core.Watchable.Watchable.watch] callback is triggered only when the reset value differs from the current [Core.Watchable.Watchable.value].
+   * It receives the previous content as its second argument, but [Core.Watchable.Watchable.oldValue] is already reset.
+   *
+   * Does not remove watchers.
+   *
+   * Note: Teardown is a common use case, since assigning `null` is not enough - the watchable holds a reference to the previous value.
+   *
+   * @param value Value to reset to. Defaults to the value the watchable was created with or to the value used in the last reset.
+   *
+   * @since 2.0.1
+   */
+  reset: (value?: T) => void;
 }
 
 /**
- * Basic reactive type for immutable structures and primitives, the same as [Shared.Watchable], but with readonly values.
+ * Basic WebSDK reactive type for immutable structures and primitives, the same as [Core.Watchable], but with readonly values.
  * Setting a new value is ignored without any error, with only a warn message in the console.
  * @folder Watchable
  */
@@ -141,6 +158,7 @@ class WatchableImpl<T> implements Watchable<T> {
   private readonly id = generateUUID();
   private _content: T;
   private _oldContent: T;
+  private _initialContent: T;
   private readonly observers = new Set<OnValueChangeCallback<T>>();
   private readonly observerOptions = new WeakMap<
     OnValueChangeCallback<T>,
@@ -150,6 +168,7 @@ class WatchableImpl<T> implements Watchable<T> {
   constructor(content: T) {
     this._content = content;
     this._oldContent = content;
+    this._initialContent = content;
   }
 
   get oldValue(): T {
@@ -191,6 +210,22 @@ class WatchableImpl<T> implements Watchable<T> {
     this.notify();
   }
 
+  reset(value?: T): void {
+    const current = this._content;
+    const resetContent =
+      typeof value === 'undefined' ? this._initialContent : value;
+
+    if (current === resetContent && this._oldContent === resetContent) return;
+
+    this._content = resetContent;
+    this._oldContent = resetContent;
+    this._initialContent = resetContent;
+
+    if (this._content !== current) {
+      this.notify({ newValue: this._content, oldValue: current });
+    }
+  }
+
   watch(
     onValueChangeCallback: OnValueChangeCallback<T>,
     options?: WatchOptions<T>
@@ -201,11 +236,19 @@ class WatchableImpl<T> implements Watchable<T> {
       ...options,
     });
 
+    const unwatch = weakBind(
+      this,
+      (target, callback) => {
+        target.unwatch(callback);
+      },
+      onValueChangeCallback
+    );
+
     if (options?.signal) {
       options.signal.addEventListener(
         'abort',
         () => {
-          this.unwatch(onValueChangeCallback);
+          unwatch();
         },
         { once: true }
       );
@@ -218,9 +261,7 @@ class WatchableImpl<T> implements Watchable<T> {
       onValueChangeCallback(this._content, this._oldContent);
     }
 
-    return () => {
-      this.unwatch(onValueChangeCallback);
-    };
+    return unwatch;
   }
 
   unwatch(onValueChangeCallback: OnValueChangeCallback<T>): void {
@@ -250,7 +291,15 @@ class WatchableImpl<T> implements Watchable<T> {
     if (lockKeyStore.get(this.id) === key) lockKeyStore.set(this.id, null);
   }
 
-  private notify(): void {
+  private notify(snapshot?: { oldValue: T; newValue: T }): void {
+    let newValue = this._content;
+    let oldValue = this._oldContent;
+
+    if (snapshot) {
+      newValue = snapshot.newValue;
+      oldValue = snapshot.oldValue;
+    }
+
     for (const observer of this.observers.values()) {
       try {
         const options =
@@ -258,7 +307,7 @@ class WatchableImpl<T> implements Watchable<T> {
 
         if (options.guard) {
           try {
-            const guardResult = options.guard(this._content, this._oldContent);
+            const guardResult = options.guard(newValue, oldValue);
             if (!guardResult) {
               continue;
             }
@@ -268,9 +317,7 @@ class WatchableImpl<T> implements Watchable<T> {
           }
         }
 
-        (
-          observer(this._content, this._oldContent) as Promise<unknown>
-        )?.catch?.((error) => {
+        (observer(newValue, oldValue) as Promise<unknown>)?.catch?.((error) => {
           console.error('Unhandled error in async observer', error);
         });
 
