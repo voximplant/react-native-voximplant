@@ -404,9 +404,12 @@ export const parseSignature = (
 
     if (!typeParameter) {
       const skipUnmapedParametersForPath = [
-        'Watchable.OnValueChangeCallback',
-        'Watchable.WatchOptions.guard.__type',
+        'Shared.Watchable.OnValueChangeCallback',
+        'Shared.Watchable.WatchOptions.guard.__type',
         'WatchOptions.T',
+        'Shared.Watchable.ReadonlyWatchable.reset',
+        'Watchable.T',
+        'ReadonlyWatchable.T',
       ];
       if (
         skipUnmapedParametersForPath.some(

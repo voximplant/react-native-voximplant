@@ -62,7 +62,7 @@ const defaultWatchOptions: InternalWatchOptions<unknown> = {
 };
 
 /**
- * Basic WebSDK reactive type for immutable structures and primitives.
+ * Basic reactive type for immutable structures and primitives.
  * It uses strict equality check to determine if the `value` has changed.
  * The value can be set and read any time.
  * @folder Watchable
@@ -81,9 +81,9 @@ export interface Watchable<T> {
   /**
    * Subscribes to the value changes.
    *
-   * When the value is changed, the [Core.Watchable.OnValueChangeCallback] callback is triggered.
+   * When the value is changed, the [Shared.Watchable.OnValueChangeCallback] callback is triggered.
    *
-   * Returns [Core.Watchable.UnwatchFunction], to unwatch observable value changes.
+   * Returns [Shared.Watchable.UnwatchFunction], to unwatch observable value changes.
    *
    * @param onValueChangeCallback Observer to be triggered when the value is changed
    * @param options Options
@@ -101,7 +101,7 @@ export interface Watchable<T> {
   unwatch: (onValueChangeCallback: OnValueChangeCallback<T>) => void;
 
   /**
-   * Clears all observers for this watchable excluding the ones created with [Core.Watchable.WatchOptions.clearable]: false.
+   * Clears all observers for this watchable excluding the ones created with [Shared.Watchable.WatchOptions.clearable]: false.
    */
   clear: () => void;
 
@@ -118,10 +118,10 @@ export interface Watchable<T> {
   unlock: (key: string) => void;
 
   /**
-   * Sets both [Core.Watchable.Watchable.value] and [Core.Watchable.Watchable.oldValue] to the given or initial value.
+   * Sets both [Shared.Watchable.Watchable.value] and [Shared.Watchable.Watchable.oldValue] to the given or initial value.
    *
-   * The [Core.Watchable.Watchable.watch] callback is triggered only when the reset value differs from the current [Core.Watchable.Watchable.value].
-   * It receives the previous content as its second argument, but [Core.Watchable.Watchable.oldValue] is already reset.
+   * The [Shared.Watchable.Watchable.watch] callback is triggered only when the reset value differs from the current [Shared.Watchable.Watchable.value].
+   * It receives the previous content as its second argument, but [Shared.Watchable.Watchable.oldValue] is already reset.
    *
    * Does not remove watchers.
    *
@@ -135,7 +135,7 @@ export interface Watchable<T> {
 }
 
 /**
- * Basic WebSDK reactive type for immutable structures and primitives, the same as [Core.Watchable], but with readonly values.
+ * Basic reactive type for immutable structures and primitives, the same as [Shared.Watchable.Watchable], but with readonly values.
  * Setting a new value is ignored without any error, with only a warn message in the console.
  * @folder Watchable
  */
