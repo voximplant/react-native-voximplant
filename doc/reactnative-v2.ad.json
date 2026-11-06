@@ -1372,7 +1372,7 @@
                                     {
                                         "fqdn": "references.reactnative-v2.calls.call.call.answer.__type.settings",
                                         "title": "settings",
-                                        "description": "Call settings with additional call parameters, such as the preferred video codec, custom data, extra headers, etc",
+                                        "description": "Call settings with additional call parameters, such as the preferred video codec, custom data, extra headers, etc.",
                                         "optional": true,
                                         "types": [
                                             "[CallSettings](/docs/references/reactnative-v2/calls/call/callsettings)"
@@ -2671,7 +2671,7 @@
                                     {
                                         "fqdn": "references.reactnative-v2.calls.conference.conferenceevents.conferencedisconnectedpayload.reason",
                                         "kind": "prop",
-                                        "description": "Reason that the conference ended",
+                                        "description": "Reason why the conference ended",
                                         "title": "reason",
                                         "optional": false,
                                         "types": [
@@ -3288,7 +3288,7 @@
                                             {
                                                 "fqdn": "references.reactnative-v2.calls.conference.conferenceevents.conferencedisconnectedpayload.reason",
                                                 "kind": "prop",
-                                                "description": "Reason that the conference ended",
+                                                "description": "Reason why the conference ended",
                                                 "title": "reason",
                                                 "optional": false,
                                                 "types": [
@@ -4734,7 +4734,7 @@
                                 "title": "audioStreams",
                                 "optional": false,
                                 "types": [
-                                    "[Watchable](/docs/references/reactnative-v2/shared/watchable/watchable)<>"
+                                    "[Watchable](/docs/references/reactnative-v2/shared/watchable/watchable)<[RemoteAudioStream](/docs/references/reactnative-v2/calls/remoteaudiostream)[]>"
                                 ],
                                 "attributes": {}
                             },
@@ -4811,7 +4811,7 @@
                                 "title": "videoStreams",
                                 "optional": false,
                                 "types": [
-                                    "[Watchable](/docs/references/reactnative-v2/shared/watchable/watchable)<>"
+                                    "[Watchable](/docs/references/reactnative-v2/shared/watchable/watchable)<[RemoteVideoStream](/docs/references/reactnative-v2/calls/video/remotevideostream)[]>"
                                 ],
                                 "attributes": {}
                             }
@@ -5803,7 +5803,7 @@
                                     {
                                         "fqdn": "references.reactnative-v2.calls.video.cameravideosourceevents.cameravideosourcestoppedpayload.reason",
                                         "kind": "prop",
-                                        "description": "Reason for the camera video source stop",
+                                        "description": "Reason for the camera video source to stop",
                                         "title": "reason",
                                         "optional": false,
                                         "types": [
@@ -6829,7 +6829,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.calls.callmanager.createcall.createcall.settings",
                                 "title": "settings",
-                                "description": "Call settings with additional call parameters, such as the preferred video codec, custom data, extra headers, etc",
+                                "description": "Call settings with additional call parameters, such as the preferred video codec, custom data, extra headers, etc.",
                                 "optional": true,
                                 "types": [
                                     "[CallSettings](/docs/references/reactnative-v2/calls/call/callsettings)"
@@ -6863,7 +6863,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.calls.callmanager.createconference.createconference.settings",
                                 "title": "settings",
-                                "description": "Conference settings with additional conference parameters, such as the preferred video codec, custom data, extra headers, etc",
+                                "description": "Conference settings with additional conference parameters, such as the preferred video codec, custom data, extra headers, etc.",
                                 "optional": true,
                                 "types": [
                                     "[ConferenceSettings](/docs/references/reactnative-v2/calls/conference/conferencesettings)"
@@ -8976,7 +8976,7 @@
                     {
                         "fqdn": "references.reactnative-v2.shared.watchable.readonlywatchable",
                         "kind": "interface",
-                        "description": "Basic reactive type for immutable structures and primitives, the same as [Watchable](/docs/references/reactnative-v2/shared/watchable), but with readonly values.\nSetting a new value is ignored without any error, with only a warn message in the console.",
+                        "description": "Basic reactive type for immutable structures and primitives, the same as [Watchable](/docs/references/reactnative-v2/shared/watchable/watchable), but with readonly values.\nSetting a new value is ignored without any error, with only a warn message in the console.",
                         "title": "ReadonlyWatchable",
                         "optional": false,
                         "children": [
@@ -8993,6 +8993,33 @@
                                     "void"
                                 ],
                                 "attributes": {}
+                            },
+                            {
+                                "fqdn": "references.reactnative-v2.shared.watchable.readonlywatchable.reset",
+                                "kind": "method",
+                                "description": "Sets both [Watchable.value](/docs/references/reactnative-v2/shared/watchable/watchable#value) and [Watchable.oldValue](/docs/references/reactnative-v2/shared/watchable/watchable#oldvalue) to the given or initial value.\n\nThe [Watchable.watch](/docs/references/reactnative-v2/shared/watchable/watchable#watch) callback is triggered only when the reset value differs from the current [Watchable.value](/docs/references/reactnative-v2/shared/watchable/watchable#value).\nIt receives the previous content as its second argument, but [Watchable.oldValue](/docs/references/reactnative-v2/shared/watchable/watchable#oldvalue) is already reset.\n\nDoes not remove watchers.\n\nNote: Teardown is a common use case, since assigning \n`null`\n is not enough - the watchable holds a reference to the previous value.",
+                                "title": "reset",
+                                "optional": false,
+                                "types": [
+                                    "(value: T) => void"
+                                ],
+                                "params": [
+                                    {
+                                        "fqdn": "references.reactnative-v2.shared.watchable.readonlywatchable.reset.__type.value",
+                                        "title": "value",
+                                        "description": "Value to reset to. Defaults to the value the watchable was created with or to the value used in the last reset.",
+                                        "optional": true,
+                                        "types": [
+                                            "T"
+                                        ]
+                                    }
+                                ],
+                                "returns": [
+                                    "void"
+                                ],
+                                "attributes": {
+                                    "since": "2.0.1"
+                                }
                             },
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.readonlywatchable.unwatch",
@@ -9056,7 +9083,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.readonlywatchable.oldvalue",
                                 "kind": "prop",
-                                "description": "Previous value of the observable property",
+                                "description": "Previous value of the observable property.",
                                 "title": "oldValue",
                                 "optional": false,
                                 "types": [
@@ -9067,7 +9094,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.readonlywatchable.value",
                                 "kind": "prop",
-                                "description": "Current value of the observable property",
+                                "description": "Current value of the observable property.",
                                 "title": "value",
                                 "optional": false,
                                 "types": [
@@ -9099,6 +9126,33 @@
                                     "void"
                                 ],
                                 "attributes": {}
+                            },
+                            {
+                                "fqdn": "references.reactnative-v2.shared.watchable.watchable.reset",
+                                "kind": "method",
+                                "description": "Sets both [Watchable.value](/docs/references/reactnative-v2/shared/watchable/watchable#value) and [Watchable.oldValue](/docs/references/reactnative-v2/shared/watchable/watchable#oldvalue) to the given or initial value.\n\nThe [Watchable.watch](/docs/references/reactnative-v2/shared/watchable/watchable#watch) callback is triggered only when the reset value differs from the current [Watchable.value](/docs/references/reactnative-v2/shared/watchable/watchable#value).\nIt receives the previous content as its second argument, but [Watchable.oldValue](/docs/references/reactnative-v2/shared/watchable/watchable#oldvalue) is already reset.\n\nDoes not remove watchers.\n\nNote: Teardown is a common use case, since assigning \n`null`\n is not enough - the watchable holds a reference to the previous value.",
+                                "title": "reset",
+                                "optional": false,
+                                "types": [
+                                    "(value: T) => void"
+                                ],
+                                "params": [
+                                    {
+                                        "fqdn": "references.reactnative-v2.shared.watchable.watchable.reset.__type.value",
+                                        "title": "value",
+                                        "description": "Value to reset to. Defaults to the value the watchable was created with or to the value used in the last reset.",
+                                        "optional": true,
+                                        "types": [
+                                            "T"
+                                        ]
+                                    }
+                                ],
+                                "returns": [
+                                    "void"
+                                ],
+                                "attributes": {
+                                    "since": "2.0.1"
+                                }
                             },
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.watchable.unwatch",
@@ -9162,7 +9216,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.watchable.oldvalue",
                                 "kind": "prop",
-                                "description": "Previous value of the observable property",
+                                "description": "Previous value of the observable property.",
                                 "title": "oldValue",
                                 "optional": false,
                                 "types": [
@@ -9173,7 +9227,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.watchable.value",
                                 "kind": "prop",
-                                "description": "Current value of the observable property",
+                                "description": "Current value of the observable property.",
                                 "title": "value",
                                 "optional": false,
                                 "types": [
@@ -9195,7 +9249,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.watchoptions.guard",
                                 "kind": "method",
-                                "description": "Function that returns a boolean to determine if the callback should be called.\nThe guard not set by default.",
+                                "description": "A function that returns a boolean to determine if the callback should be called.\nThe guard not set by default.",
                                 "title": "guard",
                                 "optional": true,
                                 "types": [
@@ -9262,7 +9316,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.watchoptions.signal",
                                 "kind": "prop",
-                                "description": "AbortSignal. The watch callback is removed when the abort() method of the AbortController which owns the AbortSignal is called.\nSee [AbortController](https://reactnative.dev/docs/global-AbortController) for details.",
+                                "description": "An AbortSignal. The watch callback will be removed when the abort() method of the AbortController which owns the AbortSignal is called.\nSee [AbortController](https://reactnative.dev/docs/global-AbortController) for details.",
                                 "title": "signal",
                                 "optional": true,
                                 "types": [
@@ -9287,7 +9341,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.onvaluechangecallback.onvaluechangecallback.newvalue",
                                 "title": "newValue",
-                                "description": "New value of the observable property",
+                                "description": "New value of the observable property.",
                                 "optional": false,
                                 "types": [
                                     "T"
@@ -9296,7 +9350,7 @@
                             {
                                 "fqdn": "references.reactnative-v2.shared.watchable.onvaluechangecallback.onvaluechangecallback.oldvalue",
                                 "title": "oldValue",
-                                "description": "Previous value of the observable property",
+                                "description": "Previous value of the observable property.",
                                 "optional": false,
                                 "types": [
                                     "T"

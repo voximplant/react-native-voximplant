@@ -377,6 +377,7 @@ export const getLinkToReflection = (
   const { baseFqdn } = options;
 
   const isAnchorableLink = [
+    ReflectionKind.Accessor,
     ReflectionKind.Parameter,
     ReflectionKind.Property,
     ReflectionKind.EnumMember,

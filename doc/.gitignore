@@ -1,4 +1,5 @@
 token.txt
+test_deploy.sh
 ssh_key
 *.flatNodes.json
 doc.json
