@@ -53,12 +53,15 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "react-native-uuid": "^2.0.4"
+    "react-native-uuid": "2.0.4"
   },
   "devDependencies": {
     "@voximplant/react-native-config": "workspace:*",
     "react-native-builder-bob": "0.40.18",
     "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "react-native": ">=0.77.0 <1.0.0"
   },
   "react-native-builder-bob": {
     "source": "src",

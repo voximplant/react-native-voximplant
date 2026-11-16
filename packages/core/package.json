@@ -73,7 +73,6 @@
     "typescript": "5.9.2"
   },
   "peerDependencies": {
-    "@voximplant/react-native-shared": "workspace:*",
     "react": "^19.2.0",
     "react-native": ">=0.77.0 <1.0.0"
   },
